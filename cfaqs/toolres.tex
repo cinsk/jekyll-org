@@ -1,11 +1,16 @@
 % $Id$
 \chapter{Tools and Resources}	\label{chap:toolres}
 % chapter 18: toolres
+
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 \begin{faq}
 \Q{18.1}
 	도움이 될만한 프로그램이 필요합니다.
 \A
-	아래의 테이블을 참고하기 바랍니다 (\seealso{18.16}):
+	아래의 테이블을 참고하기 바랍니다 (\seealso{\ql{18.16}}):
 
 \small
 \begin{tabular}{l|p{6cm}} \hline \hline
@@ -25,11 +30,11 @@ C lines-of-source counter
 	& wc, \TT{grep -c ";"} \\ \hline
 C declaration aid 
 	& \TT{comp.sources.unix}의 Volumn 14.  \break \cite{kr2} 참고 \\ \hline
-tracking down \TT{malloc} problem & 질문 18.2 참고 \\ \hline
-``selective'' C preprocessor & 질문 10.18 참고 \\ \hline
-language translation tool & 질문 11.31 참고 \\ \hline
-C verifier (lint) & 질문 18.7 참고 \\ \hline
-C compiler & 질문 18.3 참고 \\ \hline \hline
+tracking down \TT{malloc} problem & 질문 \ql{18.2} 참고 \\ \hline
+``selective'' C preprocessor & 질문 \ql{10.18} 참고 \\ \hline
+language translation tool & 질문 \ql{11.31} 참고 \\ \hline
+C verifier (lint) & 질문 \ql{18.7} 참고 \\ \hline
+C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 \end{tabular}
 \normalsize
 
@@ -40,7 +45,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	여러 툴에 대한 다른 목록과 논쟁은 유즈넷 \TT{comp.compilers}와
 	\TT{comp.software-eng}에서 찾아 볼 수 있습니다.
 
-	\seealso{18.3, 18.16}
+	\seealso{\ql{18.3}, \ql{18.16}}
 \T
 	위 테이블의 code metric에 관한 것은 다음 URL을 참고하시기 바랍니다:
 
@@ -68,7 +73,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	좋습니다; 
 	JMalloc.c and JMalloc.h in the "Snippets" collection;
 	and MEMDEBUG from ftp.crpht.lu in pub/sources/memdebug .   See
-	also question 18.16.
+	also question \ql{18.16}.
 
 	A number of commercial debugging tools exist, and can be
 	invaluable in tracking down malloc-related and other stubborn
@@ -143,7 +148,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	\TT{ftp.idiom.com}의 \TT{pub/compilers-list/}에서 구할 수 있습니다.
 	(\TT{rtfm.mit.edu} 또는 \TT{ftp.uu.net}의 \TT{comp.compilers}
 	디렉토리에서 \TT{news.answers}에 관한 아카이브도 참고하기 바랍니다;
-	질문 20.40도 참고하기 바랍니다.)
+	질문 \ql{20.40}도 참고하기 바랍니다.)
 
 \T
 	이 답변은 상대적으로 오래된 것입니다.   GCC는 원래 ``GNU C Compiler''의
@@ -157,7 +162,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 
 % TODO: cygwin(cygnus?) toolkit 설명.
 
-	\seealso{18.16}
+	\seealso{\ql{18.16}}
 \end{faq}
 
 \begin{faq}
@@ -172,10 +177,10 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	경우가 많습니다.  빠르게 코드를 만들어 내기 위해 소스 코드를
 	분석하는 일은 거의 하지 않기 때문입니다.
 
-	\seealso{16.5, 16.8, 18.7}
+	\seealso{\ql{16.5}, \ql{16.8}, \ql{18.7}}
 
 \R
-	\cite{lint}.
+	\cite{lint}
 \end{faq}
 
 \begin{faq}
@@ -250,7 +255,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 
 	`lint'를 쓰는 대신 function prototype을 쓰길 원한다면,
 	먼저 여러 파일들이 같은 prototype을 지녔는지 검사하고,
-	정확한 prototype을 썼는지 검사해야 합니다.  질문 1.7과 10.6을
+	정확한 prototype을 썼는지 검사해야 합니다.  질문 \ql{1.7}과 \ql{10.6}을
 	참고하기 바랍니다.
 \end{faq}
 
@@ -322,13 +327,13 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 
 	\item Vinit Carpenter씨는 C와 C++을 배울때 쓸모있는 여러가지 자료에
 	대한 목록을 유지하고 있습니다.  이 목록은 \TT{comp.lang.c}와
- 	\TT{comp.lang.c++}에 게시되며 이 FAQ list가 있는 곳에 (질문 20.40
+ 	\TT{comp.lang.c++}에 게시되며 이 FAQ list가 있는 곳에 (질문 \ql{20.40}
 	참고), 같이 보관되어 있으며,
 	\TT{http://www.cyberdiem.com/vin/learn.html}에서 구할 수 있습니다.
 
 	\end{itemize}
 
-	\seealso{18.10, 18.15c}
+	\seealso{\ql{18.10}, \ql{18.15c}}
 
 \T
 	원 저자의 홈페이지의 다음 링크에서 관련된 자료를 찾아볼 수 있습니다:
@@ -389,7 +394,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 \end{verbatim}
 
 	이 FAQ 목록의 편집자도 권장하는 많은 책에 대한 정보를 가지고
-	있습니다; 필요하면 보내드리고 있습니다.  \seealso{18.9}
+	있습니다; 필요하면 보내드리고 있습니다.  \seealso{\ql{18.9}}
 \end{faq}
 
 \begin{faq}
@@ -401,7 +406,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	\EM{The Standard C Library}가 있습니다.
 	모든 C 라이브러리에 대한 소스 코드는 NetBSD나
 	GNU (물론 Linux도) project의 일부분으로 제공됩니다.
-	\seealso{18.15c, 18.16}
+	\seealso{\ql{18.15c}, \ql{18.16}}
 
 \T
 	GNU C 라이브러리의 홈페이지는 아래와 같습니다:
@@ -426,7 +431,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 \Q{18.13c}
 	ANSI/\cite{iso} C 표준을 구할 수 있을까요?
 \A
-	질문 11.2를 보기 바랍니다.
+	질문 \ql{11.2}를 보기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -443,7 +448,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	여러가지 옵션들이 포함되어 있는 S-Lang 인터프리터는 anonymous ftp로
 	\TT{amy.tch.harvard.edu}의 \TT{/pub/slang}에서 구할 수 있습니다.
 	또한 Cmm (``C-minus-minus'')이라는 쉐어웨어도 있습니다.
-	\seealso{18.16, 20.6}
+	\seealso{\ql{18.16}, \ql{20.6}}
 
 	파싱/평가하는 코드는 \EM{Software Solutions in C}의
 	Chapter 12, \mbox{페이지 235--55}에서도 찾아볼 수 있습니다.
@@ -453,7 +458,7 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 \Q{18.15}
 	C 언어에 대한 BNF 또는 YACC 문법을 구할 수 있을까요?
 \A
-	완벽한 문법은 물론 ANSI 표준에 들어 있습니다; 질문 11.2를
+	완벽한 문법은 물론 ANSI 표준에 들어 있습니다; 질문 \ql{11.2}를
 	보기 바랍니다.  다른 분멉으로는 (C++과 관련된) Jim Roskind씨가
 	만든 것인데 \TT{ics.uci.edu}의 \TT{pub/c++grammar1.1.tar.Z}로
 	얻을 수 있습니다.  아마도 \TT{ftp.ics.uci.edu},
@@ -461,17 +466,17 @@ C compiler & 질문 18.3 참고 \\ \hline \hline
 	\TT{ftp.eskimo.com}의 \TT{u/s/scs/roskind\_grammar.Z}로 구할 수
 	있습니다.
 	작업중인 ANSI 문법은 (Jeff Lee씨가 작업하는) \TT{ftp.uu.net}의
-	(질문 18.16 참고) \TT{usenet/net.sources/ansi.c.grammer.Z}에서
+	(질문 \ql{18.16} 참고) \TT{usenet/net.sources/ansi.c.grammer.Z}에서
 	구할 수 있으며, lexer가 포함되어 있습니다.
 	\cite{kr2}의 부록이나 FSF의 GNU C compiler에서도 문법을 얻을 수 있습니다.
 
 	\TT{comp.compilers} 아카이브는 문법에 대한 많은 정보를 가지고
-	있습니다; 질문 18.3을 보기 바랍니다.
+	있습니다; 질문 \ql{18.3}을 보기 바랍니다.
 \R
-	\cite{kr1} \S\ A18 \Page{214--219}; 
-	\cite{kr2} \S\ A13 \Page{234--239}; 
-	\cite{iso} \S\ B.2; 
-	\cite{hs} \Page{423--435} Appendix B.
+	\cite{kr1} \S\ A18 \Page{214--219} \\
+	\cite{kr2} \S\ A13 \Page{234--239} \\
+	\cite{iso} \S\ B.2 \\
+	\cite{hs} \Page{423--435} Appendix B
 \end{faq}
 
 \begin{faq}
@@ -503,7 +508,7 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	Lars Wirzenius씨의 ``public'' 라이브러리는 \TT{ftp.funet.fi}의
 	\TT{pub/language/C/Publib/}에서 얻을 수 있습니다.
 
-	\seealso{14.12, 18.9, 18.13, 18.16}
+	\seealso{\ql{14.12}, \ql{18.9}, \ql{18.13}, \ql{18.16}}
 
 \T
 	SNIPPETS의 홈페이지는 아래로 변경되었습니다:
@@ -524,10 +529,10 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	\TT{/systems/unix/bsd-sources/}....\TT{/src/lib/libc/quad/*}
 	에서 구할 수 있으며, GNU MP 라이브러리, 또 MIRACL 패키지
 	(\TT{http:://indigo.ie/~mscott/} 참고), 그리고 오래된 Unix에서
-	제공되는 libmp.a를 참고 바랍니다.  \seealso{14.12, 18.16}
+	제공되는 libmp.a를 참고 바랍니다.  \seealso{\ql{14.12}, \ql{18.16}}
 
 \R
-	\cite{swsolution} \S\ 17 \Page{343--454}.
+	\cite{swsolution} \S\ 17 \Page{343--454}
 \end{faq}
 
 \begin{faq}
@@ -583,7 +588,7 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	그러나 먼저 이 뉴스 그룹의 FAQ 목록을 읽고 어떻게 소스를 찾을 수
 	있는지 알고 나서 글을 게시하기 바랍니다.
 
-	\seealso{14.12, 18.13, 18.15c}
+	\seealso{\ql{14.12}, \ql{18.13}, \ql{18.15c}}
 
 \T
 	FSF의 GNU 프로젝트의 공식 홈페이지는 다음과 같습니다:

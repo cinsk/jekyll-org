@@ -2,8 +2,40 @@
 \chapter{Arrays and Pointers}	\label{chap:arrayptr}
 % chapter 6: arrayptr
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
+A strength of C is its unification of arrays and pointers.
+Pointers can be conveniently used to access arrays and to simulate dynamically
+allocated arrays.  The so-called equivalence between arrays and pointers is
+so close, however, that programmers sometimes lose sight of the remaining
+essential differences between the two, imagining either that they are
+identical or that various nonsensical similarities of identities can be
+assumed between them.
+
+The cornerstone of the ``equivalence'' of arrays and pointers in C is the
+fact that most array references \EM{decay} into pointers to the array's first
+element, as described in question \ql{6.3}.  Therefore, arrays are ``second-class
+citizens'' in C: You can never manipulate an array in its entirely (i.e.,
+to copy it or pass it to a function), because whenever you mention its name,
+you're left with a pointer rather than the entire array. Because arrays
+deacy to pointers, the array subscripting operator \TT{[]} always find itself,
+deep down, operating on a pointer. In fact, the subscripting expression
+\TT{a[i]} is defined in terms of the equivalent pointer expression
+\TT{*((a) + (i))}.
+
+Parts of this chapter (especially the ``retrospective'' questions in 
+\ql{6.8}--\ql{6.10}) may seem redundant --- people have many confusing ways of thinking
+about arrays and pointers, and this chapter tries to clear them up as best
+it can. If you find yourself bored by the repetition, stop reading and move on.
+But if you're confused or if things don't make sense, keep reading until
+they fall into place.
+
+\section{Basic Relationship of Arrays and Pointers}
+% from 6.1
 \begin{faq}
-\Q{6.1}
+\Q{6.1} % 6.1
 	소스 파일에 \verb+char a[6]+이라고 정의하고 \verb+extern char *a+라고
 	선언해 두었는데 왜 동작하지 않을까요?
 
@@ -14,24 +46,34 @@
 	type T)의 타입은 어떤 T 타입의 배열(array of type T)과 같지 않습니다.
 	대신 \verb+extern char a[]+을 사용하시기 바랍니다.
 \R
-	\cite{iso} \S\ 6.5.4.2; 
-	\cite{ctp} \S\ 3.3 \Page{33--4}, \S\ 4.5 \Page{64--5}.
+	\cite{ansi} \S\ 3.5.4.2 \\
+	\cite{iso} \S\ 6.5.4.2 \\
+	\cite{ctp} \S\ 3.3 \Page{33--4}, \S\ 4.5 \Page{64--5}
 \end{faq}
 
 \begin{faq}
-\Q{6.2}
+\Q{6.2} % 6.2
 	그러나 \verb+char a[]+는 \verb+char *a+와 같지 않나요?
 \A
-	전혀 다릅니다.  (여러분이 생각한 것은 아마도 함수에서 형식(formal)
-	parameter에 관한 것일 겁니다.  질문 6.4를 참고하기 바랍니다.)
-	배열은 포인터가 아닙니다.  \verb+char a[6]+과 같은 선언은 문자
-	여섯 개를 저장할 수 있는 공간을 필요로 하고, 그 결과 ``\TT{a}''라는
-	이름은 문자 여섯 개를 저장할 수 있는 공간에 위치합니다.
+	전혀 다릅니다.  (여러분이 생각한 것은 아마도 함수의 formal
+	parameter에 관한 것일 겁니다.  질문 \ql{6.4}를 참고하기 바랍니다.)
+	비록 서로 연관되어 있기는 하지만 (질문 \ql{6.3} 참고), 또 비슷하게
+	쓰이기도 하지만 (질문 \ql{4.1}, \ql{6.8}, \ql{6.10}, \ql{6.14} 참고), 배열은 
+	포인터가 아닙니다.  
+
+	\verb+char a[6]+과 같은 선언은 문자
+	여섯 개를 저장할 수 있는 공간을 요청하고, 그 결과 ``\TT{a}''라는
+	이름이 이 공간을 대표하게 됩니다.
 	반면 포인터 선언 \verb+char *p+는 포인터를 저장할 수 있는 공간을
 	요구하고 이 위치는 ``\TT{p}''라고 이름지어집니다.
 	이 포인터는 이제 어떤 곳도 가리킬 수 있습니다: 정확히 말해 어떤
-	문자나, 문자로 이루어진	배열의 한 요소를 가리키거나  아무것도 가리키지
-	않을 수 있습니다 (질문 5.1과 1.30을 참고).
+	문자나, 문자로 이루어진	배열의 한 요소를 가리킬 수도 있으며,
+	아무것도 가리키지 않을 수도\footnote{Don't interpret ``anywhere''
+	   and ``nowhere'' too broadly. To be valid, a pointer must point to
+	   properly allocated memory (see questions \ql{7.1}, \ql{7.2}, and \ql{7.3}); to
+	   point definitively nowhere, a pointer must be a null pointer
+	   (see question \ql{5.1}).} 
+	있습니다 (질문 \ql{5.1}과 \ql{1.30}을 참고).
 
 	그림으로 보는 것이 훨씬 더 나을 것입니다.  다음 두 선언은:
 
@@ -43,15 +85,16 @@
 
 \input{cfaqs-ko-1.epic}
 
-	\noindent \verb+x[3]+과 같은 표현이 \TT{x}가 배열이냐 포인터이냐에
-	따라 서로 다른 코드를 생성한다는 것을 알아 두어야 합니다.
+	\noindent \verb+x[3]+과 같은 reference가 \TT{x}가 배열이냐 포인터이냐에
+	따라 서로 다른 코드를 생성한다는 것을 알아야 합니다.
 	위에 선언한 코드를 예로 들면, 컴파일러는 \verb+a[3]+을 봤을 때,
 	주소 `\TT{a}'에서 세 개만큼 지나서 그 위치의 문자를 가져옵니다.
 	그리고 컴파일러가 \verb+p[3]+과 같은 코드를 봤을 때, 주소 `\TT{p}'에
 	셋을 더한 다음, 그 위치의 문자를 가져옵니다.
 	다시 말하면, \verb+a[3]+은 `\TT{a}'라고 이름붙은(named) 곳에서 3만큼
 	지난 곳을 의미하며, \verb+p[3]+은 `\TT{p}'가 가리키는(pointed) 곳에서
-	3만큼 지난 곳을	의미합니다.  위의 예에서는 \verb+a[3]+이나 \verb+b[3]+이
+	3만큼 지난 곳을	의미합니다.
+	위의 예에서는 \verb+a[3]+이나 \verb+b[3]+이
 	모두 문자 `\TT{l}'을 가지고 있지만, 컴파일러는 이 곳을 찾기 위해서
 	다른 코드를 사용합니다.  (가장 큰 차이는 `\TT{a}'와 같은 배열과
 	`\TT{p}'와 같은 포인터의 값을 계산할 때 컴파일러가 서로 다른 방법을
@@ -59,68 +102,74 @@
 	쓰는지의 여부와 관계없습니다.  다음 질문을 참고하기 바랍니다.)
 
 \R
-	\cite{kr2} \S\ 5.5 \page{104}; 
-	\cite{ctp} \S\ 4.5 \Page{64--5}.
+	\cite{kr2} \S\ 5.5 \page{104} \\
+	\cite{ctp} \S\ 4.5 \Page{64--5}
 \end{faq}
 
 \begin{faq}
-\Q{6.3}
-	그럼 ``포인터와 배열은 같다''라는 말은 어디에서 나온것일까요?
+\Q{6.3} % 6.3 COMPLETE
+	그럼 ``포인터와 배열은 같다(equivalent)''라는
+	말은 어디에서 나온것일까요?
 \A
 	C 언어에서 가장 혼동을 가져오는 부분은 바로 이 문장을 잘못 이해한
-	것에서 비롯됩니다.  배열과 포인터가 같다는 의미는 서로 마음대로
-	바꿔쓸 수 있다는 뜻이 아닙니다.  이 말이 의미하는 바는
-	배열과 포인터에 관한 계산이 포인터를 써서 배열에 접근(access)하거나
-	배열을 흉내낼 수 있다는 뜻입니다.
-
-	엄밀하게 이 동등함의 근본은 다음과 같은 정의에서 나온 것입니다:
-
+	것에서 비롯됩니다.  배열과 포인터가 같다는 (equivalent) 의미는
+	서로 같다는(identical) 말도 아니고,
+	서로 마음대로 바꿔쓸 수 있다는 (interchangeable) 뜻도 아닙니다. 
+	이 말이 의미하는 바는 다음과 같은 정의를 의미합니다:
 \begin{quote}
 	T 타입의 배열의 `lvalue'가 수식에서 나타날 때에는 배열의 첫번째
 	요소를 가리키는 포인터로 변경(decay)됩니다.  여기에는 세 가지의
 	예외가 있습니다.  그리고 변경된 포인터의 타입은 T 타입을 가리키는
 	포인터입니다.
+	(이 때 예외 사항은 다음과 같습니다:
+	배열이 \TT{sizeof}의 피연산자로 쓰일때, 배열이 \verb+&+ 연산자의
+	피연산자로 쓰일때, 문자 배열에서, 초기값인 문자열로 쓰일
+	때\footnote{By ``string literal initializer for a character array,''
+	  we include also wide string literals for arrays of \TT{wchar\_t}.})
 \end{quote}
 
-	\noindent 즉, 배열이 수식에 쓰이면 컴파일러는 배열의 첫 요소를 가리키는
-	포인터를 만들어 냅니다.  따라서 직접 \verb+&a[0]+이라고 쓴 것과
-	같습니다.  (위에서 말한 예외 상황은 배열 이름에
-	\TT{sizeof} 연산자를 쓰거나, \verb+&+ 연산자를 쓰거나, 
-	문자 배열에 문자열 초기값이 온 경우입니다.)
+	이 정의에 따라서, 내부적으로 배열이 포인터와는 매우 다르지만,
+	배열이냐 포인터냐에 상관없이 \TT{[]} 연산자를 쓸 수
+	있습니다.\footnote{Strictly speaking, the \TT{[]} operator is
+	  always applied to a pointer; see question \ql{6.10} item 2}
+	배열 \TT{a}와 포인터 \TT{p}가 있다고 가정하고, \TT{a[i]}는
+	위 정의에 따라서, 배열이 포인터로 퇴화하게(decay) 되므로,
+	포인터로 변경되고, 이는 포인터 변수를 쓴 \TT{p[i]}와 의미가
+	같아집니다. (물론 질문 \ql{6.2}에서 설명한 것처럼, 실제 메모리 접근은
+	다릅니다.) 배열의 주소를 다음과 같이 포인터에 대입하면:
 
-	이 정의에 따르면, 결국 subscript 연산자인 \verb+[]+를 배열이나 
-	포인터에 모두 쓸 수 있다는 결론이 나옵니다.  즉, 컴파일러가
-	\verb+a[i]+와 같은 표현을 봤을 때, 배열 이름은 위의 규칙에 따라
-	포인터로 변경되고, 이는 포인터 변수를 쓴 \verb+p[i]+와 같이
-	처리된다는 것을 알 수 있습니다.  (그러나 실제 메모리 접근은
-	질문 6.2에서 설명한 것처럼 다르게 처리됩니다.) 만약 다음과 같이
-	배열의 주소를 포인터에 대입한 경우는:
-\begin{verbatim}
-  p = a;
-\end{verbatim}
-	\noindent \verb+p[3]+과 \verb+a[3]+이 모두 같은 요소에 접근할 수
-	있습니다.
+	\begin{verbatim}
+	  p = a;
+	\end{verbatim}
+	\noindent \TT{p[3]}은 \TT{a[3]}과 같은 곳을 가리키게 됩니다.
 
-	질문 6.8과 6.14를 참고하기 바랍니다.
+	이렇기 때문에, 포인터를 써서 배열에 접근할 수 있는 것이고, 함수
+	parameter로 쓰일 수 (질문 \ql{6.4} 참고) 있으며, dynamic array를
+	흉내낼 수 (질문 \ql{6.14} 참고) 있습니다.
 
-\T	위의 정의의 원문은 다음과 같습니다:
+	\seealso{\ql{6.8}, \ql{6.10}}
+
+\T
+	위의 정의의 원문은 다음과 같습니다:
 \begin{quote}
 	An lvalue of type array-of-T which appears in an
 	expression decays (with three exceptions) into a
 	pointer to its first element; the type of the
-	resultant pointer is pointer-to-T.
+	resultant pointer is pointer-to-T. (The exceptions are when the array
+	is the operand of a \TT{sizeof} or an \verb+&+ operator or is a string
+	literal initializer for a character array.)
 \end{quote}
 
 \R
-	\cite{kr1} \S\ 5.3 \Page{93--6};
-	\cite{kr2} \S\ 5.3 \page{99}; 
-	\cite{iso} \S\ 6.2.2.1, \S\ 6.3.2.1, \S\ 6.3.6; 
-	\cite{hs} \S\ 5.4.1 \page{124}.
+	\cite{kr1} \S\ 5.3 \Page{93--6} \\
+	\cite{kr2} \S\ 5.3 \page{99} \\
+	\cite{iso} \S\ 6.2.2.1, \S\ 6.3.2.1, \S\ 6.3.6 \\
+	\cite{hs} \S\ 5.4.1 \page{124}
 \end{faq}
 
 \begin{faq}
-\Q{6.4}
-	그럼 왜 함수의 형식(formal) parameter로 배열과 포인터 선언을
+\Q{6.4} % 6.4 COMPLETE
+	그럼 왜 함수의 formal parameter로 배열과 포인터 선언을
 	마음대로 바꿔 쓸 수 있다는 것일까요?
 
 \A
@@ -140,78 +189,206 @@
   void f(char *a)
   { ...  }
 \end{verbatim}
+	그래서, 함수가 배열에 대한 어떤 작업을 하거나, 파라메버가 함수 내부에서
+	배열처럼 취급될 때, 함수가 배열을 받는다고 말하는 것은 나쁘지 않습니다.
 
-	이런 사항들은 함수의 formal parameter 선언에만 적용됩니다.
-	이런 사항이 혼동스럽다면 간단히 무시하고 배열처럼 쓰는 선언을
-	쓰지 않아도 좋습니다.  
+	이런 사항들은 함수의 formal parameter 선언에만 적용되며, 다른 곳에서는
+	적용될 수 없습니다. 만약 배열을 받는 것처럼 선언한 함수가 신경쓰인다면,
+	안 쓰면 됩니다; 비록 몇몇은 함수의 선언이나, 함수 내부에서 배열을 받아
+	쓰는 것처럼 보이게 하는 것이 이득이라고 하지만, 많은 부분에서 혼동을
+	가져오는 것은 사실입니다. (이러한 변환은 오직 한 번만 일어납니다;
+	\TT{char a2[][]}와 같은 표현은 쓸 수 없습니다. 질문 \ql{6.18}, \ql{6.19}를 보기
+	바랍니다.)
 
-	질문 6.21을 참고하기 바랍니다.
-
+	\seealso{\ql{6.21}}
 \R
-	\cite{kr1} \S\ 5.3 \page{95}, \S\ A10.1 \page{205}; 
-	\cite{kr2} \S\ 5.3 \page{100}, \S\ A8.6.3 \page{218}, \S\ A10.1 \page{226}; 
-	\cite{iso} \S\ 6.5.4.3, \S\ 6.7.1, \S\ 6.9.6; 
-	\cite{hs} \S\ 9.3 \page{271}; 
-	\cite{ctp} \S\ 3.3 \Page{33--4}.
+	\cite{kr1} \S\ 5.3 \page{95}, \S\ A10.1 \page{205} \\
+	\cite{kr2} \S\ 5.3 \page{100}, \S\ A8.6.3 \page{218},
+                   \S\ A10.1 \page{226} \\
+	\cite{ansi} \S\ 3.5.4.3, \S\ 3.7.1, \S\ 3.9.6 \\	   
+	\cite{iso} \S\ 6.5.4.3, \S\ 6.7.1, \S\ 6.9.6 \\
+	\cite{hs} \S\ 9.3 \page{271} \\
+	\cite{ctp} \S\ 3.3 \Page{33--4}
+\end{faq}
+
+\section{Arrays Can't Be Assigned}
+% from 6.5
+If an array appears on the right-hand side of an assignment, only the pointer
+it decays to is copied, not the entire array. Furthermore, an array may not
+appear on the left-hand side of an assignment (in part because, by the
+previous sentence, there would never be an entire array for it to receive).
+
+\begin{faq}
+\Q{6.5} % 6.5 COMPLETE
+	왜 다음과 같이 할 수 없을까요?
+\begin{verbatim}
+  extern char *getpass();
+  char str[10];
+  str = getpass("Enter password: ");
+\end{verbatim}
+\A
+	C 언어에서 배열은 ``second-class citizens''입니다; 그 결과 배열에
+	대입 연산을 쓸 수 없습니다 (질문 \ql{6.7}도 참고하기 바랍니다). 한 배열의
+	내용을 다른 곳으로 복사하려면, 직접 해야 합니다. \TT{char} 타입의
+	배열인 경우에는, 대개 \TT{strcpy}를 써서 복사할 수 있습니다:
+\begin{verbatim}
+  strcpy(str, getpass("Enter password: "));
+\end{verbatim}
+	복사하는 대신, 단순히 전해주고 싶다면, 포인터와 대입 연산을 쓸 수
+	있습니다. \seealso{\ql{4.1}, \ql{8.2}}
+\R
+	\cite{ansi} \S\ 3.2.2.1 \\
+	\cite{iso} \S\ 6.2.2.1 \\
+	\cite{hs} \S\ 7.9.1 \Page{221--2}
 \end{faq}
 
 \begin{faq}
-\Q{6.7}
+\Q{6.6} % 6.6 COMPLETE
+	배열에 대입 연산을 쓸 수 없다면, 다음 코드는 왜 동작할까요?
+\begin{verbatim}
+  int f(char str[])
+  {
+    if (str[0] == '\0')
+      str = "none";
+    ...
+  }
+\end{verbatim}
+
+\A
+	위 코드에서 \TT{str}은 함수 파라메터입니다. 따라서 컴파일러는 위
+	코드를 질문 \ql{6.4}에서 다룬 것처럼 바꿉니다.  다시 말하는데, 이 때
+	\TT{str}은 (타입이 \TT{char *}인) 포인터입니다. 그리고 포인터에는
+	대입 연산을 쓸 수 있습니다.
+\end{faq}
+
+\begin{faq}
+\Q{6.7} % 6.7
 	배열 자체에 값을 대입할 수 없다면 어떻게 배열이 `lvalue'가
 	될 수 있나요?
-\A	ANSI C 표준은 ``modifiable lvalue''을 정의했고, 배열은 여기에
-	포함되지 않습니다.
-\R	\cite{iso} \S\ 6.2.2.1; \cite{rationale} \S\ 3.2.2.1; \cite{hs}
-	\S\ 7.1 \page{179}.
+\A	
+	\EM{lvalue}라는 단어가 ``대입할 수 있는 것''을 뜻하지는 않습니다;
+	``(메모리에) 어떤 위치를 가지고 있는 것''이 더 나은
+	표현입니다.\footnote{The original definition of ``lvalue'' did
+	  have to do with the left-hand side of assignment statements.}
+	ANSI C 표준은 ``modifiable lvalue''을 정의했고, 배열은 여기에
+	포함되지 않습니다. \seealso{\ql{6.5}}
+\R	\cite{iso} \S\ 6.2.2.1 \\
+        \cite{rationale} \S\ 3.2.2.1 \\
+        \cite{hs} \S\ 7.1 \page{179}.
 \T	여기에서 배열이라 함은 subscript 연산자인 \verb+[]+를 쓰지 않은
 	배열 이름 자체를 의미합니다.
 \end{faq}
 
+\section{Retrospective}
+% from 6.8
+Because the basic relationship between arrays and pointers occasionally
+generates so much confusion, here are a few questions about that confusion.
+
 \begin{faq}
-\Q{6.8}
+\Q{6.8} % 6.8
 	실제로 배열과 포인터의 차이는 무엇인가요?
 \A
-	배열은 자동적으로 공간을 차지하며, 일단 할당된 공간의 위치가
-	바뀌거나, 크기가 변경될 수 없습니다.  포인터를 쓰게 되면,
-	(\TT{malloc}과 같은 함수를 써서) 공간을 직접 할당해 주어야 합니다.
-	대신 다른 메모리 공간을 가리키게 할 수 있으며, 메모리 블럭에 대해
-	여러가지 작업을 할 수 있습니다.
+	배열은 같은 타입의 연속적인 요소들이 미리 할당된 공간이며,
+	크기와 위치가 고정되어 있습니다. (An array is a single, preallocated
+	chunk of contiguous elements (all of the same type), fixed in size
+	and location)
+	포인터는 다른 방법으로 할당된 메모리 공간을 가리켜야 하지만,
+	다른 곳을 가리키도록 그 값을 바꿀 수 있습니다. (만약 가리키는 공간이
+	\TT{malloc}을 써서 얻은 것이라면, 크기도 바꿀 수 있습니다.)
+	포인터는 배열을 가리킬 수 있으며, (\TT{malloc}과 함께 써서) 동적으로
+	할당한 배열처럼 (흉내내어) 쓸 수 있습니다. 그리고 포인터가 배열보다
+	더 일반화된 자료 구조입니다 (much more general data structure)
+	(질문 \ql{4.1} 참고).
 
-	배열과 포인터가 같다는 말 때문에 (질문 6.3 참고), 배열과 포인터는
-	자주 섞여 쓰입니다.  특히 \TT{malloc}으로 할당된 메모리에 접근할
+	배열과 포인터가 같다는 (so-called equivalence) 말 때문에
+	(질문 \ql{6.3} 참고), 배열과 포인터는 자주 섞여 쓰입니다 (interchangeable).
+	특히 \TT{malloc}으로 할당된 메모리에 접근할
 	때 쓰는 것은 포인터이지만, 배열처럼(\verb+[]+를 써서) 쓰는 경우가
-	많습니다.  질문 6.14와 6.16을 참고하기 바랍니다.  (그러나 \TT{sizeof}
-	연산자를 쓸 때에는 배열과 포인터가 서로 다르니 주의하기 바랍니다.)
+	많습니다.  질문 \ql{6.14}와 \ql{6.16}을 참고하기 바랍니다.  (그러나 \TT{sizeof}
+	연산자를 쓸 때에는 배열과 포인터가 서로 다르니 주의하기 바랍니다.
+	질문 \ql{7.28} 참고)
 
-	질문 1.32, 20.14를 참고하기 바랍니다.
+	\seealso{\ql{1.32}, \ql{6.10}, \ql{20.14}}
 \end{faq}
 
 \begin{faq}
-\Q{6.9}
-	누군가 제게 배열은 단지 포인터 상수라고 말한 것이 기억나는 군요.
-	맞는 말인가요?
+\Q{6.9} % 6.9
+	누군가 제게 배열은 단지 포인터 상수라고 (constant pointer) 말한 것이
+	기억나는 군요.	맞는 말인가요?
 \A
-	지나치게 간소화한 말입니다.  배열의 이름은 어떤 값을 대입시킬 수 없는
-	상수(constant)이지만, 질문 6.2에서 설명하고 보여준 것처럼 배열 자체가
-	포인터는 아닙니다.  질문 6.3과 6.8을 참고하기 바랍니다.
+	지나치게 간소화한 말입니다 (oversimplification). 
+	배열의 이름은 어떤 값을 대입시킬 수 없는
+	상수(constant)이지만, 질문 \ql{6.2}에서 설명하고 보여준 것처럼 배열 자체가
+	포인터는 아닙니다.  \seealso{\ql{6.3}, \ql{6.8}, \ql{6.10}}
 \end{faq}
 
 \begin{faq}
-\Q{6.11}
+\Q{6.10} % 6.10
+	아직도 잘 모르겠습니다. 포인터가 배열의 일종인가요, 아니면 배열이
+	어떤 포인터의 한 종류인가요?
+\A
+	배열은 포인터가 아니며, 포인터도 배열이 아닙니다.
+	배열 reference(즉, 값이 쓰이는 곳에 배열을 쓰는 것)는 포인터로
+	변경됩니다 (질문 \ql{6.2}, \ql{6.3} 참고).
+\begin{enumerate}
+  \item Pointers can simulate arrays (though that's not all; see question \ql{4.1})
+  \item There's hardly such a thing as an array (it is, after all, a
+    ``second-class citizen''); the subscripting operator \TT{[]} is in fact a
+    pointer operator.
+  \item At a higher level of abstraction, a pointer to a block of memory
+    is effectively the same as an array (although this says nothing about other
+    uses of pointers).
+    
+    But to reiterate, here are two ways \EM{not} to think about it:
+  \item ``They're completely the same.'' (False; see question \ql{6.2}.)
+  \item ``Arrays are constant pointers.'' (False; see question \ql{6.9}.)
+\end{enumerate}
+
+	\seealso{\ql{6.8}}
+\end{faq}
+
+\begin{faq}
+\Q{6.11} % 6.11 COMPLETE
 	\verb+5["abcdef"]+와 같은 이상한 표현을 봤습니다.
 	이것이 C 언어에서 쓸 수 있는 표현인가요?
 \A
 	쓸 수 있습니다.  Subscript 연산자인 \verb+[]+에는 교환 법칙 
-	(commutative law)이 성립합니다.  \verb+a[e]+는 실제로
-	\verb2*((a) + (e))2로 계산되기 때문에 하나가 포인터 수식이고
-	하나는 정수일 `\TT{a}'와 `\TT{e}'의 위치가 바뀌어도 상관없습니다.  
+	(commutative law)이 성립합니다.\footnote{The commutativity is of the
+	  array-subscripting operator [] itself; obviously, \TT{a[i][j]} is in
+	  general different from \TT{a[j][i]}.}
+	\verb+a[e]+는 어떤 expression \TT{a}와 \TT{e}에 대해, 하나가 포인터
+	expression이고, 하나가 정수 수식이란 전제 아래에서, 
+	\verb2*((a) + (e))2와 완전히 같습니다 (identical). 이 증명은 다음과
+	같습니다:
+\begin{verbatim}
+  a[e]
+  *((a) + (e))	        (\EM{by definition})
+  *((e) + (a))          (\EM{by commutativity of addition})
+  e[a]                  (\EM{by definition})
+\end{verbatim}
 	어떤 C 책에서는 이런 것을 자랑삼아 보여주기는 하지만,
 	`혼동스러운 C 컨테스트 (Obfuscated C Contest)'에 쓰이지
-	않는다면 쓸모없는 것입니다 (질문 20.36을 참고하기 바랍니다).
+	않는한, 따로 특별히 쓸모 있는 표현이 아닙니다
+	(질문 \ql{20.36}을 참고하기 바랍니다).
 
-\R	\cite{rationale} \S\ 3.3.2.1; 
-	\cite{hs} \S\ 5.4.1 \page{124}, \S\ 7.4.1 \Page{186--7}.
+	C 언어에서 문자열은 \TT{char} 타입 배열이기 때문에,
+	\TT{"abcdef"[5]}란 표현은 틀린 표현이 아니며, \TT{'f'}로 평가됩니다.
+	이 것을 다음 코드의 줄인 표현으로 생각할 수 있습니다:
+\begin{verbatim}
+  char *tmpptr = "abcdef";
+
+  ... tmpptr[5] ...
+\end{verbatim}
+
+	실제 이 코드가 쓰이는 예는 질문 \ql{20.10}에서 볼 수 있습니다.
+\R	\cite{rationale} \S\ 3.3.2.1 \\
+	\cite{hs} \S\ 5.4.1 \page{124}, \S\ 7.4.1 \Page{186--7}
 \end{faq}
+
+\section{Pointers to Arrays}
+Since arrays usually decay into pointers, it's particularly easy to get
+confused when dealing with the occasional pointer to an entire array (as
+opposed to a pointer to its first element).
 
 \begin{faq}
 \Q{6.12}
@@ -220,54 +397,131 @@
 	\TT{arr}이 배열일때, \verb+arr+과 \verb+&arr+의 차이는 무엇인가요?
 \A
 	타입이 서로 다릅니다.
-	표준 C 언어에서, \verb+&arr+은 포인터를 만들어 냅니다.  이 타입은
-	배열 T 전체를 가리키는 포인터(pointer to array of T)입니다.
+	표준 C 언어에서, \verb+&arr+은 포인터를 만들어 내며, 이 포인터의
+	타입은 배열 T 전체를 가리키는 포인터(pointer to array of T)입니다
 	(ANSI C 이전의 오래된 C 언어에서는 \verb+&arr+에 쓰인 \verb+&+에서
-	경고를 발생시키지만 무시해도 상관없습니다.) 모든 C 언어 컴파일러에서
-	(\verb+&+를 사용하지 않는) 간단한 참조는 포인터를 만들어내며,
+	경고를 발생시키며, 무시됩니다.). 
+	모든 C 언어 컴파일러에서
+	(\verb+&+를 사용하지 않는) 간단한 배열 reference는 포인터를 만들어내며,
 	이 타입은 T를 가리키는 포인터(pointer to T)이며, 배열의 첫 요소를
-	나타냅니다.  (질문 6.3, 6.13, 6.18을 참고하기 바랍니다.)
+	가리킵니다.
+
+	다음과 같은 간단한 배열에서:
+\begin{verbatim}
+  int a[10];
+\end{verbatim}
+
+	\noindent \TT{a}에 대한 reference는 ``pointer to int''란 타입을
+	가지며, \verb+&a+에 대한 reference는
+	``pointer to array of 10 \TT{int}s''란 타입을 가집니다. 다음과 같은
+	이차원 배열에서는:
+\begin{verbatim}
+  int array[NROWS][NCOLUMNS];
+\end{verbatim}
+	\noindent \TT{array} 타입은 ``pointer to array of \TT{NCOLUMNS}
+	\TT{int}s''이며, \verb+&array+ 타입은 ``pointer to array of \TT{NROWS}
+	array of \TT{NCOLUMNS} \TT{int}s''입니다.
+
+	(질문 \ql{6.3}, \ql{6.13}, \ql{6.18}을 참고하기 바랍니다.)
 \R
-	\cite{iso} \S\ 6.2.2.1, \S\ 6.3.3.2; 
-	\cite{rationale} \S\ 3.3.3.2; 
-	\cite{hs} \S\ 7.5.6 \page{198}.
+	\cite{ansi} \S\ 3.2.2.1, \S\ 3.3.3.2 \\
+	\cite{iso} \S\ 6.2.2.1, \S\ 6.3.3.2 \\
+	\cite{rationale} \S\ 3.3.3.2 \\
+	\cite{hs} \S\ 7.5.6 \page{198}
 \end{faq}
 
 \begin{faq}
-\Q{6.13}
+\Q{6.13} % 6.13 COMPLETE
 	배열을 가리키는 포인터(pointer to an array)는 어떻게 선언하죠?
 
 \A
 	보통 이런 작업은 필요하지 않습니다.  사람들이 대개
 	배열을 가리키는 포인터라고 말하는 것은 배열의 첫번째 요소를
-	가리키는 포인터를 말하는 것입니다.
+	가리키는 포인터를 말하는 경우가 많습니다.
 
-	배열 자체를 가리키는 포인터 대신, 배열의 첫번째 요소를 가리키는
-	포인터를 생각해보시기 바랍니다.  타입 T의 배열은 타입 T의 포인터로
-	변환됩니다 (질문 6.3을 참고).  각각의 요소에 접근하기 위해서는
-	subscript 연산자인 \verb+[]+을 쓰면 되며, 증가시켜서 다음 요소에
-	접근할 수도 있습니다.  배열 자체를 가리키는 포인터는 전체 배열을
-	요소로 하는, 배열을 요소로 가진 배열을 다룰 때에만 쓸모가 있습니다.
-	(질문 6.18을 참고하기 바랍니다.)
+	배열 자체를 가리키는 포인터 (a pointer to an array) 대신,
+	배열의 요소를 가리키는 포인터를 (a pointer to one of the
+	array's elements)생각해보시기 바랍니다. 
+	타입 T의 배열은 (편리하게도) 타입 T의 포인터로
+	변환됩니다 (decay) (질문 \ql{6.3}을 참고). 
+	이 포인터에 \TT{[]} (subscript) 연산자를 쓸 수 있고,
+	또는 증가/감소시켜서 배열의 요소에 접근할 수 있습니다.
+	정말로 배열 자체를 가리키는 포인터에 (pointers to arrays),
+	subscript 연산자를 쓰거나, 증가시키면, 배열 전체를
+	건너뛰게 되므로, 배열을 요소로 가진 배열을 (arrays of
+	arrays\footnote{This discussion also applies to three- or more
+	  dimensional arrays.}) 대상으로 할 때에만 의미가 있습니다.
+	(질문 \ql{6.18}을 참고하기 바랍니다.)
 
 	그래도 배열 전체에 대한 포인터가 필요하다면, \verb+int (*ap)[N];+과
 	같이 선언할 수 있으며, 이 때 \TT{N}은 배열의 크기입니다.  (질문
-	1.21을 참고.) 배열의 크기를 모른다면, \TT{N}은 생략될 수 있습니다.
+	\ql{1.21}을 참고.) 만약 배열의 크기를 모른다면, \TT{N}은 생략될 수 있습니다.
 	그러나 이 경우 ``크기를 모르는 배열에 대한 포인터''가 되기 때문에
-	쓸모가 없습니다.
+	전혀 쓸모가 없습니다.
 
-	질문 6.12를 참고하기 바랍니다.
+	아래는 간단한 포인터와, 배열에 대한 포인터의 차이에 관한
+	예입니다. 다음과 같은 선언이 있을 때:
+\begin{verbatim}
+  int a1[3] = { 0, 1, 2 };
+  int a2[2][3] = { { 3, 4, 5 }, { 6, 7, 8 } };
+  int *ip;      /* pointer to int */
+  int (*ap)[3]; /* pointer to array [3] of int */
+\end{verbatim}
+	일차원 배열 \TT{a1}의 요소를 다루기 위해서, \TT{int}에 대한 포인터인,
+	\TT{ip}를 다음과 같이 쓸 수 있습니다:
+\begin{verbatim}
+  ip = a1;
+  printf("%d ", *ip);
+  ip++;
+  printf("%d\n", *ip);
+\end{verbatim}
+	그 결과, 다음과 같이 출력됩니다:
+\begin{verbatim}
+  0 1
+\end{verbatim}
+	만약 \TT{a1}에 \TT{ap}를 쓰려 하면:
+\begin{verbatim}
+  ap = &a1;
+  printf("%d\n", **ap);
+  ap++;                 /* WRONG */
+  printf("%d\n", **ap); /* undefined */
+\end{verbatim}
+	처음 \TT{printf}에서는 0을 출력하고, 그 다음에서는 어떻게 동작할 지
+	알 수 없습니다 (프로그램이 깨질 수도 있습니다). 배열 자체에 대한
+	포인터는 \TT{a2}와 같은, 배열에 대한 배열에서만 의미가 있습니다:
+\begin{verbatim}
+  ap = a2;
+  printf("%d %d\n", (*ap)[0], (*ap)[1]);
+  ap++;                 /* steps over entire (sub)array */
+  printf("%d %d\n", (*ap)[0], (*ap)[1]);
+\end{verbatim}
+	그 결과 다음과 같은 출력을 얻을 수 있습니다:
+\begin{verbatim}
+  3 4
+  6 7
+\end{verbatim}
+	
+	\seealso{\ql{6.12}}
 
-\R	\cite{iso} \S\ 6.2.2.1.
+\R
+	\cite{ansi} \S\ 3.2.2.1 \\
+	\cite{iso} \S\ 6.2.2.1
 \end{faq}
 
+\section{Dynamic Array Allocation}
+% from 6.14
+The close relationship between arrays and pointers makes it easy to use a
+pointer to dynamically allocated memory to simulate an array, of size
+determined at run time.
+
 \begin{faq}
-\Q{6.14}
+\Q{6.14} % 6.14 COMPLETE
 	배열의 크기를 실행 시간에 변경할 수 있나요?
 	고정 크기의 배열 말고 다른 배열이 있나요?
 
 \A
-	배열과 포인터의 같은 점 (질문 6.3 참고) 때문에 \TT{malloc}으로 할당한
+	배열과 포인터의 같은 점 (equivalence) (질문 \ql{6.3} 참고) 때문에
+	\TT{malloc}으로 할당한
 	메모리를 포인터가 가리키게 한 다음, 배열처럼 쓸 수 있습니다.
 	다음 코드를 실행한 다음:
 \begin{verbatim}
@@ -276,39 +530,47 @@
   dynarray = malloc(10 * sizeof(int));
 \end{verbatim}
 	\noindent (\TT{malloc}이 성공했다는 가정 아래에서) 
-	\verb+dynarray[i]+처럼 (\TT{i}는 0에서 9까지) 쓸 수 있습니다.
+	\verb+dynarray[i]+처럼 (\TT{i}는 0에서 9까지) 쓸 (reference) 수
+	있습니다.
 	즉 \TT{dynarray}를 \verb+int a[10]+과 같이 선언된 것처럼 쓸 수
 	있습니다.  정적(static)으로 선언된 배열과 동적으로 할당한 메모리를
 	가리키는 포인터의 차이는 \TT{sizeof} 연산자를 쓸 때입니다.
-	질문 1.31b, 6.16, 7.7를 참고하기 바랍니다.
+	\seealso{\ql{1.31b}, \ql{6.16}, \ql{7.28}, \ql{7.7}, \ql{7.29}}
 \end{faq}
 
 \begin{faq}
-\Q{6.15}
-	(함수 인자로) 전달된 배열과 같은 크기의 지역(local) 배열을
-	선언할 수 있나요?
+\Q{6.15} % 6.15
+	(함수 인자로) 전달된 크기를 가지는 배열을 선언할 수 있나요?
 
-\A	현재는 그렇게 할 수 없습니다.  C 언어에서 배열의 크기는
-	컴파일 시간에 정해지는 상수입니다.  \cite{c9x}에서는 크기를 변경할 수 있는
+\A
+	현재는 그렇게 할 수 없습니다.  C 언어에서 배열의 크기는
+	컴파일 시간에 정해지는 상수입니다.
+	일반적으로 이러한 문제는 \TT{malloc}과 \TT{free}를 써서 해결합니다.
+
+	\cite{c9x}에서는 크기를 변경할 수 있는
 	`variable-length array(VLA)'을 소개하고 있으며, 이 VLA을 써서
 	이 문제를 해결할 수 있습니다; 지역 배열은 변수나 다른 수식(대개
 	함수 파라메터로 전달된 값)을 써서 크기를 지정할 수 있습니다.
 	(GCC는 파라메터화된(parameterized) 배열이라는 확장 기능을
 	제공합니다.) \cite{c9x}나 GCC를 쓸 수 없다면 \TT{malloc()}을 쓰는 수
 	밖에 없습니다.  단, 배열을 다 사용했다면 반드시 \TT{free()}를 써서
-	해제시켜 주어야 합니다.  질문 6.14, 6.16, 6.19, 7.22, 또 7.32를
+	썼던 메모리를 돌려 주어야 합니다.
+	질문 \ql{6.14}, \ql{6.16}, \ql{6.19}, \ql{7.22}, 또 \ql{7.32}를
 	참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 6.4, \S\ 6.5.4.2; 
-	\cite{c9x} \S\ 6.5.5.2.
+	\cite{ansi} \S\ 3.4, \S\ 3.5.4.2 \\
+	\cite{iso} \S\ 6.4, \S\ 6.5.4.2 \\
+	\cite{c9x} \S\ 6.5.5.2
 \end{faq}
 
 \begin{faq}
-\Q{6.16}
+\Q{6.16} % 6.16
 	다차원(multidimensional) 배열을 동적으로 할당할 수 있나요?
 \A
-	가장 널리 쓰이는 방법은 포인터의 배열을 할당하고, 각 포인터가 동적으로
+	가장 널리 쓰이는 방법은 포인터의 배열\footnote{Strictly speaking,
+	  these aren't arrays but rather objects to be \EM{used} like arrays;
+	  see also question \ql{6.14}}을 할당하고, 각 포인터가 동적으로
 	할당한 ``열(row)''을 가리키게 하는 것입니다.  다음 코드는 2 차원
 	배열을 동적으로 할당한 것입니다:
 \begin{verbatim}
@@ -318,12 +580,12 @@
   for (i = 0; i < nrows; i++)
     array1[i] = malloc(ncolumns * sizeof(int));
 \end{verbatim}
+	\noindent 실제 코드를 쓸 때에는 \TT{malloc}의 리턴 값을 검사해
+	주어야 합니다.
 
-	\noindent (실제 코드를 쓸 때에는 \TT{malloc}의 리턴 값을 검사해
-	주어야 합니다.)
-
-	배열의 내용을 연속적으로 만들려면, 각각의 열을 따로 재할당해야하는
-	수고를 해야 합니다:
+	배열의 내용을 연속적으로 만들려면, 다음과 같이 약간의 포인터
+	계산을 해야 합니다 (이 경우, 나중에 각 열을 재배치(reallocation)하기
+	매우 힘듭니다.)
 
 \begin{verbatim}
   int **array2 = malloc(nrows * sizeof(int *));
@@ -332,13 +594,19 @@
     array2[i] = array2[0] + i * ncolumns;
 \end{verbatim}
 
-	\noindent 둘 중 어떤 것이라도, 동적으로 할당한 배열의 각 요소는
+	\noindent 둘 (\TT{array1} 또는 \TT{array2}) 중 어떤 것이라도,
+	동적으로 할당한 배열의 각 요소는
 	일반적인 배열 subscript 연산자인 \verb+[]+를 써서 다룰 수 있습니다:
 	\verb+arrayx[i][j]+ (이 때 \verb+0 <= i < nrows+와
 	\verb+0 <= j < ncolumns+를 만족해야 함).
 
-	위와 같이 두번 간접적으로 메모리를 할당하는 것이 어떤 이유로 인하여
-	불가능하다면, 다음과 같이 메모리를 한 번만 할당할 수도 있습니다.
+	% TODO 그림 삽입. p.106
+
+	위와 같이 두번 간접적으로 (double indirection) 메모리에 접근하는 것이
+	어떤 이유로 인하여
+	불가능하다면\footnote{Note, however, that double indirection is not
+	  necessarily any less efficient than multiplicative indexing},
+	다음과 같이 메모리를 한 번만 할당할 수도 있습니다.
 	즉 일차원 배열을 다차원 배열로 흉내내는 것입니다:
 
 \begin{verbatim}
@@ -347,36 +615,64 @@
 
 	그러나, 이런 식으로 만들었다면 각각의 요소에 접근하기 위해 약간의
 	계산을 해야 합니다.  (i, j) 번째 요소에 접근하기 위해서는
-	\verb+array3[i * ncolumns + j]+라고 해야 합니다.  (매크로를 써서
-	간편하게 할 수 있지만 괄호와 컴마(comma)를 써야 하기 때문에,
-	원래와 같은 표현을 쓸 수는 없습니다.  질문 6.19를 참고하기 바랍니다.)
+	\verb+array3[i * ncolumns + j]+\footnote{A macro such as
+	  \TT{\#define Arrayaccess(a, i, j)  ((a)[(i) * ncolumns + (j)])}
+	  could hide the explicit calculation. Invoking that macro, however,
+	  would require parentheses and commas that wouldn't look exactly
+	  like conventional C multidimensional array syntax, and the macro
+	  would need access to at least one of the dimensions, as well.}라고
+	해야 합니다. 그리고 이 배열은 다차원 배열을 받는 함수에 전달할 수
+	없습니다. \seealso{\ql{6.19}}
 
-	또 다른 방법으로 배열에 대한 포인터를 쓰는 법도 있습니다:
-
+	대신, 배열에 대한 포인터를 (pointers to arrays) 쓸 수 있습니다:
 \begin{verbatim}
-  int (*array4)[NCOLUMNS] = malloc(nrows * sizeof(*array4));
+  int (*array4)[NCOLUMNS] =
+    (int (*)[NCOLUMNS])malloc(nrows * sizeof(*array4));
 \end{verbatim}
 
-	\noindent 그러나 쓰는 형식이 까다롭고 실행 시간에 적어도 하나의
-	차원(dimension)이 지정되어야 합니다.
+	또는,
 
-	이 모든 테크닉들에서 동적으로 할당한 메모리는 나중에 전부
-	해제(free)시켜 주어야 한다는 것을 잊으면 안됩니다 (물론 여러
-	단계가 필요할 수도 있습니다; 질문 7.23을 참고하기 바랍니다)
-	그리고 동적으로 할당한 배열과 정적으로 할당된 보통 배열과 반드시
-	섞어쓸 수 있는 것도 아닙니다.  (질문 6.20을 참고하시고 \seealso{6.18}).
+\begin{verbatim}
+  int (*array5)[NROWS][NCOLUMNS] =
+    (int (*)[NROWS][NCOLUMNS])malloc(sizeof(*array5));
+\end{verbatim}
+	\noindent 도 가능합니다.
 
-	마지막으로 \cite{c9x}에서는 크기 변경이 가능한 배열을 지원합니다.
+	그러나 이런 방식은 매우 복잡한 문법을 써야 합니다. (배열 \TT{array5}에
+	접근하기 위해서는 \TT{(*array5)[i][j]}와 같이 씀) 그리고 최대, 한
+	차원은 실행 시간에 정해져야 합니다.
 
-	여기에서 언급한 모든 테크닉들은 삼차원 또는 그 이상의 차원의
-	배열에도 적용할 수 있습니다.
+	이 모든 테크닉과 함께, 이렇게 할당한 배열이 더 이상 필요없을 때에는,
+	\TT{free}를 써서 돌려 주어야 합니다; \TT{array1}과 \TT{array2}의 경우
+	여러 단계를 거쳐야 합니다 (질문 \ql{7.23} 참고):
+\begin{verbatim}
+  for (i = 0; i < nrows; i++)
+    free((void *)array1[i]);
+  free((void *)array1);
+  free((void *)array2[0]);
+  free((void *)array2);
+\end{verbatim}
 
+	그리고, 이런 배열과 원래 C 언어에서 제공하던, 정적으로 할당된 배열과
+	섞어 쓸 수 없습니다 (질문 \ql{6.20}, \ql{6.18} 참고).
+
+	또, 여기에 소개했던 기술들은 삼차원 또는 그 이상의 고차원 배열에서도
+	쓸 수 있습니다. 첫번째 기술을 써서 삼차원 배열을 다룬 예입니다:
+\begin{verbatim}
+  int ***a3d = (int ***)malloc(xdim * sizeof(int **));
+  for (i = 0; i < xdim; i++) {
+    a3d[i] = (int **)malloc(ydim * sizeof(int *));
+    for (j = 0; j < ydim; j++)
+      a3d[i][j] = (int *)malloc(zdim * sizeof(int));
+  }
+\end{verbatim}
+	\seealso{\ql{20.2}}
 \R
-	\cite{c9x} \S\ 6.5.5.2.
+	\cite{c9x} \S\ 6.5.5.2
 \end{faq}
 
 \begin{faq}
-\Q{6.17}
+\Q{6.17} % 6.17 COMPLETE
 	만약 다음과 같이 코드를 작성하면:
 \begin{verbatim}
   int realarray[10];
@@ -390,39 +686,59 @@
 	이 테크닉이 매우 매력적으로 보이긴 하지만 (이는 ``Numerical Recipes
 	in C''라는 책의 예전판에서 쓴 방식입니다.) 엄밀히 말해 C 표준을
 	만족하는 방법이 아닙니다.  포인터 연산은 포인터가 할당된 메모리
-	범위 안을 가리킬 때에나, 배열의 마지막 요소 다음 가상의(imanary)
-	요소를 가리킬 때에만 정의될 수 있습니다; 다른 경우에는 포인터
-	연산이 정의되어 있지 않습니다.  이는 포인터를 써서
-	역참조(dereference)를 하지 않아도 마찬가지이니 조심하시기 바랍니다.
+	범위 안을 가리킬 때에나, 배열의 마지막 요소 바로 다음 가상의(imanary)
+	요소를 가리킬 때에만 정의될 수 있습니다 (Pointer arithmetic is defined
+	only as long as the pointer points within the same allocated block of
+	memory or to the imaginary ``terminating'' element one past it);
+	다른 경우에는 포인터 연산을 쓰면 dereference하지 않는다 하더라도,
+	``undefined behavior''를 낳습니다.
 	따라서 위의 코드에서 뺄셈을 하는 곳에서 잘못된 주소값이
 	만들어질 수 있습니다 (아마도 주소가 어떤 메모리 세그먼트의 시작점에서
 	``wrap around''하기 때문일 수도 있습니다).
 
 \R
-	\cite{kr2} \S\ 5.3 \page{100}, \S\ 5.4 \Page{102--3}, \S\ A7.7 \Page{205--6};
-	\cite{iso} \S\ 6.3.6; 
-	\cite{rationale} \S\ 3.2.2.3.
+	\cite{kr2} \S\ 5.3 \page{100}, \S\ 5.4 \Page{102--3}, 
+                   \S\ A7.7 \Page{205--6} \\
+	\cite{ansi} \S\ 3.3.6 \\	   
+	\cite{iso} \S\ 6.3.6 \\
+	\cite{rationale} \S\ 3.2.2.3
 \end{faq}
 
+\section{Functions and Multidimensional Arrays}
+% from 6.18
+It's difficult to pass multidimensional arrays to functions with full
+generality.  The rewriting of array parameters as pointers (as discussed in
+question \ql{6.4}) means that functions that accept simple arrays seem to accept
+arrays of arbitrary length, which is convenient.
+However, the parameter rewriting occurs only on the ``outermost'' array,
+so the ``width'' and higher dimensions of multidimensional arrays cannot be
+similarly variable. This problem arises in past because in standard C, array
+dimensions must always be compile-time constants; they cannot, for instance,
+be specified by other parameters of a function.
+
 \begin{faq}
-\Q{6.18}
+\Q{6.18} % 6.18 COMPLETE
 	이차원 배열을 `포인터를 가리키는
 	포인터\footnote{a pointer to a pointer}'를 인자로 받는 함수에
 	전달하면, 제 컴파일러는 경고를 발생합니다.
 
-\A	배열이 포인터로 변경된다는 규칙(질문 6.3)은
-	재귀적으로(recursively) 적용되지 않습니다.  배열로 이루어진 배열은
-	(C 언어에서 이차원 배열) 배열을 가리키는 포인터로 변경되지,
-	포인터를 가리키는 포인터로 변경되는 것이 아닙니다.  배열을 가리키는
-	포인터는 매우 어려우므로 조심히 다루어야 합니다; 질문 6.13을
-	참고하기 바랍니다.
+\A
+	배열이 포인터로 변경된다는 규칙(질문 \ql{6.3})은
+	재귀적으로(recursively) 적용되는 규칙이 아닙니다.
+	배열의 배열(arrays of arrays, 즉 이차원 배열)은 배열을 가리키는
+	포인터로 (a pointer to an array) 변경되지 (decay),
+	포인터를 가리키는 포인터로 (a pointer to a pointer) 변경되지
+	않습니다. 배열을 가리키는 포인터는 어렵고, 또 매우 조심스럽게 다루어야
+	합니다; 질문 \ql{6.13} 참고. (더욱 혼란스러운 것은, 잘못된 컴파일러들이
+	존재한다는 것입니다. 오래된 버전의 \TT{pcc}나 이 컴파일러를 기초로 한
+	어떤 \TT{lint}들은 multilevel pointer에 다차원 배열을 대입하는 것을
+	허락해버립니다)
 
 	함수에 이차원 배열을 전달한다면:
 \begin{verbatim}
   int array[NROWS][NCOLUMNS];
   f(array);
 \end{verbatim}
-
 	\noindent 함수의 선언은 다음과 같아야 합니다:
 \begin{verbatim}
   void f(int a[][NCOLUMNS])
@@ -433,29 +749,38 @@
   void f(int (*ap)[NCOLUMNS]) /* ap is a pointer to an array */
   { ...  }
 \end{verbatim}
-
-	첫번째 선언에서 컴파일러는 ``배열로 이루어진 배열''을 ``배열을 가리키는
-	포인터''로 바꾸어 줍니다 (질문 6.3과 6.4를 참고); 두번째 선언은
-	명백합니다.  불려지는 함수는 배열을 위한 추가적인 메모리 할당이
-	이루어지지 않으므로, 배열의 크기나, 배열의 행(row)의 크기,
-	행의 갯수를 알 필요가 없습니다.  그러나, 배열의 폭(column)은
-	매우 중요합니다.  따라서 NCOLUMNS는 (삼차원 이상의 배열에서는
-	첫번째 열의 수를 제외하고는 다 유지되어야 함)유지되어야 합니다.
+	첫번째 선언에서 컴파일러는 ``배열에 대한 배열''을 ``배열을 가리키는
+	포인터''로 바꾸어 줍니다 (질문 \ql{6.3}과 \ql{6.4}를 참고); 두번째 선언은
+	좀 더 정확하게 선언한 것입니다. 이 함수가 배열을 위해 메모리를
+	추가적으로 할당하지 않기 때문에, 전체 배열의 크기나,
+	배열의 행(row, 여기에서는 \TT{NROWS})의 갯수를 생략할 수 있습니다.
+	그러나 이 배열의 형태(shape)는 그래도 중요합니다. 따라서 배열의
+	폭(column)은 꼭 적어 주어야 합니다 (삼차원 이상의 배열에서는
+	첫번째 열의 수를 제외하고는 다 유지되어야 함).
 
 	함수가 이미 `포인터를 가리키는 포인터'를 받도록 선언되어 있다면
-	여기에 이차원 배열을 직접 전달하는 것은 무의미합니다.
+	여기에 이차원 배열을 직접 전달하는 것은 무의미합니다. 가끔 중간에
+	임시 포인터 변수를 두어 이차원 배열을 전달하려 하는 코드를 볼 수
+	있지만:
+\begin{verbatim}
+  extern g(int **ipp);
 
-	질문 6.12, 6.15를 참고하기 바랍니다.
+  int *ip = &array[0][0];
+  g(&ip);           /* PROBABLY WRONG */
+\end{verbatim}
+	\noindent 이렇게 쓰는 것은 잘못된 것입니다. 왜냐하면 배열의 형태가
+	망가졌기(``flatten'', its shape has been lost) 때문입니다.
 
+	\seealso{\ql{6.12}, \ql{6.15}}
 \R
-	\cite{kr1} \S\ 5.10 \page{110}; 
-	\cite{kr2} \S\ 5.9 \page{113}; 
-	\cite{hs} \S\ 5.4.3 \page{126}.
+	\cite{kr1} \S\ 5.10 \page{110} \\
+	\cite{kr2} \S\ 5.9 \page{113} \\
+	\cite{hs} \S\ 5.4.3 \page{126}
 \end{faq}
 
 \begin{faq}
-\Q{6.19}
-	폭을 컴파일 시간에 알 수 없는 이차원 배열을 인자로 받는
+\Q{6.19} % 6.19
+	폭(width)을 컴파일 시간에 알 수 없는, 이차원 배열을 인자로 받는
 	함수를 만들 수는 없을까요?
 \A	
 	쉬운 일이 아닙니다. 
@@ -464,19 +789,22 @@
 
 \begin{verbatim}
   void f2(int *aryp, int nrows, int ncolumns)
-  { ...  array[i][j] is accessed as aryp[i * ncolumns + j] ...  }
+  { ...  array[i][j]에 접근하기 위해 aryp[i * ncolumns + j]를 씀 ...  }
 \end{verbatim}
+	\noindent 수동으로 접근하기 위해, 열의 갯수가 (the number of rows)
+	아닌, 각 열의 폭을 (the ``width'' of each row) 뜻하는 \TT{ncolunms}을
+	쓰는 것에 주의하기 바랍니다; 바꿔 쓰는 실수가 흔합니다.
 
-	\noindent 이 함수는 질문 6.18에 나온 배열을 다음과 같이 전달받을 수
+	이 함수는 질문 \ql{6.18}에 나온 배열을 다음과 같이 전달받을 수
 	있습니다:
 \begin{verbatim}
   f2(&array[0][0], NROWS, NCOLUMNS);
 \end{verbatim}
 	
-	예전에 말했든이.  이런 식으로 다차원 배열의 subscript를 직접 하는 것은
+	예전에도 말했지만, 이런 식으로 다차원 배열의 subscript를 직접 하는 것은
 	ANSI C 표준에 정확히 부합하지 않습니다; 공식 설명에 따르면
-	\verb+(&array[0][0])[x]+와 같은 표현은 \verb+x >= NCOLUMNS+일 경우
-	제대로 동작하지 않습니다.
+	\verb+(&array[0][0])[x]+와 같은 표현은 \verb+x >= NCOLUMNS+일 경우,
+	``undefined behavior''에 속합니다.
 
 	\cite{c9x}는 가변 크기 배열을 제공하며, 
 	\cite{c9x} 확장 기능을 제공하는 컴파일러가
@@ -484,13 +812,14 @@
 	(GCC는 이미 가변 크기 배열을 제공합니다.)
 
 	함수가 다양한 크기를 가지는 다차원 배열을 전달받을 수 있게 하는
-	한 방법으로, 질문 6.16에 나오는, 배열을 동적으로 시뮬레이션하는
+	한 방법으로, 질문 \ql{6.16}에 나오는, 배열을 동적으로 시뮬레이션하는
 	방법이 있습니다.
 
-	질문 6.18, 6.20, 6.15를 참고하기 바랍니다.
+	질문 \ql{6.18}, \ql{6.20}, \ql{6.15}를 참고하기 바랍니다.
 \R
-	\cite{iso} \S\ 6.3.6; 
-	\cite{c9x} \S\ 6.5.5.2.
+	\cite{ansi} \S\ 3.3.6 \\
+	\cite{iso} \S\ 6.3.6 \\
+	\cite{c9x} \S\ 6.5.5.2
 \end{faq}
 
 \begin{faq}
@@ -498,6 +827,7 @@
 	 정적 또는 동적으로 할당된 다차원 배열을 함수에 전달할때,
 	서로 구별하지 않고 쓸 수 있는 방법이 있을까요?
 \A	
+	% TODO: 내용에 대해서 꼭 검토할 것!!!!!!!
 	완벽한 방법은 없습니다.  다음 선언이 있다고 할 때:
 \begin{verbatim}
   int array[NROWS][NCOLUMNS];
@@ -505,8 +835,9 @@
   int **array2;                /* contiguous */
   int *array3;                 /* "flattened" */
   int (*array4)[NCOLUMNS];
+  int (*array5)[NROWS][NCOLUMNS]
 \end{verbatim}
-	\noindent 포인터들은 질문 6.16에 나온 것처럼 초기화되어 있다고
+	\noindent 포인터들은 질문 \ql{6.16}에 나온 것처럼 초기화되어 있다고
 	가정하고 함수 선언은 다음과 같다고 가정합니다:
 \begin{verbatim}
   void f1a(int a[][NCOLUMNS], int nrows, int ncolumns);
@@ -517,7 +848,7 @@
 	\noindent 이때, \TT{f1a()}와 \TT{f1b()}는 일반적인 이차원
 	배열을 인자로 받으며, \TT{f2()}는 펼쳐진(flattened) 이차원
 	배열을 인자로 받으며, \TT{f3()}은 `포인터를 가리키는 포인터'를
-	인자로 받습니다 (질문 6.18과 6.19를 참고).  따라서 다음과 같이
+	인자로 받습니다 (질문 \ql{6.18}과 \ql{6.19}를 참고).  따라서 다음과 같이
 	호출할 수 있습니다:
 
 \begin{verbatim}
@@ -525,17 +856,20 @@
   f1b(array, NROWS, NCOLUMNS);
   f1a(array4, nrows, NCOLUMNS);
   f1b(array4, nrows, NCOLUMNS);
+  f1a(*array5, NROWS, NCOLUMNS);
+  f1b(*array5, NROWS, NCOLUMNS);
   f2(&array[0][0], NROWS, NCOLUMNS);
   f2(*array, NROWS, NCOLUMNS);
   f2(*array2, nrows, ncolumns);
   f2(array3, nrows, ncolumns);
   f2(*array4, nrows, NCOLUMNS);
+  f2(**array5, NROWS, NCOLUMNS);
   f3(array1, nrows, ncolumns);
   f3(array2, nrows, ncolumns);
 \end{verbatim}
-	대부분의 컴퓨터에서 다음의 호출들도 동작할 것이나, 헷갈리는
-	캐스트가 필요하고, 동적인 \TT{ncolumns}가 정적인
-	NCOLUMNS와 일치할 경우에만 쓸 수 있습니다:
+	대부분의 컴퓨터에서 다음의 호출들도 동작할 것이나, 복잡한
+	캐스트가 필요하고, 동적인 \TT{ncolumns}가 (대개 변수) 정적인
+	NCOLUMNS와 (대개 매크로 상수) 일치할 경우에만 쓸 수 있습니다:
 
 \begin{verbatim}
   f1a((int (*)[NCOLUMNS])(*array2), nrows, ncolumns);
@@ -544,30 +878,73 @@
   f1b((int (*)[NCOLUMNS])array3, nrows, ncolumns);
 \end{verbatim}
 
-	다시 한번 말하지만 \verb+&array[0][0]+을 (또는 \verb+*array+)
-	\TT{f2()}에 전달하는 것은 표준에 정확히 맞지 않습니다;
-	질문 6.19를 참고하기 바랍니다.
+	동적 또는 정적으로 할당한 배열 모두에 편하게 쓸 수 있는 함수는
+	\TT{f2}입니다. 그러나 ``ragged'' 형태로 만든 배열인 \TT{array1}에는
+	동작하지 않을 수도 있습니다. 그리고 \verb+&array[0][0]+을
+	(또는 \verb+*array+) \TT{f2()}에 전달하는 것은 표준에
+	정확히 맞지 않습니다; 질문 \ql{6.19}를 참고하기 바랍니다.
 
 	만약 위에 나열한 호출이 어떻게 동작하고 어떻게 작성되는지
 	이해한다면, 그리고 왜 다른 조합이 동작하지 않는지 않다면,
 	여러분은 C 언어에서 배열과 포인터에 대해 매우 잘 이해하고 있다고
 	말할 수 있습니다.
 
-	위에서 어떤 것을 쓸 것인지 결정하는데 고민이 된다면, 질문 6.16에
+	위에서 어떤 것을 쓸 것인지 결정하는데 고민이 된다면, 질문 \ql{6.16}에
 	나온 것처럼, 다양한 크기를 가지는 다차원 배열을 모두 동적으로 만드는
-	것이 한 방법이 될 수 있습니다 --- 만약 모든 배열이 질문 6.16의
+	것이 한 방법이 될 수 있습니다 --- 만약 모든 배열이 질문 \ql{6.16}의
 	\verb+array1+, \verb+array2+처럼 만들어 진다면 --- 모든 함수는
 	\TT{f3()}처럼 만들어야 합니다.
 \end{faq}
 
-\begin{faq}
-\Q{6.21}
-	배열이 함수의 파라메터로 전달될 경우 왜 \TT{sizeof} 연산자는
-	제대로 동작하지 않을까요?
+\section{Sizes of Arrays}
+The \TT{sizeof} operator will tell you the size of an array if it can, but
+it's not able to if the size is not known or if the array has already decayed
+to a pointer.
 
-\A	컴파일러는 배열 파라메터를 포인터로 선언된 것으로 간주합니다
-	(질문 6.4를 참고하기 바랍니다).  그래서 \TT{sizeof} 연산자가
+\begin{faq}
+\Q{6.21} % 6.21 COMPLETE
+	배열이 함수의 파라메터로 전달될 경우 왜 \TT{sizeof} 연산자는
+	제대로 동작하지 않을까요? 아래와 같이 테스트 함수를 만들었더니,
+	10이 아닌 4를 출력합니다.
+\begin{verbatim}
+  f(char a[10])
+  {
+    int i = sizeof(a);
+    printf("%d\n", i);
+  }
+\end{verbatim}
+
+\A
+	컴파일러는 배열 파라메터를 포인터로 선언된 것으로 간주합니다
+	(즉, 위 함수에서는 파라메터를 \TT{char *a}로 여깁니다.
+	질문 \ql{6.4} 참고).  그래서 \TT{sizeof} 연산자가
 	배열의 크기가 아닌, 포인터의 크기를 리턴합니다.
+	
+	\seealso{\ql{1.24}, \ql{7.28}}
 \R
-	\cite{hs} \S\ 7.5.2 \page{195}.
+	\cite{hs} \S\ 7.5.2 \page{195}
+\end{faq}
+
+\begin{faq}
+\Q{6.22} % 6.22 COMPLETE
+	한 파일에 배열이 \TT{extern}으로 선언되어 있을 때 (즉, 실제 크기와 함께
+	다른 파일에 정의되어 있음), 배열의 크기를 알 수 있을 까요?
+	\TT{sizeof} 연산자로는 안되는 것 같습니다.
+\A
+	질문 \ql{1.24}를 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{6.23} % 6.23 COMPLETE
+	배열 안에 몇 개의 요소가 있는 지 알고 싶으면 어떻게 하나요? \TT{sizeof}
+	연산자는 배열의 크기를 byte 단위로 돌려주는데요.
+\A
+	전체 배열의 크기를, 한 요소의 크기로 나누면 됩니다.
+\begin{verbatim}
+  int array[] = { 1, 2, 3 };
+  int narray = sizeof(array) / sizeof(array[0]);
+\end{verbatim}
+\R
+	\cite{ansi} \S\ 3.3.3.4 \\
+	\cite{iso} \S\ 6.3.3.4
 \end{faq}

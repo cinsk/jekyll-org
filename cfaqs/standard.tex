@@ -1,6 +1,34 @@
 % $Id$
 \chapter{ANSI/ISO Standard C}	\label{chap:standard}
 % chapter 11: standard
+
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
+The release of the ANSI C Standard (X3.159-1989) in 1990 (now superseded by
+ISO 9899:1990) and its ongoing revisions) marked a major step in C's
+acceptance as a stable language.  The standard clarified many existing
+ambiguities in the language, but it introduced a few new features and
+definitions that are occasionally troublesome.  Misunderstandings also arise
+when an ambiguity was resolved contrary to someone's experience or when people
+with pre-ANSI compilers try to use code written since the standard became
+widely adopted.
+
+Standard C can be referred to in several ways. It was orinally written by
+a committee (X3J11) under the auspices of the American National Standards
+Institute, so it's often called ``ANSI C.''  The ANSI C Standard was adopted
+internationally by the International Organization for Standardization, so it's
+sometimes called ``ISO C.''  ANSI eventually adopted the ISO version
+(superseding the original), so it's now often called ``ANSI/ISO C.''
+Unless you're making a distinction about the wording of the original ANSI
+standard before ISO's modifications, there's no important difference among
+these terms, and it's correct to simply refer to ``the C Standard'' or
+``standard C.'' (When the subject of C is implicit in the discussion, it's
+also common to use the word ``standard'' by itself, often capitalized.)
+
+\section{The Standard}
+% from 11.1
 \begin{faq}
 \Q{11.1}
 	``ANSI C 표준''이란 무엇인가요?
@@ -99,7 +127,7 @@
 \end{verbatim}
 
 	\cite{rationale} 문서는 (완전한 표준은 아님) 익명(anonymous) FTP로
-	\verb+ftp.uu.net+의 (질문 18.16 참고)
+	\verb+ftp.uu.net+의 (질문 \ql{18.16} 참고)
 	\verb+doc/standards/ansi/X3.159-1989+ 디렉토리에서 얻을 수 있습니다.
 	또 \verb+http://www.lysator.liu.se/c/rat/title.html+에서 볼 수도
 	있습니다.  Silicon Press에서 출판되기도 했습니다.  
@@ -108,7 +136,7 @@
 	\cite{iso}/IEC \cite{c9x}의 진행판은 JTC1/SC22/WG14 사이트인
 	\verb+http://www.dkuung.dk/JTC1/SC22/WG14/+에서 얻을 수 있습니다.
 
-	질문 11.2b를 참고하기 바랍니다.
+	질문 \ql{11.2b}를 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -124,6 +152,13 @@
 \end{verbatim}
 \end{faq}
 
+\section{Function Prototypes}
+% from 11.3
+The most significant introduction in ANSI C is the \EM{function prototype}
+(borrowed from C++), which allows a function's argument types to be declared.
+To preserve backward compatibility, nonprototype declarations are still
+acceptable, which makes the rules for prototypes somewhat more complicated.
+
 \begin{faq}
 \Q{11.3}
 	제 ANSI 컴파일러는 다음과 같은 코드를 봤을 때, 함수가 일치하지 않는다고
@@ -138,19 +173,20 @@
 \end{verbatim}
 
 \A
+        \begin{sloppypar}
 	그 이유는 새 (스타일) 프로토타입 선언인
 	``\verb+extern int func(float)+''을 구 (스타일) 정의인
 	``\verb+int func(x) float x;+''와 섞어 썼기 때문에 발생합니다.
-	대개는 이 두 스타일을 섞어 쓰는 것이 가능하지만(질문 11.4 참고)
+	대개는 이 두 스타일을 섞어 쓰는 것이 가능하지만(질문 \ql{11.4} 참고)
 	이 경우에는 안됩니다.
 
 	오래된 C (프로토 타입과 가변 인자 리스트를 제공하지 않는 ANSI C;
-	질문 15.2 참고) 언어에서는 함수에 전달되는 어떤 인자들을
+	질문 \ql{15.2} 참고) 언어에서는 함수에 전달되는 어떤 인자들을
 	``확장(widen)''시킵니다.  즉 \TT{float}은 \TT{double}로,
 	\TT{char}나 \TT{short int}는 \TT{int}로 확장시킵니다.
 	(구 스타일로 정의한 함수에서는, 이렇게 확장되어 전달된 인자가,
 	함수의 몸체 부분에 들어갈 때, 다시 원래의 크기로 변환됩니다)
-
+        \end{sloppypar}
 	이 문제는 함수 정의에서 새 스타일의 문법을 써서 고칠 수 있습니다:
 \begin{verbatim}
   int func(float x) { ...  }
@@ -167,28 +203,28 @@
 	즉, 좁은(narrow, 예를 들어 \TT{char}, \TT{short int}, \TT{float}과
 	같은) 인자나 리턴 타입을 쓰지 않는 것이 훨씬 더 안전합니다.
 
-	질문 1.25를 참고하기 바랍니다.
+	질문 \ql{1.25}를 참고하기 바랍니다.
 
 \R
-	\cite{kr1} \S\ A7.1 \page{186}; 
-	\cite{kr2} \S\ A7.3.2 \page{202};
-	 \cite{iso} \S\ 6.3.2.2, \S\ 6.5.4.3; 
-	\cite{rationale} \S\ 3.3.2.2, \S\ 3.5.4.3; 
-	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3}.
+	\cite{kr1} \S\ A7.1 \page{186} \\
+	\cite{kr2} \S\ A7.3.2 \page{202} \\
+	 \cite{iso} \S\ 6.3.2.2, \S\ 6.5.4.3 \\
+	\cite{rationale} \S\ 3.3.2.2, \S\ 3.5.4.3 \\
+	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3}
 \end{faq}
 
 \begin{faq}
 \Q{11.4}
 	함수 구문에서 오래된 형식과 새 형식을 섞어 쓸 수 있나요?
 \A
-	섞어 쓸 수 있긴 하지만 매우 주의를 필요합니다.  (질문 11.3을 꼭
+	섞어 쓸 수 있긴 하지만 매우 주의를 필요합니다.  (질문 \ql{11.3}을 꼭
 	보시기 바랍니다).  현재에는 prototype 형식이 선언과 정의에 모두
 	사용되고 있습니다.  (오래된 형식은 쓸모 없이 되어가고 있기 때문에,
 	언젠가 공식적으로 제거될 것입니다.)
 
 \R
-	\cite{iso} \S\ 6.7.1, \S\ 6.9.5; 
-	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70}.
+	\cite{iso} \S\ 6.7.1, \S\ 6.9.5 \\
+	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70}
 \end{faq}
 
 \begin{faq}
@@ -217,6 +253,16 @@
 	\cite{iso} \S\ 6.1.2.1, \S\ 6.1.2.6, \S\ 6.5.2.3.
 \end{faq}
 
+
+\section{The \TT{const} Qualifier}
+% from 11.8
+Another introduction from C++ is an additional dimension to the type
+system: type qualifiers.  Type qualifiers can modify pointer types in several
+ways (affecting either the pointer or the object pointed to), so qualified
+pointer declarations can be tricky. (The questions in this section refer to
+\TT{const}, but most of the issues apply to the other qualifiers,
+\TT{volatile}, as well.)
+
 \begin{faq}
 \Q{11.8}
 	배열의 크기를 지정할 때, 다음과 같이 상수 값을 써도 안되는
@@ -233,8 +279,8 @@
 	컴파일할 때 지정할 상수를 원한다면 \verb+#define+으로 (또는
 	\TT{enum}으로) 상수를 정의하기 바랍니다.
 \R
-	\cite{iso} \S\ 6.4; 
-	\cite{hs} \S\ 7.11.2,7.11.3 \Page{226--7}.
+	\cite{iso} \S\ 6.4 \\
+	\cite{hs} \S\ 7.11.2,7.11.3 \Page{226--7}
 \end{faq}
 
 \begin{faq}
@@ -248,12 +294,12 @@
 	`\verb+char * const p+'는 문자에 대한 상수 포인터를 선언한 것입니다
 	(문자를 변경할 수는 있지만 포인터를 변경할 수는 없습니다).
 
-	해설을 잘 음미해보시기 바랍니다; 질문 1.21도 참고하시기 바랍니다.
+	해설을 잘 음미해보시기 바랍니다; 질문 \ql{1.21}도 참고하시기 바랍니다.
 
 \R
-	\cite{iso} \S\ 6.5.4.1; 
-	\cite{rationale} \S\ 3.5.4.1; 
-	\cite{hs} \S\ 4.4.4 \page{81}.
+	\cite{iso} \S\ 6.5.4.1 \\
+	\cite{rationale} \S\ 3.5.4.1 \\
+	\cite{hs} \S\ 4.4.4 \page{81}
 \T
 	즉, `\verb+const char *p+'는 p가 다른 위치를 가리키도록 바꿀 수 있으나,
 	p가 가리키는 대상(\TT{const char})을 바꿀 수 없습니다.
@@ -275,9 +321,17 @@
 	따라서 명백하게 (explicit) 캐스팅을 (이 경우에
 	\verb+const char **+으로) 해 주어야 합니다.  
 
-\R	\cite{iso} \S\ 6.1.2.6, \S\ 6.3.16.1, \S\ 6.5.3; 
-	\cite{hs} \S\ 7.9.1 \Page{221--2}.
+\R	\cite{iso} \S\ 6.1.2.6, \S\ 6.3.16.1, \S\ 6.5.3 \\
+	\cite{hs} \S\ 7.9.1 \Page{221--2}
 \end{faq}
+
+\section{Using \TT{main()}}
+% from 11.12
+Although every C program must by definition supply a function named
+\TT{main}, the declaration of \TT{main} is unique because it has two acceptable
+argument lists, and the rest of the declaration (in particular, the return
+type) is dictated by a factor outside of the program's control, namely, the
+startup code that will actually call \TT{main}.
 
 \begin{faq}
 \Q{11.12a}
@@ -290,13 +344,13 @@
   int main(int argc, char *argv[]);
 \end{verbatim}
 	\noindent (물론 이때 `\TT{argv}'와 `\TT{argc}'라는 이름은
-	얼마든지 바꿀 수 있습니다.) 질문 11.12b부터 11.15까지 참고하기
+	얼마든지 바꿀 수 있습니다.) 질문 \ql{11.12b}부터 \ql{11.15}까지 참고하기
 	바랍니다.
 
 \R
-	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1; 
-	\cite{hs} \S\ 20.1 \page{416}; 
-	\cite{ctp} \S\ 3.10 \Page{50--51}.
+	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1 \\
+	\cite{hs} \S\ 20.1 \page{416} \\
+	\cite{ctp} \S\ 3.10 \Page{50--51}
 \end{faq}
 
 \begin{faq}
@@ -326,9 +380,9 @@
 	of the distinction, you're probably using a hosted
 	implementation, and the above rules apply.)
 
-\R	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1; 
-	\cite{hs} \S\ 20.1 \page{416}; 
-	\cite{ctp} \S\ 3.10 \Page{50--51}.
+\R	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1 \\
+	\cite{hs} \S\ 20.1 \page{416} \\
+	\cite{ctp} \S\ 3.10 \Page{50--51}
 \end{faq}
 
 \begin{faq}
@@ -343,8 +397,8 @@
 	전역 변수 \TT{environ}도 비표준이기는 마찬가지입니다).
 
 \R
-	\cite{iso} \S\ G.5.1; 
-	\cite{hs} \S\ 20.1 \Page{416--7}.
+	\cite{iso} \S\ G.5.1 \\
+	\cite{hs} \S\ 20.1 \Page{416--7}
 \end{faq}
 
 \begin{faq}
@@ -358,7 +412,7 @@
 	아닙니다; 문제는 \TT{main()}을 \TT{void} 타입으로 선언함으로
 	인하여, \TT{main()}을 호출하는 부분이 (런-타임 시작(startup) 코드)
 	\TT{main()}을 제대로 호출하지 못할 수 있다는 것입니다
-	(이는 calling convension 문제입니다; 질문 11.12b를 참고하기
+	(이는 calling convension 문제입니다; 질문 \ql{11.12b}를 참고하기
 	바랍니다).
 
 	Borland C++ 4.5에서 \TT{void main()}을 썼을 때, 프로그램이
@@ -389,7 +443,7 @@
 	C 표준에서는 완전히 같다고 언급하고 있지만, 
 	\TT{main}에 local 데이터가 `cleanup' 과정에서 필요할 경우,
 	 \TT{main}에서 리턴하는 방법은 제대로 동작하지 않을 수 있습니다;
-	질문 16.4를 참고하기 바랍니다.
+	질문 \ql{16.4}를 참고하기 바랍니다.
 	그리고 아주 오래된 (표준을 지원하지 않는) 몇몇 시스템에서는 
 	두 가지 형식 중 하나가 제대로 동작하지 않을 수 있습니다.
 % TODO: 다음 문장 번역
@@ -403,9 +457,15 @@
 	제 개인적인 생각으로, 일반적으로 \TT{main()}을 재귀적으로 
 	호출할 수 없기 때문에, 바로 위의 문장은 별 의미가 없을 것 같습니다.
 
-\R	\cite{kr2} \S\ 7.6 \Page{163--4}; 
-	\cite{iso} \S\ 5.1.2.2.3.
+\R	\cite{kr2} \S\ 7.6 \Page{163--4} \\
+	\cite{iso} \S\ 5.1.2.2.3
 \end{faq}
+
+\section{Preprocessor Features}
+% from 11.17
+ANSI C introduces a few new features into the C preprocessor, including
+the ``stringizing'' and ``token pasting'' operators and the \verb+#pragma+
+directive.
 
 \begin{faq}
 \Q{11.17}
@@ -467,10 +527,10 @@
   #define TRACE(var, fmt) \
     printf("TRACE: " #var " = " #fmt "\n", var)
 \end{verbatim}
-	질문 11.17을 참고하기 바랍니다.
+	질문 \ql{11.17}을 참고하기 바랍니다.
 
 \R
-	\cite{hs} \S\ 3.3.8 \page{51}.
+	\cite{hs} \S\ 3.3.8 \page{51}
 \end{faq}
 
 \begin{faq}
@@ -496,8 +556,8 @@
 	\verb+#ifdef+를 써서 빼라고 지정을 했더라도 공식적(offical)인
 	주석(comment)인 \verb+/* ...  */+을 써야 합니다.
 \R
-	\cite{iso} \S\ 5.1.1.2, \S\ 6.1; 
-	\cite{hs} \S\ 3.2 \page{40}.
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.1 \\
+	\cite{hs} \S\ 3.2 \page{40}
 \end{faq}
 
 \begin{faq}
@@ -509,7 +569,7 @@
 	소스 리스팅 제어, 구조체 압축(packing), 경고 출력 수준 등이 
 	포함됩니다.
 \R
-	\cite{iso} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}.
+	\cite{iso} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}
 \end{faq}
 
 \begin{faq}
@@ -517,9 +577,12 @@
 	``\verb+#pragma once+''가 의미하는 것이 모죠?
 \A
 	이는 어떤 전처리기들이 제공하는 기능으로 헤더 파일이 단 한번씩만
-	포함되도록 하는, 질문 10.7에 소개된 \verb+#ifndef+ 트릭과 같은 역할을
+	포함되도록 하는, 질문 \ql{10.7}에 소개된 \verb+#ifndef+ 트릭과 같은 역할을
 	합니다.  단 이식성이 떨어집니다.
 \end{faq}
+
+\section{Other ANSI C Issues}
+% from 11.22
 
 \begin{faq}
 \Q{11.22}
@@ -538,8 +601,8 @@
 	크기를 알아서 지정하도록 (즉 위의 경우에서, 크기를 지정하지 않으면,
 	배열의 크기는 4가 됨) 하는 것이 일반적입니다.
 \R
-	\cite{iso} \S\ 6.5.7; 
-	\cite{hs} \S\ 4.6.4 \page{98}.
+	\cite{iso} \S\ 6.5.7 \\
+	\cite{hs} \S\ 4.6.4 \page{98}
 \end{faq}
 
 \begin{faq}
@@ -549,10 +612,10 @@
 \A
 	포인터가 가리키는 오브젝트의 크기를 알 수 없기 때입니다.  따라서
 	연산을 하기 전에 포인터를 \verb+char *+나 처리하고자 하는 포인터
-	타입으로 변환해야 합니다 (질문 4.5를 꼭 참고하기 바랍니다).
+	타입으로 변환해야 합니다 (질문 \ql{4.5}를 꼭 참고하기 바랍니다).
 
 \R
-	\cite{iso} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}.
+	\cite{iso} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}
 \end{faq}
 
 \begin{faq}
@@ -566,11 +629,11 @@
 	의심이 간다면 \TT{memmove()}를 쓰는 것이 더 안전합니다.
 
 \R
-	\cite{kr2} \S\ B3 \page{250}; 
-	\cite{iso} \S\ 7.11.2.1, \S\ 7.11.2.2; 
-	\cite{rationale} \S\ 4.11.2; 
-	\cite{hs} \S\ 14.3 \Page{341--2};
-	\cite{pcs} \S\ 11 \Page{165--6}.
+	\cite{kr2} \S\ B3 \page{250} \\
+	\cite{iso} \S\ 7.11.2.1, \S\ 7.11.2.2 \\
+	\cite{rationale} \S\ 4.11.2 \\
+	\cite{hs} \S\ 14.3 \Page{341--2} \\
+	\cite{pcs} \S\ 11 \Page{165--6}
 \end{faq}
 
 \begin{faq}
@@ -580,11 +643,11 @@
 \A
 	ANSI/\cite{iso} 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
 	구현 방법에 의존적\footnote{implementation-defined}입니다.
-	(질문 11.33을 참고하기 바랍니다.
+	(질문 \ql{11.33}을 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 7.10.3; 
-	\cite{pcs} \S\ 16.1 \page{386}.
+	\cite{iso} \S\ 7.10.3 \\
+	\cite{pcs} \S\ 16.1 \page{386}
 \end{faq}
 
 \begin{faq}
@@ -603,11 +666,19 @@
 	즉, ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로 취급될 수
 	있다는 말입니다.
 \R
-	\cite{iso} \S\ 6.1.2, \S\ 6.9.1; 
-	\cite{rationale} \S\ 3.1.2;
-	\cite{c9x} \S\ 6.1.2; 
-	\cite{hs} \S\ 2.5 \Page{22--3}.
+	\cite{iso} \S\ 6.1.2, \S\ 6.9.1 \\
+	\cite{rationale} \S\ 3.1.2 \\
+	\cite{c9x} \S\ 6.1.2 \\
+	\cite{hs} \S\ 2.5 \Page{22--3}
 \end{faq}
+
+\section{Old or Nonstandard Compilers}
+% from 11.29
+Although ANSI C largely standardized existing practice, it introduced sufficient
+new functionality that ANSI code is not necessarily acceptable to older
+compilers.  Furthermore, any compiler may provide nonstandard extensions or
+may accept (and therefore seem to condone) code that the standard says is
+suspect.
 
 \begin{faq}
 \Q{11.29}
@@ -618,7 +689,7 @@
 	아마도 ANSI 이전의 컴파일러인 것 갈습니다.  그러한 컴파일러들은
 	함수 원형(prototype)과 같은 것을 처리하지 못합니다.
 
-	질문 1.31, 10.9, 11.30, 16.1b를 참고하기 바랍니다.
+	질문 \ql{1.31}, \ql{10.9}, \ql{11.30}, \ql{16.1b}를 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -629,7 +700,7 @@
 	컴파일러가 ANSI의 구문을 썼다고 하더라도, ANSI 호환의 헤더 파일이나,
 	런-타임 라이브러리를 갖지 않을 수 있습니다.  (사실
 	gcc와 같이, 시스템 밴더(vendor)가 제공하지 않는 컴파일러에서는
-	종종 있는 일입니다.) 질문 11.29, 13.25, 13.26을 참고하기 바랍니다.
+	종종 있는 일입니다.) 질문 \ql{11.29}, \ql{13.25}, \ql{13.26}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -642,7 +713,7 @@
 	(이 프로그램이 구 스타일의 C와 ANSI C와의 100\% 완전한
 	변환을 보장하지는 않습니다.) 이 프로그램들은
 	FSF의 GNU C compiler 배포판에 포함되어 있습니다; 질문
-	18.3을 참고하기 바랍니다.
+	\ql{18.3}을 참고하기 바랍니다.
 
 	`unproto' 프로그램은 (\TT{ftp.win.tue.nl}의
 	\verb+/pub/unix/unproto5.shar.Z+) 전처리기와 컴파일러 사이에서
@@ -656,15 +727,15 @@
 	자동으로 안전하게 변환되는 것은 아닙니다.  ANSI C에서는
 	K\&R C에는 없는 새로운 기능과 복잡성을 내포하고 있으므로,
 	프로토타입이 있는 함수를 호출할 때에 주의해야 합니다; 아마도
-	캐스팅이 필요할 지도 모릅니다.  질문 11.3과 11.29를 참고하기 바랍니다.
+	캐스팅이 필요할 지도 모릅니다.  질문 \ql{11.3}과 \ql{11.29}를 참고하기 바랍니다.
 
 	변형된 `lint' 같은 프로그램은 프로토타입을 만들어 내주기도 합니다.
 	1992년 3월에 \TT{comp.sources.misc}에 게시된 CPROTO 프로그램도
 	이런 기능을 합니다.  또 ``cextract''라는 프로그램도 있습니다.
 	또 이러한 프로그램들이 컴파일러와 함께 제공되기도 합니다.
-	질문 18.16을 참고하기 바랍니다.  (그러나 작은 (narrow) 인자를
+	질문 \ql{18.16}을 참고하기 바랍니다.  (그러나 작은 (narrow) 인자를
 	갖는 구 스타일 함수를 프로토타입 스타일로 변경할 때, 주의해야
-	합니다; 질문 11.3을 참고하기 바랍니다.)
+	합니다; 질문 \ql{11.3}을 참고하기 바랍니다.)
 \end{faq}
 
 \begin{faq}
@@ -679,9 +750,19 @@
 	것 같습니다.  특히, 어떤 컴파일러를 가지고 한 언어의 성질을
 	검사한다는 것은 매우 위험합니다; 어떤 표준은 구현 방법에 따라
 	여러 가지 방법을 선택할 수 있도록 하고 있을 수 있으며,
-	컴파일러가 잘못된 경우도 많기 때문입니다.  질문 11.35를 참고하기
+	컴파일러가 잘못된 경우도 많기 때문입니다.  질문 \ql{11.35}를 참고하기
 	바랍니다.
 \end{faq}
+
+\section{Compliance}
+% from 11.33
+Obviously, the whole point of having a standard is so that programs and
+compilers can be compatible with it (and therefore with each other).
+Compatibility is not a simple black-or-white issue, however: There are
+degrees of compliance, and the scope of the standard's definitions is not
+always as comprehensive as might be expected.  In keeping with the
+``spirit of C,'' several issues ar enot precisely specified; portable programs
+must simple avoid depending on these issues.
 
 \begin{faq}
 \Q{11.33}
@@ -709,16 +790,16 @@
 	컴파일러는 어떤! 일이라도 할 수 있습니다.  특히, 프로그램의
 	나머지 부분이 정상적으로 동작한다는 보장이 없습니다.
 	따라서 이런 부분이 여러분의 프로그램에 포함된다면 매우 위험합니다;
-	질문 3.2에서 간단한 예를 볼 수 있습니다.
+	질문 \ql{3.2}에서 간단한 예를 볼 수 있습니다.
 
 	이식성이 뛰어난 프로그램을 만들고자 한다면, 이러한 것을 다 무시하고,
 	위 세가지에 의존하는 어떠한 것도 만들어서는 안될 것입니다.
 
-	질문 3.9와 11.34를 참고하기 바랍니다.
+	질문 \ql{3.9}와 \ql{11.34}를 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 3.10, \S\ 3.16, \S\ 3.17; 
-	\cite{rationale} \S\ 1.6.
+	\cite{iso} \S\ 3.10, \S\ 3.16, \S\ 3.17 \\
+	\cite{rationale} \S\ 1.6
 \end{faq}
 
 \begin{faq}
@@ -741,9 +822,9 @@
 	따라서 어느 한 쪽이 이런 규약을 어긴다면, 어떤 일이 발생할 지
 	아무도 보장할 수 없습니다.
 
-	\seealso{11.35}
+	\seealso{\ql{11.35}}
 \R
-	\cite{rationale} \S\ 1.1.
+	\cite{rationale} \S\ 1.1
 \end{faq}
 
 \begin{faq}
@@ -754,6 +835,6 @@
 \A
 	컴파일러는 행동 방식이 정의되어 있지 않는(undefined behavior) 코드에
 	대해서는 여러분이 예상한 방식을 포함한, 어떠한 일도 할 수 있습니다.
-	이런 것에 의존하는 것은 매우 나쁩니다.  질문 11.32와 11.33, 11.34를
+	이런 것에 의존하는 것은 매우 나쁩니다.  질문 \ql{11.32}와 \ql{11.33}, \ql{11.34}를
 	참고하기 바랍니다.
 \end{faq}

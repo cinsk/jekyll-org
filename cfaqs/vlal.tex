@@ -1,6 +1,11 @@
 % $Id$
 \chapter{Variable-Length Argument Lists}	\label{chap:vlal}
 % chapter 15: vlal
+
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 널리 알려지지는 않았지만, C 언어는 함수가 가변 인자를 (즉 인자의 갯수가 
 정해지지 않은) 받을 수 있는 기능을 제공합니다.
 Variable-length argument list(가변 인자 리스트)는, 드물기는 하지만,
@@ -26,6 +31,7 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 % initialized to point to (the beginning of the argument list) by calling 
 % va_start
 
+\section{Calling Varargs Functions}
 
 \begin{faq}
 \Q{15.1}
@@ -37,6 +43,7 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 
 	어떤 컴파일러에서는 가변 인자 리스트를 쓰는 함수에는 일반 방식과는
 	다른 호출 순서(calling sequence)를 사용합니다.
+% TODO: 다음 문장 번역.
 	(It might do so if calls using variable-length argument lists were
 	less efficient than those using fixed-length.)
 	그러므로 함수의 프로토타입이 (즉 ``\verb+...+''를 포함한 선언)
@@ -44,9 +51,10 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	사용할 수 있습니다.
 
 \R
-	\cite{iso} \S\ 6.3.2.2, \S\ 7.1.7; 
-	\cite{rationale} \S\ 3.3.2.2, \S\ 4.1.6; 
-	\cite{hs} \S\ 9.2.4 \Page{268--9}, \S\ 9.6 \Page{275--6}.
+	\cite{ansi} \S\ 3.3.2.2, \S\ 4.1.6 \\
+	\cite{iso} \S\ 6.3.2.2, \S\ 7.1.7 \\
+	\cite{rationale} \S\ 3.3.2.2, \S\ 4.1.6 \\
+	\cite{hs} \S\ 9.2.4 \Page{268--9}, \S\ 9.6 \Page{275--6}
 \end{faq}
 
 \begin{faq}
@@ -55,17 +63,18 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	쓰일 수 있는 이유는 무엇인가요?
 \A
 	가변 인자 리스트에서 가변 인자 부분에는 ``default argument promotion''
-	이 적용됩니다: \TT{char}와 \TT{short int} 타입은 \TT{int}로
+	이 적용됩니다: 즉, \TT{char}와 \TT{short int} 타입은 \TT{int}로
 	변경되며(promotion), \TT{float} 타입은 \TT{double} 타입으로
 	변경됩니다.  (이 것은 함수의 프로토타입이 없거나 구 방식(old style)으로
 	선언된 함수에서 일어나는 `promotion'과 같은 것입니다; 질문
-	11.3을 참고하기 바랍니다.) 그러므로
+	\ql{11.3}을 참고하기 바랍니다.) 그러므로
 	\TT{printf}의 \verb+%f+ 포맷은 항상 \TT{double} 타입만 받아들이는 셈이
 	됩니다.	(비슷한 이유에서 \verb+%c+, \verb+%hd+ 포맷은 항상 \TT{int}만을
-	받아 들이게 됩니다.) \seealso{12.9, 12.13}
+	받아 들이게 됩니다.) \seealso{\ql{12.9}, \ql{12.13}}
 \R
-	\cite{iso} \S\ 6.3.2.2; 
-	\cite{hs} \S\ 6.3.5 \page{177}, \S\ 9.4 \Page{272--3}.
+	\cite{ansi} \S\ 3.3.2.2 \\
+	\cite{iso} \S\ 6.3.2.2 \\
+	\cite{hs} \S\ 6.3.5 \page{177}, \S\ 9.4 \Page{272--3}
 \end{faq}
 
 \begin{faq}
@@ -77,14 +86,29 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	\noindent 그렇지만 ANSI 함수 프로토타입을 제공했으니, 자동으로
 	형 변환이 적용될 거라고 생각합니다.  무엇이 잘못되었나요?
 \A
-	함수가 가변인자를 받는다면, 프로토타입이 있더라도 가변 인자에 대해서는
-	어떠한 정보를 알 수 없습니다.  그러므로 가변 인자로 들어간 인자가
-	예상하는 타입과 다를 때에는 반드시 캐스팅을 해 주어야 합니다:
-	일반적으로 컴파일러는 가변인자에 대해서는 형변환, 또는 이에 대한 경고도
-	해 주지 않습니다.
+	함수가 가변인자를 받는다면, 프로토타입이 있더라도, 가변 인자에 대해서는
+	어떠한 정보도 알지 못하며, 또한 알 수도 없습니다. 따라서, 일반적으로,
+        가변 인자 리스트에서 가변 인자에 해당하는 부분은 그러한
+        보호를 (type conversion) 받지 못합니다.
+	컴파일러는 가변인자에 대해서는 implicit type conversion을
+        수행하지 않으며, type이 서로 맞지 않는 경우 경고 해 줄 수 있습니다.
+        따라서 프로그래머는 가변 인자로 들어간 인자가
+	예상하는 타입과 같은지 확인해야 하며, 다를 경우에는 반드시
+        캐스팅을 (explicit cast) 해 주어야 합니다:
 
-	\seealso{5.2, 11.3, 12.9, 15.2}
+	어떤 컴파일러들과 (gcc 포함), 어떤 \TT{lint} 프로그램은,
+        format string이 문자열 상수(string literal)인 경우에 한해서,
+        \TT{printf}와 같은 함수들에 전달된 가변 인자가 정말로 올바른 타입으로
+        전달되었는지 검사해 주기도 합니다.
+
+	\seealso{\ql{5.2}, \ql{11.3}, \ql{12.9}, \ql{15.2}}
+\T
+	\TT{gcc}의 경우, function attribute란 것으로 \TT{printf} 또는
+        \TT{scanf}와 같은 함수의 가변 인자 부분을 검사해 줄 수 있습니다.
+        자세한 것은 \TT{gcc} 매뉴얼을 참고 바랍니다.
 \end{faq}
+
+\section{Implementing Varargs Functions}
 
 \begin{faq}
 \Q{15.4}
@@ -136,25 +160,102 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
     return retbuf;
   }
 \end{verbatim}
+	\noindent (인자 리스트를 처음부터 다시 검색할 때에는 위에서처럼 
+        \verb+va_start+를 다시 불러 주어야 합니다. 또한 \verb+va_end+가
+        실제로 하는 일이 없을 수는 있지만, 이식성을 위해서 반드시 불러주어야 합니다.)
+
 
 \noindent 사용법은 다음과 같습니다:
 \begin{verbatim}
   char *str = vstrcat("Hello, ", "world!", (char *)NULL);
 \end{verbatim}
-
-	마지막 인자를 캐스팅한 것을 꼭 주의깊게 보시기 바랍니다;
-	질문 5.2, 15.3을 참고하기 바랍니다.  (또한 이 함수를 부른 함수는
+	\noindent 마지막 인자를 캐스팅한 것을 꼭 주의깊게 보시기 바랍니다;
+	질문 \ql{5.2}, \ql{15.3}을 참고하기 바랍니다.  (또한 이 함수를 부른 함수는
 	이 함수가 리턴한 문자열을 \TT{free}시켜 주어야 할 책임이 있습니다.)
 
-	\seealso{15.7}
+        위의 예는 모든 가변 인자의 타입이 \TT{char *}입니다. 이제, 가변 인자의 갯수와
+        타입이 정해지지 않는 함수를 만들어 보겠습니다; 이 함수는 아주 간단한 기능만
+        지원하는 \TT{printf}입니다. 특히 \verb+va_arg()+에서 원하는 타입을 미리
+        지정한 부분에 대해 주의깊게 보시기 바랍니다.
+
+        (아래 \TT{miniprintf} 함수는 질문 \ql{20.10}에서 쓴 \TT{baseconv}를
+        씁니다. 또한 이 것은 \verb+INT_MIN+과 같은, 가장 작은 정수 값을 올바르게
+        출력하기에 적당하지 않습니다.)
+
+\begin{verbatim}
+  #include <stdio.h>
+  #include <stdarg.h>
+
+  extern char *baseconv(unsigned int, int);
+
+  void
+  miniprintf(char *fmt, ...)
+  {
+    char *p;
+    int i;
+    unsigned u;
+    char *s;
+    va_list argp;
+
+    va_start(argp, fmt);
+
+    for (p = fmt; *p != '\0'; p++) {
+      if (*p != '%') {
+        putchar(*p);
+        continue;
+      }
+
+      switch (*++p) {
+      case 'c':
+        i = va_arg(argp, int);
+        /* not va_arg(argp, char); 질문 15.10 참고 */
+
+      case 'd':
+        i = va_arg(argp, int);
+        if (i < 0) {
+          /* XXX won't handle INT_MIN */
+          i = -i;
+          putchar('-');
+        }
+        fputs(baseconv(i, 10), stdout);
+        break;
+ 
+      case 'o':
+        u = va_arg(argp, unsigned int);
+        fputs(baseconv(u, 8), stdout);
+        break;
+
+      case 's': 
+        s = va_arg(argp, char *);
+        fputs(s, stdout);
+        break;
+
+      case 'u':
+        s = va_arg(argp, unsigned int);
+        fputs(baseconv(u, 10), stdout);
+
+      case 'x':
+        u = va_arg(argp, unsigned int);
+        fputs(baseconv(u, 16), sttout);
+
+      case '%':
+        putchar('%');
+        break;
+      }      
+    va_end(argp);
+    }
+  }
+\end{verbatim}
+	\noindent \seealso{\ql{15.7}}
 
 \R
-	\cite{kr2} \S\ 7.3 \page{155}, \S\ B7 \page{254}; 
-	\cite{iso} \S\ 7.8;
-	\cite{rationale} \S\ 4.8; 
-	\cite{hs} \S\ 11.4 \Page{296--9}; 
-	\cite{ctp} \S\ A.3 \Page{139--141}; 
-	\cite{pcs} \S\ 11 \Page{184--5}, \S\ 13 \page{242}.
+	\cite{kr2} \S\ 7.3 \page{155}, \S\ B7 \page{254} \\
+        \cite{ansi} \S\ 4.8 \\
+	\cite{iso} \S\ 7.8 \\
+	\cite{rationale} \S\ 4.8 \\
+	\cite{hs} \S\ 11.4 \Page{296--9} \\
+	\cite{ctp} \S\ A.3 \Page{139--141} \\ 
+	\cite{pcs} \S\ 11 \Page{184--5}, \S\ 13 \page{242}
 \end{faq}
 
 \begin{faq}
@@ -163,7 +264,11 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	만들어 그 처리를 \TT{printf()}에게 맏기고 싶습니다.
 \A
 	\TT{vprintf()}, \TT{vfprintf()}, \TT{vsprintf()} 함수를 쓰면
-	됩니다.  아래의 \TT{error()} 함수는 에러 메시지를 받아들여
+	됩니다. 이 함수들은, 각각 \TT{printf()}, \TT{fprintf()}, \TT{sprintf()}과
+        같은 일을 하며, 단지 마지막 인자가 가변 인자인 대신 \verb+va_list+ 타입에
+        대한 포인터를 받습니다.
+        
+        예를 들어, 아래의 \TT{error()} 함수는 에러 메시지를 받아들여
 	그 메시지 앞에 ``error: ''를 덧붙이고 newline을 붙여서 출력해주는
 	함수입니다:
 \begin{verbatim}
@@ -180,13 +285,13 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
     fprintf(stderr, "\n");
   }
 \end{verbatim}
-	\noindent \seealso{15.7}
+	\noindent \seealso{\ql{15.7}}
 
 \R
-	\cite{kr2} \S\ 8.3 \page{174}, \S\ B1.2 \page{245}; 
-	\cite{iso} \S\ 7.9.6.7, 7.9.6.8, 7.9.6.9; 
-	\cite{hs} \S\ 15.12 \Page{379--80}; 
-	\cite{pcs} \S\ 11 \Page{186--7}.
+	\cite{kr2} \S\ 8.3 \page{174}, \S\ B1.2 \page{245} \\
+	\cite{iso} \S\ 7.9.6.7, 7.9.6.8, 7.9.6.9 \\
+	\cite{hs} \S\ 15.12 \Page{379--80} \\
+	\cite{pcs} \S\ 11 \Page{186--7}
 \end{faq}
 
 \begin{faq}
@@ -197,7 +302,14 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	지원할 것입니다.  (물론 당장 하기 위해서는 여러분 스스로가
 	그러한 함수를 만들어야 합니다.)
 \R
-	\cite{c9x} \S\ 7.3.6.12--14.
+	\cite{c9x} \S\ 7.3.6.12--14
+\T
+	C99 표준은 \TT{vscanf()}, \TT{vfscanf()}, \TT{vsscanf()}를
+        지원합니다. 따라서 질문 \ql{15.5}와 같은 방법으로 만들면 됩니다.
+\R
+	\cite{hs5} \S\ 15.12 \page{401}
+        \cite{c99} \S\ 7.19.1, \S\ 7.19.6.9, \S\ 7.19.6.11, \S\ 7.19.6.14
+% TODO: reference 추가.
 \end{faq}
 
 \begin{faq}
@@ -206,14 +318,82 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	어떻게 하죠?
 \A
 	\verb+<stdarg.h>+에 해당하는 오래된 헤더파일인 \verb+<varargs.h>+를
-	쓰면 됩니다.
+	쓰면 됩니다. 예를 들어, 질문 \ql{15.4}에서 만든 \TT{vstrcat}을,
+        \verb+<varargs.h>+를 쓰도록 고치면 다음과 같습니다:
+\begin{verbatim}
+  #include <stdio.h>
+  #include <varargs.h>
+  #include <string.h>
 
+  extern char *malloc();
+
+  char *vstrcat(va_alist)
+  va_dcl                       /* no semicolon */
+  {
+    int len = 0;
+    char *retbuf;
+    va_list argp;
+    char *p;
+
+    va_start(argp);
+
+    while ((p = va_arg(argp, char *)) != NULL)
+      len += strlen(p);
+
+    va_end(argp);
+
+    retbuf = malloc(len + 1);  /* +1 for trailing '\0' */
+ 
+    if (retbuf == NULL)
+      return NULL;             /* error */
+
+    retbuf[0] = '\0';
+
+    va_start(argp);            /* restart for second scan */
+
+    while ((p = va_arg(argp, char *)) != NULL)
+      strcat(retbuf, p);
+
+    va_end(argp);
+
+    return retbuf;
+  }
+\end{verbatim}
+	\noindent (\verb+va_dcl+뒤에 세미콜론(`;')이 없는 것에 주의하기 바랍니다.
+	그리고, 이 경우, 첫번째 인자에 대한 특별한 처리가 필요없습니다.) 또,
+        \verb+<string.h>+을 포함시키는 대신, 직접 문자열 처리 관련 함수들을
+        선언해 주어야 할 지도 모릅니다.
+
+        만약, 시스템이 \TT{vfprintf}를 제공하며, \verb+<stdarg.h>+를 제공하지
+        않을 경우, 아래에 (질문 \ql{15.5}에서 쓴) \verb+<varargs.h>+를 쓴
+        \TT{error} 함수를 보입니다:
+\begin{verbatim}
+  #include <stdio.h>
+  #include <varargs.h>
+
+  void error(va_alist)
+  va_dcl                  /* no semicolon */
+  {
+    char *fmt;
+    va_list argp;
+    fprintf(stderr, "error: ");
+    va_start(argp);
+    fmt = va_arg(argp, char *);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+    fprintf(stderr, "\n");
+  }
+\end{verbatim}
+	\noindent (\verb+<stdarg.h>+에서와는 달리, \verb+<varargs.h>+에서는
+        모든 인자가 가변인자입니다. 따라서 \TT{fmt} 인자도, \verb+va_arg+를 써서
+        얻어야 합니다.)
 \R
-	\cite{hs} \S\ 11.4 \Page{296--9}; 
-	\cite{ctp} \S\ A.2 \Page{134--139};
-	\cite{pcs} \S\ 11 \Page{184--5}, \S\ 13 \page{250}.
+	\cite{hs} \S\ 11.4 \Page{296--9} \\
+	\cite{ctp} \S\ A.2 \Page{134--139} \\
+	\cite{pcs} \S\ 11 \Page{184--5}, \S\ 13 \page{250}
 \end{faq}
 
+\section{Extracting Variable-Length Arguments}
 \begin{faq}
 \Q{15.8}
 	함수에 몇 개의 인자가 전달되었는지를 정확히 알 수 있는 방법이
@@ -221,24 +401,25 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 \A
 	호환성있는 방법은 존재하지 않습니다.  어떤 오래된 시스템에서는
 	비표준 함수인 \TT{nargs()}를 제공하기도 합니다.  그러나
-	이 함수는 인자의 갯수를 리턴하는 게 아니라 전달된 워드 갯수를
-	리턴한다는 것입니다.  (구조체나 \TT{long int}, 실수는 여러 개의
-	워드로 이루어져 있는 경우가 대부분입니다.)
+	이 함수는 인자의 갯수를 리턴하는 게 아니라 전달된 word 갯수를
+	리턴합니다. (구조체나 \TT{long int}, 실수는 여러 개의
+	word로 이루어져 있는 경우가 대부분입니다.)
 
 	가변 인자를 받아 처리하는 함수는 그 자체만으로 인자의 갯수를
 	파악할 수 있어야 합니다.  \TT{printf} 계열의 함수들은 포맷 문자열에서
 	(\TT{\%d}와 같은) 포맷 specifier를 보고 그 갯수를 파악합니다.
 	(그렇기 때문에 \TT{printf()}에 전달된 인자의 갯수가 포맷 문자열과
 	맞지 않을 경우에 오류를 일으킵니다.)
-	일반적으로 가변 인자가 모두 같은 타입을 받을 경우, 마지막 인자를
+	또 다른 방법으로, 가변 인자가 모두 같은 타입일 경우, 마지막 인자를
 	(0, -1, 또는 적절한 널 포인터와 같은) 어떤 특정한 값으로
-	설정해서 인자의 갯수를 파악합니다 (질문 5.2, 15.4에서
+	설정해서 인자의 갯수를 파악합니다 (질문 \ql{5.2}, \ql{15.4}에서
 	\TT{execl()}과 \TT{vstrcat()} 함수의 사용법을 참고하시기 바랍니다).
-	마지막으로 인자의 갯수를 미리 파악할 수 있다면, 전체 인자의 갯수를
-	가변 인자로 전달하는 것도 좋은 방법입니다.  (although it's usually a
+	마지막으로, 인자의 갯수를 미리 파악할 수 있다면, 전체 인자의 갯수를
+	인자로 전달하는 것도 좋은 방법입니다.  (although it's usually a
 	nuisance for the caller to supply).
+% TODO: 위 마지막 문장 번역.
 \R
-	\cite{pcs} \S\ 11 \Page{167--8}.
+	\cite{pcs} \S\ 11 \Page{167--8}
 \end{faq}
 
 \begin{faq}
@@ -251,19 +432,18 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 \end{verbatim}
 \A
 	표준 C에서는 \verb+va_start()+를 쓰려면 적어도 하나의 고정된 인자가
-	있어야 한다고 말하고 있습니다.  \seealso{15.10}
+	있어야 한다고 말하고 있습니다. (어쨌든, 가변 인자의 갯수 또는 타입을 알려면,
+        하나 이상의 인자가 필요합니다.) \seealso{\ql{15.10}}
 \R
-	\cite{iso} \S\ 6.5.4, \S\ 6.5.4.3, \S\ 7.8.1.1; 
-	\cite{hs} \S\ 9.2 \page{263}.
+	\cite{ansi} \S\ 3.5.4, \S\ 3.5.4.3, \S\ 4.8.1.1 \\
+	\cite{iso} \S\ 6.5.4, \S\ 6.5.4.3, \S\ 7.8.1.1 \\
+	\cite{hs} \S\ 9.2 \page{263}
 \end{faq}
 
 \begin{faq}
 \Q{15.10}
 	가변 인자를 처리하는 함수에서 \TT{float} 인자를 처리하지 못합니다.
-	다음 코드가 왜 동작하지 않을까요?
-\begin{verbatim}
-  va_arg(argp, float)
-\end{verbatim}
+	왜 \verb+va_arg(argp, float)+을 쓰면 동작하지 않을까요?
 
 \A
 	가변 인자 리스트에서 가변 인자 부분은 항상 ``default argument
@@ -273,41 +453,178 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	잘못된 코드입니다.  대신 \verb+va_arg(argp, double)+을 써야 합니다.
 	비슷한 이유로 \TT{char}, \TT{short}, \TT{int}를 받기 위해서는
 	\verb+va_arg(argp, int)+를 써야 합니다.
-
-	% TODO: 아래 문장 번역
-	(For analogous reasons, the last "fixed" argument, as handed to
-	\verb+va_start()+, should not be widenable, either.)  
-	\seealso{11.3, 15.2}
+	% TODO: 아래 문장 번역 -- 필요 없을 것 같다는 생각..
+	% (For analogous reasons, the last "fixed" argument, as handed to
+	% \verb+va_start()+, should not be widenable, either.)  
+	\seealso{\ql{11.3}, \ql{15.2}}
 \R
-	\cite{iso} \S\ 6.3.2.2; 
-	\cite{rationale} \S\ 4.8.1.2; 
-	\cite{hs} \S\ 11.4 \page{297}.
+	\cite{iso} \S\ 6.3.2.2 \\
+	\cite{rationale} \S\ 4.8.1.2 \\
+	\cite{hs} \S\ 11.4 \page{297}
 \end{faq}
 
 \begin{faq}
 \Q{15.11}
-	함수 포인터를 \verb+va_arg()+로 뽑아 낼 수 없나요?
+	함수 포인터를 \verb+va_arg()+로 얻을려고 하는데, 잘 안됩니다.
 \A
+	\TT{typedef}를 써서 함수 포인터를 새 타입으로 만들고 해 보기 바랍니다.
+
 	\verb+va_arg()+와 같은 매크로는 함수 포인터와 같은 복잡한 타입을
-	사용할 때, 곤란을 겪기도 합니다 (be stymied).
-	함수 포인터를 다른 이름으로 \TT{typedef}했다면 문제가 해결될 것입니다.
-	\seealso{1.12}
+	사용할 때, 곤란을 겪기도 합니다 (be stymied). 이 문제를 이해하기 위해,
+        아래에 간단한 \verb+va_arg()+ 구현 예를 보입니다:
+\begin{verbatim}
+  #define va_arg(argp, type) \
+    (*(type *)(((argp) += sizeof(type)) - sizeof(type)))
+\end{verbatim}
+	\noindent 위에서, \TT{argp}는 (즉, \verb+va_list+ 타입) 
+        \TT{char *}입니다. 이 때, 만약 다음과 같이 불렀다면:
+\begin{verbatim}
+  va_arg(argp, int (*)())
+\end{verbatim}
+	\noindent \verb+va_arg+는 다음과 같이 확장됩니다:
+\begin{verbatim}
+  (*(int (*)() *)(((argp) += sizeof(int (*)())) -
+      sizeof(int (*)())))
+\end{verbatim}
+	\noindent 위 결과를 자세히 보면 알겠지만, syntax error입니다. (첫번째
+        \TT{(int (*)() *)}로 캐스트하는 것은 의미가 없습니다.)\footnote{이 확장이
+          올바르려면 다음과 같아야 합니다:\\
+        \TT{(*(int (**)())(((argp) += sizeof(int (*)())) - sizeof(int (*)())))}}
+          
+	만약, 함수 포인터를 다른 이름으로 \TT{typedef}했다면 모든 문제가 해결됩니다.
+        주어진 함수 포인터를 다음과 같이 \TT{typedef}를 만들었다면:
+\begin{verbatim}
+  typedef int (*funcptr)();
+\end{verbatim}
+	\noindent 그리고 아래와 같이 불렀다면:
+\begin{verbatim}
+  va_arg(argp, funcptr)
+\end{verbatim}
+	\noindent 다음과 같이 확장됩니다:
+\begin{verbatim}
+  (*(funcptr *)(((argp) += sizeof(funcptr)) -
+      sizeof(funcptr)))
+\end{verbatim}
+	\noindent 이 경우, 정상적으로 동작합니다.
+
+	\seealso{\ql{1.13}, \ql{1.17} \ql{1.21}}
 \R
-	\cite{iso} \S\ 7.8.1.2; 
-	\cite{rationale} \S\ 4.8.1.2.
+	\cite{ansi} \S\ 4.8.1.2 \\
+	\cite{iso} \S\ 7.8.1.2 \\
+	\cite{rationale} \S\ 4.8.1.2
 \end{faq}
+
+\section{Harder Problems}
+You can pick apart variable-length argument lists at run time, as we've seen.
+But you can \EM{create} them only at compile time.  (We might say that strictly
+speaking, there are no truly variable-length argument lists; every actual
+argument list has some fixed number of arguments.  A vararg function merely
+has the capability of accepting a different length of argument list with
+each call.)  
+If you want to call a function with a list of arguments created on the fly
+at run time, you can't do so portably.
 
 \begin{faq}
 \Q{15.12}
 	가변 인자를 받아서 다시 가변 인자를 처리하는 함수에 넘겨 줄 수 있을까요?
 \A
-	일반적으로는 불가능합니다.  그러나 가변 인자 대신 \verb+va_list+
-	포인터를 받아서 처리하는 (\TT{vfprintf()}와 같은; \seealso{15.5})
-	함수를 만들면 됩니다.  이 인자가 실제 인자로 전달되거나, 또
-	\verb+va_list+를 처리하는
-	함수가 없다면, 호환성 있는 방법은 존재하지 않습니다.
-	(이 문제는 시스템에 의존적인(machine-specific) 어셈블리 언어로
-	해결할 수도 있습니다; \seealso{15.13})
+	일반적으로, 불가능합니다.  이상적으로, 이 경우, \verb+va_list+를
+        받는 함수를 만들어야 합니다.
+
+        예를 들어, 치명적인(fital) 에러 메시지를 출력하고 프로그램을 끝내는 함수인
+        \TT{faterror}를 만든다고 가정해 봅시다. 여러분은 질문 \ql{15.5}에서 쓴
+        \TT{error} 함수를 쓰길 원한다고 합시다:
+\begin{verbatim}
+  void faterror(char *fmt, ...)
+  {
+    error(fmt, ????);
+    exit(EXIT_FAILURE);
+  }
+\end{verbatim}
+	\noindent 위에서 보면 알겠지만, \TT{faterror}가 받은 가변 인자를
+        \TT{error}에 전달할 방법이 없습니다.
+
+        이 문제를 처리하기 위해서, 첫째, \TT{error} 함수를 분해해서 가변 인자 대신
+        하나의 \verb+va_list+를 받는 \TT{verror} 함수를 만듭니다.
+        (별로 어렵지 않습니다. 왜냐하면 \TT{verror}의 대부분은 \TT{error}와 같으며,
+        일단 \TT{verror}를 만들고 나면, \TT{error} 함수는 \TT{verror}를 써서
+        아주 쉽게 만들 수 있습니다.)
+\begin{verbatim}
+  #include <stdio.h>
+  #include <stdarg.h>
+
+  void verror(char *fmt, va_list argp)
+  {
+    fprintf(stderr, "error: ");
+    vfprintf(stderr, fmt, argp);
+    fpritnf(stderr, "\n");
+  }
+
+  void error(char *fmt, ...)
+  {
+    va_list argp;
+    va_start(argp, fmt);
+    verror(fmt, argp);
+    va_end(argp);
+  }
+\end{verbatim}
+	\noindent 위와 같이 만들었으면, 이제 \TT{faterror}를 다음과 같이
+        만들 수 있습니다:
+\begin{verbatim}
+  void faterror(char *fmt, ...)
+  {
+    va_list argp;
+    va_start(argp, fmt);
+    verror(fmt, argp);
+    va_end(argp);
+    exit(EXIT_FAILURE);
+  }
+\end{verbatim}
+	자세히 보면 \TT{error}와 \TT{verror}의 관계는 \TT{print}와 \TT{vprintf}의
+        관계와 같습니다. Chris Torek씨가 제안한 것에 따르면, 여러분이 가변 인자를
+        처리하는 함수를 만들때마다, 두 가지 버전을 제공하는 것이 좋습니다: 하나는
+        (\TT{verror}와 같이) \verb+va_list+를 받아서 처리하는 함수와,
+        (\TT{error}와 같이) 앞 함수의 간단한 wrapper 역할을 하는 함수, 두 가지입니다.
+        이 방식의 한가지 단점은, \TT{verror}와 같은 함수는 가변 인자를 단 한번씩만
+        scan할 수 있다는 것입니다; \verb+va_start+를 다시 부를 방법은 없습니다.
+
+        만약, (\TT{faterror}와 같은) 가변 인자를 받아서 이 것을 가변 인자를 받는 다른
+        함수에 전달하려고 하는데, (\TT{error}와 같이) \verb+va_list+를 받는 
+        저수준 함수를 다시 만들 수 없다면, 이 문제를 해결하기 위한 portable한 방법은
+        존재하지 않습니다. (이 문제를 시스템의 어셈블리 언어를 써서 해결할 가능성은
+        있습니다. \seealso{\ql{15.13}})
+
+        다음과 같은 방법은 동작하지 않습니다:
+\begin{verbatim}
+  void faterror(char *fmt, ...)
+  {
+    va_list argp;
+    va_start(argp, fmt);
+    error(fmt, argp);      /* WRONG */
+    va_end(argp);
+    exit(EXIT_FAILURE);
+  }
+\end{verbatim}
+	\noindent \verb+va_list+ 자체는 가변 인자 리스트가 아닙니다; 내부적으로
+        이 것은 가변 인자 리스트를 가리키는 포인터입니다. 따라서 \verb+va_list+를
+        받는 함수는 가변 인자 리스트를 받는 함수가 아니며, 그 역도 성립하지 않습니다.
+
+% 아래 paragraph 번역
+        Another kludge that is sometimes used and that sometimes works even
+        though it is grossly nonportable is to use a lot of \TT{int} arguments,
+        hoping that there are enough of them and that they can somehow pass
+        through pointer, floating-point, and other arguments as well:
+\begin{verbatim}
+  void faterror(fmt, a1, a2, a3, a4, a5, a6)
+  char *fmt;
+  int a1, a2, a3, a4, a5, a6;
+  {
+    error(fmt, a1, a2, a3, a4, a5, a6); /* VERY WRONG */
+    exit(EXIT_FAILURE);
+  }
+\end{verbatim}
+	위 예는, 이런 식으로 하지 말라는 것을 보여주기 위해 만든 것입니다.
+        이 글에서 봤다는 이유로 위 코드를 쓰려고 하지 말기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -316,10 +633,11 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 \A
 	호환성있는 방법도 없으며, 그런 일을 할 수 있다고 보장할 수도 없습니다.
 
-	실제 인자 리스트를 처리하는 대신 범용 (\verb+void *+) 포인터의 배열을
-	넘겨주는 방법을 쓸 수 있습니다.  즉 \TT{main()} 함수의 인자처럼
-	사용하는 방법입니다.  (물론 배열을 만들고, 배열의 각 요소에
-	원하는 정보를 채우는 작업은 직접 해 주어야 합니다.)
+	실제 인자 리스트를 처리하는 대신 generic (\verb+void *+) 포인터의 배열을
+	넘겨주는 방법을 생각할 수 있습니다. 그리고 불려진 함수는 (\TT{main()}이
+        \TT{argv} 인자를 처리하듯이) 이 배열 요소를 하나씩 조사해서 원하는
+        정보를 얻을 수 있습니다. (물론, 이 방식은 여러분이 불려진 모든 함수를 직접
+        제어할 수 있을 때에만 의미가 있습니다.) 
 
-	(\seealso{19.36})
+	\seealso{\ql{19.36}}
 \end{faq}

@@ -2,6 +2,10 @@
 \chapter{System Dependencies}	\label{chap:sysdep}
 % chapter 19: sysdep
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 \begin{faq}
 \Q{19.1}
 	키보드에서 RETURN 키를 누르지 않고 바로 한 글자를 읽으려면
@@ -94,11 +98,11 @@
 	``한 번에 한 글자씩'' 읽도록 설정하고, (2) 문자를 입력받고, (3)
 	프로그램을 끝낼 때 원래의 터미널 모드로 복원시키는 것입니다.
 	(이론상, 이런 종류의 함수들은 언젠가 C 표준에 포함될 것입니다.)
-	이 FAQ 목록의 확장판(질문 20.40 참고)에서는 여러 시스템에서
+	이 FAQ 목록의 확장판(질문 \ql{20.40} 참고)에서는 여러 시스템에서
 	이러한 함수를 만드는 법에 대한 예제가 나와 있습니다.
 
 
-	\seealso{19.2}
+	\seealso{\ql{19.2}}
 
 \T
 	\TT{ioctl()}을 쓰는 가장 주된 이유는 Terminal I/O를 제어하기
@@ -120,10 +124,10 @@
 	참고하기 바랍니다.
 
 \R
-	\cite{pcs} \S\ 10 \Page{128--9}, \S\ 10.1 \Page{130--1}; 
+	\cite{pcs} \S\ 10 \Page{128--9}, \S\ 10.1 \Page{130--1} \\
 % TODO: 아래에서 7.?
-	\cite{posix} \S\ 7.;
-	\cite{ppg} Chap.\ 8 pp.\ 145.
+	\cite{posix} \S\ 7. \\
+	\cite{ppg} Chap.\ 8 pp.\ 145
 \end{faq}
 
 \begin{faq}
@@ -141,7 +145,7 @@
 	또 \TT{FIONREAD} \TT{ioctl}, \verb+c_cc[VTIME]+, \TT{kbhit()},
 	\TT{rdchk()}, \TT{open()}이나 \TT{fcntl()}에서 \verb+O_NDELAY+
 	옵션이 이러한 작업을 해 줄 수 있습니다.
-	\seealso{19.1}
+	\seealso{\ql{19.1}}
 \end{faq}
 
 
@@ -162,7 +166,7 @@
 	한 칸 왼쪽으로 옮겨 한 글자를 덮어 쓸 수 있게 됩니다.
 
 \R
-	\cite{iso} \S\ 5.2.2.
+	\cite{iso} \S\ 5.2.2
 \end{faq}
 
 \begin{faq}
@@ -181,11 +185,11 @@
 	대다수 화면이 지워지게 됩니다.  (조금 지저분하지만) 더 이식성이
 	높은 방법은 충분히 많은 newline 문자를 출력해서 한 화면 분의
 	여러 줄들을 넘겨 버리는 것입니다.
-	마지막 수단으로, \TT{system()}을 써서 (질문 19.27 참고)
+	마지막 수단으로, \TT{system()}을 써서 (질문 \ql{19.27} 참고)
 	화면을 지우는 명령을 실행할 수도 있습니다.
 
 \R
-	\cite{pcs} \S\ 5.1.4 \Page{54--60}, \S\ 5.1.5 \Page{60--62}.
+	\cite{pcs} \S\ 5.1.4 \Page{54--60}, \S\ 5.1.5 \Page{60--62}
 \end{faq}
 
 \begin{faq}
@@ -208,7 +212,7 @@
 	가집니다.)
 
 \R
-	\cite{pcs} \S\ 5.1.4 \Page{56--7}.
+	\cite{pcs} \S\ 5.1.4 \Page{56--7}
 \end{faq}
 
 \begin{faq}
@@ -221,7 +225,7 @@
 	따라 매우 다릅니다.
 
 \R
-	\cite{pcs} \S\ 5.5 \Page{78--80}.
+	\cite{pcs} \S\ 5.5 \Page{78--80}
 \end{faq}
 
 \begin{faq}
@@ -243,13 +247,13 @@
 \Q{19.8}
 	출력을 프린터로 보내는 방법을 알려주세요.
 \A
-	Unix에서는 popen() (질문 19.30 참고) 함수를 써서 `lp'나 `lpr'
+	Unix에서는 popen() (질문 \ql{19.30} 참고) 함수를 써서 `lp'나 `lpr'
 	프로그램을 실행하거나, `\TT{/dev/lp}'와 같은 특수 파일을 열어서
 	작업합니다.  MS-DOS에서는 (비표준) 미리 정의된 스트림인
 	\TT{stdprn}을 쓰거나 ``\TT{PRN}''이나 ``\TT{LPT1}''으로
 	파일을 열어서 작업하면 됩니다.
 \R
-	\cite{pcs} \S\ 5.3 \Page{72--74}.
+	\cite{pcs} \S\ 5.3 \Page{72--74}
 \end{faq}
 
 \begin{faq}
@@ -257,7 +261,7 @@
 	Escape sequence를 터미널이나 비슷한 장치에 보내는 방법은?
 
 \A
-	문자를 장치에 보내는 방법을 알고 있다면 (칠질문 19.8) 참고,
+	문자를 장치에 보내는 방법을 알고 있다면 (칠질문 \ql{19.8}) 참고,
 	Escape sequence를 보내는 방법은 매우 쉽습니다.
 	ASCII로 ESC는 033, (10 진수로 27), 이므로:
 
@@ -290,7 +294,7 @@
 	쓰고 있다면, 윈도우 기능을 쓰고 싶어할지도 모릅니다;
 	이 경우 관련된 뉴스 그룹이나 FAQ 목록을 먼저 참고하기 바랍니다.
 \R
-	\cite{pcs} \S\ 5.4 \Page{75--77}.
+	\cite{pcs} \S\ 5.4 \Page{75--77}
 \end{faq}
 
 \begin{faq}
@@ -322,8 +326,8 @@
 %	you want in this case.)
 
 \R
-	\cite{pcs} \S\ 12 pp.\ 189, 213; 
-	\cite{posix} \S\ 5.3.1,	\S\ 5.6.2, \S\ 5.6.3.
+	\cite{pcs} \S\ 12 pp.\ 189, 213 \\
+	\cite{posix} \S\ 5.3.1,	\S\ 5.6.2, \S\ 5.6.3
 \end{faq}
 
 \begin{faq}
@@ -358,10 +362,10 @@
 %	you can rearrange the code to learn the size as it reads.
 
 \R
-	\cite{iso} \S\ 7.9.9.4; 
-	\cite{hs} \S\ 15.5.1; 
-	\cite{pcs} \S\ 12 \page{213}; 
-	\cite{posix} \S\ 5.6.2.
+	\cite{iso} \S\ 7.9.9.4 \\
+	\cite{hs} \S\ 15.5.1 \\
+	\cite{pcs} \S\ 12 \page{213} \\
+	\cite{posix} \S\ 5.6.2
 \end{faq}
 
 \begin{faq}
@@ -370,7 +374,7 @@
 \A
 	Unix와 POSIX 함수인 \TT{stat()}을 쓰면 됩니다.
 	대부분의 다른 시스템에서도 이 함수를 지원합니다.
-	(\seealso{19.12})
+	(\seealso{\ql{19.12}})
 
 % TODO: stat()이 표준인지 아닌지 조사!
 \T
@@ -390,7 +394,7 @@
 	해결할 수 있지만 이들은 모두 이식성이 뛰어나지 않습니다.
 	마찬가지로 파일의 앞 부분을 잘라내는 것도 이식성이 뛰어난 방법은
 	존재하지 않습니다.
-	\seealso{19.14}
+	\seealso{\ql{19.14}}
 \end{faq}
 
 \begin{faq}
@@ -402,7 +406,7 @@
 	(한 레코드를 지우는 경우에는 간단히 지웠다고 표시(marking)하는
 	것이 간단한 해결책이 될 수 있습니다.)
 	또, 단순한 일반 파일이 아닌 데이터베이스를 쓰는 것도
-	한가지 해결책이 될 수 있습니다.  \seealso{12.30, 19.13}
+	한가지 해결책이 될 수 있습니다.  \seealso{\ql{12.30}, \ql{19.13}}
 \end{faq}
 
 \begin{faq}
@@ -434,11 +438,11 @@
 	\TT{unlink()}는 표준 함수가 아닙니다.
 
 \R
-	\cite{kr2} \S\ B1.1 \page{242}; 
-	\cite{iso} \S\ 7.9.4.1; 
-	\cite{hs} \S\ 15.15 \page{382}; 
-	\cite{pcs} \S\ 12 pp.\ 208, 220--221; 
-	\cite{posix} \S\ 5.5.1, \S\ 8.2.4.
+	\cite{kr2} \S\ B1.1 \page{242} \\
+	\cite{iso} \S\ 7.9.4.1 \\
+	\cite{hs} \S\ 15.15 \page{382} \\
+	\cite{pcs} \S\ 12 pp.\ 208, 220--221 \\
+	\cite{posix} \S\ 5.5.1, \S\ 8.2.4
 \end{faq}
 
 \begin{faq}
@@ -447,12 +451,12 @@
 
 \A
 	\TT{system()}을 써서 운영 체제에서 제공하는 파일 복사 명령을
-	쓰거나 (질문 19.27 참고), 원본과 사본 파일을 (\TT{fopen()}이나
+	쓰거나 (질문 \ql{19.27} 참고), 원본과 사본 파일을 (\TT{fopen()}이나
 	저수준 파일 open 시스템 콜을 써서) 열어 문자 단위 또는 블럭 단위로
 	데이터를 복사하는 방법을 쓰면 됩니다.
 
 \R
-	K\&R \S\ 1, \S\ 7.
+	K\&R \S\ 1, \S\ 7
 \end{faq}
 
 \begin{faq}
@@ -528,17 +532,17 @@
 	\TT{FINDNEXT} 루틴을 제공하기도 합니다.)
 	\TT{readdir()}은 단순히 파일 이름만 알려주기 때문에, 파일에 대한
 	자세한 정보가 필요하다면 \TT{stat()} 함수를 써야 합니다.
-	파일이름과 어떤 와일드카드 패턴을 비교하려면 질문 13.7을
+	파일이름과 어떤 와일드카드 패턴을 비교하려면 질문 \ql{13.7}을
 	참고하기 바랍니다.
 
 \T
 	디렉토리를 처리하는 방법은, 엄밀히 말해, 표준 C 라이브러리에서는
 	제공하지 않습니다.  \ref{chap:stdio} 절의 머릿말을 참고하시기 바랍니다.
 \R
-	\cite{kr2} \S\ 8.6 \Page{179--184}; 
-	\cite{pcs} \S\ 13 \Page{230--1};
-	\cite{posix} \S\ 5.1; 
-	\cite{swsolution} \S\ 8.
+	\cite{kr2} \S\ 8.6 \Page{179--184} \\
+	\cite{pcs} \S\ 13 \Page{230--1} \\
+	\cite{posix} \S\ 5.1 \\
+	\cite{swsolution} \S\ 8
 \end{faq}
 
 \begin{faq}
@@ -576,12 +580,12 @@
 	쓰는 것도 생각해보기 바랍니다.
 	또 \TT{malloc} 계열의 변종인 \TT{halloc()}이나 \TT{farmalloc()}을
 	쓰는 방법도 있고, 32-bit ``flat'' 컴파일러(예를 들면 djgpp,
-	질문 18.3 참고)를 쓰는 방법도 있습니다.
+	질문 \ql{18.3} 참고)를 쓰는 방법도 있습니다.
 	또는 DOS extender를 쓰거나 다른 운영체제를 쓰는 것도 생각할 수
 	있습니다.
 \R
-	\cite{iso} \S\ 5.2.4.1; 
-	\cite{c9x} \S\ 5.2.4.1.
+	\cite{iso} \S\ 5.2.4.1 \\
+	\cite{c9x} \S\ 5.2.4.1
 \end{faq}
 
 \begin{faq}
@@ -629,11 +633,11 @@
 	프로그램은 예외입니다.
 
 \R
-	\cite{kr1} \S\ A14.4 \page{210}; 
-	\cite{kr2} \S\ A6.6 \page{199}; 
-	\cite{iso} \S\ 6.3.4; 
-	\cite{rationale} \S\ 3.3.4; 
-	\cite{hs} \S\ 6.2.7 \Page{171--2}.
+	\cite{kr1} \S\ A14.4 \page{210} \\
+	\cite{kr2} \S\ A6.6 \page{199} \\
+	\cite{iso} \S\ 6.3.4 \\
+	\cite{rationale} \S\ 3.3.4 \\
+	\cite{hs} \S\ 6.2.7 \Page{171--2}
 \end{faq}
 
 \begin{faq}
@@ -651,14 +655,14 @@
 	또한 \TT{system()}이 받는 인자는 하나의 문자열이라는 것을
 	기억하기 바랍니다.  따라서 여러 개의 (복잡한) 문자열을 한 문자열로
 	바꿀 필요가 있다면 \TT{sprintf()}를 쓰면 됩니다.
-	\seealso{19.30}
+	\seealso{\ql{19.30}}
 
 \R
-	\cite{kr1} \S\ 7.9 \page{157}; 
-	\cite{kr2} \S\ 7.8.4 \page{167}, \S\ B6 \page{253}; 
-	\cite{iso} \S\ 7.10.4.5; 
-	\cite{hs} \S\ 19.2 \page{407}; 
-	\cite{pcs} \S\ 11 \page{179}.
+	\cite{kr1} \S\ 7.9 \page{157} \\
+	\cite{kr2} \S\ 7.8.4 \page{167}, \S\ B6 \page{253} \\
+	\cite{iso} \S\ 7.10.4.5 \\
+	\cite{hs} \S\ 19.2 \page{407} \\
+	\cite{pcs} \S\ 11 \page{179}
 
 \T
 	\cite{hs}에 나온 말을 그대로 인용해보면 다음과 같습니다:
@@ -703,7 +707,7 @@
 	원하는 대로 동작하지 않을 수도 있다는 것입니다.)
 
 \R
-	\cite{pcs} \S\ 11 \page{169}.
+	\cite{pcs} \S\ 11 \page{169}
 \end{faq}
 
 \begin{faq}
@@ -718,10 +722,10 @@
 	그러나 이것이 완벽한 해결책이라고 말할 수는 없습니다.
 
 \R
-	\cite{kr1} \S\ 5.11 \page{111}; 
-	\cite{kr2} \S\ 5.10 \page{115}; 
-	\cite{iso} \S\ 5.1.2.2.1; 
-	\cite{hs} \S\ 20.1 \page{416}.
+	\cite{kr1} \S\ 5.11 \page{111} \\
+	\cite{kr2} \S\ 5.10 \page{115} \\
+	\cite{iso} \S\ 5.1.2.2.1 \\
+	\cite{hs} \S\ 20.1 \page{416}
 \end{faq}
 
 \begin{faq}
@@ -729,7 +733,7 @@
 	실행 파일이 있는 위치에, 프로그램의 설정 파일을 저장하고 싶은데,
 	어떻게 하면 그 경로를 찾을 수 있을까요?
 \A
-	어렵습니다; 질문 19.31의 내용을 먼저 참고하기 바랍니다.
+	어렵습니다; 질문 \ql{19.31}의 내용을 먼저 참고하기 바랍니다.
 	여러분이 그 방법을 알았다고 하더라도, 그 설정 파일의 위치를
 	바꿀 수 있는 방법(예를 들어 환경 변수를 쓰는 것)을 제공하는
 	편이 좋습니다.  (특히 여러분의 프로그램이 멀티 유져 시스템에서
@@ -771,7 +775,7 @@
 	\verb+-ldl+ 라이브러리를 써서 오브젝트 파일이 동적으로
 	로딩되게 할 수 있습니다.  VMS에서는 \verb+LIB$FIND_IMAGE_SYMBOL+을 % $
 	써서 이 기능을 만들 수 있고, GNU에서는 이 목적으로 
-	``dld'' 패키지를 제공합니다.  \seealso{15.13}
+	``dld'' 패키지를 제공합니다.  \seealso{\ql{15.13}}
 \end{faq}
 
 \begin{faq}
@@ -821,9 +825,9 @@
 	좋은 컴파일러는 위와 같이 아무 것도 하지 않는 코드는
 	최적화 과정에서 빼 버릴 수 있습니다.
 \R
-	\cite{hs} \S\ 18.1 \Page{398--9}; 
-	\cite{pcs} \S\ 12 \Page{197--8}, 215--6;
-	\cite{posix} \S\ 4.5.2.
+	\cite{hs} \S\ 18.1 \Page{398--9} \\
+	\cite{pcs} \S\ 12 \Page{197--8}, \Page{215--6} \\
+	\cite{posix} \S\ 4.5.2
 \end{faq}
 
 \begin{faq}
@@ -860,7 +864,7 @@
 	부르는 방식에 어긋나지도 않습니다.)
 
 	어떤 시스템에서는 키보드 인터럽트가 터미널 입력 시스템에 따라 영향을
-	받기도 합니다; 질문 19.1을 참고하기 바랍니다.
+	받기도 합니다; 질문 \ql{19.1}을 참고하기 바랍니다.
 	어떤 시스템에서는 키보드 인터럽트를 검사하는 것은 프로그램이
 	입력을 읽고 있을 때에만 적용되며, 그럴 경우, 인터럽트 처리는
 	어떤 입력 루틴이 쓰이느냐에 따라 달라집니다.
@@ -868,10 +872,10 @@
 	쓰기도 합니다.
 
 \R
-	\cite{iso} \S\ 7.7, 7.7.1; 
-	\cite{hs} \S\ 19.6 \Page{411--3}; 
-	\cite{pcs} \S\ 12 \Page{210--2}; 
-	\cite{posix} \S\ 3.3.1, 3.3.4.
+	\cite{iso} \S\ 7.7, 7.7.1 \\
+	\cite{hs} \S\ 19.6 \Page{411--3} \\
+	\cite{pcs} \S\ 12 \Page{210--2} \\
+	\cite{posix} \S\ 3.3.1, 3.3.4
 \end{faq}
 
 \begin{faq}
@@ -882,11 +886,11 @@
 	대부분의 시스템에서는 \TT{matherr()} 함수를 정의해서 어떤
 	실수 에러가 (예를 들어 \verb+<math.h>+안의 함수에 의해) 났을 때,
 	불려지게 할 수 있습니다.  또는 \TT{signal()} 함수를 써서
-	(질문 19.38 참고) SIGFPE를 잡아낼 수도 있습니다.
-	\seealso{14.9}
+	(질문 \ql{19.38} 참고) SIGFPE를 잡아낼 수도 있습니다.
+	\seealso{\ql{14.9}}
 
 \R
-	\cite{rationale} \S\ 4.5.1.
+	\cite{rationale} \S\ 4.5.1
 \end{faq}
 
 \begin{faq}

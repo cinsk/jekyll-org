@@ -2,6 +2,10 @@
 \chapter{Declarations and Initializations}	\label{chap:decinit}
 % chapter 1: decinit
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 C 언어의 선언 문법은 (declaration syntax) 그 자체가 하나의 프로그래밍
 언어라고 할 수 있습니다.  선언은 다음과 같이 여러 부분으로 구성되어 (꼭
 모든 부분을 다 가져야 할 필요는 없습니다.) 있습니다: storage class,
@@ -9,7 +13,7 @@ base type, type qualifier, 그리고 declarator (declarator는
 initializer를 포함할 수 있습니다.)  각 declarator는 새 identifier를
 선언하는 것 이외에, identifier가 배열인지, 포인터인지, 함수인지, ㄸ도는
 어떤 복잡한 타입인지를 알려줍니다.  따라서 선언이 실제 identifier가
-어떻게 쓰일 것인지를 (declaration mimics use) 알려 줍니다 (질문 1.21은 이 
+어떻게 쓰일 것인지를 (declaration mimics use) 알려 줍니다 (질문 \ql{1.21}은 이 
 `declaration mimics use' 관계를 자세하게 다룹니다.)
 
 \section{Basic Type}	\label{sec:bastype}
@@ -18,7 +22,7 @@ type system이 상당한 수준으로 추상화되어 있다는 것에 놀라곤 합니다;
 기본 타입들의 크기와 표현 방법이 언어 자체에 정확히 정의되어 있지 않습니다.
 
 \begin{faq}
-\q % 1.1 COMPLETE
+\Q{1.1} % 1.1 COMPLETE
 	어떤 타입의 정수를 쓸 것인지 어떻게 결정하죠?
 
 \A
@@ -36,7 +40,7 @@ type system이 상당한 수준으로 추상화되어 있다는 것에 놀라곤 합니다;
 	있지만, 예상치 못한 부호 확장이나 코드의 크기를 증가시킬 수 있기 
 	때문에 바람직하지 않습니다.  (\TT{unsigned char} 타입을 쓰는 것이
 	도움이 될 경우도 있습니다; 
-	관련된 문제는 질문 12.1를 참고하기 바랍니다.)
+	관련된 문제는 질문 \ql{12.1}를 참고하기 바랍니다.)
 
 	비슷한 크기/빠르기 문제가 \TT{float}과 \TT{double}에서 발생할 수 
 	있습니다.  변수의 주소가 필요하고 어떤 특별한 타입이 필요한 경우라면 
@@ -53,10 +57,11 @@ type system이 상당한 수준으로 추상화되어 있다는 것에 놀라곤 합니다;
 	\TT{short int} type과 \TT{int} type은 32,767까지 저장할 수 있다;
 \item
 	\TT{long int}는 2,147,483,647까지 저장할 수 있다;
+% TODO: insert a sentence for long long int.
 \item
 	따라서 다음 규칙을 적용할 수 있다:
 \begin{verbatim}
-  sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long)
+sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long)
 \end{verbatim}
 \end{itemize}
 
@@ -77,6 +82,7 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 \TT{short}	& 16	& -32,767	& 32,767	& 65,535 \\
 \TT{int}	& 16	& -32,767	& 32,767	& 65,535 \\
 \TT{long}	& 32	& -2,147,483,647 & 2,147,483,647 & 4,294,967,295 \\
+\TT{long long}	& 64	&                &               &               \\
 \hline
 \end{tabular}
 \end{center}
@@ -88,37 +94,37 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 	어떠한 이유에서 \BF{정확한} 크기가 필요한 경우라면 --- 이런 경우로는 
 	외부 저장 배치(externally-imposed stroage layout)가 필요한 경우를 들 
 	수 있습니다.
-	질문 20.5를 참고하기 바랍니다  --- 
+	질문 \ql{20.5}를 참고하기 바랍니다  --- 
 	적절한 \TT{typedef}를 쓰시기 바랍니다.
 
 \R
-	\cite{kr1} \S\ 2.2 \page{34}; 
+	\mbox{\cite{kr1} \S\ 2.2 \page{34};} \\
 	\cite{kr2} \S\ 2.2 \page{36}, \S\ A4.2 \Page{195--6}, 
-		\S\ B11 \page{257};
-	\cite{iso} \S\ 5.2.4.2.1, \S\ 6.1.2.5;
-	\cite{hs} \S\ 5.1,5.2 \Page{110--114}.
+		\S\ B11 \page{257} \\
+	\cite{iso} \S\ 5.2.4.2.1, \S\ 6.1.2.5 \\
+	\cite{hs} \S\ 5.1,5.2 \Page{110--114}
 \end{faq}
 
 \begin{faq}
-\q % 1.2 COMPLETE
+\Q{1.2} % 1.2 COMPLETE
 	왜 표준에서는 각 type의 크기를 정확히 정의하지 않나요?
 \A
 	다른 high-level 언어에 비해 C 언어가 확실히 저 수준 언어이기는
 	하지만, object의 정확한 크기는 implementation이 결정할 문제입니다.
 	(C 언어에서 여러분이 bit의 갯수를 지정할 수 있는 유일한 곳은
-	structure 안에서 bitfield를 쓸 때입니다.; 질문 2.25와 2.26을
+	structure 안에서 bitfield를 쓸 때입니다.; 질문 \ql{2.25}와 \ql{2.26}을
 	참고하기 바랍니다.)  대부분의 프로그램에서는 크기를 정확히
 	지정할 필요가 없습니다;  크기를 정확히 지정하는 많은 프로그램들은
 	지정하지 않도록 프로그램을 작성했을 때, 더 낫습니다.
 
 	\TT{int} type은 컴퓨터의 가장 자연스러운 word size를 나타내는 것으로
 	알려져 있으며, 대부분의 정수를 저장할 때 가장 적당한 type입니다.
-	질문 1.1의 guideline을 보기 바랍니다; \seealso{12.42, 20.5}
+	질문 \ql{1.1}의 guideline을 보기 바랍니다; \seealso{\ql{12.42}, \ql{20.5}}
 \end{faq}
 
 
 \begin{faq}
-\q % 1.3 COMPLETE
+\Q{1.3} % 1.3 COMPLETE
 	C 언어가 size를 정확히 정의하지 않기 때문에, 저는 \TT{int16},
 	\TT{int32}와 같은 \TT{typedef} 이름을 씁니다.  그래서
 	컴퓨터에 따라서 \TT{int}, \TT{short}, \TT{long} 등을 써서
@@ -142,15 +148,29 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 	외부적으로 고정된 저장 형식에 맞추려고\footnote{conforming
 	to externally imposed storage layouts} 하는 경우)
 \end{itemize}
-	\seealso{10.16, 20.5}
+	\seealso{\ql{10.16}, \ql{20.5}}
+\T
+        C99에 따르면 \verb+<inttype.h>+를 포함시켰을 때, 정확한 크기를 갖는
+        데이터 타입을 위한 \verb+int16_t+, \verb+int32_t+등을 쓸 수 있습니다.
+        시스템이 지원하는 경우, 임의의 N 비트를 가지는 부호있는(signed) 정수를 위한 
+        \verb+int+\EM{N}\verb+_t+와 부호없는(unsigned) 정수를 위한
+        \verb+uint+\EM{N}\verb+_t+가
+        제공됩니다. 만약 컴파일러가 지원하는 정수 타입이 각각 8, 16, 32 비트로 이루어져
+        있다면, 이 컴파일러는 \verb+int8_t+, \verb+int16_t+, \verb+int32_t+, 
+        \verb+uint8_t+, \verb+uint16_t+, \verb+uint32_t+를 제공합니다.
+\R
+% TODO: hs5와 iso를 좀 더 보고 여기에 채워 넣을 것.
+        \cite{iso} \S\ 7.18.1.1
 \end{faq}
 
 	
 \begin{faq}
-\q % 1.4
+\Q{1.4} % 1.4
 	64-bit를 지원하는 컴퓨터에서 64-bit 타입을 쓸 수 있는 방법이 있나요?
 
 \A	
+        골치아픈 문제입니다. 다음과 같이 세 가지 방식으로 이 문제를 생각할 수 있습니다.
+
 % TODO: book version과 상당한 차이가 있음. 체크 바람
 	다가오는 C 표준(C9X)에서는 \TT{long long} 타입이 적어도 64 비트
 	이상이 될 것을 명시하고 있습니다.  그리고 이 타입은 이미 여러 
@@ -160,7 +180,7 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 	\TT{int}를 32 비트로, \TT{long int}를 64 비트로 지원하고 있으며,
 	이와 다르게 할 이유가 없습니다.
 
-	질문 18.15d를 참고하시기 바랍니다.
+	질문 \ql{18.15d}를 참고하시기 바랍니다.
 
 \R 
 	\cite{c9x} \S\ 5.2.4.2.1, \S\ 6.1.2.5.
@@ -172,7 +192,7 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 설명되어 있지만, 여기에서는 선언에 관련된 것만 다룹니다.
 
 \begin{faq}
-\q % 1.5 COMPLETE
+\Q{1.5} % 1.5 COMPLETE
 	다음 선언에서 무엇이 잘못되었나요?
 \begin{verbatim}
   char *p1, p2;
@@ -184,7 +204,7 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 	해 주지 못한다는 것을 제외하면 말입니다.
 	Pointer 선언에서 \TT{*}는 `base type'의 일부분이 아닙니다;
 	\TT{*}는 선언할 이름으로 구성된 \EM{declarator}의 일부분입니다
-	(질문 1.21 참고).  선언을 쓸 경우에 공백 문자의 구분은 의미가
+	(질문 \ql{1.21} 참고).  선언을 쓸 경우에 공백 문자의 구분은 의미가
 	없습니다.  따라서 첫번째 declarator는 ``\TT{* p1}''이며,
 	\TT{*}를 포함하고 있기 때문에, \TT{p1}은 `a pointer to \TT{char}',
 	즉 \TT{char}를 가리키는 pointer가 됩니다.
@@ -201,11 +221,11 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 	쓰는 것이 좋습니다; \TT{char*}와 같이 쓰는 것은 실수를 내기 쉬우며,
 	혼동을 가져올 수 있습니다.
 
-	\seealso{1.13}
+	\seealso{\ql{1.13}}
 \end{faq}
 
 \begin{faq}
-\q % 1.6 COMPLETE
+\Q{1.6} % 1.6 COMPLETE
 	Pointer를 선언하고 그 pointer가 어떤 공간을 할당하려고 했으나,
 	제대로 동작하지 않습니다.  아래 코드에 어떤 문제가 있습니까?
 \begin{verbatim}
@@ -215,7 +235,7 @@ Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
 
 \A
 	여러분이 선언한 pointer는 \TT{p}이지 \TT{*p}가 아닙니다.
-	질문 4.2를 참고하기 바랍니다.
+	질문 \ql{4.2}를 참고하기 바랍니다.
 \end{faq}
 	
 \section{Declaration Style}	\label{sec:decstyle}
@@ -227,7 +247,7 @@ and other difficulties can be more easily avoided, and the compiler
 can more accurately catch any error that do occur.
 
 \begin{faq}
-\q % 1.7 COMPLETE
+\Q{1.7} % 1.7 COMPLETE
 	전역\trans{global} 함수와 변수를 선언 또는 정의하는 가장 좋은
 	방법이 무엇일까요?
 
@@ -245,7 +265,7 @@ can more accurately catch any error that do occur.
   extern int f();
 \end{verbatim}
 
-	(\TT{extern} keyword는 함수 선언에서 option입니다; 질문 1.11을
+	(\TT{extern} keyword는 함수 선언에서 option입니다; 질문 \ql{1.11}을
 	참고하기 바랍니다.)
 
 	아래는 정의의 예입니다:
@@ -293,26 +313,26 @@ can more accurately catch any error that do occur.
 	이는 정의와 일치하는 지 검사해 주지도 않으며, 만약 정의와 일치하지
 	않는다면 오히려 쓰지 않는 것보다 못합니다.
 
-	질문 10.6과 18.8을 참고하기 바랍니다.
+	질문 \ql{10.6}과 \ql{18.8}을 참고하기 바랍니다.
 
 \R
-	\cite{kr1} \S\ 4.5 \Page{76--7}; 
-	\cite{kr2} \S\ 4.4 \Page{80--1};
-	\cite{iso} \S\ 6.1.2.2, \S\ 6.7, \S\ 6.7.2, \S\ G.5.11; 
-	\cite{rationale} \S\ 3.1.2.2; 
-	\cite{hs} \S\ 4.8 \Page{101--104}, \S\ 9.2.3 \page{267};
-	\cite{ctp} \S\ 4.2 \Page{54--56}.
+	\cite{kr1} \S\ 4.5 \Page{76--7} \\
+	\cite{kr2} \S\ 4.4 \Page{80--1} \\
+	\cite{iso} \S\ 6.1.2.2, \S\ 6.7, \S\ 6.7.2, \S\ G.5.11 \\
+	\cite{rationale} \S\ 3.1.2.2 \\
+	\cite{hs} \S\ 4.8 \Page{101--104}, \S\ 9.2.3 \page{267} \\
+	\cite{ctp} \S\ 4.2 \Page{54--56}
 \end{faq}
 
 \begin{faq}
-\q % 1.8 COMPLETE
+\Q{1.8} % 1.8 COMPLETE
 	C 언어에서 추상화된 data type을 만드는 가장 좋은 방법이 무엇일까요?
 \A
-	질문 2.4를 참고하기 바랍니다.
+	질문 \ql{2.4}를 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 1.9
+\Q{1.9} % 1.9
 	``semiglobal'' 변수, 즉, 몇 소스 파일의 함수들은 볼 수 있으나,
 	다른 소스 파일에서는 볼 수 없는 그러한 `절반 정도의' 전역 변수를
 	만들 수 있을까요?
@@ -341,7 +361,23 @@ can more accurately catch any error that do occur.
 (각각 ``scope''와 ``duration''이라고 부르기도 합니다.) 다룹니다.
 
 \begin{faq}
-\Q{1.11} 
+\Q{1.10} % 1.10 COMPLETE
+        \TT{static} 함수나 변수를 선언할 때, 항상 \TT{static}이라고 써 주어야
+        하나요?
+\A
+        언어 표준에서는 항상 써 줄 것을 요구하지는 않습니다. (가장 중요한 것은 첫 선언에 
+        \TT{static}을 써 주는 것입니다.) 하지만 규칙이 조금 복잡하게 얽혀있고, 함수냐 변수냐에
+        따라 조금씩 다릅니다. (게다가 이 문제에 있어서 현존하는 코드도 너무나도 다양합니다.)
+        따라서 가장 안전한 방법은, 모든 정의와 선언에서 항상 \TT{static}을 써 주는 것입니다.
+\R
+        \cite{ansi} \S\ 3.1.2.2 \\
+        \cite{iso} \S\ 6.1.2.2 \\
+        \cite{rationale} \S\ 3.1.2.2 \\
+        \cite{hs} \S\ 4.3 \page{75}
+\end{faq}
+
+\begin{faq}
+\Q{1.11} % 1.11 
 	함수 선언에서 \TT{extern}이 의미하는 게 무엇인가요?
 \A 
 	이 함수의 정의가 다른 소스 파일에 있을 수 있다는 것을 알려주는
@@ -351,24 +387,24 @@ can more accurately catch any error that do occur.
   extern int f();
   int f();
 \end{verbatim}
-
+        \seealso{1.10}
 \R
-	\cite{iso} \S\ 6.1.2.2, \S\ 6.5.1; 
-	\cite{rationale} \S\ 3.1.2.2; 
-	\cite{hs} \S\ 4.3, 4.3.1 \Page{75--6}.
+	\cite{iso} \S\ 6.1.2.2, \S\ 6.5.1 \\
+	\cite{rationale} \S\ 3.1.2.2 \\
+	\cite{hs} \S\ 4.3, 4.3.1 \Page{75--6}
 \end{faq}
 
 \begin{faq}
-\Q{1.12}
+\Q{1.12} % 1.12
 	\TT{auto} 키워드는 어디에 쓰이나요?
 \A 
 	전혀 쓰이지 않습니다.  이는 오래된(archaic) 문법에 쓰이는 것으로
-	현재에는 쓰이지 않습니다.  질문 20.37을 참고하기 바랍니다.
+	현재에는 쓰이지 않습니다.  질문 \ql{20.37}을 참고하기 바랍니다.
 
 \R
-	\cite{kr1} \S\ A8.1 \page{193}; 
-	\cite{iso} \S\ 6.1.2.4, \S\ 6.5.1;
-	\cite{hs} \S\ 4.3 \page{75}, \S\ 4.3.1 \page{76}.
+	\cite{kr1} \S\ A8.1 \page{193} \\
+	\cite{iso} \S\ 6.1.2.4, \S\ 6.5.1 \\
+	\cite{hs} \S\ 4.3 \page{75}, \S\ 4.3.1 \page{76}
 \end{faq}
 
 \section{Typedefs}	\label{sec:typedef}
@@ -378,7 +414,34 @@ can more accurately catch any error that do occur.
 쓰입니다.
 
 \begin{faq}
-\Q{1.14} 
+\Q{1.13} % 1.13 COMPLETE
+        새 타입을 만들때, typedef를 쓰는 것하고, 매크로를 쓰는 것하고 무슨 차이가 있죠?
+\A
+        일반적으로, typedef를 쓰는 것이 더 좋습니다. 왜냐하면 포인터 타입을 쓸 때 그 차이가
+        드러납니다:
+\begin{verbatim}
+  typedef char *String_t;
+  #define String_d char *
+  String_t s1, s2;
+  String_d s3, s4;
+\end{verbatim}
+        위의 예에서 보면, \TT{s1}, \TT{s2}, \TT{s3}는 모두 \TT{char \*} 타입이지만,
+        \TT{s4}는 \TT{char} 타입입니다. 물론 이 결과는 개발자가 원한 것이 아닙니다.
+        (\seealso{\ql{1.5}})
+
+        매크로가 좋은 이유는, \verb+#ifdef+를 쓸 수 있기 때문입니다. 
+        (\seealso{\ql{10.15}}) 반면에 typedef는 또 스코프 규칙을 잘 따른다는 장점이 있습니다.
+        (즉, 함수나 블럭의 안에서 선언되어, 그 안에서만 영향을 줄 수 있습니다.)
+
+        \seealso{\ql{1.17}, \ql{2.22}, \ql{11.11}, \ql{15.11}}
+\R
+        \cite{kr1} \S\ 6.9 \page{141} \\
+        \cite{kr2} \S\ 6.7 \Page{146--7} \\
+        \cite{ctp} \S\ 6.4 \Page{83--4}
+\end{faq}
+
+\begin{faq}
+\Q{1.14} % 1.14
 	Linked list 정의가 안됩니다.  다음과 같이 했는데 컴파일러는
 	계속 에러 메시지만 출력합니다.  C 언어에서 구조체는 자신에 대한
 	포인터를 포함할 수 없는 것인가요?
@@ -411,20 +474,152 @@ can more accurately catch any error that do occur.
 	서로를 포함하는 한 쌍의 \TT{typedef}된 구조체를 정의할 때도 비슷한
 	문제가 발생할 수 있으며, 위와 같은 방식으로 해결할 수 있습니다.
 
-	질문 2.1을 참고하시기 바랍니다.
+	질문 \ql{2.1}을 참고하시기 바랍니다.
 
 \R
-	\cite{kr1} \S\ 6.5 \page{101}; 
-	\cite{kr2} \S\ 6.5 \page{139}; 
-	\cite{iso} \S\ 6.5.2, \S\ 6.5.2.3; 
-	\cite{hs} \S\ 5.6.1 \Page{132--3}.
+	\cite{kr1} \S\ 6.5 \page{101} \\
+	\cite{kr2} \S\ 6.5 \page{139} \\
+	\cite{iso} \S\ 6.5.2, \S\ 6.5.2.3 \\
+	\cite{hs} \S\ 5.6.1 \Page{132--3}
 \end{faq}
+
+% TODO: Q 1.15
+\begin{faq}
+\Q{1.15} % 1.15
+        서로 참조하는 구조체를 만들 수 있을까요? 아래처럼 코드를 만들었는데 컴파일러가
+        \TT{BPTR}이 없다고 에러를 출력합니다.
+\begin{verbatim}
+  typedef struct {
+    int afield;
+    BPTR bpointer;
+  } * APTR;
+
+  typedef struct {
+    int bfield;
+    APTR apointer;
+  } * BPTR;
+\end{verbatim}
+\A
+        질문 \ql{1.14}처럼, 이 문제는 구조체나 포인터에 있는 것이 아니라, typedef에 관한 것입니다.
+        먼저, (typedef 없이) 두 구조체 tag 이름을 써서 다음과 같이 만듭니다:
+\begin{verbatim}
+  struct a {
+    int afield;
+    struct b *bpointer;
+  };
+
+  struct b {
+    int bfield;
+    struct a *apointer;
+  };
+\end{verbatim}
+        그러면, 컴파일러는, 아직 \TT{struct b}에 대해서 잘 모르더라도 (정확히 말해서는
+        아직 `incomplete'한 구조체) \TT{struct a} 안에서 \TT{struct b *bpointer}를 
+        쓰는 것을 허락합니다. 때때로 다음과 같이 먼저 선언해 주는 것이 필요합니다:
+\begin{verbatim}
+  struct b;
+\end{verbatim}
+        This empty declaration masks the pair of structure declarations
+        (if in an inner scope) from a different \TT{struct b} in an outer
+        scope. 위와 같이 두 구조체를 tag 이름과 같이 선언한 다음, 다음과 같이 따로
+        typedef를 만들 수 있습니다:
+\begin{verbatim}
+  typedef struct a *APTR;
+  typedef struct b *BPTR;
+\end{verbatim}
+        멤버 포인터에 typedef 이름을 쓰기 위해, 다음과 같이 typedef 이름을 먼저 선언할 수도
+        있습니다:
+\begin{verbatim}
+  typedef struct a *APTR;
+  typedef struct b *BPTR;
+  struct a {
+    int afield;
+    BPTR bpointer;
+  };
+
+  struct b {
+    int bfield;
+    APTR apointer;
+  };
+\end{verbatim}
+        \seealso{\ql{1.14}}.
+\R
+        \cite{kr2} \S\ 6.5 \page{140} \\
+        \cite{ansi} \S\ 3.5.2.3 \\
+        \cite{iso} \S\ 6.5.2.3 \\
+        \cite{hs} \S\ 5.6.1 \page{132}
+\end{faq}
+
+% TODO: Q 1.16
+\begin{faq}
+\Q{1.16} % 1.16 COMPLETE
+        다음 두 선언은 무엇이 서로 다른가요?
+\begin{verbatim}
+  struct x1 { ... };
+  typedef struct { ... };
+\end{verbatim}
+\A
+        질문 \ql{2.1}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.17} % 1.17 COMPLETE
+        ``\TT{typedef int (*funcptr)();}''은 무슨 뜻인가요?
+\A
+        typedef 이름인 \TT{funcptr}을 정의합니다. \TT{funcptr}은
+        여기에서, 임의의 갯수의 인자를 받고 \TT{int}를 리턴하는 함수에 대한 포인터입니다.
+        예를 들어 다음과 같이 하나 이상의 함수에 대한 포인터를 선언할 수 있습니다:
+\begin{verbatim}
+  funcptr pf1, pf2;
+\end{verbatim}
+        위 선언은 아래와 완전히 같은 뜻이지만, 좀 더 보기 쉽습니다:
+\begin{verbatim}
+  int (*pf1)(), (*pf2)();
+\end{verbatim}
+        \seealso{\ql{1.21}, \ql{4.12}, \ql{15.11}}
+\R
+        \cite{kr1} \S\ 6.9 \page{141} \\
+        \cite{kr2} \S\ 6.7 \page{147}
+\end{faq}
+
 
 \section{The \TT{const} qualifier}	\label{sec:const}
 % from 1.18
 C 언어 선언에서는 type qualifier라는 게 있으며, 이는 ANSI C에서
 새로 추가된 것입니다.  Qualifier에 관한 질문은 \ref{chap:standard}~장에서
 다룹니다.
+
+\begin{faq}
+\Q{1.18} % 1.18
+        I've got the declarations
+\begin{verbatim}
+  typedef char *charp;
+  const charp p;
+\end{verbatim}
+        Why is \TT{p} turning out \TT{const} instead of the characters
+        pointed to?
+\A
+        질문 \ql{11.11}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.19} % 1.19 COMPLETE
+        아래와 같이 배열을 초기화하는데 왜 \TT{const} 값을 쓸 수 없는 것인가요?
+\begin{verbatim}
+  const int n = 5;
+  itn a[n];
+\end{verbatim}
+\A
+        질문 \ql{11.8}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.20} % 1.20
+        \TT{const char *p}, \TT{char const *p}, \TT{char * const p}가
+        서로 어떻게 다른가요?
+\A
+        질문 \ql{11.9}, \ql{1.21}을 보기 바랍니다.
+\end{faq}
 
 \section{Complex Declarations}	\label{sec:complexdec}
 % from 1.21
@@ -433,22 +628,24 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 않지만, 어떤 선언이 나오더라도 두려워하지 않게 됩니다.
 
 여러분이 프로그램을 \verb+*(*(*a[N])())()+와 같은 declarator로
-암호화하려는 취미가 없다면, 질문 1.21의 두번째와 같이 \TT{typedef}를 써서
+암호화하려는 취미가 없다면, 질문 \ql{1.21}의 두번째와 같이 \TT{typedef}를 써서
 간단하게 만들 수 있습니다.
 
 
 \begin{faq}
-\Q{1.21}
+\Q{1.21} % 1.21
 	문자를 가리키는 포인터를 리턴하는 함수에 대한 포인터를 리턴하는
 	함수에 대한 포인터 N 개로 이루어진 배열(array)을 어떻게 선언하죠?
 
-\T	참고로 원문은 다음과 같습니다:
+\T
+	참고로 원문은 다음과 같습니다:
 \begin{quote}
 	How do I declare an array of N pointers to functions returning
 	pointers to functions returning pointers to characters?
 \end{quote}
 
-\A	다음과 같이 세 가지로 답할 수 있습니다:
+\A
+	다음과 같이 세 가지로 답할 수 있습니다:
 
 \begin{itemize}
 	\item \verb+char *(*(*a[N])())();+
@@ -473,7 +670,7 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 \end{verbatim}
 
 	\noindent \TT{cdecl}은 복잡한 선언이나 캐스팅에 대해서도 많은 도움을
-	줍니다.  질문 18.1을 참고하시기 바랍니다.
+	줍니다.  질문 \ql{18.1}을 참고하시기 바랍니다.
 \end{itemize}
 
 	C 언어를 설명하는 좋은 책이라면 이러한 복잡한 선언에 대한 내용이 
@@ -485,13 +682,13 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 	(최신 버전의 \TT{cdecl}은 이 경우에도 도움이 됩니다.)
 
 \R 
-	\cite{kr2} \S\ 5.12 \page{122}; 
-	\cite{iso} \S\ 6.5ff (esp.\ \S\ 6.5.4); 
-	\cite{hs} \S\ 4.5 \Page{85--92}, \S\ 5.10.1 \Page{149--50}.
+	\cite{kr2} \S\ 5.12 \page{122} \\
+	\cite{iso} \S\ 6.5ff (esp.\ \S\ 6.5.4) \\
+	\cite{hs} \S\ 4.5 \Page{85--92}, \S\ 5.10.1 \Page{149--50}
 \end{faq}
 
 \begin{faq}
-\Q{1.22}
+\Q{1.22} % 1.22
 	같은 타입의 함수에 대한 포인터를 리턴하는 함수를 선언할 수
 	있나요? 저는 상태 머신\trans{state machine}을 만들고, 각 함수가
 	하나의 상태를 나타내게 한 다음, 이 함수가 다음 상태를 나타내는
@@ -505,8 +702,88 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 
 \section{Array Sizes}	\label{sec:arraysize}
 % from 1.23
+\begin{faq}
+\Q{1.23} % 1.23
+        지역 변수나 파라메터로 배열을 선언할 때, 그 크기를 따로 인자로 받아서 선언할 수
+        있을까요?
+\A
+        간단히 말해서, 불가능합니다. 질문 \ql{6.15}, \ql{6.19}를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.24} % 1.24 COMPLETE
+        다음과 같이, 한 파일에 \TT{extern} 배열을 만들고, 다른 파일이 그 배열을 쓰려고
+        합니다. \TT{file2.c}에서 왜 \TT{sizeof} 연산이 안되나요?
+\begin{verbatim}
+file1.c:
+  int array[] = { 1, 2, 3 };
+\end{verbatim}
+
+\begin{verbatim}
+file2.c:
+  extern int array[];
+\end{verbatim}
+      
+\A
+        크기가 알려지지 않은, \TT{extern} 배열 선언은 `incomplete type'입니다.
+        따러서 \TT{sizeof}가 제대로 동작할 수 없습니다. 왜냐하면, 컴파일할 때, 다른 파일에
+        정의되어 있는 배열의 크기를 알 수 없기 때문입니다. 이 때, 사용자는 다음과 같이 세 가지
+        방법을 쓸 수 있습니다:
+\begin{enumerate}
+        \item 변수 하나를 따로 두어서, 그 배열의 크기로 초기화한 다음 씁니다:
+\begin{verbatim}
+file1.c:
+  int array[] = { 1, 2, 3};
+  int arraysz = sizeof(array);
+\end{verbatim}
+
+\begin{verbatim}
+file2.c:
+  extern int array[];
+  extern int arraysz;
+\end{verbatim}
+        \seealso{\ql{6.23}}
+
+        \item 배열의 크기를 매크로 상수로 정의해 두고 이를 정의와 선언에 함께 사용합니다:
+\begin{verbatim}
+file1.h:
+  #define ARRAYSZ       3
+\end{verbatim}
+\begin{verbatim}
+file1.c:
+  #include "file1.h"
+  int array[ARRAYSZ];
+\end{verbatim}
+\begin{verbatim}
+file2.c:
+  #include "file1.h"
+  extern int array[ARRAYSZ];
+\end{verbatim}
+        \item 배열의 마지막 요소 값으로, 어떤 특정한 값을 (sentinel value, 일반적으로
+        0, -1, 또는 \TT{NULL}) 써서, (나중에 필요하면 그 값이 나올때까지 세어서 배열의
+        크기를 알 수 있게) 특별히 크기에 대한 것을 지정하지 않도록 합니다.
+\begin{verbatim}
+file1.c:
+  int array[] = { 1, 2, 3};
+\end{verbatim}
+
+\begin{verbatim}
+file2.c:
+  extern int array[];
+\end{verbatim}
+\end{enumerate}
+        물론, 배열을 정의할 때, 초기값이 이미 정해져 있느냐에 따라 선택이 달라질 수 있습니다.
+        만약에 초기값이 위와 같이 정해져 있는 경우에는, 두번째 방식은 별로 좋지 않습니다.
+        \seealso{\ql{6.21}}
+\R
+        \cite{hs} \S\ 7.5.2 \page{195}
+\end{faq}
 
 \section{Declaraction Problems}	\label{sec:decproblem}
+Sometimes the compiler insists on complaining about your declarations no matter
+how carefully constructed you thought they were. These questions uncover some
+of the reasons why. (Chapter 16 is a similar collection of baffling run-time
+problems.)
 % from 1.25
 때때로 컴파일러는 여러분이 얼마나 조심히 선언을 만들었는지에 상관없이
 불평을 하기도 합니다.  이 절의 질문들은 왜 그런지 그 이유를 설명합니다
@@ -514,7 +791,7 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 대해 설명합니다.)
 
 \begin{faq}
-\Q{1.25}
+\Q{1.25} % 1.25
 	제 컴파일러는 함수가 중복되어 정의되어 있다고 에러 메시지를
 	출력하지만 저는 한번만 정의했고, 한 번만 호출했습니다.  무엇이
 	잘못되었는지 모르겠군요.
@@ -528,13 +805,13 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 	또는 어떤 헤더 파일에 선언되어 있는 함수 이름을 (정말로) 중복해서 다른
 	함수로 만들었을 경우에 이 문제가 발생할 수 있습니다.
 
-	질문 11.3과 질문 15.1을 참고하기 바랍니다.
+	질문 \ql{11.3}과 질문 \ql{15.1}을 참고하기 바랍니다.
 
 \R
-	\cite{kr1} \S\ 4.2 \page{70}; 
-	\cite{kr2} \S\ 4.2 \page{72}; 
-	\cite{iso} \S\ 6.3.2.2; 
-	\cite{hs} \S\ 4.7 \page{101}.
+	\cite{kr1} \S\ 4.2 \page{70} \\
+	\cite{kr2} \S\ 4.2 \page{72} \\
+	\cite{iso} \S\ 6.3.2.2 \\
+	\cite{hs} \S\ 4.7 \page{101}
 \end{faq}
 
 \begin{faq}
@@ -542,8 +819,33 @@ C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
 	\TT{main()}을 선언하는 정확한 방법이 궁금합니다.  \TT{void
 main()}으로 해도 좋은가요?
 \A
-	질문 11.12a와 11.15를 참고하기 바랍니다.  (어쨋든 \TT{void main()}은
+	질문 \ql{11.12a}와 \ql{11.15}를 참고하기 바랍니다.  (어쨋든 \TT{void main()}은
 	틀린 선언입니다.)
+\end{faq}
+
+\begin{faq}
+\Q{1.26} % 1.26 COMPLETE
+        제가 보기에는 제대로 되어 있는데, 컴파일러가 함수 prototype이 서로 다르다고
+        경고합니다. 왜 그럴까요?
+\A
+        질문 \ql{11.3}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.27} % 1.27 COMPLETE
+        파일 가장 첫 부분에서 이상한 문법 에러가 발생합니다. 왜 그럴까요?
+\A
+        질문 \ql{10.9}를 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.28} % 1.28 COMPLETE
+        다음과 같이, 큰 배열을 만들었는데, 컴파일러가 에러를 냅니다. 왜 그럴까요?
+\begin{verbatim}
+  double array[256][256];
+\end{verbatim}
+\A
+        질문 \ql{19.23}, \ql{7.16}을 보기 바랍니다.
 \end{faq}
 
 \section{Namespace}	\label{sec:namespace}
@@ -554,6 +856,15 @@ main()}으로 해도 좋은가요?
 고민할 필요는 없습니다 --- 적어도 같은 이름이 이미 쓰이고 있는지만
 조사하면 됩니다.
 
+\begin{faq}
+\Q{1.29} % 1.29
+        어떤 이름이 이미 예약되어 있고(reserved), 
+        어떤 이름을 안전하게 쓸 수 있는지
+        알 수 있는 방법이 있을까요?
+\A
+        ...
+\end{faq}
+
 \section{Initialization}	\label{sec:init}
 % from 1.30
 변수의 선언은, 물론 그 변수에 대한 초기값을 포함할 수 있습니다.
@@ -561,7 +872,7 @@ main()}으로 해도 좋은가요?
 수행될 수 있습니다.
 
 \begin{faq}
-\Q{1.30}
+\Q{1.30} % 1.30
 	초기화되지 않은 변수의 값을 미리 예상할 수 있습니까?
 	전역 변수는 초기화되지 않은 경우 0을 가진다고 하는데,
 	이것을 널 포인터나 실수 0.0으로 해석해도 괜찮은가요?
@@ -584,19 +895,19 @@ main()}으로 해도 좋은가요?
 	적당하게 초기화시켜 주어야 합니다.  \TT{calloc()}으로 할당받은
 	메모리는 비트 단위로 0을 가지고 되지만, 이 것이
 	포인터나 실수 타입에서 0을 의미한다고 말할 수는 없습니다
-	(질문 7.31과 5 절 참고).
+	(질문 \ql{7.31}과 Chapter 5 참고).
 
 \R
-	\cite{kr1} \S\ 4.9 \Page{82--4}; 
-	\cite{kr2} \S\ 4.9 \Page{85--86}; 
-	\cite{iso} \S\ 6.5.7, \S\ 7.10.3.1, \S\ 7.10.5.3; 
+	\cite{kr1} \S\ 4.9 \Page{82--4} \\
+	\cite{kr2} \S\ 4.9 \Page{85--86} \\
+	\cite{iso} \S\ 6.5.7, \S\ 7.10.3.1, \S\ 7.10.5.3 \\
 	\cite{hs} \S\ 4.2.8 \Page{72--3}, \S\ 4.6 \Page{92--3}, 
 		\S\ 4.6.2 \Page{94--5}, \S\ 4.6.3 \page{96}, 
-		\S\ 16.1 \page{386}.
+		\S\ 16.1 \page{386}
 \end{faq}
 
 \begin{faq}
-\Q{1.31}
+\Q{1.31} % 1.31
 	이 코드는 어떤 책에서 나온 것인데 컴파일되지 않습니다.
 
 \begin{verbatim}
@@ -618,11 +929,11 @@ main()}으로 해도 좋은가요?
 	포인터로 바꾸어서 해결할 수 있으며, 또는 \TT{strcpy()} 등을 써서 
 	대입시켜주는 방법도 있습니다.) 
 
-	질문 11.29을 참고하기 바랍니다.
+	질문 \ql{11.29}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{1.31b}
+\Q{1.31b} % 1.31b
 	이 초기화에서 잘못된 것이 무엇인가요?
 
 \begin{verbatim}
@@ -639,7 +950,7 @@ main()}으로 해도 좋은가요?
 \end{faq}
 
 \begin{faq}
-\Q{1.32}
+\Q{1.32} % 1.32
 	다음 두 선언에 차이점이 있나요?
 
 \begin{verbatim}
@@ -662,17 +973,24 @@ main()}으로 해도 좋은가요?
 	어떤 컴파일러는 문자열을 쓰기 가능한 메모리에 저장하도록 하는 옵션을
 	가지고 있습니다.)
 
-	질문 1.31, 6.1, 6.2, 6.8을 참고하기 바랍니다.
+	질문 \ql{1.31}, \ql{6.1}, \ql{6.2}, \ql{6.8}을 참고하기 바랍니다.
 
 \R	
-	\cite{kr2} \S\ 5.5 \page{104}; 
-	\cite{iso} \S\ 6.1.4, \S\ 6.5.7;
-	\cite{rationale} \S\ 3.1.4; 
-	\cite{hs} \S\ 2.7.4 \Page{31--2}.
+	\cite{kr2} \S\ 5.5 \page{104} \\
+	\cite{iso} \S\ 6.1.4, \S\ 6.5.7 \\
+	\cite{rationale} \S\ 3.1.4 \\
+	\cite{hs} \S\ 2.7.4 \Page{31--2}
 \end{faq}
 
 \begin{faq}
-\Q{1.34}
+\Q{1.33} % 1.33 COMPLETE
+        \verb+char a[3] = "abc";+가 맞는 표현인가요?
+\A
+        맞습니다. 질문 \ql{11.22}를 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.34} % 1.34
 	함수 포인터를 선언하는 문법은 알겠는데, 초기화시키는 방법을
 	모르겠습니다.
 \A
@@ -694,5 +1012,12 @@ main()}으로 해도 좋은가요?
 	만들어주지 않기 때문입니다 (왜냐하면 초기화에서 쓰이는 함수 이름은
 	함수 호출이 아니기 때문입니다).  
 
-	질문 1.25와 4.12를 참고하기 바랍니다.
+	질문 \ql{1.25}와 \ql{4.12}를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.35} % 1.35 COMPLETE
+        \TT{union}을 초기화할 수 있나요?
+\A
+        질문 \ql{2.20}을 보기 바랍니다.
 \end{faq}

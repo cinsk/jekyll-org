@@ -2,6 +2,10 @@
 \chapter{Library Functions}	\label{chap:libfunc}
 % chapter 13: libfunc
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 예전에는 특정 run-time library는 C 언어의 공식 일부분이 아니었습니다.
 ANSI/ISO Standard C의 출현으로 대부분의 전통적인 (traditional) run-time
 library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
@@ -13,14 +17,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 이 장은 다음과 같이 나누어집니다:
 
 \begin{description}
-\item String Function: 13.1--13.7
-\item Sorting: 13.8--13.11
-\item Date and Time: 13.12--13.14
-\item Random Numbers: 13.15--13.21
-\item Other Library Functions: 13.22-13.28
+\item String Function: \ql{13.1}--\ql{13.7}
+\item Sorting: \ql{13.8}--\ql{13.11}
+\item Date and Time: \ql{13.12}--\ql{13.14}
+\item Random Numbers: \ql{13.15}--\ql{13.21}
+\item Other Library Functions: \ql{13.22}-\ql{13.28}
 \end{description}
 
-마지막 몇 개의 질문들은 (13.25부터 13.28까지) link시 문제가 되는 
+마지막 몇 개의 질문들은 (\ql{13.25}부터 \ql{13.28}까지) link시 문제가 되는 
 (예를 들면, ``undefined external'' 에러) 것을 다루었습니다.
 
 \section{String Functions}
@@ -32,15 +36,15 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	\TT{itoa()}라는 함수가 있나요?
 \A	그냥 \TT{sprintf()}를 쓰시면 됩니다.  (\TT{sprintf}가 너무
 	복잡하고, 큰 비용(시간이나 크기 면에서)이 든다고 생각할 지
-	모르나, 사실 효과적으로 동작합니다.) 질문 7.5a에 대한 답변에
-	나온 예를 보기 바랍니다.  질문 12.21을 참고하기 바랍니다.
+	모르나, 사실 효과적으로 동작합니다.) 질문 \ql{7.5a}에 대한 답변에
+	나온 예를 보기 바랍니다.  질문 \ql{12.21}을 참고하기 바랍니다.
 
 	\TT{long}이나 실수도 \TT{sprintf()}를 써서 바꿀 수 있습니다
 	(각각 \TT{\%ld}와 \TT{\%f}를 쓰면 됨).
 
 \R
-	\cite{kr1} \S\ 3.6 \page{60}; 
-	\cite{kr2} \S\ 3.6 \page{64}.
+	\cite{kr1} \S\ 3.6 \page{60} \\
+	\cite{kr2} \S\ 3.6 \page{64}
 \end{faq}
 
 \begin{faq}
@@ -78,9 +82,9 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	안전하게 동작한다고 씌여 있습니다.
 
 \R
-	\cite{iso} \S\ 7.3.2; 
-	\cite{hs} \S\ 12.9 \Page{320--1}; 
-	\cite{pcs} \page{182}.
+	\cite{iso} \S\ 7.3.2 \\
+	\cite{hs} \S\ 12.9 \Page{320--1} \\
+	\cite{pcs} \page{182}
 \end{faq}
 
 
@@ -97,10 +101,10 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	있는 것은 아닙니다.  (예를 들어, 인용(quoting)을 제대로 처리하기
 	힘듭니다.)
 \R
-	\cite{kr2} \S\ B3 \page{250}; 
-	\cite{iso} \S\ 7.11.5.8; 
-	\cite{hs} \S\ 13.7 \Page{333--4}; 
-	\cite{pcs} \page{178}.
+	\cite{kr2} \S\ B3 \page{250} \\
+	\cite{iso} \S\ 7.11.5.8 \\
+	\cite{hs} \S\ 13.7 \Page{333--4} \\
+	\cite{pcs} \page{178}
 \end{faq}
 
 \begin{faq}
@@ -122,7 +126,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	인기있고, 공개로 제공되는 Henry Spencer씨의 regexp 패키지를
 	\TT{ftp.cs.toronto.edu}의 \TT{pub/regexp.shar.Z}에서 얻을 수
 	있습니다.  GNU 프로젝트에서는 rx라고 하는 패키지를 제공합니다.
-	\seealso{18.16}
+	\seealso{\ql{18.16}}
 
 	파일이름 와일드카드 매칭은 (filename wildcard matching) 각각의
 	시스템에 따라 다르게 이루어집니다.  UNIX에서는 와일드 카드를
@@ -133,7 +137,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	컴파일해야 합니다.  그리고 (MS-DOS와 VMS를 포함한) 대부분의
 	시스템에서는 와일드카드로 파일을 리스팅해주거나, 파일을 open하는
 	시스템 서비스들을 제공합니다.  먼저 컴파일러/라이브러리의 문서를
-	참고하기 바랍니다.  \seealso{19.20, 20.3}
+	참고하기 바랍니다.  \seealso{\ql{19.20}, \ql{20.3}}
 \end{faq}
 
 \section{Sorting}
@@ -179,8 +183,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 %	which is not discussing the Standard library's qsort).
 
 \R
-	\cite{iso} \S\ 7.10.5.2; 
-	\cite{hs} \S\ 20.5 \page{419}.
+	\cite{iso} \S\ 7.10.5.2 \\
+	\cite{hs} \S\ 20.5 \page{419}
 \end{faq}
 
 \begin{faq}
@@ -194,7 +198,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 
 \A	The conversions must be in the comparison function, which must
 	be declared as accepting "generic pointers" (const void *) as
-	discussed in question 13.8 above.   The comparison function might
+	discussed in question \ql{13.8} above.   The comparison function might
 	look like
 
 \begin{verbatim}
@@ -210,18 +214,18 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	are void pointers.)
 
 	If, on the other hand, you're sorting pointers to structures,
-	you'll need indirection, as in question 13.8:
+	you'll need indirection, as in question \ql{13.8}:
 	sp1 = *(struct mystruct * const *)p1 .
 
 	일반적으로 ``컴파일러가 경고를 출력하는 것을 없애기 위해'' 캐스트를
 	쓰는 것은 매우 좋지 않은 습관입니다.
 	컴파일러 경고는 일반적으로 여러분에게 어떠한 것을 알려주기 위해
 	발생하는 것입니다.  따라서 여러분이 무엇을 하고있는지 확실히 잘 알고
-	있다면 무시해도 좋습니다.  \seealso{4.9}
+	있다면 무시해도 좋습니다.  \seealso{\ql{4.9}}
 	
 \R
-	\cite{iso} \S\ 7.10.5.2; 
-	\cite{hs} \S\ 20.5 \page{419}.
+	\cite{iso} \S\ 7.10.5.2 \\
+	\cite{hs} \S\ 20.5 \page{419}
 \end{faq}
 
 \begin{faq}
@@ -236,8 +240,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	됩니다.  그리고, 이 정렬된 포인터를 이용하여, 리스트를 정리하면
 	됩니다.
 \R
-	\cite{knuth} \S\ 5.2.1 \Page{80--102}, \S\ 5.2.4 \Page{159--168};
-	\cite{calgo} \S\ 8 \Page{98--100}, \S\ 12 \Page{163--175}.
+	\cite{knuth} \S\ 5.2.1 \Page{80--102}, \S\ 5.2.4 \Page{159--168} \\
+	\cite{calgo} \S\ 8 \Page{98--100}, \S\ 12 \Page{163--175}
 \end{faq}
 
 \begin{faq}
@@ -251,10 +255,10 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	다 반복하였으면, 전체 데이터를 병합하는 (merge) 것입니다.
 	운영 체제에서 이러한 정렬 프로그램을 제공할 수도 있으니
 	프로그램 안에서 이러한 프로그램을 실행시키는 것을
-	생각할 수도 있습니다: 질문 19.27과 19.30을 참고하기 바랍니다.
+	생각할 수도 있습니다: 질문 \ql{19.27}과 \ql{19.30}을 참고하기 바랍니다.
 \R
-	\cite{knuth} \S\ 5.4 \Page{247--378}; 
-	\cite{calgo} \S\ 13 \Page{177--187}.
+	\cite{knuth} \S\ 5.4 \Page{247--378} \\
+	\cite{calgo} \S\ 13 \Page{177--187}
 \end{faq}
 
 \section{Date and Time}
@@ -281,9 +285,9 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	\noindent 와 같습니다.
 
 \R
-	\cite{kr2} \S\ B10 \Page{255--7}; 
-	\cite{iso} \S\ 7.12; 
-	\cite{hs} \S\ 18.
+	\cite{kr2} \S\ B10 \Page{255--7} \\
+	\cite{iso} \S\ 7.12 \\
+	\cite{hs} \S\ 18
 \end{faq}
 
 \begin{faq}
@@ -302,11 +306,11 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	그 기능은 \TT{strftime()}의 반대입니다.  또 (RCS 패키지와 함께
 	제공되는) \TT{partime()}이라는 함수와 (최신의 C news 배포판에서
 	제공하는) \TT{getdate()}라는 함수도 자주 쓰입니다.
-	질문 18.16을 보기 바랍니다.
+	질문 \ql{18.16}을 보기 바랍니다.
 \R
-	\cite{kr2} \S\ B10 \page{256}; 
-	\cite{iso} \S\ 7.12.2.3; 
-	\cite{hs} \S\ 18.4 \Page{401--2}.
+	\cite{kr2} \S\ B10 \page{256} \\
+	\cite{iso} \S\ 7.12.2.3 \\
+	\cite{hs} \S\ 18.4 \Page{401--2}
 \end{faq}
 
 \begin{faq}
@@ -332,17 +336,17 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	해결될 것이라는 생각을 하면 안됩니다).
 
 	``Julian day number''를 사용하는 방법도 있습니다.
-	Julian day를 다루는 함수들은 Snippets 콜렉션에 (질문 18.15c 참고)
+	Julian day를 다루는 함수들은 Snippets 콜렉션에 (질문 \ql{18.15c} 참고)
 	있습니다.  그리고 이 콜렉션은 Simtel/Oakland 아카이브(archive)에서
-	(파일 \TT{JULCAL10.ZIP}, 질문 18.16 참고) 얻을 수 있습니다.
+	(파일 \TT{JULCAL10.ZIP}, 질문 \ql{18.16} 참고) 얻을 수 있습니다.
 	아래의 ``Date conversions'' 기사도 참고하기 바랍니다.
 
-	\seealso{13.13, 20.31, 20.32}
+	\seealso{\ql{13.13}, \ql{20.31}, \ql{20.32}}
 \R
-	\cite{kr2} \S\ B10 \page{256}; 
-	\cite{iso} \S\ 7.12.2.2, 7.12.2.3;
-	\cite{hs} \S\ 18.4,18.5 \Page{401--2}; 
-	\cite{dateconv}.
+	\cite{kr2} \S\ B10 \page{256} \\
+	\cite{iso} \S\ 7.12.2.2, 7.12.2.3 \\
+	\cite{hs} \S\ 18.4,18.5 \Page{401--2} \\
+	\cite{dateconv}
 \end{faq}
 
 \begin{faq}
@@ -363,11 +367,11 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \begin{verbatim}
   printf("19%d", tm.tm_year);     /* WRONG */
 \end{verbatim}
-	\noindent 2000년 문제가 발생합니다.  \seealso{20.32}
+	\noindent 2000년 문제가 발생합니다.  \seealso{\ql{20.32}}
 \R
-	\cite{kr2} \S\ B10 \page{255}; 
-	\cite{iso} \S\ 7.12.1; 
-	\cite{hs} \S\ 18.4 \page{401}.
+	\cite{kr2} \S\ B10 \page{255} \\
+	\cite{iso} \S\ 7.12.1 \\
+	\cite{hs} \S\ 18.4 \page{401}
 \end{faq}
 
 \section{Random Numbers}
@@ -384,14 +388,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 
 	직접 난수 발생기를 만들려고 한다면, 읽어야 할 책들이 많습니다;
 	참고 문헌란을 보시기 바랍니다.  또한 넷 상에 게시되는 많은 패키지도
-	있습니다: r250, RANLIB, FSULTRA (질문 18.16을 보기 바랍니다.)
+	있습니다: r250, RANLIB, FSULTRA (질문 \ql{18.16}을 보기 바랍니다.)
 \R
-	\cite{kr2} \S\ 2.7 \page{46}, \S\ 7.8.7 \page{168}; 
-	\cite{iso} \S\ 7.10.2.1; 
-	\cite{hs} \S\ 17.7 \page{393}; 
-	\cite{pcs} \S\ 11 \page{172}; 
-	\cite{knuth} Vol.\ 2 Chap.\ 3 \Page{1--177}; 
-	\cite{random}.
+	\cite{kr2} \S\ 2.7 \page{46}, \S\ 7.8.7 \page{168} \\
+	\cite{iso} \S\ 7.10.2.1 \\
+	\cite{hs} \S\ 17.7 \page{393} \\
+	\cite{pcs} \S\ 11 \page{172} \\
+	\cite{knuth} Vol.\ 2 Chap.\ 3 \Page{1--177} \\
+	\cite{random}
 \end{faq}
 
 \begin{faq}
@@ -404,7 +408,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
   rand() % N         /* POOR */
 \end{verbatim}
 	\noindent 왜냐하면, 대부분의 난수 발생기에서 하위(low-order) 비트들은
-	그리 랜덤하지 않기 때문입니다.  (질문 13.18을 보기 바랍니다.) 따라서,
+	그리 랜덤하지 않기 때문입니다.  (질문 \ql{13.18}을 보기 바랍니다.) 따라서,
 	다음과 같이 하는 것이 좋습니다:
 \begin{verbatim}
   (int)((double)rand() / ((double)RAND_MAX + 1) * N)
@@ -426,8 +430,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	있다면, 그리고 0과 N-1 사이의 범위를 가지는 정수 난수를 만들고
 	싶다면, 단순히 그 난수 발생기의 수치에 N을 곱하면 됩니다.
 \R
-	\cite{kr2} \S\ 7.8.7 \page{168}; 
-	\cite{pcs} \S\ 11 \page{172}.
+	\cite{kr2} \S\ 7.8.7 \page{168} \\
+	\cite{pcs} \S\ 11 \page{172}
 \end{faq}
 
 
@@ -440,14 +444,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	number generator) 초기 값을 임의로 주면 됩니다.  이 초기값은
 	`seed'라고 하며, 대개는 현재 시간이나, 유저가 어떤 키를 누르기
 	전까지의 시간차로 지정합니다.  (물론 어떤 키를 누르기 전의 시간을
-	얻는 방법은 이식성있게 만들기가 힘듭니다; 질문 19.37을 보기
+	얻는 방법은 이식성있게 만들기가 힘듭니다; 질문 \ql{19.37}을 보기
 	바랍니다).  (일반적으로 프로그램 내에서는 \TT{srand()} 함수를
 	한번만 불러주어도 충분합니다.  \TT{rand()}를 부를 때마다,
 	\TT{srand()}를 부른다면, 충분한 임의의 수치를 얻을 수 없습니다.)
 \R
-	\cite{kr2} \S\ 7.8.7 \page{168}; 
-	\cite{iso} \S\ 7.10.2.2; 
-	\cite{hs} \S\ 17.7 \page{393}.
+	\cite{kr2} \S\ 7.8.7 \page{168} \\
+	\cite{iso} \S\ 7.10.2.2 \\
+	\cite{hs} \S\ 17.7 \page{393}
 \end{faq}
 
 \begin{faq}
@@ -457,9 +461,9 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \A
 	엉성하게 만들어진 가상 난수 발생기는 (pseudorandom number generator)
 	하위 (low-order) 비트들에 대해서는 그렇게 랜덤하지 않습니다.
-	상위 (high-order) 비트를 써보기 바랍니다: 질문 13.16을 보기 바랍니다.
+	상위 (high-order) 비트를 써보기 바랍니다: 질문 \ql{13.16}을 보기 바랍니다.
 \R
-	\cite{knuth} \S\ 3.2.1.1 \Page{12--14}.
+	\cite{knuth} \S\ 3.2.1.1 \Page{12--14}
 \end{faq}
 
 
@@ -502,12 +506,12 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
       return X;
   }
 \end{verbatim}
-	다른 방법에 대한 것은 이 목록의 화장판(질문 20.40 참고)에서
+	다른 방법에 대한 것은 이 목록의 화장판(질문 \ql{20.40} 참고)에서
 	참고하기 바랍니다.
 \R
 	Knuth \S\ 3.4.1 \page{117}; Marsaglia and Bray,
 	``A Convenient Method for Generating Normal Variables'';
-	Press et al., \EM{Numerical Recipes in C} \S\ 7.2 \Page{288--290}.
+	Press et al., \EM{Numerical Recipes in C} \S\ 7.2 \Page{288--290}
 \end{faq}
 
 \section{Other Library Functions}
@@ -526,14 +530,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	\TT{rindex}	& \TT{strrchr} 함수를 쓰기 바랍니다.  \\
 	\TT{bcopy}	& 첫 번째 인자와 두 번째 인자를 바꾸어서
 		\TT{memmove} 함수를 쓰기 바랍니다.  
-		\seealso{11.25} \\
+		\seealso{\ql{11.25}} \\
 	\TT{bcmp}	& \TT{memcmp} 함수를 쓰기 바랍니다.  \\
 	\TT{bzero}	& 두 번째 인자를 0으로 해서 \TT{memset} 함수를
 		쓰기 바랍니다.  \\ \hline
 \end{tabular}
 
 \R
-	\cite{pcs} \S\ 11.
+	\cite{pcs} \S\ 11
 \end{faq}
 
 \begin{faq}
@@ -545,7 +549,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	어떤 경우에는 (특히, 비표준 함수인 경우) 실제 정의를 포함시키기
 	위해서는 특별한 라이브러리를 같이 링크(link)하라고 명령을 주어야
 	합니다.  (\verb+#include+하는 것만으로는 불충분합니다.)
-	\seealso{11.30, 13.26, 14.3}
+	\seealso{\ql{11.30}, \ql{13.26}, \ql{14.3}}
 \end{faq}
 
 \begin{faq}
@@ -560,7 +564,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	따라서 라이브러리와 오브젝트 파일을 찾는 순서를 잘 써주어야 합니다;
 	일반적으로는 라이브러리를 마지막에 찾게 하는 것이이 좋습니다.
 	(예를 들어 UNIX에서는 command-line의 마지막에 `\verb+-l+'을 써서
-	지정합니다.) \seealso{13.28}
+	지정합니다.) \seealso{\ql{13.28}}
 \end{faq}
 
 \begin{faq}
@@ -572,5 +576,5 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	정의되어 있지 않다고 에러가 나는 것은 다른 심볼(symbol)들도
 	정의가 되어 있지 않다는 것을 의미합니다.  정의되어 있지 않은
 	다른 심볼들이 있나 검사해 보기 바랍니다.  그러면 \verb+_end+가
-	정의되어 있지 않다고 하는 에러는 사라집니다.  (\seealso{13.25, 13.26})
+	정의되어 있지 않다고 하는 에러는 사라집니다.  (\seealso{\ql{13.25}, \ql{13.26}})
 \end{faq}

@@ -2,8 +2,12 @@
 \documentclass[10pt,a4paper,draft]{report}
 \usepackage{graphicx}
 \usepackage{epic}
+\usepackage{html}
 \usepackage{hfont}
-\usepackage{fancyheadings}
+%\usepackage{fancyheadings}
+
+\externallabels{.}{labels.pl}
+
 
 %
 % In the new comp.lang.c FAQ, there are FAQ numbers which look like
@@ -33,6 +37,25 @@
 %
 
 %
+% ** Rules of writing **
+%
+% 1. Do not try to tramslate all technical terms into Korean.
+%    So far we don't have appropriate terms for specific technical terms
+%    (e.g. enumeration, identifier, symbol, union, etc.)
+%
+%
+% 2. When the {faq} environment is completed, I mean, if it contains both
+%    on-line FAQ content and book content, Put ``COMPLETE'' in the header
+%       \begin{faq}
+%       \Q{9.1} % 9.1 COMPLETE
+%         ...
+%
+% 3. Do not try to use rich LateX commands. The output of this document
+%    should be cleanly generated as PDF(.pdf), PostScript(.ps), and HTML(.html).
+%    Especially, when you introduce new command, compile the document with
+%    latex2html whether it succeeded.
+%
+
 % ChangeLog
 %
 % 1.1.1.1 -- Import documents. (little modified from the first edition)
@@ -42,22 +65,30 @@
 \newcommand{\page}[1]{\mbox{p.\ #1}}
 \newcommand{\Page}[1]{\mbox{pp.\ #1}}
 
-\newcommand{\initfaq}{\newcounter{faq}[chapter]}
+%\newcommand{\initfaq}{\newcounter{faq}[chapter]}
+\newcommand{\initfaq}{}
 %\newcommand{\faqref}[1]{\thechapter.\ref{#1}}
 \newcommand{\faqref}[3][1]{\ref{#2}.\ref{#3}#1}
 
 \newenvironment{faq}
-	{\addtocounter{faq}{1}\vspace{1em}\begin{itemize}}{\end{itemize}}
-\newenvironment{faq*}
-	{\vspace{1em}\begin{itemize}}{\end{itemize}}
-\newcommand{\Q}[1]{\item[\fbox{\textbf{\Large{Q #1}}}]}
+%	{\addtocounter{faq}{1}\vspace{1em}\begin{enumerate}}{\end{enumerate}}
+	{\vspace{1em}\begin{enumerate}}{\end{enumerate}}
+%\newenvironment{faq*}
+%	{\vspace{1em}\begin{itemize}}{\end{itemize}}
+\newcommand{\Q}[1]{\item[\textbf{\Large{Q #1}}]\label{#1}}
+%\newcommand{\Q}[1]{\item[\fbox{\textbf{\Large{Q #1}}}]}
 %\newcommand{\q}{\item[\fbox{\textbf{\Large{\thechapter.\thefaq}}}]}
-\newcommand{\q}[1][]{\item[\fbox{\textbf{\Large{\thechapter.\thefaq#1}}}]}
+%\newcommand{\q}[1][]{\item[\textbf{\Large{Q \thechapter.\thefaq#1}}]}
+%\newcommand{\q}[1][]{\item[\fbox{\textbf{\Large{Q \thechapter.\thefaq#1}}}]}
 %\newcommand{\q}[1][]{\item[\fbox{\thechapter.\thefaq#1}]}
 
 \newcommand{\A}{\item[Answer]}
 \newcommand{\R}{\item[References]}
 \newcommand{\T}{\item[Note]}
+\newcommand{\note}{\textbf{Note}\ }
+
+\newcommand{\ql}[1]{\externalref{#1}#1}
+
 \newcommand{\seealso}[1]{덧붙여 질문 #1도 참고하시기 바랍니다\@.}
 
 \newcommand{\TT}[1]{\texttt{#1}}
@@ -69,19 +100,19 @@
 
 \newcommand{\trans}[1]{(#1)}
 
-\addtolength{\textwidth}{\marginparsep}
-\addtolength{\textwidth}{\marginparwidth}
-\addtolength{\textwidth}{\oddsidemargin}
-\setlength{\oddsidemargin}{0cm}
-\setlength{\evensidemargin}{0cm}
-\setlength{\marginparsep}{0cm}
-\setlength{\marginparwidth}{0cm}
-\setlength{\voffset}{0cm}
-\addtolength{\textheight}{1cm}
+%\addtolength{\textwidth}{\marginparsep}
+%\addtolength{\textwidth}{\marginparwidth}
+%\addtolength{\textwidth}{\oddsidemargin}
+%\setlength{\oddsidemargin}{0cm}
+%\setlength{\evensidemargin}{0cm}
+%\setlength{\marginparsep}{0cm}
+%\setlength{\marginparwidth}{0cm}
+%\setlength{\voffset}{0cm}
+%\addtolength{\textheight}{1cm}
 
 
 \title{C Programming FAQs}
-\author{번역: Seong-Kook Shin}
+\author{번역: 신성국 (Seong-Kook Shin)}
 \date{\today}
 
 
@@ -89,16 +120,21 @@
 \setlength{\parsep}{0.5\parsep}
 \setlength{\parskip}{1ex}
 
+% \AtBeginDvi{\special{pdf:tounicode KSCms-UHC-UCS2}}
+
 \begin{document}
 
-%\고딕
-\pagestyle{fancy}
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
 
+%\pagestyle{fancy}
+\pagestyle{headings}
 \maketitle
 
 \vspace{10em}
 \begin{center}
-\EM{This book is decicated to C programmers everywhere.}
+\EM{This book is dedicated to C programmers everywhere.}
 
 \vspace{2cm}
 
@@ -168,7 +204,7 @@
 
 % chapter 14: float
 \newpage
-\input float
+\input floats
 
 % chapter 15: vlal
 \newpage
@@ -195,12 +231,10 @@
 \input misc
 
 % chapter 21: ext
-\newpage
-\input ext
+\newpage \input ext
 
 % chapter 22: isostd
-\newpage
-\input isostd
+\newpage \input isostd
         
 % bibliography
 \newpage

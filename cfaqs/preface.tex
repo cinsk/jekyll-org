@@ -1,9 +1,159 @@
 % $Id$
 \chapter*{Preface}
 % chapter: preface
+
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 \section*{Original Preface}
 
 \initfaq
+
+At some point in 1979, I heard a lot of people talking about this relatively
+new language, C, and the book that had just come out about it. I bought a
+copy of K\&R, otherwise known as \EM{The C Programming Language}, by Brian
+Kernighan and Dennis Ritchie, but it sat on my shelf for a while because I
+didn't have an immediate need for it (besides which I was busy being a college
+freshman at the time.)  It proved in the end to be an auspicious purchase,
+though, because when I finally did take it up, I never put it down: I've been
+programming in C ever since.
+
+In 1983, I came across the Usenet newsgroup net.lang.c, which was (and
+its successor comp.lang.c still is) an excellent place to learn a lot more about
+C, to find out what questions everyone else is having about C, and to discover
+that you may not know all there is to know about C after all.  It seems that
+C, despite its apparent simplicity, has a number of decidedly nonobvious 
+aspects, and certain questions come up over and over again.  This book is a
+collection of some of those questions, with answers, based on the Frequently
+Asked Questions (``FAQ'') list I began posting to comp.lang.c in May 1990.
+
+I hasten to add, however, that this book is not intended as a critique or
+``hatched job'' on the C language.  It is all too easy to blame a language
+(or any tool) for the difficulties its users encounter with it or to claim
+that a properly designed tool ``ought'' to prevent its users from misusing it.
+It would therefore be easy to regard a book like this, with its long lists of
+misuses, as a litany of woes attempting to show that the language is hopelessly
+deficient. Nothing could be farther from the case.
+
+I would never have learned enough about C to be able to write this book,
+and I would not be attempting to make C more pleasant for others to use by
+writing this book now, if I did not think that C is a great language or if I
+did not enjoy programming in it. I \EM{do} like C, and one of the reasons I
+teach classes in it and spend time participating in discussion about in on the
+Internet is that I would like to discover which aspects of C (or of programming
+in general) are difficult to learn or keep people from being able to program
+efficiently and effectively.  This book represents some of what I've learned:
+These questions are certainly some of the ones people have the most trouble
+with, and the answers have been refined over several years in an attempt to
+ensure that people don't have too much trouble with \EM{them}.
+
+
+A reader will certainly have trouble if there are any errors in these answers,
+and although the reviewers and I have worked hard to eliminate them, it can
+be as difficult to eradicate the last error from a large manuscript as it is to
+stamp out the last bug in a program.  I will appreciate any corrections or
+suggestions sent to me in care of the publisher or at the e-mail address given,
+and I would like to offer the customary \$1.00 reward to the first finder of
+any error.  If you have access to the Internet, you can check for an errata list
+(and a scorecard of the finders) at the ftp and http addresses mentioned in
+question 20.40.
+
+As I hope I've made clear, this book is not a critique of the C programming
+langauge, nor is it a critique of the book from which I first learned C or of
+that book's authors.  I didn't just learn C from K\&R; I also learned a lot of
+programming.  As I contemplate my own contribution to the C programming
+literature, my only regret is that the present book does not live up to a nice
+observation made in the second edition of K\&R, namely, that ``C is not a big
+language, and it is not well served by a big book.''  I hope that those who
+most deeply appreciate C's brevity and precision (and that of K\&R) will not be
+too offended by the fact that this book says some things over and over and over
+or in three slightly different ways.
+
+Although my name is on the cover, there are a lot of people behind this book,
+and it's difficult to know where to start handling out acknowledgements.
+In a sense, every one of comp.lang.c's readers (today estimated at 320,000) is
+a contributor:  The FAQ list behind this book was written for comp.lang.c first,
+and this book retains the flavor of a good comp.lang.c discussion.
+
+This book also retains, I hope, the philosophy of correct C programming that I
+began learning when I started reading net.lang.c.  Therefore, I shall first
+acknowledge the posters who stand out in my mind as having most clearly and
+consistently articulated that philosophy: Doug Gwyn, Guy Harris, Karl Heuer,
+Henry Spencer, and Chris Torek.  These gentlemen have displayed remarkable
+patience over the years, answering endless questions with generocity and wisdom.
+I was the one who stuct his neck out and started writing the Frequent questions
+down, but I would hate to give the impression that the answers are somehow mine.
+I was once the student (I believe it was Guy who answered my posting asking
+essentially the present volume's question 5.10), and I owe a real debt to the
+masters who went before me.  This book is theirs as much as mine, though I
+retain title to any inadequacies or mistakes I've made in the presentation.
+
+The former on-line FAQ list grew by a factor of three in the process of becoming
+this book, and its growth was a bit rapid and awkward at times. Mark Brader,
+Vinit Carpenter, Stephen Clamage, Jutta Degener, Doug Gwyn, Karl Heuer,
+Joseph Kent, and George Leach read proposals or complete drafts and helped to
+exert some control over the process; I thank them for their many careful
+suggestions and corrections.  Their efforts grew out of a shared wish to
+improve the overall understanding of C in the programming community.
+I appreciate their dedication.
+
+Three of those reviewers have also been long-time contributors to the on-line
+FAQ list.  I thank Jutta Degener and Karl Heuer for their help over the years,
+and I especially thank Mark Brader, who has been my most persistent critic ever
+since I first began posting the comp.lang.c FAQ list five years ago.  I don't
+know how he has had the stamina to make as many suggestions and corrections
+as he has and to overcome my continuing stubborn refusal to agree with some of
+them, even though (as I eventually understood) they really \EM{were}
+improvements.  You can thank Mark for the form of many of this book's
+explanations and blame me for mangling any of them.
+
+Additional assorted thanks: to Susan Cyr for the cover art; to Bob Dinse and
+Eskimo North for providing the network access that is particularly vital to a
+project like this; to Bob Holland for providing the computer on which I've done
+most of the writing; to Pete Keleher for the Alpha text editor; to the
+University of Washington Mathematics Research and Engineering libraries for
+access to their collections; and to the University of Washington Oceanoraphy
+department for letting me borrow their tape drivers to access my dusty old
+archives of Usenet postings.
+
+
+Thanks to Tanmoy Bhattacharya for the example in question 11.10, to Arjan
+Kenter for the code in question 13.7, to Tomohiko Sakamoto for the code in
+question 20.31, and to Roger Miller for the line in question 11.35.
+
+Thanks to all these people, all over the world, who have contributed to the
+FAQ list in various ways by offering suggestions, corrections, constructive
+criticism, or other support: Jamshid Afshar, David Anderson, Tanner Andrews,
+Sudheer Apte, Joseph Arceneaux, Randall Atkinson, Rick Beem, Peter Bennett,
+Wayne Berke, Dan Bernstein, John Bickers, Gary Blaine, Yuan Bo, Dave Boutcher,
+Michael Bresnahan, Vincent Broman, Stan Brown, Joe Buehler, Kimberley Burchett,
+Gordon Burditt, Burkhard Burow, Conor P.\ Cahill, D'Arcy J.M.\ Cain,
+Christopher Calabrese, Ian Cargill, Paul Carter, Mike Chambers, Billy Chambless,
+Franklin Chen, Jonathan Chen, Raymond Chen, Richard Cheung, Ken Corbin, 
+Ian Cottam, Russ Cox, Jonathan Coxhead, Lee Crawford, Steve Dahmer, Andrew
+Daviel, James Davies, John E.\ Davis, Ken Delong, Norm Diamond, Jeff Dunlop,
+Ray Dunn, Stephen M.\ Dunn, Michael J.\ Eager, Scott Ehrlich, Arno Eigenwillig,
+Dave Eisen, Bjorn Engsig, David Evans, Clive D.W.\ Feather, Dominic Feeley,
+Simao Ferraz, Chris Flatters, Rod Flores, Alexander Forst, Steve Fosdick,
+Jeff Francis, Tom Gambill, Dave Gillespie, Samuel Goldstein, Tim Goodwin,
+Alasdair Grant, Ron Guilmette, ...
+% TODO: 다 치기.. -_-
+I have tried to keep track of everyone whose suggestions I have used, but I
+fear I've probably overlooked a few; my apologies to anyone whose name should
+be on this list but isn't.
+
+Finally, I'd like to thank my editor at Addison-Wesley, Debbie Lafferty, for
+tapping me on the electronic shoulder one day and asking if I might be
+interested in writing this book.  I was, and you now hold it, and I hope that
+it may help to make C programming as pleasant for you as it is for me.
+
+Seattle, Washington \\
+\noindent July, 1995
+
+Steve Summit \\
+\noindent summit@aw.com
+
 
 이 문서는 Steve Summit씨에게 저작권(copyright)이 있습니다.
 이 문서의 내용은 ``C Programming FAQs: Frequently Asked Questions''의
@@ -126,7 +276,7 @@ site)에서 얻은 문서를 보신다면 먼저 최신의 문서를 다음 사이트에서
 이 문서에 대한 조언, 비판, 정정은 언제든지 환영하며 이러한 사항은 아래
 e-mail 주소로 보내시기 바랍니다:
 \begin{verbatim}
-  cinsk@nownuri.net
+  cinsky@gmail.com
 \end{verbatim}
 
 \noindent 위의 주소에 보낼 수 없다면 다음 주소\footnote{첫 판에서 썼던
@@ -135,6 +285,12 @@ e-mail 주소인 \TT{progman@pcrc.hongik.ac.kr}은 더이상 쓰지 않습니다.}로
 
 \begin{verbatim}
   cinsk@pcrc.hongik.ac.kr
+\end{verbatim}
+
+번역자의 홈 페이지를 방문하면 항상 최신의 연락처를 얻을 수 있습니다:
+
+\begin{verbatim}
+  http://pcrc.hongik.ac.kr/~cinsk/
 \end{verbatim}
 
 이 문서는 Steve씨의 원문의 느낌을 그대로 전달하는 것을 목표로 하고 있습니다.

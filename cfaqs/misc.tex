@@ -2,6 +2,10 @@
 \chapter{Miscellaneous}	\label{chap:misc}
 % Chapter 20: misc
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 이 절에서는 제목이 뜻하듯, 다른 절에 해당하지 않는 여러가지 주제를
 다룹니다.  처음 두 단락에서는 여러가지 프로그래밍 테크닉과 bit나 byte 단위로
 제어하는 방법을 소개합니다.  그 다음으로 효과성(efficiency)과 C 언어의
@@ -21,14 +25,14 @@
 이 절의 질문과 단락은 다음과 같이 나눌 수 있습니다.
 
 \begin{description}
-\item[기타 테크닉]     20.1 -- 20.6
-\item[비트와 바이트]   20.7 -- 20.12
-\item[효율성]          20.12 -- 20.16
-\item[switch 문장]     20.16 -- 20.18
-\item[기타 언어 기능]  20.19 -- 20.24
-\item[다른 언어들]     20.25 -- 20.27
-\item[알고리즘]        20.28 -- 20.33
-\item[만물상]          20.34 -- 20.40
+\item[기타 테크닉]     \ql{20.1} -- \ql{20.6}
+\item[비트와 바이트]   \ql{20.7} -- \ql{20.12}
+\item[효율성]          \ql{20.12} -- \ql{20.16}
+\item[switch 문장]     \ql{20.16} -- \ql{20.18}
+\item[기타 언어 기능]  \ql{20.19} -- \ql{20.24}
+\item[다른 언어들]     \ql{20.25} -- \ql{20.27}
+\item[알고리즘]        \ql{20.28} -- \ql{20.33}
+\item[만물상]          \ql{20.34} -- \ql{20.40}
 \end{description}
 
 \section{기타 테크닉}	\label{sec:misctech}
@@ -40,7 +44,7 @@
 	세 가지 방법을 쓸 수 있습니다: 하나는 함수 내부에서 고칠 수 있도록
 	포인터를 인자로 받는 것이고, 하나는 여러 개의 멤버를 가지는
 	구조체를 리턴하도록 하는 것입니다.  마지막으로 전역 변수를
-	이용하는 방법이 있습니다.  \seealso{2.7, 4.8, 7.5a}
+	이용하는 방법이 있습니다.  \seealso{\ql{2.7}, \ql{4.8}, \ql{7.5a}}
 \end{faq}
 
 \begin{faq}
@@ -48,16 +52,16 @@
 	`command-line argument'에 접근하는 방법은?
 \A
 	\TT{main()}에 전달되는, \TT{argv} 배열에 대한 포인터를 쓰면
-	가능합니다.  \seealso{8.2, 13.7, 19.20}
+	가능합니다.  \seealso{\ql{8.2}, \ql{13.7}, \ql{19.20}}
 
 \R
-	\cite{kr1} \S\ 5.11 \Page{110--114}; 
-	\cite{kr2} \S\ 5.10 \Page{114--118}; 
-	\cite{iso} \S\ 5.1.2.2.1; 
-	\cite{hs} \S\ 20.1 \page{416}; 
-	\cite{pcs} \S\ 5.6 \Page{81-2}, \S\ 11 \page{159}, 
-		\Page{339--40} Appendix F;
-	\cite{swsolution} \S\ 4 \Page{75--85}.
+	\cite{kr1} \S\ 5.11 \Page{110--114} \\
+	\cite{kr2} \S\ 5.10 \Page{114--118} \\
+	\cite{iso} \S\ 5.1.2.2.1 \\
+	\cite{hs} \S\ 20.1 \page{416} \\
+	\cite{pcs} \S\ 5.6 \Page{81-2}, \S\ 11 \page{159},
+		\Page{339--40} Appendix F \\
+	\cite{swsolution} \S\ 4 \Page{75--85}
 \end{faq}
 
 \begin{faq}
@@ -82,7 +86,7 @@
 	기존의 라이브러리를 쓰는 잇점을 누리기 위해, Sun의 XDR (RFC 1014)이나
 	OSI의 ASN.1 (CCITT X.409와 \cite{iso} 8825 ``Basic Encoding Rules''에서
 	참조됨), CDF, netCDF, HDF를 쓰는 것이 좋을 것입니다.
-	\seealso{2.12}
+	\seealso{\ql{2.12}}
 \R
 	\cite{pcs} \S\ 6 pp.\ 86, 88.
 \end{faq}
@@ -105,9 +109,9 @@
 \end{verbatim}
 	
 	\noindent 그 다음, 각각의 이름에 해당하는 테이블 목록을 뒤져서
-	해당하는 함수 포인터를 호출하면 됩니다.  \seealso{2.15, 18.14, 19.36}
+	해당하는 함수 포인터를 호출하면 됩니다.  \seealso{\ql{2.15}, \ql{18.14}, \ql{19.36}}
 \R
-	\cite{pcs} \S\ 11 \page{168}.
+	\cite{pcs} \S\ 11 \page{168}
 \end{faq}
 
 \section{비트와 바이트}	\label{sec:bitbyte}
@@ -132,7 +136,7 @@
 	8을 쓰기 바랍니다.)
 
 \R
-	\cite{hs} \S\ 7.6.7 \Page{211--216}.
+	\cite{hs} \S\ 7.6.7 \Page{211--216}
 \end{faq}
 
 \begin{faq}
@@ -150,9 +154,9 @@
 \end{verbatim}
 	\noindent \TT{union}을 써서도 가능합니다.
 
-	\seealso{10.16}
+	\seealso{\ql{10.16}}
 \R
-	\cite{hs} \S\ 6.1.2 \Page{163--4}.
+	\cite{hs} \S\ 6.1.2 \Page{163--4}
 \end{faq}
 
 \begin{faq}
@@ -176,8 +180,8 @@
 	반대되는 일을 해야 합니다.).  바이너리(binary) I/O를 할 때에는
 	이러한 작업이 전혀 불필요합니다.
 
-	바이너리 I/O에 관한 것은 질문 2.11을 참고하기 바랍니다.
-	\seealso{8.6, 13.1}
+	바이너리 I/O에 관한 것은 질문 \ql{2.11}을 참고하기 바랍니다.
+	\seealso{\ql{8.6}, \ql{13.1}}
 
 \R
 	\cite{iso} \S\ 7.10.1.5, 7.10.1.6.
@@ -189,7 +193,7 @@
 	또 2진수를 출력하기 위한 \TT{printf()} 포맷이 있나요?
 \A
 	두 경우 모두 없습니다.  2진수를 출력하려면 \TT{strol()} 함수를
-	써서 직접 문자열을 만들어야 합니다.  \seealso{20.10}
+	써서 직접 문자열을 만들어야 합니다.  \seealso{\ql{20.10}}
 \end{faq}
 
 \section{효율성}	\label{sec:efficiency}
@@ -201,7 +205,7 @@
 	방법은 무엇인가요?
 \A
 	이러한 ``비트에 관련된 귀찮은'' (bit-fiddling) 문제들은
-	lookup 테이블을 써서 해결될 수 있습니다 (그러나 질문 20.13을
+	lookup 테이블을 써서 해결될 수 있습니다 (그러나 질문 \ql{20.13}을
 	꼭 참고하기 바랍니다).
 \end{faq}
 
@@ -291,8 +295,7 @@
 	똑같은 코드를 만들어 냅니다.  즉 현대에 \TT{++i}, \TT{i += 1},
 	\TT{i = i + 1} 중 어떤 것을 쓰느냐는 문제는 스타일에 관한 문제이지,
 	더 이상 효과성에 관한 문제가 아닙니다.
-	(\seealso{3.12})
-	(See also question 3.12.)
+	(\seealso{\ql{3.12}})
 \end{faq}
 
 \begin{faq}
@@ -332,7 +335,7 @@
 	(가능하다면 swap 명령을 써서).  게다가 이렇게 사용하면 두 변수가
 	포인터, 실수와 같은 타입일 때도 사용할 수 있습니다.  당연히 XOR를
 	사용한 방법은 이와 같은 데이터 타입에는 쓸 수 없습니다.
-	\seealso{3.3b, 10.3}
+	\seealso{\ql{3.3b}, \ql{10.3}}
 \end{faq}
 
 \section{\TT{switch} 문장}	\label{sec:switch}
@@ -345,12 +348,12 @@
 	직접적으로는 쓸 수 없습니다.  그러나, 문자열을 정수로 매핑시키는
 	함수를 써서 이 함수를 \TT{switch}에 쓰면 가능합니다.
 	그렇지 않다면 \TT{strcmp()}와 \verb+if/else+를 반복해서
-	비교해야 합니다.  \seealso{10.12, 20.18, 20.29}
+	비교해야 합니다.  \seealso{\ql{10.12}, \ql{20.18}, \ql{20.29}}
 \R
-	\cite{kr1} \S\ 3.4 \page{55}; 
-	\cite{kr2} \S\ 3.4 \page{58}; 
-	\cite{iso} \S\ 6.6.4.2; 
-	\cite{hs} \S\ 8.7 \page{248}.
+	\cite{kr1} \S\ 3.4 \page{55} \\
+	\cite{kr2} \S\ 3.4 \page{58} \\
+	\cite{iso} \S\ 6.6.4.2 \\
+	\cite{hs} \S\ 8.7 \page{248}
 \end{faq}
 
 \begin{faq}
@@ -369,7 +372,7 @@
 	일반 수식이나 상수가 아닌 수식을 사용하려면, \verb+if/else+를
 	사용해야 합니다.
 
-	\seealso{20.17}
+	\seealso{\ql{20.17}}
 \T
 \begin{verbatim}
   switch (c) {
@@ -385,11 +388,11 @@
   }
 \end{verbatim}
 \R
-	\cite{kr1} \S\ 3.4 \page{55}; 
-	\cite{kr2} \S\ 3.4 \page{58}; 
-	\cite{iso} \S\ 6.6.4.2; 
-	\cite{rationale} \S\ 3.6.4.2; 
-	\cite{hs} \S\ 8.7 \page{248}.
+	\cite{kr1} \S\ 3.4 \page{55} \\
+	\cite{kr2} \S\ 3.4 \page{58} \\
+	\cite{iso} \S\ 6.6.4.2 \\
+	\cite{rationale} \S\ 3.6.4.2 \\
+	\cite{hs} \S\ 8.7 \page{248}
 \end{faq}
 
 \section{기타 언어 기능}	\label{sec:misclangfeature}
@@ -408,9 +411,9 @@
 	이 괄호도 생략 가능합니다.)
 
 \R
-	\cite{kr1} \S\ A18.3 \page{218}; 
-	\cite{iso} \S\ 6.3.3, \S\ 6.6.6;
-	\cite{hs} \S\ 8.9 \page{254}.
+	\cite{kr1} \S\ A18.3 \page{218} \\
+	\cite{iso} \S\ 6.3.3, \S\ 6.6.6 \\
+	\cite{hs} \S\ 8.9 \page{254}
 \end{faq}
 
 \begin{faq}
@@ -424,7 +427,7 @@
 	주석 구문을 빌어왔으며, PL/I에서는 중첩된 주석문을 허용하지 않습니다.
 	따라서 --- 내부적으로 주석을 포함한 --- 어떠한 코드 블럭을 주석 
 	처리하고 싶다면, \verb+#ifdef+나 \verb+#if+를 쓰는 것이 좋습니다
-	(그러나 질문 11.19를 꼭 읽어보기 바랍니다.)
+	(그러나 질문 \ql{11.19}를 꼭 읽어보기 바랍니다.)
 
 	문자열 ``\verb+/*''와 ``\verb+*/+''는 특별한 의미가 없습니다.
 	따라서 문자열 안에서는 주석을 쓸 수 없습니다.
@@ -437,12 +440,12 @@
 	하더라도 말입니다).
 
 \R
-	\cite{kr1} \S\ A2.1 \page{179}; 
-	\cite{kr2} \S\ A2.2 \page{192}; 
-	\cite{iso} \S\ 6.1.9, Annex F; 
-	\cite{rationale} \S\ 3.1.9; 
-	\cite{hs} \S\ 2.2 \Page{18--9}; 
-	\cite{pcs} \S\ 10 \page{130}.
+	\cite{kr1} \S\ A2.1 \page{179} \\
+	\cite{kr2} \S\ A2.2 \page{192} \\
+	\cite{iso} \S\ 6.1.9, Annex F \\
+	\cite{rationale} \S\ 3.1.9 \\
+	\cite{hs} \S\ 2.2 \Page{18--9} \\
+	\cite{pcs} \S\ 10 \page{130}
 \end{faq}
 
 \begin{faq}
@@ -463,10 +466,10 @@
 	and cannot be parsed as a valid expression.
 
 \R
-	\cite{kr1} \S\ A2 \page{179}; 
-	\cite{kr2} \S\ A2.1 \page{192}; 
-	\cite{iso} \S\ 6.1; 
-	\cite{hs} \S\ 2.3 \Page{19--20}.
+	\cite{kr1} \S\ A2 \page{179} \\
+	\cite{kr2} \S\ A2.1 \page{192} \\ 
+	\cite{iso} \S\ 6.1 \\
+	\cite{hs} \S\ 2.3 \Page{19--20}
 \end{faq}
 
 \begin{faq}
@@ -501,9 +504,9 @@
 	따라서 \TT{malloc()}이나 \TT{fopen}과 같이 예상할 수 있는 에러를
 	검사하기 위해 쓰일 수는 없습니다.
 \R
-	\cite{kr2} \S\ B6 \Page{253--4}; 
-	\cite{iso} \S\ 7.2; 
-	\cite{hs} \S\ 19.1 \page{406}.
+	\cite{kr2} \S\ B6 \Page{253--4} \\
+	\cite{iso} \S\ 7.2 \\
+	\cite{hs} \S\ 19.1 \page{406}
 \end{faq}
 
 \section{다른 언어들}	\label{sec:otherlang}
@@ -534,7 +537,7 @@
 	calling convention을 사용하는 것을 지정해 줍니다.
 
 \R
-	\cite{hs} \S\ 4.9.8 \Page{106--7}.
+	\cite{hs} \S\ 4.9.8 \Page{106--7}
 \end{faq}
 
 \begin{faq}
@@ -544,7 +547,7 @@
 \A
 	자유롭게 배포되는 프로그램들은 다음과 같습니다:
 
-\begin{tabular}{l|p{9cm}}	\hline \hline
+\begin{tabular}{l|p{10cm}}	\hline \hline
 	p2c	& Dave Gillespie씨가 만든, Pascal을 C로 변경해주는
 		프로그램입니다.  이 프로그램은 1990년 3월에
 		\TT{comp.sources.unix}에 (Volumn 21) 게시되었습니다.
@@ -570,7 +573,7 @@
 	이 FAQ 리스트의 관리자는 다른 (상업용) 변환 프로그램과 다른
 	잘 알려지지 않은 언어에 대한 프로그램의 목록을 유지하고 있습니다.
 
-	\seealso{11.31, 18.16}
+	\seealso{\ql{11.31}, \ql{18.16}}
 \end{faq}
 
 \begin{faq}
@@ -587,10 +590,10 @@
 	부분도 있습니다.
 	이런 차이점에도 불구하고, 많은 C 프로그램들이 C++에서도 올바르게
 	동작합니다.  그리고 대부분의 최근 컴파일러들은 C와 C++ 컴파일 모드를
-	다 지원합니다.  \seealso{8.9, 20.20}
+	다 지원합니다.  \seealso{\ql{8.9}, \ql{20.20}}
 \R
 	\cite{hs} p.\ xviii, \S\ 1.1.5 \page{6}, \S\ 2.8 \Page{36--7}, 
-		\S\ 4.9 \Page{104--107}.
+		\S\ 4.9 \Page{104--107}
 \end{faq}
 
 \section{알고리즘}	\label{sec:algorithm}
@@ -620,8 +623,8 @@
 	but it can be pressed into service
 	for processing arbitrary words.
 \R
-	\cite{knuth} \S\ 6 \Page{391--2} Vol.\ 3;
-	\cite{agrep}.
+	\cite{knuth} \S\ 6 \Page{391--2} Vol.\ 3 \\
+	\cite{agrep}
 \end{faq}
 
 \begin{faq}
@@ -641,16 +644,16 @@
 	이런 주제에 대한 더 자세한 것은 이 리스트의 목적과 맞지 않기
 	때문에 생략합니다.
 
-\R	\cite{kr2} \S\ 6.6; 
-	\cite{knuth} \S\ 6.4 \Page{506--549} Vol.\ 3;
-	\cite{calgo} \S\ 16 \Page{231--244}.
+\R	\cite{kr2} \S\ 6.6 \\
+	\cite{knuth} \S\ 6.4 \Page{506--549} Vol.\ 3 \\
+	\cite{calgo} \S\ 16 \Page{231--244}
 \end{faq}
 
 \begin{faq}
 \Q{20.31}
 	주어진 날짜로 요일을 계산하려면 어떻게 하죠?
 \A
-	\TT{mktime()}과 \TT{localtime()}을 쓰면 됩니다.  (\seealso{13.13, 13.14}.
+	\TT{mktime()}과 \TT{localtime()}을 쓰면 됩니다.  (\seealso{\ql{13.13}, \ql{13.14}}.
 	그러나 \verb+tm_hour+가 0이 될 때, DST 조정(adjustment)을
 	주의해야 합니다.) 또는 Zeller's congruence를 (\TT{sci.math}의
 	FAQ 리스트 참고) 쓰거나, Tomohiko Sakamoto씨의 다음 코드를
@@ -664,7 +667,7 @@
     return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
   }
 \end{verbatim}
-	\seealso{13.14, 20.32}
+	\seealso{\ql{13.14}, \ql{20.32}}
 
 \R
 	\cite{iso} \S\ 7.12.2.3.
@@ -685,7 +688,7 @@
 % TODO: 다음 문장 번역
 	(To forestall an eternal debate: references which claim the
 	existence of a 4000-year rule are wrong.)
-	\seealso{13.14, 13.14b}
+	\seealso{\ql{13.14}, \ql{13.14b}}
 \end{faq}
 
 \section{만물상}	\label{sec:trivia}
@@ -755,13 +758,15 @@
 	열리나요? 저번 수상자의 작품을 볼 수 있을까요?
 
 \A
+        \begin{sloppypar}
 	이 컨테스트는 항상 진행 중입니다.
 	\TT{http://www.ioccc.org/index.html}을 참고하시기 바랍니다.
 
 	수상자는 대개 Usenix 포럼에 공표되며 그 후로 net에도 계시됩니다.
 	과거의 (1984년 이후) 수상 작품들은 \TT{ftp.uu.net}의
-	\TT{pub/ioccc} 디렉토리에 저장되어 있습니다(질문 18.16 참고);
+	\TT{pub/ioccc} 디렉토리에 저장되어 있습니다(질문 \ql{18.16} 참고);
 	\TT{http://www.ioccc.org/index.html}도 참고하기 바랍니다.
+        \end{sloppypar}
 \end{faq}
 
 \begin{faq}
@@ -774,7 +779,7 @@
 	실제로 이 기능이 들어있는 컴파일러는 만들어진 적이 없다고
 	알려져 (이 문법이 어떤 식으로 쓰이는 지 기억하는 사람도
 	없으며) 있습니다.  이 키워드는 ANSI C에서는 제거되었습니다.
-	(\seealso{1.12})
+	(\seealso{\ql{1.12}})
 
 \R
 	\cite{kr2} \page{259} Appendix C.
@@ -809,7 +814,7 @@
 \A
 	간단히 말해서, ``lvalue''는 대입(assignment) 연산에서
 	왼쪽에 올 수 있는 수식을 말합니다; 따라서 어떤 위치를 나타내는
-	오브젝트로 생각할 수 있습니다.  (그러나 질문 6.7을 참고하기 바랍니다.)
+	오브젝트로 생각할 수 있습니다.  (그러나 질문 \ql{6.7}을 참고하기 바랍니다.)
 	``rvalue''라 함은 어떠한 값을 가지는 모든 수식을 말합니다 (즉
 	대입 연산에서 오른쪽에 올 수 있는 수식을 말합니다).
 \end{faq}

@@ -2,52 +2,231 @@
 \chapter{C Preprocessor}	\label{chap:preproc}
 % chapter 10: preproc
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
+C's preprocessor provides reasonable solutions to a number of software
+enginerring and configuration management problems, although its syntax is
+unlike the rest of C in several respects. As its name suggests, the
+preprocessor operates \EM{before} formal parsing and compilation begin.
+Because it doesn't know about the structure of the code as seen by the rest of
+the compiler, it cannot do any processing that relates to declared types or
+function structure.
+
+The first part of this chapter is arranged around the major preprocessor
+directives: \verb+#define+ (questions \ql{10.1} through \ql{10.5}), \verb+#include+
+(questions \ql{10.6} through \ql{10.11}), and \verb+#if+
+(questions \ql{10.12} through \ql{10.19}). Questions
+\ql{10.20} through \ql{10.25} cover fancier macro replacement, and finally questions
+\ql{10.26} and \ql{10.27} cover a particular set of problems relating to the
+preprocessor's lack of support for variable-length macro argument lists.
+
 \begin{faq}
-\Q{10.2}
-	다음과 같은 매크로를 쓰는 것에 대해 어떻게 생각하세요?
+\Q{10.1} % 10.1 COMPLETE
+	\label{tttt}
+	다음과 같이 간단한, 함수와 비슷한 매크로를 만들려고 합니다.
+\begin{verbatim}
+  #define square(x)   x * x
+\end{verbatim}
+	\noindent 그런데, 가끔씩 제대로 동작하지 않습니다. 왜 그럴까요?
+\A
+	매크로 확장(expansion)은 순수하게 텍스트로 이루어집니다.
+        즉, 쓰여진 그대로 확장된다는 뜻이며, 때때로 (위와 같이) 개발자가
+        원하지 않은 결과를 가져올 수 있습니다. 함수같은 매크로를 정의할 때에는
+        다음과 같은 세가지 규칙을 지켜야 합니다:
+\begin{enumerate}
+  	\item 매크로를 포함한 expression에서 연산자 우선 순위 때문에 원하지
+          않은 결과를 얻을 수 있기 때문에, 항상 정의 전체를 괄호로 둘러 싸야
+          합니다. 예를 들어
+          질문에서 제공한 \TT{square()} 매크로를 다음과 같이 썼다고 생각해
+          봅시다:
+\begin{verbatim}
+  i / square(n)
+\end{verbatim}
+          \noindent 그러면, 위 expression은 다음과 같이 확장됩니다:
+\begin{verbatim}
+  i / n * n
+\end{verbatim}
+	  \noindent 따라서, \TT{(i / n) * n}으로 평가됩니다. 물론 여러분이
+          의미한 것은 다음과 같습니다:
+\begin{verbatim}
+  i / (n * n)
+\end{verbatim}
+	이 경우는, 우선 순위(precedence)라기 보다는, 결합성(associativity)에
+        관계된 문제입니다만, 결과는 같습니다.
+
+	\item 매크로 정의 안에서, 모든 파라메터들은 괄호로 둘러 싸서 원치 않는
+          우선순위 문제를 제거합니다. 다시 한번, 질문에서 준 매크로를 다음과
+          같이 썼다고 가정합시다:
+\begin{verbatim}
+  square(n + 1)
+\end{verbatim}
+	그러면, 위 expression은 다음과 같이 확장됩니다:
+\begin{verbatim}
+  n + 1 * n + 1
+\end{verbatim}
+	즉, 다음과 같이, 우리가 원한 것과는 다른 결과가 나옵니다:
+\begin{verbatim}
+  (n + 1) * (n + 1)
+\end{verbatim}
+	
+	\item 만약에, 매크로가 확장될 때 어떤 파라메터가 여러 번 쓰였다면, 
+          그리고 매크로에 전달한 actual argument가 side effect를 가지고 있는
+          것이라면, 원하는 결과를 얻을 수 없을 수도 있습니다. 예를 들어 다음과
+          같이 매크로를 쓰면:
+\begin{verbatim}
+  square(i++)
+\end{verbatim}
+	  \noindent 다음과 같이 확장되기 때문에, undefined behavior를
+          발생시킵니다. (질문 \ql{3.2} 참고)
+\begin{verbatim}
+  i++ * i++
+\end{verbatim}
+	  \noindent 즉, 규칙 1과 2에 따라서, \TT{square()} 매크로는 다음과 같이
+          정의해야 합니다.
+\begin{verbatim}
+  #define square(x)	((x) * (x))
+\end{verbatim}
+\end{enumerate}
+
+	  규칙 3을 지키는 것은 좀 어렵습니다. 때때로, \verb+&&+나 \TT{||},
+          \TT{?:} 연산자의 short-circuit 방식을 쓰면 (질문 \ql{3.6} 참고), 파라메터가
+          딱 한번만 평가되도록 할 수 있습니다. 또는 매크로가 안전하지 않으니,
+          부를 때, side effect가 발생하지 않도록 조심하라고 문서에 써 두는 것이
+          좋습니다. 또는, 안전하게 만들 수 없는 것이면, 매크로로 만들지 않는
+          편이 좋을 때도 있습니다.
+
+          일반적으로, (스타일에 관계되어) 매크로 이름에는 대문자를 쓰거나, 또는
+          전부 대문자로 써서, 매크로라는 것을 암시해 줍니다. 만약, 완전하게
+          함수와 같이 동작하는 것이라면, 소문자로만 이름을 만드는 것도 
+          괜찮습니다. 그러나 이 경우, 위 세가지 규칙을 준수하는지 확인하기
+          바랍니다. 질문에서 제공한 매크로는 위의 세가 규칙을 지킬 수 없으므로,
+          다음과 같이 만드는 것이 낫습니다:
+\begin{verbatim}
+  #define Square(x)  ((x) * (x))    /* UNSAFE */
+\end{verbatim}
+
+\R
+	\cite{kr1} \S\ 4.11 \page{87} \\
+        \cite{kr2} \S\ 4.11.2 \page{90} \\
+        \cite{hs} \S\S\ 3.3.6, 3.3.7 \Page{49--50} \\
+        \cite{ctp} \S\ 6.2 \Page{78--80}
+\end{faq}
+  
+\begin{faq}
+\Q{10.2} % 10.2
+	다음과 같은 매크로를 만들면, C 코드를 Pascal처럼 쓸 수 있습니다.
 \begin{verbatim}
   #define begin    {
   #define end      }
 \end{verbatim}
 \A
-	윽, 17 절을 참고하기 바랍니다.
+	이런 식으로 매크로를 쓰는 것은, 때때로 아주 매력적으로 보이기는 하지만,
+        권장되지 않는 방법입니다; 대부분의 경우, 이렇게 쓰는 것을 ``preprocessor
+        abuse''라고 (남용) 부릅니다.  
+% TODO: 번역
+        Your predilections are unlikely to be shared by later readers or
+        maintainers of the code, and any simulation of another language is
+        most unlikely to be perfect (so any alleged convenience or utility 
+        will probably be outweighed by the nuisance of remembering the
+        imperfections).
+
+
+        일반적으로, 프리프로세서를 써서 만드는 매크로는 C 언어 형식을 따르는
+        것이 좋습니다. 인자가 없는 매크로는 변수나 다른 identifier처럼 보이게
+        만들어야 하며, 인자가 있는 매크로는 함수처럼 만들어야 합니다.
+        ``만약 프리프로세서를 거치지 않고, 이 코드를 직접 컴파일러게 주었을
+        때, 문법 에러가 (syntax error) 몇 개나 발생할까?''라고 자신에게 묻는
+        습관을 가지면 좋습니다. (물론 undefined symbol, non-constant array 
+        dimension에 관한 많은 에러가 발생하겠지만, 이들은 문법 에러가 아닙니다.)
+        즉, C 코드는, 매크로 호출을 거치기 전에도, C 코드처럼 보여야 합니다.
+        \TT{begin}, \TT{end}, 또는 \TT{CTRL(D)}와 (질문 \ql{10.21} 참고) 같은,
+        nonsyntactic macro는 C 코드를 gobbledygook\footnote{은어, 특수어,
+          전문용어, 특수한 계층의 사람들만 쓰는 용어 (경멸적으로 쓰임)}처럼
+        보이게 만듭니다. 물론 이런 것은 스타일에 관한 것입니다.
+        (Chapter 17 참고)
 \end{faq}
 
 \begin{faq}
-\Q{10.3}
+\Q{10.3} % 10.3 COMPLETE
 	두 변수의 값을 바꾸기 위한 일반적인 매크로를 만들 수 있을까요?
 \A
 	이 질문에 대한 좋은 답변은 없습니다.  변수가 정수형일때에는
-	잘 알려진 exclusive OR를 쓰는 방법이 있긴 합니다만 포인터나
-	실수(floating-point)일 때에는 동작하지 않습니다.  또한 두 변수가
-	같은 변수일 경우에도 동작하지 않습니다.  (질문 3.3b와 20.15c를 참고하기
-	바랍니다.) 매크로가 모든 타입에 대해 동작하기 원하고, 임시 변수를
-	사용하길 원하지 않는다고 할 때, 이 조건을 다 만족시키는 매크로는
-	만들 수 없습니다.  왜냐하면 표준 C 언어에 임시 변수 타입을 알 수 있는
-	방법이 없기 때문입니다.
+	잘 알려진 exclusive OR를 쓰는 방법이 있긴 합니다만 타입이 포인터나
+	실수(floating-point)일 때에는 동작하지 않으며, 만약 두 값이 같은
+        변수에 저장되어 있을 때에도 동작하지 않습니다. (또,
+          정수 타입에 쓸 수 있는, 아주 압축된 코드인
+          \verb+a ^= b ^= a ^= b+는 중복된 side effect를 발생시키므로
+          나쁜 코드입니다. 질문 \ql{3.2}, \ql{3.3b}, \ql{20.15c} 참고)
+        만약, 모든 타입에 대해 쓸 수 있는
+        매크로를 만든다고 하면, 임시 변수가 반드시 필요하며, 분명 문제가
+        있는 코드가 됩니다. 왜냐하면:
+        \begin{itemize}
+          \item 다른 이름과 절대로 충돌하지 않는다고 보장할 수 있는
+            임시 변수를 만들 수 없습니다. 즉, 어떤 이름을 선택하더라도,
+            결국 이 이름과 같은 변수가 이미 존재할 확률이 있으며, 따라서
+            그 변수의 값이 바뀌어 버리는 경우가 생길 수 있습니다. 만약 
+            \verb+##+
+            연산자를, 두 인자에 써서, 이름을 만들어 낸다고 해도, 합쳐서
+            만든 이름이 31 글자를 넘는다면\footnote{C 표준은, 컴파일러가
+              이름을 비교할 때, 31글자 다음의 글자들을 비교해야 한다고
+              강요하지 않습니다.}, 다른
+            이름과 겹치지 않는다고 보장할 수 없습니다.  또한 간단한 이름이
+            아닌, 예를 들어 \TT{a[i]}와 같은 인자가 들어왔을 때에는 제대로
+            동작하지 않을 것입니다.  질문 \ql{1.29}에서 다룬 것처럼, \verb+__tmp+와
+            같은 이름을 써서, 사용자나 컴파일러 namespace에서 (완벽히 보장할
+            수는 없지만) 쓰이지 않는 이름을 만들 수도 있습니다.
+          \item 또, 임시 변수를 정확한 타입으로 선언할 방법이 없습니다.
+            (C 표준에서는 \TT{typeof}와 같은 연산자를 제공하지 않습니다.)
+            혹은, 적당한 크기의 메모리 공간을 만들고 그 곳에 \TT{memcpy}와
+            \TT{sizeof} 연산자를 써서 바이트 단위로 복사하는 방식을 쓸 수도
+            있으나, 만약 매크로에 전달된 인자가 \TT{register}로 선언되었다면
+            이 방법도 불가능합니다.
+        \end{itemize}
 
-	가장 좋은? 방법은 이런 목적으로 매크로를 사용하겠다는 생각을
-	아예 안하는 것입니다.  물론 이 임시 변수에 대한 타입을 매크로 함수의
-	인자로 전달한다면 가능합니다.
+        가장 좋은 해결책은, 두 변수의 타입을 매크로 인자로 전달하지 않는 한,
+        위와 같은 매크로로 처리하겠다는 생각을 접는 것입니다.
+        (또, 만약에 어떤 structure나 배열을 바꾸겠다는 생각을 했다면,
+        단순히 이들을 가리키는 포인터의 값을 바꾸는 것으로 해결할 수
+        있습니다.)
+
+        다시 말하지만, 두 변수의 내용을 매크로를 써서 바꾸겠다는 생각에
+        사로잡혀 있다면, 재고하기 바랍니다. 당신의 에너지를 소비할 가치가
+        있는 다른 일들도 많이 널려 있습니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.4}
+\Q{10.4} % 10.4
 	여러 문장으로 이루어진 매크로를 만드는 좋은 방법 좀 알려
 	주세요.
 \A	
 	이런 매크로를 만드는 일반적인 방법은 매크로 자체를 일반 함수처럼
 	쓸 수 있도록 하는 것입니다.  즉 호출하는 쪽에서 마지막 `;'을 직접
 	써 주게 하고 매크로의 몸통에서는 `;'을 따로 써 주지 않는 식으로
-	쓰는 것입니다.  
-	그러므로 매크로 몸통은 중괄호로 둘러싼 `compound statement' 형식으로
+	쓰는 것입니다.  예를 들면:
+\begin{verbatim}
+  MACRO(arg1, arg2);
+\end{verbatim}
+	그러므로 매크로 정의는 단순히 
+        여러 statement를 중괄호로 둘러싼 `compound statement' 형식으로
 	만들 수 없습니다.  왜냐하면 이 매크로가 호출될 때 세미콜론이 추가적으로
 	붙는다면 \TT{if}나 \TT{if}/\TT{else} 문장에서 에러가 발생할 수
-	있기 때문입니다.
-	
-
-	따라서 보통 다음과 같은 방법을 씁니다:
-
+	있기 때문입니다. 다음 코드를 보기 바랍니다:
+\begin{verbatim}
+  if (cond)
+    MACRO(arg1, arg2);
+  else  /* some other code */
+\end{verbatim}
+	\noindent 만약, 단순히 중괄호로 둘러싼 것으로 매크로가 확장된다면,
+        위 코드는 다음과 같이 해석되어, 마지막 세미콜론 때문에 syntax error가
+        발생합니다:
+\begin{verbatim}
+  if (cond)
+    { stmt1; stmt2; };
+  else  /* some other code */
+\end{verbatim}
+	전통적으로, 이 경우에는 다음과 같은 방법을 씁니다:
 \begin{verbatim}
   #define MACRO(arg1, arg2) do { \
       /* declarations */         \
@@ -57,17 +236,34 @@
     } while(0) /* (no trailing ; ) */
 \end{verbatim}
 	매크로를 부르는 쪽이 세미콜론을 붙이면, 매크로가 하나의 문장으로
-	바뀝니다.  (좋은 컴파일러라면 필요없는 
+	해석됩니다.  (좋은 최적화를 제공하는 컴파일러라면 필요없는 
 	테스트\footnote{``dead'' test}나,
 	조건문에서 상수 0을 검사하는 일\footnote{branches on the constant
 	condition 0}같은 것은 알아서 없애 줍니다.  그러나
 	lint는 불평할 수 있습니다.)
 
-	매크로의 모든 문장이 매우 간단한 것, 즉 선언이나 루프가 없다면,
-	콤마(`\verb+,+') 연산자를 써서 한 문장으로 만들 수 있습니다.
-	(예를 들어 질문 10.26의 \TT{DEBUG()} 매크로를 보기 바랍니다.)
+        또 다른 방법으로 다음과 같이 할 수도 있습니다:
+\begin{verbatim}
+  #define MACRO(arg1, arg2) if (1) \
+      stmt1;                       \
+      stmt2;                       \
+    } else
+\end{verbatim}
+	그러나, 이 경우, 만약에 부르는 쪽에서 세미콜론을 빼먹을 경우,
+        전체 코드가 엉망이 되 버릴 경우가 있어서 좋은 방법이 아닙니다.
+
+	매크로의 모든 문장이 매우 간단한 expression이라면,
+        즉 선언이나 루프가 없다면,
+	콤마(`\verb+,+') 연산자를 써서 한 문장으로 만들 수 있습니다:
+\begin{verbatim}
+  #define FUNC(arg1, arg2)   (expr1, expr2, expr3)
+\end{verbatim}
+	\noindent 예를 들어 질문 \ql{10.26}의 \TT{DEBUG()} 매크로를 보기 바랍니다.
 	이 테크닉은 또 매크로가 어떤 `값(value)'을 리턴할 수 있게 해 줍니다.
 
+        \TT{gcc}와 같은 컴파일러는 이런 간단한 기능을 하는 함수가 매크로처럼
+        원하는 경우 확장(expan)할 수 있는 기능을, 비표준인, ``\TT{inline}''
+        키워드나 기타 방법을 써서 제공하기도 합니다.
 \T
 	무슨 소리냐 하면
 	매크로를 정의할 때, 마지막에 세미콜론을 붙여 버린다면
@@ -87,14 +283,26 @@
 
 	매크로를 확장해보면 세미콜론이 두 번 만들어지고, 따라서
 	\TT{else} 부분에서 에러가 발생합니다.
-       
 \R
-	\cite{hs} \S\ 3.3.2 \page{45}; 
-	\cite{ctp} \S\ 6.3 \Page{82--3}.
+	\cite{hs} \S\ 3.3.2 \page{45} \\
+	\cite{ctp} \S\ 6.3 \Page{82--3}
+\T
+	``\TT{inline}''은 C99에서 표준이 되었습니다.
+
+\R
+% TODO: reference 채워 넣을 것.
 \end{faq}
 
 \begin{faq}
-\Q{10.6}
+\Q{10.5} % 10.5
+	새로 만든 user-defined 타입을 typedef로 만드는 것이 좋을까요, 아니면,
+        preprocessor macro로 만드는 것이 좋을까요?
+\A
+	질문 \ql{1.13}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.6} % 10.6
 	여러 개의 소스 파일로 이루어진 프로그램을 만들었습니다.
 	그런데, 어떤 것들을 \verb+.c+ 파일에 두어야 하고, 어떤 것들을
 	\verb+.h+ 파일에 두어야 하는지를 모르겠습니다.  (또 ``\verb+.h+''는
@@ -106,46 +314,66 @@
 
 \begin{itemize}
 \item 매크로 정의 (\verb+#define+)
-\item 구조체, \TT{union}, \TT{enum} 선언
+\item structure, \TT{union}, \TT{enum} 선언
 \item \TT{typedef} 선언
-\item 외부(external) 함수 선언 (질문 1.11 참고)
+\item 외부(external) 함수 선언 (질문 \ql{1.11} 참고)
 \item 전역(global) 변수 선언
 \end{itemize}
-
 	특히 여러 파일에서 공통적으로 쓰이는 선언이나 정의는 꼭 헤더 파일에
-	넣는 것이 중요합니다.  (게다가 절대로 외부 함수 prototype을
-	\verb+.c+에 넣어서는 안됩니다.  질문 1.7을 참고하기 바랍니다.)
+	넣는 것이 중요합니다. 공통적으로 쓰이는 이름을 여러 소스
+        파일에 중복해서 선언하거나 정의하지 말기 바랍니다; 이런 부분들은
+        헤더 파일에 집어 넣고, \verb+#include+를 써서 포함해야 합니다.
+        단순히 타이핑하는 수고를 덜기 위해 이러한 규칙을 정한 것이 아닙니다.
+        만약 공통적인 부분을 나중에 고쳐야 한다면, 한 파일을 고쳐서, 이 변경
+        사항이 모든 소스 파일에 반영되도록 해야 하기 때문입니다.
+        (특히, 절대로 외부 함수 prototype을
+	\verb+.c+에 넣어서는 안됩니다.  질문 \ql{1.7}을 참고하기 바랍니다.)
 
 	또, 정의나 선언이 하나의 \verb+.c+ 파일에서만 쓰인다면, 그 파일에
-	두어도 좋습니다.
+	두어도 좋습니다. (그리고 이러한 private file-scope 함수나 변수들은
+        \TT{static}으로 선언되어야 합니다. \seealso{\ql{2.4}})
 
-	질문 1.7과 10.7을 참고하기 바랍니다.
+        마지막으로, 실제 코드(actual code)나 (예를 들어, 함수의 몸체),
+        전역 변수 정의를 (정의 또는 초기화하는 코드) 헤더 파일에 두면 안됩니다.
+        또, 여러 소스 파일에서부터 프로젝트를 설계했다면, 각각의 소스 파일을
+        따로 컴파일하고 (대개 컴파일러 옵션을 써서 컴파일만 하게 할 수 있습니다)
+        마지막으로 모든 오브젝트 파일을 링크해야 합니다. (일반적으로
+        통합 환경(IDE, integrated development environment)에서는 이 모든 작업이
+        자동으로 진행됩니다.)
+        Don't try to ``link'' all of your source files together with
+        \verb+#include+; the \verb+#include+ directive should be used
+        to pull in header files, not other .c files.
+% TODO: 위 문장 번역, (위 paragraph에 붙여서..)
 
+        \seealso{\ql{1.7}, \ql{10.7}, \ql{17.2}}
 \R
-	\cite{kr2} \S\ 4.5 \Page{81--2}; 
-	\cite{hs} \S\ 9.2.3 \page{267}; 
-	\cite{ctp} \S\ 4.6 \Page{66--7}.
+	\cite{kr2} \S\ 4.5 \Page{81--2} \\
+	\cite{hs} \S\ 9.2.3 \page{267} \\
+	\cite{ctp} \S\ 4.6 \Page{66--7}
 \end{faq}
 
 \begin{faq}
-\Q{10.7}
+\Q{10.7} % 10.7 COMPLETE
 	헤더 파일에서 다른 파일을 \verb+#include+ 하는 것은
 	괜찮나요?
 \A
 	스타일에 관한 질문이군요.  따라서 상당한 논란의 여지가 있습니다.
+
 	많은 사람들이 ``중첩된(nested) \verb+#include+ 파일''을 쓰지
-	않는 것이 좋다고 말합니다: 권위있는 Indian Hill 스타일
-	가이드에서도 (질문 17.9 참고) 이런 쓰임새를 피하라고 씌여있습니다;
+	않는 것이 좋다고 말합니다: 권위있는 Indian Hill Style Guide에서도
+        (질문 \ql{17.9} 참고) 이런 쓰임새를 피하라고 씌여있습니다;
 	관련된 정의를 찾기가 훨씬 더 어렵기 때문입니다; 또한 두번
-	\verb+#include+하는 경우, 정의가 중복되어 (multiple-definition)
-	에러가 발생할 가능성이 높습니다; 또 수동으로 Makefile을
+	\verb+#include+하는 경우, 중복된 정의 에러가 (multiple-definition
+        error) 발생할 가능성이 높습니다; 또 수동으로 Makefile을
 	만들 경우, 상당히 복잡해질 가능성이 있습니다.
+
 	그러나 헤더 파일을 중첩하여 포함할 경우, 각각의 헤더 파일을
-	모듈화할(modular way) 수 (헤더 파일에서 필요한 다른
-	헤더 파일을 \verb+#include+함으로써 수고를 덜어줌) 있다는
+	모듈화해서(modular way), 헤더 파일에서 필요한 다른
+	헤더 파일을 \verb+#include+함으로써 수고를 덜어줄 수 있다는
 	장점도 있습니다; \TT{grep}과 같은 툴을 (또는 tags 파일) 사용하면
-	정의가 어떤 파일에 되어 있느냐에 상관없이 쉽게 찾을 수 있습니다;
-	다음과 같은 테크닉이 상당히 인기있습니다:
+	정의가 어떤 파일에 되어 있느냐에 상관없이 쉽게 찾을 수 있습니다.
+	다음과 같은 트릭이 을 쓰면, 헤더 파일이 여러 곳에서 포함되었느냐에
+        상관없이, 딱 한번만 포함되게(idempotent) 할 수 있습니다:
 
 \begin{verbatim}
   #ifndef HFILENAME_USED
@@ -158,21 +386,23 @@
 	사용합니다) 이 방식은 헤더 파일이 꼭 한 번만 포함되도록 해 주므로
 	여러 번 \verb+#include+하더라도 문제가 발생하지 않습니다; 또한
 	자동으로 Makefile을 관리해주는 툴을 (큰 프로젝트를 관리할 때에는
-	꼭 필요합니다, 질문 18.1 참고) 사용할 경우, 중첩된 \verb+#include+를
-	처리해 주므로 좀 더 편합니다.  질문 17.10을 참고하기 바랍니다.
+	꼭 필요합니다, 질문 \ql{18.1} 참고) 사용할 경우, 중첩된 \verb+#include+를
+	처리해 주므로 좀 더 편합니다.  질문 \ql{17.10}을 참고하기 바랍니다.
+\T
+	GNU autoconf와 GNU automake는 Makefile을 관리해주는 아주 좋은 툴입니다.
 \R
-	\cite{rationale} \S\ 4.1.2.
+	\cite{rationale} \S\ 4.1.2
 \end{faq}
 
 \begin{faq}
-\Q{10.8a}
+\Q{10.8a} % 10.8a
 	\verb+#include <>+와 \verb+#include ""+에 차이가 있나요?
 \A
 	\verb+<>+ 형식은 헤더 파일이 시스템에서 제공한 것이거나
 	표준 헤더 파일일 경우에 사용하며, \verb+""+는 프로그래머가 제작한
 	헤더 파일에 사용합니다.
 \T
-	아래 질문 10.8b를 참고하기 바랍니다.
+	아래 질문 \ql{10.8b}를 참고하기 바랍니다.
 
 %	어디에 있는 파일을 찾느냐 하는 것은 표준에 정의되어있지 않습니다.
 %	그러나 대개의 컴파일러의 경우, 전자(\verb+<...>+)는 시스템에서
@@ -183,79 +413,183 @@
 \end{faq}
 
 \begin{faq}
-\Q{10.8b}
+\Q{10.8b} % 10.8b
 	헤더 파일을 찾는 알고리즘을 알고 싶어요.
 \A
 	정확한 알고리즘은 구현 방법에 따라 다릅니다 (implementation-defined).
-	(즉, 이 방법에 대해 문서화되어 있을 가능성이 높습니다.  질문 11.33을
+	(즉, 이 방법에 대해 문서화되어 있을 가능성이 높습니다.  질문 \ql{11.33}을
 	참고하기 바랍니다).
 
 	일반적으로 \verb+<>+ 형식으로 포함된 헤더 파일들은 하나 이상의
-	표준으로 지정된 디렉토리에서 찾게 됩니다.  \verb+""+ 형식으로 포함된
+	표준으로 지정된 디렉토리에서 찾게 됩니다. (게다가,
+          \verb+<>+로 포함한 헤더들은 꼭 파일 형식으로 저장되어 있을 필요도
+          없습니다.) \verb+""+ 형식으로 포함된
 	헤더 파일은 우선 ``현재 디렉토리''에서 찾은 다음, 없을 경우,
 	표준으로 지정된 디렉토리에서 찾게 됩니다.
 
 	전형적으로 (특히 UNIX 컴파일러), 현재 디렉토리란 \verb+#include+
 	를 쓴 파일이 있는 디렉토리를 말합니다.  다른 컴파일러에서는
 	현재 디렉토리가 컴파일러가 실행된 그 디렉토리를 의미하기도 합니다.
-	컴파일러의 매뉴얼을 참고하기 바랍니다.
+        (물론, ``현재 디렉토리''라는 개념이 없는 시스템이나, 디렉토리 자체가
+        없는 시스템에서는 다른 규칙이 있을 것입니다)
+
+        일반적으로, 시스템 헤더 파일이 위치할 디렉토리 목록에 사용자가
+        원하는 디렉토리를 추가할 수 있는 방법이 (보통 컴파일러를 실행할 때
+        command-line option `I'를 쓰거나, 환경 변수를 지정하는 방법으로)
+        제공됩니다. 좀 더 자세한 것은 컴파일러의 매뉴얼을 참고하기 바랍니다.
 \R
-	\cite{kr2} \S\ A12.4 \page{231}; 
-	\cite{iso} \S\ 6.8.2; 
-	\cite{hs} \S\ 3.4 \page{55}.
+	\cite{kr2} \S\ A12.4 \page{231} \\
+        \cite{ansi} \S\ 3.8.2 \\
+	\cite{iso} \S\ 6.8.2 \\
+	\cite{hs} \S\ 3.4 \page{55}
 \end{faq}
 
-\begin{faq}
-\Q{10.9}
+\begin{faq} 
+\Q{10.9} % 10.9 COMPLETE
 	잘못된 것이 없어 보이는 데에도 코드의 첫번째 선언문에서
 	`syntax error'가 발생합니다.
 \A
 	아마도 마지막으로 \verb+#include+한 헤더 파일의 내용에서,
 	마지막 선언 부분에서
 	세미콜론(semicolon)이 빠져 있을 가능성이 높습니다.
-	질문 2.18, 11.29, 16.1b를 참고하기 바랍니다.
+	질문 \ql{2.18}, \ql{11.29}, \ql{16.1b}를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq} 
+\Q{10.10} % 10.10 COMPLETE
+	다른 곳에서 제작한 라이브러리 두 개를 쓰는 헤더 파일을 만들었습니다.
+        그런데 이 라이브러리들이, 도움을 준답시고, 여러 매크로들을 정의했습니다.
+        예를 들면, \TT{TRUE}, \TT{FALSE}, \TT{Min()}, \TT{Max()} 등.
+        그래서 컴파일할 때, 제가 만든 헤더 파일에서 매크로가 여러번 
+        정의되어 있다고 에러가 발생합니다. 어떻게 하면 되죠?
+\A
+	매우 짜증나는 상황 중 하나입니다. 전형적인 namespace problem이라
+        할 수 있으며, 질문 \ql{1.9}, \ql{1.29}를 참고하기 바랍니다.
+        이상적으로(ideally), 라이브러리 제작자는 symbol을 (예를 들어,
+        매크로, 전역 변수 및 함수) 정의할 때, 이름이 서로 충돌하지 않도록,
+        매우 조심스럽게 해야 합니다. 가장 좋은 방법은, 라이브러리 제작자에게
+        연락해서, 코드를 고치는 것입니다. 힘들다면, 임시적으로, 매크로 정의를
+        없애고(undefine), 다시 정의하는(redefine) 것을 반복해서
+        \verb+#include+에서 일어나는 충돌을 막을 수 있습니다.
+\T
+	서로 충돌하는 매크로의 실제 정의 부분이 서로 다음과 같다면:
+\begin{verbatim}
+  file1.h:
+    #include TRUE	1
+    ...
+  file2.h:
+    #include TRUE	1
+    ...
+\end{verbatim}
+	\noindent 다음과 같이 두 파일의 내용을 고쳐서 해결할 수 있습니다:
+\begin{verbatim}
+  #ifndef TRUE
+  #define TRUE	1
+  #endif
+\end{verbatim}
+	\noindent 그러나 이 방법은 두 매크로의 내용이 완전히 같을 때 쓸 수
+        있습니다. 서로 내용이 다른 매크로라면, 코드가 안전하다고 보장할 수
+        없습니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.10b}
+\Q{10.10b} % {10.10b}
 	라이브러리 함수 정의를 포함하는 헤더 파일을 제대로
 	\verb+#include+시켰는데도 링커(linker)는 정의되어 있지 않다고
 	에러를 발생합니다.
 
 \A
-	질문 13.25를 참고하기 바랍니다.
+	질문 \ql{13.25}를 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.11}
+\Q{10.11} % 10.11 COMPLETE
 	시스템 헤더 파일인 \verb+<sgtty.h>+가 없습니다.
 	제게 복사본을 주실 수는 없을까요?
 
-\A	표준 헤더 파일들은 컴파일러, 운영체제, 프로세서와 관련된 적절한
-	정의와 함께 이루어져 있으므로, (환경이 다른) 다른 사람의 헤더
-	파일을 가져온다	하더라도 제대로 동작하지 않습니다.  
+\A	표준 헤더 파일들은 컴파일러, 운영체제, 프로세서에 따라 서로 다른
+	정의로 이루어져 있습니다. 따라서 다른 사람의 헤더 파일을
+        가져온다 하더라도 제대로 동작하지 않을 것입니다. 물론 그 사람이
+        여러분과 완전히 같은 시스템을 사용하고 있다면 동작할 수도 있습니다.
+	컴파일러 vendor에게, 왜 그 헤더 파일이 제공되지 않는지 물어보고,
+        그 파일을 달라고 요청해 보시기 바랍니다.
 
-	컴파일러 vendor에게 요청해 보시기 바랍니다.
+        표준이 아닌 헤더 파일인 경우에는 조금 더 까다롭습니다. 어떤
+        헤더 파일들은 (예를 들어 \TT{<dos.h>}), 완전하게 컴파일러 또는
+        OS에 종속되어 제공됩니다. (즉, 다른 시스템에서는 원래 제공되지 않을
+        수 있습니다.) 이와 달리, 인기있는, 라이브러리에서 제공하는 헤더
+        파일이 없는 경우에는, 이 라이브러리를 얻은 곳에서 찾아보기 바랍니다.
+        그 헤더 파일을 쓰는 소스는 있는데, 그 헤더 파일이 없는 경우, 관련
+        라이브러리 자체가 설치되어 있지 않을 수도 있습니다. (질문 \ql{13.25} 참고)
+        때때로 archie가 여러분이 찾는 것에 대해 도움을 줄 수도 있습니다;
+        질문 \ql{18.16} 참고.
+\T
+	ARCHIE는 1990년에 Alan Emtage, Bill Heelan, Peter J.\ Deutsch가 만든
+        FTP 검색 프로그램이며, 현재에는 거의 쓰이지 않습니다.
 \end{faq}
 
+\section{Conditional Compilation}
+% from 10.12
+
 \begin{faq}
-\Q{10.12}
+\Q{10.12} % 10.12
 	전처리기(preprocessor) \verb+#if+ 수식에서 문자열을
 	비교할 수 있을까요?
 
 \A	직접 비교할 수 없습니다; \verb+#if+는 정수 연산만
-	지원합니다.  또, 여러 매크로들을 어떤 정수값을 나타내게
-	\verb+#define+한 다음, 이 매크로들은 비교하면 됩니다.
+	지원합니다.  따라서, 여러 상황을 정수 상수로 정의하고 다음과 같이
+        할 수 있습니다:
+\begin{verbatim}
+  #define RED        1
+  #define BLUE       2
+  #define GREEN      3
 
-	질문 20.17을 참고하기 바랍니다.
+  #if COLOR == RED
+  /* red case */
+  #else
+  #if COLOR == BLUE
+  /* blue case */
+  #else
+  #if COLOR == GREEN
+  /* green case */
+  #else
+  /* default case */
+  #endif
+  #endif
+  #endif
+\end{verbatim}
+	\noindent (C 표준에서 소개된 \verb+#elif+를 쓰면 위 코드를 조금 더 
+        깔끔하게 만들 수 있습니다.)
 
-\R	\cite{kr2} \S\ 4.11.3 \page{91}; 
-	\cite{iso} \S\ 6.8.1; 
-	\cite{hs} \S\ 7.11.1 \page{225}.
+	질문 \ql{20.17}을 참고하기 바랍니다.
+
+\T
+	\verb+#elif+를 쓰면 위 코드를 다음과 같이 쓸 수 있습니다.
+\begin{verbatim}
+  #define RED        1
+  #define BLUE       2
+  #define GREEN      3
+
+  #if COLOR == RED
+  /* red case */
+  #elif COLOR == BLUE
+  /* blue case */
+  #elif COLOR == GREEN
+  /* green case */
+  #else
+  /* default case */
+  #endif
+\end{verbatim}
+
+\R	
+	\cite{kr2} \S\ 4.11.3 \page{91} \\
+	\cite{ansi} \S\ 3.8.1 \\
+	\cite{iso} \S\ 6.8.1 \\
+	\cite{hs} \S\ 7.11.1 \page{225}
 \end{faq}
 	
 \begin{faq}
-\Q{10.13}
+\Q{10.13} % 10.13
 	\verb+#if+ 지시어(directive)에서 \TT{sizeof} 연산을
 	쓸 수 있을까요?
 \A
@@ -264,12 +598,13 @@
 	때문입니다.  \TT{sizeof}를 쓰는 대신 ANSI 표준인 \verb+<limits.h>+에
 	정의되어 있는 상수를 쓰는 방법으로 바꾸기 바랍니다.
 	가능하다면, ``configure'' 스크립트(script)를 쓰는 것도 좋습니다.
-	(프로그램을 어떤 타입의 크기에 독립적으로 작성하는 게 더 바람직하다고
-	할 수 있습니다; 질문 1.1을 참고하기 바랍니다.)
+	(프로그램을 타입의 크기에 독립적으로 작성하는 게 더 바람직합니다;
+        질문 \ql{1.1}을 참고하기 바랍니다.)
 
 \R
-	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1; 
-	\cite{hs} \S\ 7.11.1 \page{225}.
+	\cite{ansi} \S\ 2.1.1.2, \S\ 3.8.1 footnote 83 \\
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1 \\
+	\cite{hs} \S\ 7.11.1 \page{225}
 \T
 % TODO: 아래 autoconf 소개를 tool 소개란으로 옮길 것.
 % 또 \T 란에서 질문 10.13을 참고하라는 것도 바꿀 것.  (질문 10.16에 있음)
@@ -289,60 +624,94 @@
 \end{faq}
 
 \begin{faq}
-\Q{10.14}
-	\verb+#define+ 줄에서 \verb+#ifdef+를 써서 각각 다른 방식으로
-	정의하게 할 수 있을까요?
+\Q{10.14} % 10.14 COMPLETE
+	\verb+#define+ 줄에서 \verb+#ifdef+를 써서 다음과 같이
+        각각 다른 방식으로 정의하게 할 수 있을까요?
+\begin{verbatim}
+  #define a b \
+  #ifdef whatever
+          c d
+  #else
+          e f g
+  #endif
+\end{verbatim}
 
 \A
 	안됩니다.  
-	전처리기를 자신에게 실행하는 (run the preprocessor on itself)
+	프리프로세서를 자신에게 또 실행하는 (run the preprocessor on itself)
 	것은 불가능합니다.  대신 \verb+#ifdef+를 써서 두 개의 \verb+#define+
-	문장으로 만드는 방식을 쓰기 바랍니다.
+	문장으로 만드는 방식을 쓰기 바랍니다:
+\begin{verbatim}
+  #ifdef whatever
+  #define a b c d
+  #else
+  #define a b e f g
+  #endif
+\end{verbatim}
 
 \R
-	\cite{iso} \S\ 6.8.3, \S\ 6.8.3.4; 
-	\cite{hs} \S\ 3.2 \Page{40--1}.
+	\cite{ansi} \S\ 3.8.3, \S\ 3.8.3.4 \\
+	\cite{iso} \S\ 6.8.3, \S\ 6.8.3.4 \\
+	\cite{hs} \S\ 3.2 \Page{40--1}
 \end{faq}
 
 \begin{faq}
-\Q{10.15}
+\Q{10.15} % 10.15 COMPLETE
 	\verb+typedef+ 이름을 \verb+#ifdef+와 같이 테스트할 수 있는
 	방법이 있을까요?
 
 \A
-	불행하게도 그런 방법은 존재하지 않습니다.  대신 이런 방법을
-	생각할 수 있습니다: 몇가지 매크로를 (예: \verb+MY_TYPE_DEFINED+)
+	불행하게도 그런 방법은 존재하지 않습니다.  (왜냐하면, \TT{typedef}와
+        타입은 프리프로세싱할 때 준비되어 있지 않기 때문입니다.) 
+        질문 \ql{1.13}, \ql{10.13}을 참고하기 바랍니다.
+
+        대신 이런 방법을 생각할 수 있습니다: 
+        몇가지 매크로를 (예: \verb+MY_TYPE_DEFINED+)
 	정의해서 어떤 \TT{typedef}들이 선언되어 있는지 매크로를 써서
 	검사할 수 있습니다 (물론, 완전하지 않습니다).
 
 \R
-	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1; 
-	\cite{hs} \S\ 7.11.1 \page{225}.
+	\cite{ansi} \S\ 2.1.1.2, \S\ 3.8.1 footnote 83 \\
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1 \\
+	\cite{hs} \S\ 7.11.1 \page{225}
 \end{faq}
 
 \begin{faq}
-\Q{10.16}
+\Q{10.16} % 10.16 COMPLETE
 	컴퓨터가 `big-endian' 방식인지, `little-endian' 방식인지
 	\verb+#if+를 써서 검사할 수 있을까요?
 
 \A
-	거의 불가능합니다.  (전처리기 연산은 long int 타입만
-	가능합니다, 따라서 어드레싱(addressing)에 대한 개념 자체가 존재하지
-	않습니다.) 그런데 컴퓨터의 endian을 알아야 할 필요가 있습니까?
+	거의 불가능합니다. Endian을 확인하기 위해서는 대개 포인터와
+        \TT{char} 배열 또는 \TT{union}을 써서 확인하는데, 프리프로세서 연산은
+        단지 \TT{long} 정수만 쓰며, 주소(addressing)에 대한 개념이 
+        프리프로세서에 존재하지 않습니다.
+	
+        정말로 컴퓨터의 endian을 알아야 할 필요가 있는지 잘 생각해보기 바랍니다.
 	될 수 있으면, 이런 것과 무관하게 코드를 작성하는 것이 바람직합니다.
-	질문 20.9를 참고하기 바랍니다.
+        (예를 들어 질문 \ql{12.42}에 나온 코드를 보기 바랍니다.)
+        \seealso{\ql{20.9}}
 \R
-	\cite{iso} \S\ 6.8.1; 
-	\cite{hs} \S\ 7.11.1 \page{225}.
+	\cite{ansi} \S\ 3.8.1 \\
+	\cite{iso} \S\ 6.8.1 \\
+	\cite{hs} \S\ 7.11.1 \page{225}
 \T
 	GNU autoconf를 쓰면 프로그램을 컴파일하기 전
 	간단한 인디언 테스용 프로그램을 실행해서, 프로그래머가
 	어떤 매크로(예를 들어 \verb+BIG_ENDIAN_MACHINE+)를
-	정의할 수 있습니다.  (질문 10.13 참고).
+	정의할 수 있습니다.  (질문 \ql{10.13} 참고).
 \end{faq}
 
 \begin{faq}
-\Q{10.18}
+\Q{10.17} % 10.17 COMPLETE
+	분명히 \verb+#ifdef+를 써서 포함되지 않도록 한 부분에서 이상한
+        syntax error가 생깁니다.
+\A
+	질문 \ql{11.19}를 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.18} % 10.18
 	어떤 코드를 분석하려 하는데, 너무나도 많은 \verb+#ifdef+ 때문에
 	어렵습니다.  어떤 조건부 컴파일에 관한 것만 남겨두고 나머지
 	부분만 `preprocssing'할 수 있는 방법이 있을까요? (물론
@@ -351,29 +720,38 @@
 \A
 	이러한 일을 처리해 주는 \TT{unifdef}, \TT{rmifdef}, \TT{scpp}
 	(``selective C preprocessor'') 등의 프로그램이 있습니다.
-	질문 18.16을 참고하기 바랍니다.
+	질문 \ql{18.16}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.19}
-	미리 정의된 모든 `identifier'들을 뽑아낼 수 있을까요?
+\Q{10.19} % 10.19 COMPLETE
+	미리 정의된(predefined) 모든 매크로들을 뽑아낼 수 있을까요?
 
 \A
 	자주 언급되는 사항임에도 이런 일을 할 수 있는 표준 방법은 없습니다.
-	\TT{gcc}는 \verb+-E+와 함께 사용할 수 있는 \verb+-dM+ 옵션을
+        컴파일러 문서에 만족할만한 정보가 없다면, 가장 적당한 방법으로,
+        컴파일러 또는 프리프로세서 실행 파일에서, 파일에서 문자열을 뽑아내는
+        UNIX \TT{strings}와 같은 프로그램을 쓰면 됩니다. 
+        \TT{gcc}는 \verb+-E+와 함께 사용할 수 있는 \verb+-dM+ 옵션을
 	제공합니다.  다른 컴파일러도 비슷한 기능을 제공할 것입니다.
-	컴파일러의 매뉴얼에서 도움을 얻을 수 없다면, 컴파일러나
-	전처리기 실행 파일에서 읽을 수 있는 문자열을 뽑아내어 (UNIX의
-	\TT{strings} 유틸리티) 검사하는 것이 가장 합리적인 방법일 수
-	있습니다.
-	그러나, 어떤 전형적인, 시스템 의존적인 `identifier'가 많을 수
-	있으니 (특히 ``UNIX'') 주의하시기 바랍니다.  그리고 이들은 대개
-	표준이 아니며 (왜냐하면 사용자의 이름 공간(namespace)과 
-	충돌하므로), 곧 제거될 것들입니다.
+        많은
+        오래된(traditional) 시스템 전용의 predefined identifier들이 (예를 들어
+        ``unix'') 비표준이므로 (왜냐하면, user namespace와 충돌하기 때문),
+        조심하기 바랍니다. 이런 비표준인 이름들은 대개 (표준에서) 곧 없어질
+        예정이거나 다른 이름으로 바뀔 예정인 것들이 많습니다. (어떤 경우라도
+        조건부 컴파일을 최소화하는 것이 좋은 방법이라는 것을 잊지 말기
+        바랍니다.)
 \end{faq}
 
+\section{Fancier Processing}
+% from 10.20
+Macro replacement can get fairly complicated---sometimes \EM{too} complicated.
+For two somewhat popular tricks that used to work (if at all) by accident,
+namely, ``token pasting'' and replacement inside string literals, ANSI C
+introduces defined, supported mechanisms.
+
 \begin{faq}
-\Q{10.20}
+\Q{10.20} % 10.20 COMPLETE
 	다음과 같이 `identifier'를 생성하는 매크로를 본 적이
 	있습니다:
 \begin{verbatim}
@@ -382,69 +760,153 @@
 	\noindent 그러나 동작하질 않는군요.
 
 \A
-	그것은 어떤 (특히 John Reiser의) 오래된 전처리기(preprocessor)에서
-	제공되는 문서화되지 않는(undocumented) 기능입니다.
-	그리고 이 기능은 이미 없어졌습니다..  ANSI는 (\cite{kr1}에서도) 이
-	주석(comment)이 공백으로 대체된다고 말하고 있습니다.  그러나
-	이런 식의 기능이 필요하기 때문에 ANSI는 다음과 같이 새로운
-	방식의 `token-pasting' 연산자인 \verb+##+를 제공합니다:
+	(특히 John Reiser의) 오래된 전처리기에서는, 주석(comment)을
+	봤을 때, 주석 자체를 없애기 때문에, 주석 양 옆의 토큰(token)을
+        서로 붙이는(pasting) 데 씁니다. 그러나, ANSI 표준에서는
+        (\cite{kr1}에서도) 주석(comment)이 공백으로 대체된다고 씌여있기 때문에,
+        더 이상 쓸 수 없는 기능입니다. 따라서 위 \TT{Paste()} 매크로는
+        쓸 수 없습니다. 대신, 토큰을 서로 붙이는 기능 자체는 필요하기 때문에,
+        ANSI는 이 역할을 하는 연산자인 \verb+##+를 제공합니다. 따라서
+        위 매크로는 다음과 같이 만들 수 있습니다:
 \begin{verbatim}
   #define Paste(a, b) a##b
 \end{verbatim}
 
-	질문 11.17을 참고하기 바랍니다.
+	참고로 ANSI 이전의 컴파일러에서 쓸 수 있는 또다른 방법은 다음과
+        같습니다:
+\begin{verbatim}
+  #define XPaste(s)   s
+  #define Paste(a, b) XPaste(a)b
+\end{verbatim}
+	질문 \ql{11.17}을 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 6.8.3.3; 
-	\cite{rationale} \S\ 3.8.3.3; 
-	\cite{hs} \S\ 3.3.9 \page{52}.
+	\cite{ansi} \S\ 3.8.3.3 \\
+	\cite{iso} \S\ 6.8.3.3 \\
+	\cite{rationale} \S\ 3.8.3.3 \\
+	\cite{hs} \S\ 3.3.9 \page{52}
 \end{faq}
 
 \begin{faq}
-\Q{10.22}
+\Q{10.21} % 10.21
+	어떤 코드에는 다음과 같은 매크로를 쓰는데:
+\begin{verbatim}
+  #define CTRL(c)   ('c' & 037)
+\end{verbatim}
+	\noindent 동작하지 않습니다. 왜 그럴까요?
+\A
+	위 매크로는 보통 다음과 같이 쓰기 위해 만들어졌습니다:
+\begin{verbatim}
+  tchars.t_eofc = CTRL(D);
+\end{verbatim}
+	\noindent 다음과 같이 확장될 것을 예상하고 만든 것입니다:
+\begin{verbatim}
+  tchars.t_eofc = ('D' & 037);
+\end{verbatim}
+	결국, 이 매크로는 파라메터 \TT{c}가 문자 상수에 쓰이는 따옴표 안에서도
+        확장될 것을 예상하고 만든 것인데, 프리프로세서는 이런 경우에
+        확장하지 않습니다; 이 코드가 제대로 동작했다면, 그 자체가 잘못된
+        것입니다. ANSI C는 이런 목적으로 쓸 수 있는, 문자열로 
+        만들어주는(stringizing) 연산자를 제공합니다 (질문 \ql{11.17} 참고).
+        그러나 문자로 만들어주는(charizing) 연산자는 제공하지 않습니다.
+
+        이 매크로를 해결하는 가장 좋은 방법은 다음과 같이 매크로를 만들고:
+\begin{verbatim}
+  #define CTRL(c)   (c & 037)
+\end{verbatim}
+	\noindent 다음과 같이 호출하는 것입니다:
+\begin{verbatim}
+  CTRL('D')
+\end{verbatim}
+	\noindent 이렇게 하면, 매크로를 C 언어 형식으로 만들어주는
+        (``syntactic'') 효과도 있습니다; 질문 \ql{10.2} 참고.
+
+        Stringizing 연산자와 약간의 indirection을 써서 만들 수도 있습니다:
+\begin{verbatim}
+  #define CTRL(c)    (*#c & 037)
+\end{verbatim}
+	\noindent 또는
+\begin{verbatim}
+  #define CTRL(c)    (#c[0] & 037)
+\end{verbatim}
+	\noindent 위 두가지 방법 모두 완전하다고 볼 수 없습니다. 위 두 매크로
+        모두,
+        \TT{case} 레이블이나, 전역 변수를 초기화할 때 쓰일 수 없습니다.
+        (전연 변수 초기화에 쓰이거나, \TT{case} 레이블로 쓰이려면, 여러가지
+        형태의 상수 expression이 필요하며, 문자열이나 indirection이
+        허용되지 않습니다.)
+
+        \seealso{\ql{11.18}}
+
+\T
+	``Stringizing''이란 말 대신, ``Stringification''이란 말을 쓰기도
+	합니다만, 아시다시피 둘 다 올바른 영어 단어는 아닙니다.
+\R
+	\cite{ansi} \S\ 3.8.3 footnote 87 \\
+        \cite{iso} \S\ 6.8.3 \\
+        \cite{hs} \S\S\ 7.11.2, 7.11.3 \Page{226--7}
+\end{faq}
+
+\begin{faq}
+\Q{10.22} % 10.22 COMPLETE
 	다음 매크로를 쓰면 ``macro replacement within a string literal?''
 	이라는 경고가 발생합니다:
 \begin{verbatim}
   #define TRACE(n) printf("TRACE: %d\n", n)
 \end{verbatim}
-	\noindent 제가 생각하기엔:
-\begin{verbatim}
-  TRACE(count);
-\end{verbatim}
-	\noindent 를 다음과 같이 확장하는 것 같습니다:
+	\noindent 제가 생각하기에는 \TT{TRACE(count);}를
+	다음과 같이 확장하는 것 같습니다:
 \begin{verbatim}
   printf("TRACE: %d\count", count);
 \end{verbatim}
 
 \A
-	질문 11.18을 참고하기 바랍니다.
+	질문 \ql{11.18}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.23-4}
-	\verb+#+ 연산자를 써서 매크로 인자를 문자열 안에 쓸 때,
-	제대로 동작하지 않습니다.
+\Q{10.23} % 10.23 COMPLETE
+	매크로를 확장할 때, 문자열 안에까지 매크로 인자가 확장되게 할 수
+        있을까요?
 \A
-	질문 11.17과 11.18을 참고하기 바랍니다.
+	질문 \ql{11.18}을 보기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{10.25}
-	조금 복잡한 `preprocessing'을 하고 싶은데 어떻게 해야
-	할지 모르겠군요.
+\Q{10.24} % 10.24 COMPLETE
+	ANSI ``stringing'' 프리프로세싱 연산자인 `\verb+#+'를 써서
+        매크로 값을 메시지에 넣을려고 했는데, 매크로의 값이 아닌, 매크로의
+        이름을 문자열로 만들어 버립니다. 왜 그럴까요?
+\A
+	질문 \ql{11.17}과 \ql{11.18}을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.25} % 10.25
+	이렇듯, 복잡한 `preprocessing'을 어떻게 다 쓸 수 있을까요?
 
 \A
 	C 언어의 전처리기(preprocessor)는 범용의(general purpose) 툴이
 	아닙니다.  (또한 전처리기가 독립적인 프로그램으로 제공되는지도
 	알 수 없습니다.) 이를 복잡한 형식으로 사용하기에 앞서,
-	어떤 특정한 목적의 작은 전처리기 툴을 직접 만드는 것이
-	나을 지 생각해 보기 바랍니다.  make(1)과 같은 툴을 사용하면, 
-	이러한 툴을 자동으로 실행하도록 만들 수 있습니다.
+	어떤 특정한 목적의 작은 프리프로세싱 툴을 직접 만드는 것이
+	나을 지 생각해 보기 바랍니다.  \TT{make}과 같은 툴을 사용하면, 
+	이러한 프리프로세싱 툴을 자동으로 실행하도록 만들 수 있습니다.
 
-	C 언어 대신 다른 것을 `preprocessing' 하려고 한다면 범용의
-	전처리기를 (오래 전부터 대부분의 UNIX 시스템에서는 `m4'라는
-	전처리기를 제공합니다.) 사용하시기 바랍니다.
+	C 언어 대신 다른 것을 `preprocessing' 하려고 한다면 여러가지 목적으로
+        쓸 수 있는 프리프로세서를 쓰기 바랍니다.
+	(오래 전부터, 대부분의 UNIX 시스템에서는 `\TT{m4}'라는
+	프리프로세서를 제공합니다.)
 \end{faq}
+
+\section{Macros with Variable-Length Argument Lists}
+% from 10.26
+There are sometimes good reasons for a function to accept a variable number
+of arguments (the canonical example is \TT{printf}; see also Chapter 15).
+For the same sorts of reasons, it's sometimes wished that a function-like
+macro could accept a variable number of arguments; a particularly common
+wish is for a way to write a general-purpose \TT{printf}-like \TT{DEBUG()}
+macro.
 
 \begin{faq}
 \Q{10.26}
@@ -459,31 +921,223 @@
   if (n != 0) DEBUG(("n is %d\n", n));
 \end{verbatim}
 	문제는 이런 매크로 함수를 호출할 때, 항상 괄호를 두 쌍을 써 줘야
-	한다는 것을 기억해야 합니다.
+	한다는 것을 기억해야 합니다. 또 다른 문제는, 추가적으로 다른
+        인자를 줄 수 없다는 것입니다. (즉, \TT{DEBUG()}는
+        \TT{fprintf(debugfd, ...)}처럼 확장될 수 없습니다.)
 
 	GCC는 함수처럼 가변 인자를 받을 수 있는 확장 매크로를 지원하지만
-	이 기능은 표준이 아닙디다.  또 다른 방법으로, 인자의 갯수에 따라
-	다른 매크로를 (\TT{DEBUG1}, \TT{DEBUG2} 같이) 제공하는 것입니다.
-	또는 다음과 같이 콤마(comma)를 별도의 매크로를 써서 제공하는
-	방법을 생각할 수도 있습니다:
-
+	이 기능은 표준이 아닙니다.  생각해 볼 수 있는 다른 방법으로, 
+        다음과 같은 방법들이 있습니다:
+        \begin{itemize}
+          \item 인자의 갯수에 따라
+	    다른 매크로를 (\TT{DEBUG1}, \TT{DEBUG2} 같이) 제공합니다.
+          \item 콤마(comma)를 별도의 매크로를 써서 제공하는
+	    방법이 있습니다:
 \begin{verbatim}
   #define DEBUG(args) (printf("DEBUG: "), printf(args))
   #define _ ,
 
   DEBUG("i = %d" _ i)
 \end{verbatim}
+          \item 위험하지만, 다음과 같이, 쌍이 맞지 않는 괄호를 쓸 수 있습니다:
+\begin{verbatim}
+  #define DEBUG       fprintf(stderr,
 
-	\cite{c9x}는 가변 인자를 처리할 수 있는 함수 매크로를 소개하고 있습니다.
+  DEBUG "%d", x);
+\end{verbatim}
+        \end{itemize}
+        \noindent 여기에 나온 모든 방식이, 조심해서 써야 하며, 보기에
+        좋지 않는 방법입니다.
+
+        보통은 매크로가 아닌, 진짜 함수를 써서 가변 인자를 처리하는 것이
+        낫습니다. 질문 \ql{15.4}, \ql{15.5}를 보기 바랍니다.
+
+	디버그 관련 메시지가 출력되지 않게 하려면, 따로 DEBUG 매크로의 다른
+        버전을 다음과 같이 만듭니다:
+\begin{verbatim}
+  #define DEBUG(args)  /* empty */
+\end{verbatim}
+
+	\noindent 또는, 진짜 함수를 쓴다면, 인자는 그대로 두고, 함수 이름만
+        없애버릴 수 있습니다:
+\begin{verbatim}
+  #define DEBUG      (void)
+\end{verbatim}
+	\noindent 또는,
+\begin{verbatim}
+  #define DEBUG      if (1) {} else printf
+\end{verbatim}
+	\noindent 또는,
+\begin{verbatim}
+  #define DEBUG      1 ? 0 : (void)
+\end{verbatim}
+	\noindent 이 모든 방법은, 좋은 optimizer가 있어서, 의미없는
+        ``\TT{printf}'' 호출을 제거하고, void 타입으로 캐스팅 된, 컴마 연산자의
+        expression을 코드로 만들지 않는다는 것을 가정하고 만든 것입니다.
+        질문 \ql{10.14}를 참고하기 바랍니다.
+
+	C99는 가변 인자를 처리할 수 있는 함수 매크로를 소개하고 있습니다.
 	\verb+...+ 형식을 매크로의 끝에 사용하고 (\TT{varargs} 함수처럼),
 	매크로 함수 안에서 \verb+__VA_ARGS__+ pseudo 매크로를 써서 가변 인자를
 	처리할 수 있습니다.
+\R
+% TODO: 아래 cite 검토
+	\cite{iso} \S\ 6.8.3, \S\ 6.8.3.1
+\T
+	C99 표준을 써서, 정말 좋은 형태의 \TT{DEBUG} 매크로를 다음과 같이
+        만들 수 있습니다:
+\begin{verbatim}
+  #define DEBUG(...) fprintf(debugfd, __VA_ARGS__)
 
-	마지막으로 잘 정의된, 가변 인자를 받는 함수를 쓸 수 있습니다.
-	질문 15.4와 15.5를 참고하기 바랍니다.  (매크로 함수를 원한다면,
-	함수 형식이 아닌 매크로를 제공하기 바랍니다.  예를 들면
-	\verb+#define printf myprintf+.  )
+  DEBUG("age = %d, name = %s\n", age, namestr);
+\end{verbatim}
+	\noindent 가변 인자를 받는 함수와 달리, 고정 인자가 하나 이상
+        필요하다는 규칙은 적용되지 않습니다. 
+\R
+% TODO: reference 채우기.
+
+\end{faq}
+
+\begin{faq}
+\Q{10.27} % 10.27
+	\verb+__FILE__+과 \verb+__LINE__+ 매크로를, 디버그용으로,
+        메시지 출력하는 매크로에 쓰고 싶습니다. 어떻게 하면 될까요?
+\A
+	질문 \ql{10.26}을 간단히 하기 위해, 따로 만든 질문입니다.
+        한가지 방법은, 가변 인자를 받는 함수를 만들고 (질문 \ql{15.4}, \ql{15.5} 참고),
+        \verb+__FILE__+과 \verb+__LINE__+을 받아서 그 함수에 전달해 주는
+        함수를 따로 만듭니다. 예를 들면:
+\begin{verbatim}
+  #include <stdio.h>
+  #include <stdarg.h>
+
+  void debug(char *fmt, ...);
+  void dbginfo(int, char *);
+  #define DEBUG       dbginfo(__LINE__, __FILE__), debug
+
+  static char *dbgfile;
+  static int dbgline;
+
+  void dbginfo(int line, char *file)
+  {
+    dbgfile = file;
+    dbgline = line;
+  }
+
+  void debug(char *fmt, ...)
+  {
+    va_list argp;
+    fprintf(stderr, "DEBUG: \"%s\", line %d: ",
+            dbgfile, dbgline);
+    va_start(argp, fmt);
+    vfpritnf(stderr, fmt, argp);
+    va_end(argp);
+    fprintf(stderr, "\n");
+  }
+\end{verbatim}
+	\noindent 이렇게 만들어 두고, 다음과 같이 부르면:
+\begin{verbatim}
+  DEBUG("i is %d", i);
+\end{verbatim}
+	\noindent 다음과 같이 확장됩니다:
+\begin{verbatim}
+  dbginfo(__LINE__, __FILE__), debug("i is %d", i);
+\end{verbatim}
+	\noindent 그리고 아래 문장을 출력합니다:
+\begin{verbatim}
+  DEBUG: "x.c", line 10: i is 42
+\end{verbatim}
+
+	영리한 사람이면 다음과 같이 위 코드를 개선할 수 있습니다:
+\begin{verbatim}
+  void debug(char *fmt, ...);
+  void (*dbginfo(int, char *))(char *, ...);
+  #define DEBUG  (*dbginfo(__LINE__, __FILE__))
+
+  void (*dbginfo(int line, char *file))(char *, ...)
+  {
+    dbgfile = file;
+    dbgline = line;
+    return debug;
+  }
+\end{verbatim}
+	\noindent 이 정의에 따라서 \verb+DEBUG("i is %d", i);+는 다음과
+          같이 확장됩니다:
+\begin{verbatim}
+  (*dbginfo(__LINE__, __FILE__))("i is %d", i);
+\end{verbatim}
+
+	또 다른, 그리고 간단한 방법으로 아래처럼 만들 수 있습니다:
+\begin{verbatim}
+  #define DEBUG   printf("DEBUG: \"%s\", line %d: ", \
+                         __FILE__, __LINE__), printf
+\end{verbatim}
+	\noindent 그러면, \verb+DEBUG("i is %d", i);+는 다음과 같이
+          확장됩니다:
+\begin{verbatim}
+  printf("DEBUG: \"%s\", line %d: ",
+         __FILE__, __LINE__), printf("i is %d", i);
+\end{verbatim}
+
+\T
+	다행스럽게도, C99에서 가변 인자를 받을 수 있는 매크로를
+        지원하기 때문에 (질문 \ql{10.26} 참고), \TT{DEBUG()} 매크로를
+        다음과 같이 만들 수 있습니다.
+\begin{verbatim}
+  #define DEBUG(...)	debug(__FILE__, __LINE__, __VA_ARGS__)
+
+  void debug(const char *file, int line,
+             const char *fmt, ...)
+  {
+    va_list argp;
+    fprintf(stderr, "DEBUG: \"%s\", line %d: ",
+            file, line);
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+    fprintf(stderr, "\n");
+  }
+\end{verbatim}
+	\noindent 위 매크로에 따르면, \verb+DEBUG("i is %d", i);+는
+        다음과 같이 확장됩니다:
+\begin{verbatim}
+  debug(__FILE__, __LINE__, "i is %d", i);
+\end{verbatim}
+
+	C99에서는 미리 정의된(predefined) identifier인
+        \verb+__func__+를 제공합니다.
+        (이 것은 \verb+__FILE__+, \verb+__LINE__+과는 달리
+        미리 정의된 매크로가 아닙니다. 자세한 것은 ???를 참고하기
+        바랍니다.)
+% TODO: __func__에 대한 질문 추가, ???를 update.
+        \verb+__func__+는 현재 함수의
+        이름을 가지고 있는 문자열 상수라고 생각하시면 됩니다. 따라서
+        위 매크로와 함수를 다음과 같이 만들면 더욱 좋습니다:
+\begin{verbatim}
+  #define DEBUG(...)	debug(__FILE__, __LINE__, __func__, \
+                           __VA_ARGS__)
+
+  void debug(const char *file, int line, const char *func,
+             const char *fmt, ...)
+  {
+    va_list argp;
+    fprintf(stderr, 
+            "DEBUG: \"%s\", line %d, function \"%s\": ",
+            file, line, func);
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+    fprintf(stderr, "\n");
+  }
+\end{verbatim}
+	\noindent 위 매크로에 따르면, \verb+DEBUG("i is %d", i);+는
+        다음과 같이 확장됩니다:
+\begin{verbatim}
+  debug(__FILE__, __LINE__, __func__, "i is %d", i);
+\end{verbatim}
 
 \R
-	\cite{c9x} \S\ 6.8.3, \S\ 6.8.3.1.
+% TODO: 아래 cite update
+	\cite{iso} ???
 \end{faq}
+

@@ -1,6 +1,11 @@
 % $Id$
 \chapter{Style}	\label{chap:style}
 % chapter 17: style
+
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 \begin{faq}
 \Q{17.1}
 	C 언어 코딩을 할 때, 가장 좋은 스타일은 무엇일까요?
@@ -28,10 +33,10 @@
 	exclusion of more substantive code quality issues.
 % TODO: 위 문장 번역
 
-	\seealso{10.6}
+	\seealso{\ql{10.6}}
 \R
-	\cite{kr1} \S\ 1.2 \page{10}; 
-	\cite{kr2} \S\ 1.2 \page{10}.
+	\cite{kr1} \S\ 1.2 \page{10} \\
+	\cite{kr2} \S\ 1.2 \page{10}
 \end{faq}
 
 \begin{faq}
@@ -52,7 +57,7 @@
   #define Streq(s1, s2) (strcmp((s1), (s2)) == 0)
 \end{verbatim}
 
-	\seealso{17.10}
+	\seealso{\ql{17.10}}
 \end{faq}
 
 \begin{faq}
@@ -74,7 +79,7 @@
 	(물론, 이러한 스타일은 한 오퍼랜드(operand)가 상수일 경우에만
 	도움을 줄 수 있습니다.)
 \R
-	\cite{hs} \S\ 7.6.5 \Page{209--10}.
+	\cite{hs} \S\ 7.6.5 \Page{209--10}
 \end{faq}
 
 \begin{faq}
@@ -91,9 +96,9 @@
 	\TT{strcpy()}나 \TT{strcat()}의 경우에도 같은 이유로 캐스팅이
 	사용되곤 합니다.
 \R
-	\cite{kr2} \S\ A6.7 \page{199}; 
-	\cite{rationale} \S\ 3.3.4; 
-	\cite{hs} \S\ 6.2.9 \page{172}, \S\ 7.13 \Page{229--30}.
+	\cite{kr2} \S\ A6.7 \page{199} \\
+	\cite{rationale} \S\ 3.3.4 \\
+	\cite{hs} \S\ 6.2.9 \page{172}, \S\ 7.13 \Page{229--30}
 \end{faq}
 
 \begin{faq}
@@ -124,7 +129,7 @@
 \A
 	익명 (anonymous) FTP를 써서 여러 곳에서 얻을 수 있습니다.
 
-\begin{tabular}{l|p{5cm}}	\hline
+\begin{tabular}{l|p{10cm}}	\hline
 	Site:	& File or directory	\\	\hline
 	\TT{ftp.cs.washington.edu}	&	\TT{pub/cstyle.tar.Z}
 		(최신의 Indian Hill Guide)	\\
@@ -137,7 +142,7 @@
 	Guidelines'', ``C Style: Standards and Guidelines''라는
 	책이 도움이 될 수 있습니다: `참고문헌'란을 보기 바랍니다.
 
-	\seealso{18.9}
+	\seealso{\ql{18.9}}
 \end{faq}
 
 \begin{faq}
@@ -167,7 +172,7 @@
 
 	게다가 프로그래밍 스타일에 대한 많은 의견은 단지 의견일 뿐입니다.
 	따라서 이러한 ``스타일 전쟁''에 참여하는 것은 쓸데없는 짓입니다.
-	(질문 9.2, 5.3, 5.9, 10.7에 이러한 내용이 있습니다.)
+	(질문 \ql{9.2}, \ql{5.3}, \ql{5.9}, \ql{10.7}에 이러한 내용이 있습니다.)
 	여러분의 의견에 반대하는 사람은 결코 여러분의 의견에 동의하지 않을
 	것이며, 여러분의 의견에 동조하는 사람은 결코 반대하지 않을 것이므로,
 	이런 논쟁을 할 필요가 없습니다.

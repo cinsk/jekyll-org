@@ -2,6 +2,10 @@
 \chapter{The Standard I/O Library}	\label{chap:stdio}
 % chapter 12: stdio
 
+\begin{rawhtml}
+<pre>$Id$</pre>
+\end{rawhtml}
+
 프로그램에게 할 일을 말할 수 없거나, 프로그램이 자기가 처리한 일을 
 사용자에게 알려줄 수 없다면, 쓸모있는 프로그램이라고 말할 수 없을 것입니다.
 따라서 거의 모든 프로그램은 입출력(I/O)을 처리한다고 말할 수 있습니다.
@@ -29,13 +33,13 @@ C 언어의 minimalist philosophy에 동조하기 위해, stdio 함수들은 간단한,
 있습니다.   그렇지만 키보드나 스크린과 관련된 기능은 매우 적습니다
 (다시 \ref{chap:sysdep} 절을 참고하기 바랍니다).
 
-이 절의 많은 부분이 \TT{printf} (질문 12.6에서 12.11까지)와 \TT{scanf}
-(질문 12.12에서 12.20까지)에 연관되어 있습니다.  질문 12.21에서 12.26은
+이 절의 많은 부분이 \TT{printf} (질문 \ql{12.6}에서 \ql{12.11}까지)와 \TT{scanf}
+(질문 \ql{12.12}에서 \ql{12.20}까지)에 연관되어 있습니다.  질문 \ql{12.21}에서 \ql{12.26}은
 다른 stdio 함수들을 설명합니다.  특정 파일을 access할 필요가 있다면,
-\TT{fopen} (질문 12.27부터 12.32까지)을 써서 직접 열어서(open) 쓰거나(use),
-표준 stream을 redirect해서 (질문 12.33에서 12.36까지) 쓸 수 있습니다.
+\TT{fopen} (질문 \ql{12.27}부터 \ql{12.32}까지)을 써서 직접 열어서(open) 쓰거나(use),
+표준 stream을 redirect해서 (질문 \ql{12.33}에서 \ql{12.36}까지) 쓸 수 있습니다.
 text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
-12.37에서 12.42까지) 있습니다.   이 모든 것을 자세히 알아보기 전에
+\ql{12.37}에서 \ql{12.42}까지) 있습니다.   이 모든 것을 자세히 알아보기 전에
 먼저 간단한 것부터 알고 넘어갑시다.   다음 질문들을 읽어보기 바랍니다.
 
 \section{Basic I/O}	\label{sec:basicio}
@@ -45,7 +49,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 % 12 단원을 plora에 들어 있음: 잃어버린 것 같군.  T_T
 %
 \begin{faq}
-\q
+\Q{12.1} % 12.1 
 	이 코드에서 잘못된 부분이 있나요?
 \begin{verbatim}
   char c;
@@ -71,7 +75,9 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	\item \TT{char}의 타입이 unsigned인 경우, EOF 값이
 	(상위 비트들이 잘라져 대개 255나 \TT{0xff}의 값으로) 잘라져서,
 	EOF로 인식이 되지 않아 버립니다.  따라서 이 경우, 무한 루프에
-	빠져 버립니다.
+	빠져 버립니다.\footnote{앞 절에서 쓴 것처럼, 255는 \TT{char}가
+        8 비트라는 것을 가정한 것입니다. \TT{char}가 8 비트보다 더 큰 
+        시스템에서는, 비슷하게 처리가 끝나버릴 수 있습니다.}
 \end{itemize}
 
 	이 버그는 \TT{char}가 signed이고, 입력이 모두 7 비트 문자인 경우,
@@ -79,16 +85,16 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	implementation-defined입니다.)
 
 \R
-	\cite{kr1} \S\ 1.5 \page{14}; 
-	\cite{kr2} \S\ 1.5.1 \page{16}; 
-	\cite{iso} \S\ 6.1.2.5, \S\ 7.9.1, \S\ 7.9.7.5; 
-	\cite{hs} \S\ 5.1.3 \page{116}, \S\ 15.1, \S\ 15.6; 
-	\cite{ctp} \S\ 5.1 \page{70}; 
-	\cite{pcs} \S\ 11 \page{157}.
+	\cite{kr1} \S\ 1.5 \page{14} \\
+	\cite{kr2} \S\ 1.5.1 \page{16} \\ 
+	\cite{iso} \S\ 6.1.2.5, \S\ 7.9.1, \S\ 7.9.7.5 \\
+	\cite{hs} \S\ 5.1.3 \page{116}, \S\ 15.1, \S\ 15.6 \\
+	\cite{ctp} \S\ 5.1 \page{70} \\
+	\cite{pcs} \S\ 11 \page{157}
 \end{faq}
 
 \begin{faq}
-\q
+\Q{12.2} % 12.2
 	이 코드는 마지막 문장을 두번 복사하는데 왜 그럴까요?
 \begin{verbatim}
   while (!feof(infp)) {
@@ -106,7 +112,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
     fputs(buf, outfp);
 \end{verbatim}
 
-	대개 여러분이 \TT{feof()}를 쓸 이유가 없습니다  (종종
+	대개 \TT{feof()}를 직접 쓸 이유는 없습니다  (종종
 	stdio 함수가 \TT{EOF}나 \TT{NULL}을 리턴한 경우, \TT{feof()}나
 	\TT{ferror()}를 써서 정말로 파일의 끝인지, 읽기(read) 에러인지
 	검사할 필요가 있긴 합니다.)
@@ -118,23 +124,23 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	\TT{feof()}나 \TT{ferror()}를 써야 하는 것입니다.
 	
 \R
-	\cite{kr2} \S\ 7.6 \page{164}; 
-	\cite{iso} \S\ 7.9.3, \S\ 7.9.7.1, \S\ 7.9.10.2; 
-	\cite{hs} \S\ 15.14 \page{382}.
+	\cite{kr2} \S\ 7.6 \page{164} \\
+	\cite{iso} \S\ 7.9.3, \S\ 7.9.7.1, \S\ 7.9.10.2 \\
+	\cite{hs} \S\ 15.14 \page{382}
 \end{faq}
 
 \begin{faq}
-\q
+\Q{12.3} % 12.3
 	I'm using \TT{fgets()} to read lines from a file into an array of
 	pointers.  Why do all the lines end up containing copies of the
 	last line?
 
 \A
-	See question 7.4.
+	See question \ql{7.4}.
 \end{faq}
 
 \begin{faq}
-\q
+\Q{12.4} % 12.4
 	제 프로그램의 프롬프트와 중간 단계까지의 출력은 제가 파이프를 써서
 	출력을 다른 프로그램에 넘길 때, 때때로 스크린에 출력되지 않습니다.
 \A
@@ -146,31 +152,31 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	끝나지 않는 경우), \TT{fflush(stdout)}을 호출해야 합니다.
 	대개의 메커니즘이 적절한 시기에 자동으로 \TT{fflush()}를 불러주지만,
 	이 메커니즘들은 \TT{stdout}이 터미널이라고 가정한 것이기에
-	제대로 동작하지 않을 수 있습니다.  (\seealso{12.24})
+	제대로 동작하지 않을 수 있습니다.  (\seealso{\ql{12.24}})
 
 % TODO: error() 함수도 참고할 수 있도록 추가할 것.
 \T
 	질문 \faqref{chap:ext}{faq:error}을 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 7.9.5.2.
+	\cite{iso} \S\ 7.9.5.2
 \end{faq}
 
 \begin{faq}
-\q
+\Q{12.5} % 12.5
 	RETURN 키를 누르지 않고 한 글자를 즉시 입력받을 수 있는 방법이
 	있을까요?
 \A
-	질문 19.1을 참고하기 바랍니다.
+	질문 \ql{19.1}을 참고하기 바랍니다.
 \end{faq}
 
 \section{\TT{printf} Formats}	\label{sec:printf}
 % from 12.6
 
 \begin{faq}
-\q
-	\TT{printf}로 `\verb+\%+'를 출력할 수 있을까요? \verb+\%+를 써 보았지만
-	출력되지 않더군요.
+\Q{12.6} % 12.6
+	\TT{printf}로 `\verb+\%+'를 출력할 수 있을까요? \verb+\%+를
+        써 보았지만 출력되지 않더군요.
 \A
 	\verb+%%+를 쓰면 됩니다.
 	\TT{\%} 문자를 출력하는 것이 까다로운 이유는, \TT{printf()}가 
@@ -189,16 +195,16 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	처리할 수 있도록 만들어져 있다 하더라도, 컴파일러가 이를 먼저
 	처리해 버리게 되므로, `\TT{\%}'를 출력할 수 없게 됩니다.
 
-	\seealso{8.8, 19.17}
+	\seealso{\ql{8.8}, \ql{19.17}}
 
 \R
-	\cite{kr1} \S\ 7.3 \page{147}; 
-	\cite{kr2} \S\ 7.2 \page{154}; 
-	\cite{iso} \S\ 7.9.6.1.
+	\cite{kr1} \S\ 7.3 \page{147} \\
+	\cite{kr2} \S\ 7.2 \page{154} \\
+	\cite{iso} \S\ 7.9.6.1
 \end{faq}
 
 \begin{faq}
-\q
+\Q{12.7} % 12.7
 	다음 코드는 왜 동작하지 않나요?
 \begin{verbatim}
   long int n = 123456;
@@ -214,15 +220,15 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 \end{faq}
 
 \begin{faq}
-\q % 12.8 COMPLETE
+\Q{12.8} % 12.8 COMPLETE
 	Aren't ANSI function prototypes supposed to guard against argument
 	type mismatches?
 \A
-	질문 15.3을 참고하기 바랍니다.
+	질문 \ql{15.3}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.9 COMPLETE
+\Q{12.9} % 12.9 COMPLETE
 	\TT{printf()}에서 \%lf를 쓰지 말라고 한 것을 들었습니다.
 	\TT{double} 타입을 쓸 때, \TT{scanf()}는 \%lf를 쓰면서
 	왜 \TT{printf()}는 \%f를 쓰는 것인가요?
@@ -239,7 +245,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	함수에게 적용됨) \TT{float} 타입의 값은 인자로 전달될 때,
 	\TT{double} 타입으로 바뀌게 됩니다.  따라서 \TT{printf}는
 	결국 무조건 \TT{double} 타입만 전달받는 셈입니다.
-	\seealso{15.2}
+	\seealso{\ql{15.2}}
 	(참고로 \TT{printf}에 \TT{long double} 타입을 쓸 경우에는 \%Lf를
 	사용합니다.)
 
@@ -276,17 +282,17 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	\TT{printf}에서 \TT{\%lf}는 정의되어 있지 않습니다.
 	이식성을 위해서 항상 \TT{\%f}를 쓰기 바랍니다.)
 	
-	\seealso{12.13, 15.2}
+	\seealso{\ql{12.13}, \ql{15.2}}
 \R
-	\cite{kr1} \S\ 7.3 \Page{145--47}, \S\ 7.4 \Page{147--50}; 
-	\cite{kr2} \S\ 7.2 \Page{153--44}, \S\ 7.4 \Page{157--59}; 
-	\cite{iso} \S\ 7.9.6.1,	\S\ 7.9.6.2; 
-	\cite{hs} \S\ 15.8 \Page{357--64}, \S\ 15.11 \Page{366--78};
-	\cite{ctp} \S\ A.1 \Page{121--33}.
+	\cite{kr1} \S\ 7.3 \Page{145--47}, \S\ 7.4 \Page{147--50} \\
+	\cite{kr2} \S\ 7.2 \Page{153--44}, \S\ 7.4 \Page{157--59} \\
+	\cite{iso} \S\ 7.9.6.1,	\S\ 7.9.6.2 \\
+	\cite{hs} \S\ 15.8 \Page{357--64}, \S\ 15.11 \Page{366--78} \\
+	\cite{ctp} \S\ A.1 \Page{121--33}
 \end{faq}
 
-\begin{faq*}
-\q[b]
+\begin{faq}
+\Q{12.9b} % 12.9b
 	\TT{printf}로 \verb+size_t+와 같은, 즉, 그 크기가 \TT{long}인지,
 	다른 것인지 알 수 없는 \TT{typedef} 타입을 출력할 때에는
 	어떤 포맷을 써야 하나요? 
@@ -297,29 +303,29 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \begin{verbatim}
   printf("%lu", (unsigned long)sizeof(thetype));
 \end{verbatim}
-\end{faq*}
+\end{faq}
 
 \begin{faq}
-\q % 12.10 COMPLETE
+\Q{12.10} % 12.10 COMPLETE
 	\TT{printf()}에서 가변 폭(field width)을 지정하고 싶은데요,
 	예를 들면, \%8d를 쓰지 말고 실행 시간에 이 폭을 지정하려 합니다.
 \A
 	\verb+printf("%*d", width, x)+를 쓰면 됩니다.
 	Format specifier에서 별표는 필드 폭을 지정하기 위해 \TT{int} 값이
 	인자로 들어온다는 것을 뜻합니다. (인자 목록에서 폭은 출력할 값보다
-	먼저 지정합니다.) \seealso{12.15}
+	먼저 지정합니다.) \seealso{\ql{12.15}}
 
 
 \R
-	\cite{kr1} \S\ 7.3; 
-	\cite{kr2} \S\ 7.2; 
-	\cite{iso} \S\ 7.9.6.1; 
-	\cite{hs} \S\ 15.11.6; 
-	\cite{ctp} \S\ A.1.
+	\cite{kr1} \S\ 7.3 \\
+	\cite{kr2} \S\ 7.2 \\
+	\cite{iso} \S\ 7.9.6.1 \\
+	\cite{hs} \S\ 15.11.6 \\
+	\cite{ctp} \S\ A.1
 \end{faq}
 
 \begin{faq}
-\q % 12.11 COMPLETE
+\Q{12.11} % 12.11 COMPLETE
 	천 단위로 수치에 콤마(comma)를 찍어서 출력하고 싶습니다.  화폐 단위같은
 	수치를 출력할 수 있는 방법이 있나요?
 \A
@@ -372,28 +378,28 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \begin{verbatim}
   4 * (sizeof(long) * CHAR_BIT + 2) / 3 / 3 + 1
 \end{verbatim}
-	질문 12.21을 참고하기 바랍니다.
+	질문 \ql{12.21}을 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 7.4; 
-	\cite{hs} \S\ 11.6 \Page{301--4}.
+	\cite{iso} \S\ 7.4 \\
+	\cite{hs} \S\ 11.6 \Page{301--4}
 \end{faq}
 
 \section{\TT{scanf} Formats}	\label{sec:scanf}
 % from 12.12
 
 \begin{faq}
-\q % 12.12 COMPLETE
+\Q{12.12} % 12.12 COMPLETE
 	왜 \verb+scanf("%d", i)+는 동작하지 않나요?
 \A
 	\TT{scanf()}에 전달하는 인자는 항상 포인터이어야 합니다:
 	각각의 값이 변환될 때마다 \TT{scanf}는 여러분이 전달한 포인터가
-	가리키는 위치에 그 값을 저장합니다. (\seealso{20.1})
+	가리키는 위치에 그 값을 저장합니다. (\seealso{\ql{20.1}})
 	따라서 \verb+scanf("%d", &i)+로 써야 합니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.13 COMPLETE
+\Q{12.13} % 12.13 COMPLETE
 	다음 코드는 왜 동작하지 않나요?
 \begin{verbatim}
   double d;
@@ -408,11 +414,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	받게 됩니다.  따라서 여러분이 준 \TT{double}을 가리키는 포인터는
 	잘못된 것입니다.  \TT{\%lf}을 쓰거나 변수를 \TT{float}으로 선언하기
 	바랍니다.
-	\seealso{12.9}
+	\seealso{\ql{12.9}}
 \end{faq}
 
 \begin{faq}
-\q % 12.14 COMPLETE
+\Q{12.14} % 12.14 COMPLETE
 	이 코드는 왜 동작하지 않나요?
 \begin{verbatim}
   short int s;
@@ -422,11 +428,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \A
 	\TT{\%d}를 쓰면, \TT{scanf}는 \TT{int}를 가리키는 포인터를
 	받습니다. \TT{short int}를 가리키는 포인터를 쓰려면
-	\TT{\%hd}를 쓰기 바랍니다. (질문 12.9의 표를 참고하기 바랍니다.)
+	\TT{\%hd}를 쓰기 바랍니다. (질문 \ql{12.9}의 표를 참고하기 바랍니다.)
 \end{faq}
 
 \begin{faq}
-\q % 12.15 COMPLETE
+\Q{12.15} % 12.15 COMPLETE
 	\TT{scanf} 포맷 문자열에 가변 폭을 지정할 수 있을까요?
 \A
 	안됩니다.  \TT{scanf()}에서 별표(\TT{*})는
@@ -455,11 +461,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 	이렇게 만든 \TT{scanf} format은 표준 입력에서 읽을 때보다는,
 	\TT{fscanf}나 \TT{sscanf}에서 쓸모있을 것입니다.
-	\seealso{11.17, 12.10}
+	\seealso{\ql{11.17}, \ql{12.10}}
 \end{faq}
 
 \begin{faq}
-\q % 12.16 COMPLETE
+\Q{12.16} % 12.16 COMPLETE
 	지정한 형식으로 파일에서 데이터를 읽으려면 어떻게 해야 할까요?
 	\TT{scanf}에서 \TT{\%f}를 10번 쓰는 방법 말고, 어떻게 10개의 
 	\TT{float}을 파일에서 읽을 수 있을까요?
@@ -472,7 +478,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \begin{enumerate}
 \item
 	적당한 format string과 함께 \TT{fscanf}나 \TT{sscanf}를 씁니다.
-	이 장에서 지적한 제한 사항에도 불구하고 (질문 12.20 참고),
+	이 장에서 지적한 제한 사항에도 불구하고 (질문 \ql{12.20} 참고),
 	\TT{scanf} 계열의 함수는 매우 강력합니다.
 	공백으로 구별된 필드가 가장 다루기 쉽지만, \TT{scanf} format string은
 	좀 더 compact, column-oriented인 FORTRAN-style의 데이터를 처리하는
@@ -481,14 +487,14 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
   1234ABC5.678
 \end{verbatim}
 	\verb+"%d%3s%f"+를 써서
-	읽을 수 있습니다. (질문 12.19의 마지막 예를 참고하기 바랍니다.)
+	읽을 수 있습니다. (질문 \ql{12.19}의 마지막 예를 참고하기 바랍니다.)
 	
 \item
 	데이터를 공백으로 (또는 다른 delimeter를 써서) 구별되는 필드로 쪼개고,
-	\TT{strtok} 함수나 이와 같은 기능을 가진 함수를 (질문 13.6 참고) 쓴
+	\TT{strtok} 함수나 이와 같은 기능을 가진 함수를 (질문 \ql{13.6} 참고) 쓴
 	다음, \TT{atoi}나 \TT{atof}와 같은 함수를 쓰면 됩니다.
 	(일단 이렇게 쪼개고 나면, 각각의 field를 다루는 코드는 \TT{main()}에서
-	\TT{argv} 배열을 다루는 것과 거의 같아집니다; 질문 20.3 참고)
+	\TT{argv} 배열을 다루는 것과 거의 같아집니다; 질문 \ql{20.3} 참고)
 	이 방법은 특히 데이터가 몇 개의 필드로 이루어졌는지 모를 때
 	(실제 데이터를 읽기 전까지) 특히 쓸모가 있습니다.
 
@@ -505,7 +511,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
   for (i = 0; i < ac; i++)
     array[i] = atof(av[i]);
 \end{verbatim}
-	(\TT{makeargv}의 정의는 질문 13.6을 참고하기 바랍니다.)
+	(\TT{makeargv}의 정의는 질문 \ql{13.6}을 참고하기 바랍니다.)
 
 \item
 	특별한 방법으로 (in ad hoc way) 데이터를 분석할 수 있는 아무런
@@ -526,9 +532,13 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \end{faq}
 
 \section{\TT{scanf} Problems}	\label{sec:scanfproblem}
+Though it seems to be an obvious complement to \TT{printf}, \TT{scanf} has
+a number of fundamental limitations that lead some programmers to recommend
+avoiding it entirely.
+
 % from 12.17
 \begin{faq}
-\q % 12.17 COMPLETE
+\Q{12.17} % 12.17 COMPLETE
 	\verb+scanf("%d\n", ...)+을 썼더니, 추가적인 줄을 입력하기 전까지는
 	멈춰버립니다.  왜 그럴까요?
 \A
@@ -547,7 +557,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	다음 줄까지 읽어 버리는 상황이 된 것입니다. 
 	이 경우 단순히 \verb+"%d"+만
 	쓰면 해결됩니다.  (물론 여러분의 프로그램은 수치를 입력받은 다음에
-	나오는 \verb+\n+을 처리해야 합니다.  질문 12.18을 참고하기 바랍니다.)
+	나오는 \verb+\n+을 처리해야 합니다.  질문 \ql{12.18}을 참고하기 바랍니다.)
 
 	\TT{scanf} 함수는 free-format input을 처리하기 위해 디자인되었습니다.
 	따라서 키보드에서 사용자에게 입력받기 위한 목적으로 쓰이는 경우는
@@ -575,16 +585,16 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
   scanf("%d%*[\n]", &n);
 \end{verbatim}
 	Scanset은 강력하기는 하지만, \TT{scanf}의 모든 문제를 해결해 주지는
-	않습니다.  \seealso{12.20}
+	않습니다.  \seealso{\ql{12.20}}
 
 \R
-	\cite{kr2} \S\ B1.3 \Page{245--6}; 
-	\cite{iso} \S\ 7.9.6.2; 
-	\cite{hs} \S\ 15.8 \Page{357--64}.
+	\cite{kr2} \S\ B1.3 \Page{245--6} \\
+	\cite{iso} \S\ 7.9.6.2 \\
+	\cite{hs} \S\ 15.8 \Page{357--64}
 \end{faq}
 
 \begin{faq}
-\q % 12.18 COMPLETE
+\Q{12.18} % 12.18 COMPLETE
 	\verb+scanf("%d", ...)+를 써서 여러 수치를 읽은 다음,
 	\TT{gets()}를 써서 문자열을 읽으려 합니다:
 \begin{verbatim}
@@ -626,12 +636,12 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 	\seealso{12.20, 12.23}
 \R
-	\cite{iso} \S\ 7.9.6.2; 
-	\cite{hs} \S\ 15.8 \Page{357--64}.
+	\cite{iso} \S\ 7.9.6.2 \\
+	\cite{hs} \S\ 15.8 \Page{357--64}
 \end{faq}
 
 \begin{faq}
-\q % 12.19 COMPLETE
+\Q{12.19} % 12.19 COMPLETE
 	\TT{scanf()}의 리턴 값을 조사하면 사용자가 실제로 수치 값을 입력했는지
 	체크할 수 있기에 좀 더 안전하다고 배웠습니다:
 
@@ -678,24 +688,24 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	you never know where it ends until you've read ``too far.''
 	This is one reason that \TT{ungetc} exists.)
 
-	\seealso{12.20}
+	\seealso{\ql{12.20}}
 \R
-	\cite{iso} \S\ 7.9.6.2; 
-	\cite{hs} \S\ 15.8 \Page{357--64}.
+	\cite{iso} \S\ 7.9.6.2 \\
+	\cite{hs} \S\ 15.8 \Page{357--64}
 \end{faq}
 
 
 \begin{faq}
-\q % 12.20 COMPLETE
+\Q{12.20} % 12.20 COMPLETE
 	왜 대부분의 사람들은 \TT{scanf()}를 쓰지 말라고 할까요?
 	또 \TT{scanf()}를 쓰지 않는다면 대신 어떤 함수를 써야 하죠?
 \A
-	\TT{scanf()}는 많은 문제를 가지고 있습니다 --- 질문 12.17, 12.18,
-	12.19를 참고하기 바랍니다.  또 \TT{gets()}가 가지고 있는 문제가
-	\%s 포맷을 사용할 때에도 발생합니다 (질문 12.23 참고) --- 즉
+	\TT{scanf()}는 많은 문제를 가지고 있습니다 --- 질문 \ql{12.17}, \ql{12.18},
+	\ql{12.19}를 참고하기 바랍니다.  또 \TT{gets()}가 가지고 있는 문제가
+	\%s 포맷을 사용할 때에도 발생합니다 (질문 \ql{12.23} 참고) --- 즉
 	입력받을 버퍼가 오버플로우가 일어나지 않는다고\footnote{여러분이
 	\TT{\%20s}와 같이 폭을 지정한다면 문제가 해결될 수도 있습니다.
-	질문 12.15를 참고하기 바랍니다.} 보장할 수 없습니다.
+	질문 \ql{12.15}를 참고하기 바랍니다.} 보장할 수 없습니다.
 
 	일반적으로, \TT{scanf()}는 아주 형식화된(relatively structured,
 	formatted) input을 위해 design된 것입니다.
@@ -715,7 +725,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	(\TT{fgets()}와	같은 함수를 써서) 줄 전체를 입력 받은 다음,
 	이를 \TT{sscanf}와 같은 함수를 써서
 	원하는 형태로 끊어내는(\TT{strtol}, \TT{strtok}, \TT{atoi}와 같은
-	함수를 써서) 방법을 쓰는 것이 좋습니다; \seealso{12.16, 13.6})
+	함수를 써서) 방법을 쓰는 것이 좋습니다; \seealso{\ql{12.16}, \ql{13.6}})
 	\TT{sscanf}를 쓴다면, 리턴 값을 검사해서 원하는 만큼 입력을 처리했는지
 	확인하는 것이 중요합니다.
 
@@ -736,14 +746,14 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	바로 \TT{atoi}를 써서, 수치로 변경하는 것은 좋지 않습니다.
 	질문 \faqref{chap:ext}{str2int}를 참고하기 바랍니다.
 \R
-	\cite{kr2} \S\ 7.4 \page{159}.
+	\cite{kr2} \S\ 7.4 \page{159}
 \end{faq}
 
 \section{Other \TT{stdio} Functions}	\label{sec:otherstdio}
 % from 12.21
 
 \begin{faq}
-\q % 12.21
+\Q{12.21} % 12.21
 	\TT{sprintf} 호출에서 필요한 버퍼의 크기를 미리 계산할 수 있는
 	방법이 있을까요? 즉, 어떻게 하면 \TT{sprintf()}에서 버퍼 오버플로우를
 	피할 수 있을까요?
@@ -787,13 +797,13 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	일입니다.  그리고 복잡한 만큼 에러가 발생하기 쉽습니다 (그래서 권장하지
 	않습니다).  마지막 방법은 일단 그 포맷과 같은 포맷을 \TT{fprint()}를
 	써서 임시 파일에 저장한 다음, \TT{fprintf()}의 리턴값을 받거나
-	그 파일의 크기를 조사하는 방법입니다 (그러나 질문 19.12를
+	그 파일의 크기를 조사하는 방법입니다 (그러나 질문 \ql{19.12}를
 	꼭 읽기 바랍니다.  그리고 출력 에러를 생각해야 합니다).
 
 	주어진 버퍼가 크지 않을 경우, 오버플로우가 일어나지 않는다는 
 	확실한 보장없이는 \TT{sprintf()}를 부르기 꺼릴 것입니다.
 	포맷 스트링을 알 수 있다면 \%s를 쓰는 대신 \%.Ns(이 때 N은 어떤 수치)를
-	쓰거나 \%.*s를 (\seealso{12.10}) 쓸 수 있습니다.
+	쓰거나 \%.*s를 (\seealso{\ql{12.10}}) 쓸 수 있습니다.
 
 	가장 확실한 오버플로우 방지책은 길이를 제한하는 \TT{snprintf()}를
 	쓰는 것입니다.  실행 방법은 다음과 같습니다:
@@ -816,11 +826,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	주어진 포맷 스트링(\TT{fmtstring})에 필요한 버퍼의 크기를
 	계산할 수 있습니다.
 \R
-	\cite{c9x} \S\ 7.13.6.6.
+	\cite{c9x} \S\ 7.13.6.6
 \end{faq}
 
 \begin{faq}
-\q % 12.22 COMPLETE
+\Q{12.22} % 12.22 COMPLETE
 	\TT{sprintf}의 리턴 값이 왜 그리 문제인가요?
 	\TT{int} 타입을 리턴하나요, 아니면 \TT{char *} 타입을 리턴하나요?
 
@@ -831,13 +841,13 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	리턴합니다 (i.e. \TT{strcpy}의 리턴값과 같은 목적).
 
 \R
-	\cite{ansi} \S\ 4.9.6.5, 
-	\cite{iso} \S\ 7.9.6.5, 
+	\cite{ansi} \S\ 4.9.6.5 \\
+	\cite{iso} \S\ 7.9.6.5 \\
 	\cite{pcs} \S\ \page{175}
 \end{faq}
 
 \begin{faq}
-\q % 12.23 COMPLETE
+\Q{12.23} % 12.23 COMPLETE
 	왜 모두들 \TT{gets()}를 쓰지 말라고 할까요?
 \A
 	\TT{fgets()}와는 달리 \TT{gets()}는 버퍼의 크기를 지정하지 않습니다.
@@ -857,21 +867,21 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 	\TT{fgets}와 \TT{gets}의 다른 점 하나는, \TT{fgets}는 문자열 마지막에
 	\verb+\n+을 제거하지 않는다는 것입니다.  그러나 이 newline을 없애기는
-	아주 쉽습니다.  질문 7.1을 보면 \TT{gets} 대신 \TT{fgets()}를
+	아주 쉽습니다.  질문 \ql{7.1}을 보면 \TT{gets} 대신 \TT{fgets()}를
 	사용한 코드를 볼 수 있습니다.
 
 \T
 	머피의 법칙(Murphy's Law)에 관한 것은 다음을 참고하기 바랍니다: 
 	\cite{raymond:jargon}.
 \R
-	\cite{rationale} \S\ 4.9.7.2; 
-	\cite{hs} \S\ 15.7 \page{356}.
+	\cite{rationale} \S\ 4.9.7.2 \\
+	\cite{hs} \S\ 15.7 \page{356}
 \end{faq}
 
 
 
 \begin{faq}
-\q % 12.24 COMPLETE
+\Q{12.24} % 12.24 COMPLETE
 	\TT{printf}를 호출한 다음에 \TT{errno}를 검사해서 \TT{printf}가
 	실패했는지 검사했다고 생각합니다:
 
@@ -902,19 +912,19 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	(meaningful).)
 	일반적으로 일단 함수의 리턴 값을 검사해야 합니다. 여러 stdio 함수를
 	호출한 다음 그 동안 연산의 에러를 알고 싶다면 \TT{ferror} 함수를
-	쓰면 됩니다.  \seealso{12.2, 20.4}
+	쓰면 됩니다.  \seealso{\ql{12.2}, \ql{20.4}}
 
 \T
 	에러가 발생하지 않았을 때에는
 	\TT{errno}가 0이라는 것을 보장할 수 없습니다.
 \R
-	\cite{iso} \S\ 7.1.4, \S\ 7.9.10.3; 
-	\cite{ctp} \S\ 5.4 \page{73};
-	\cite{pcs} \S\ 14 \page{254}.
+	\cite{iso} \S\ 7.1.4, \S\ 7.9.10.3 \\
+	\cite{ctp} \S\ 5.4 \page{73} \\
+	\cite{pcs} \S\ 14 \page{254}
 \end{faq}
 
 \begin{faq}
-\q % 12.25 COMPLETE
+\Q{12.25} % 12.25 COMPLETE
 	\TT{fgetpos/fsetpos}와 \TT{ftell/fseek}의 차이점은 무엇인가요?
 	\TT{fgetpos/fsetpos}는 어디에 쓰는 거죠?
 \A
@@ -931,15 +941,15 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 %
 % 아래 문장은 book version에는 없는 말입니다. (new version)
 	또한 \TT{fgetpos/fsetpos}는
-	다중바이트(multibyte) 스트림에도 쓸 수 있습니다.  \seealso{1.4}
+	다중바이트(multibyte) 스트림에도 쓸 수 있습니다.  \seealso{\ql{1.4}}
 \R
-	\cite{kr2} \S\ B1.6 \page{248}; 
-	\cite{iso} \S\ 7.9.1, \S\ 7.9.9.1, 7.9.9.3; 
-	\cite{hs} \S\ 15.5 \page{252}.
+	\cite{kr2} \S\ B1.6 \page{248} \\
+	\cite{iso} \S\ 7.9.1, \S\ 7.9.9.1, 7.9.9.3 \\
+	\cite{hs} \S\ 15.5 \page{252}
 \end{faq}
 
 \begin{faq}
-\q % 12.26 COMPLETE
+\Q{12.26} % 12.26 COMPLETE
 	입력을 방출(flush)시킬 방법이 있을까요? 즉 사용자가 미리 입력한
 	입력을 무시해서, 다음 프롬프트를 출력할 때 이 입력이 출력되지 않도록
 	하고 싶습니다.  \TT{fflush(stdin)}을 쓰면 될까요?
@@ -965,7 +975,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	일반적으로 아직 읽히지 않은 입력은 OS-level input buffer에
 	존재하기 때문입니다. 
 
-	Input을 flush할 방법이 필요하다면 (질문 19.1과 19.2에 나온 것처럼)
+	Input을 flush할 방법이 필요하다면 (질문 \ql{19.1}과 \ql{19.2}에 나온 것처럼)
 	시스템 의존적인 방법을 찾아야 할 것입니다. 
 	게다가 사용자가 매우 빠른 속도로 입력하고 있고, 여러분의 프로그램이
 	그 입력을 무시해버릴 수 있다는 것을 꼭 염두에 두어야 합니다.
@@ -973,17 +983,17 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 % 아래 줄은 book version에서는 없는 내용입니다.
 	또는 \verb+\n+이 나오기 전까지의 문자를 읽어서 무시하거나 curses
 	루틴인 \TT{flushinp()}를 사용하거나, 
-	쓰면 됩니다. \seealso{19.1, 19,2}
+	쓰면 됩니다. \seealso{\ql{19.1}, \ql{19.2}}
 \R
-	\cite{iso} \S\ 7.9.5.2; 
-	\cite{hs} \S\ 15.2.
+	\cite{iso} \S\ 7.9.5.2 \\
+	\cite{hs} \S\ 15.2
 \end{faq}
 
 \section{Opening and Manipulating Files}	\label{sec:openmanfile}
 % from 12.27
 
 \begin{faq}
-\q % 12.27 COMPLETE
+\Q{12.27} % 12.27 COMPLETE
 	다음과 같이 파일을 여는(open) 함수를 만들었습니다:
 \begin{verbatim}
   myfopen(char *filename, FILE *fp)
@@ -1005,7 +1015,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	C 언어에서 함수들은 항상 자신에게 전달된 인자의 사본을
 	받습니다. 따라서 함수는 절대로 자신에게 전달된 인자에 값을
 	지정(assignment)하는 것으로 값을 리턴할 수 없습니다.
-	질문 4.8을 참고하기 바랍니다.
+	질문 \ql{4.8}을 참고하기 바랍니다.
 
 	주어진 질문을 고치려면 다음과 같이 \TT{myfopen} 함수가
 	\TT{FILE *}를 리턴하도록 고치면 됩니다:
@@ -1047,7 +1057,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \end{faq}
 
 \begin{faq}
-\q % 12.28 COMPLETE
+\Q{12.28} % 12.28 COMPLETE
 	아주 간단한 \TT{fopen} 조차도 동작하지 않습니다.
 	아래 코드에서 잘못된 점이 있나요?
 \begin{verbatim}
@@ -1057,11 +1067,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \A
 	문제는 \TT{fopen}의 두 번째 인자인 mode는 \verb+"r"+과 같은
 	string이어야지, \verb+'r'+과 같은 문자가 아니라는 것입니다.
-	\seealso{8.1}
+	\seealso{\ql{8.1}}
 \end{faq}
 
 \begin{faq}
-\q % 12.29 COMPLETE
+\Q{12.29} % 12.29 COMPLETE
 	왜 절대 경로를 써서 파일을 열면 항상 실패할까요?
 	다음 코드는 동작하지 않더군요:
 \begin{verbatim}
@@ -1070,11 +1080,11 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 \A
 	두 개의 backslash 문자를 써야 할 것입니다.
-	질문 19.17을 참고하기 바랍니다.
+	질문 \ql{19.17}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.30 COMPLETE
+\Q{12.30} % 12.30 COMPLETE
 	파일의 내용을 고치려고 합니다.  일단 \verb+"r"+ 모드로 파일을 연 다음,
 	원하는 문자열을 읽고 다시 이 문자를 쓰려고 했으나 제대로 동작하지
 	않습니다.
@@ -1093,33 +1103,33 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	잘려버릴 수도
 	있습니다\footnote{overwriting in text mode may truncate the file
 	at that point}.  
-	\seealso{19.14}
+	\seealso{\ql{19.14}}
 
 \R
-	\cite{ansi} \S\ 4.9.5.3, 
-	\cite{iso} \S\ 7.9.5.3.
+	\cite{ansi} \S\ 4.9.5.3 \\
+	\cite{iso} \S\ 7.9.5.3
 \end{faq}
 
 \begin{faq}
-\q % 12.31 COMPLETE
+\Q{12.31} % 12.31 COMPLETE
 	파일 중간에 한 줄을 (또는 레코드) 추가하거나 지우는 방법이
 	있나요?
 \A
-	질문 19.14를 참고하기 바랍니다.
+	질문 \ql{19.14}를 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.32 COMPLETE
+\Q{12.32} % 12.32 COMPLETE
 	열려진 stream에서 파일 이름을 다시 얻어낼 수 있습니까?
 \A
-	질문 19.15를 참고하기 바랍니다.
+	질문 \ql{19.15}를 참고하기 바랍니다.
 \end{faq}
 
 \section{Redirecting \TT{stdin} and \TT{stdout}}	\label{sec:redirect}
 % from 12.33
 
 \begin{faq}
-\q % 12.33 COMPLETE
+\Q{12.33} % 12.33 COMPLETE
 	프로그램 안에서 \TT{stdin}이나 \TT{stdout}을 
 	파일로 `redirect'할 수 있을까요?
 \A
@@ -1133,15 +1143,15 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
   f();
 \end{verbatim}
 
-	(그러나 질문 12.34를 꼭	읽어보시기 바랍니다).
+	(그러나 질문 \ql{12.34}를 꼭	읽어보시기 바랍니다).
 \R
-	\cite{ansi} \S\ 4.9.5.4; 
-	\cite{iso} \S\ 7.9.5.4; 
-	\cite{hs} \S\ 15.2. pp.347--8
+	\cite{ansi} \S\ 4.9.5.4 \\
+	\cite{iso} \S\ 7.9.5.4 \\
+	\cite{hs} \S\ 15.2. \Page{347--8}
 \end{faq}
 
 \begin{faq}
-\q % 12.34 COMPLETE
+\Q{12.34} % 12.34 COMPLETE
 	일단 \TT{freopen()}을 쓴 다음, 다시 원래의 \TT{stdout}으로
 	(또는 \TT{stdin}으로) 복귀할 수는 없나요?
 \A
@@ -1187,19 +1197,19 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	\TT{dup()}과 같은 함수를 쓰기 때문에 이식성이 (portability) 떨어지며,
 	비안정적입니다 (unreliable.)
 
-	어떤 시스템에서는 controlling terminal을 (질문 12.36 참고)
+	어떤 시스템에서는 controlling terminal을 (질문 \ql{12.36} 참고)
 	직접 open하는 방법을 제공하기도 하지만, 이는 여러분이 원하는
 	것이 아닐 것입니다.  왜냐하면 원래의 input 또는 output이 (즉
 	\TT{freopen}을 부르기 전의 \TT{stdin}이나 \TT{stdout}의 값)
 	command line에서 redirect되어 들어올 수 있기 때문입니다.
 
 	어떤 subprogram을 실행시키고 그 결과를 capture하고 싶다면,
-	\TT{freopen}은 제대로 동작할 수 없습니다;  질문 19.30을
+	\TT{freopen}은 제대로 동작할 수 없습니다;  질문 \ql{19.30}을
 	대신 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.35 COMPLETE
+\Q{12.35} % 12.35 COMPLETE
 	프로그램 안에서 표준 입력이나 표준 출력이 redirect되었는지
 	확인할 수 있을까요?  다시 말해 command line에서 ``\verb+<+''나
 	``\verb+>+''을 썼는지 확인할 수 있을까요?
@@ -1208,7 +1218,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	먼저 무엇 때문에 그러한 방법이 필요한 것인지 잘 생각해 보시기
 	바랍니다.  만약 프로그램에 전달한 입력 파일이 없을 때,
 	\TT{stdin}으로 데이터를 받고자 한다면 간단히 \TT{argv}를 써서
-	할 수 있습니다 (질문 20.3 참고).
+	할 수 있습니다 (질문 \ql{20.3} 참고).
 	또는 파일 이름을 쓰는 대신 ``\TT{-}''와 같은 placeholder를
 	쓰게 만들 수 있습니다.  입력이 interactive terminal에서 온 경우가
 	아닌 경우 prompt를 출력하게 않도록 만들고 싶은 경우, 어떤 시스템에서는
@@ -1218,7 +1228,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \end{faq}
 
 \begin{faq}
-\q % 12.36
+\Q{12.36} % 12.36
 	``more''와 같은 프로그램을 만들려고 합니다.
 	\TT{stdin}이 redirect되었다면 어떻게 keyboard를
 	다시 쓸 수 있을까요?
@@ -1234,14 +1244,14 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \end{faq}
 
 
-\begin{faq*}
-\q[b] % 12.36b
+\begin{faq}
+\Q{12.36b} % 12.36b
 	출력을 동시에 두곳으로, 예를 들면 스크린과 파일로 보낼 수 있는
 	방법이 있을까요?
 \A
 	없습니다.  대신 여러분이 모든 것을 두 번 반복하는 \TT{printf} 스타일의
-	함수를 만들어 쓰면 됩니다.  질문 15.5를 참고하기 바랍니다.
-\end{faq*}
+	함수를 만들어 쓰면 됩니다.  질문 \ql{15.5}를 참고하기 바랍니다.
+\end{faq}
 
 \section{``Binary'' I/O}	\label{sec:binio}
 % from 12.37
@@ -1252,31 +1262,31 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 ``binary'' I/O를 써야 합니다.
 
 \begin{faq}
-\q % 12.37 COMPLETE
+\Q{12.37} % 12.37 COMPLETE
 	메모리와 파일에서, \TT{fprintf}나 \TT{fscanf}가 쓰는 formatted
 	string이 아닌, 한 번에 한 바이트씩 읽거나 쓰려고(write)
 	합니다.  어떻게 하면 될까요?
 \A
 	이런 일을 대개 ``binary'' I/O라고 부릅니다.
 	먼저 \TT{fopen}을 부를때 (\verb+"rb"+나 \verb+"wb"+와 같은)
-	\verb+"b"+ modifier를 썼는지 (질문 12.38 참고) 확인하기 바랍니다.
+	\verb+"b"+ modifier를 썼는지 (질문 \ql{12.38} 참고) 확인하기 바랍니다.
 
 	그 다음, \TT{\&}와 \TT{sizeof} operator를 써서 몇 바이트를
 	transfer할 것인지 확인하기 바랍니다.  보통 \TT{fread}나 \TT{fwrite}같은
-	함수를 써서 작업할 수 있습니다; 예제는 질문 2.11을 보기 바랍니다.
+	함수를 써서 작업할 수 있습니다; 예제는 질문 \ql{2.11}을 보기 바랍니다.
 
 	\TT{fread}나 \TT{fwrite} 자체가 binary I/O를 수행하는 함수는 아닙니다.
 	일단 binary mode로 파일을 열었다면, 어떤 I/O 함수라도 binary I/O를
-	할 수 있습니다 (질문 12.42의 예제 참고);  Text mode로 파일을 열었다해도
+	할 수 있습니다 (질문 \ql{12.42}의 예제 참고);  Text mode로 파일을 열었다해도
 	원한다면 \TT{fread}나 \TT{fwrite}를 쓸 수 있습니다.
 
-	마지막으로, binary data file은 portable하지 않습니다; 질문 20.5 참고.
-	\seealso{12.40}
+	마지막으로, binary data file은 portable하지 않습니다; 질문 \ql{20.5} 참고.
+	\seealso{\ql{12.40}}
 \end{faq}
 
 
 \begin{faq}
-\q % 12.38 COMPLETE
+\Q{12.38} % 12.38 COMPLETE
 	바이너리 데이터 파일을 적절하게 읽을 수 있는 방법을 알려주세요.
 	때때로 0x0a와 0x0d 값이 멋대로 들어오고 데이터가 0x1a을 포함할 때
 	EOF가 리턴되는 경우가 있습니다.
@@ -1291,18 +1301,18 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 	텍스트/바이너리의 차이는 파일을 열 때에만 적용됩니다.  일단 파일이
 	열린 다음에는 어떤 I/O 루틴을 써도 상관없습니다.
-	\seealso{12.40, 12.42, 20.5}
+	\seealso{\ql{12.40}, \ql{12.42}, \ql{20.5}}
 
 % TODO: MS-DOS에서 CR LF의 의미를 설명.
 
 \R
-	\cite{ansi} \S\ 4.9.5.3; 
-	\cite{iso} \S\ 7.9.5.3;
-	\cite{hs} \S\ 15.2.1 \page{348}.
+	\cite{ansi} \S\ 4.9.5.3 \\
+	\cite{iso} \S\ 7.9.5.3 \\
+	\cite{hs} \S\ 15.2.1 \page{348}
 \end{faq}
 
 \begin{faq}
-\q % 12.39 COMPLETE
+\Q{12.39} % 12.39 COMPLETE
 	Binary file에 쓰기 위한 ``filter''를 만들고 있습니다.
 	그런데 \TT{stdin}과 \TT{stdout}은 이미 text stream으로 열려 있는
 	상태라서 문제가 됩니다. 어떻게 하면 이 stream을 binary mode로
@@ -1316,7 +1326,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \end{faq}
 
 \begin{faq}
-\q % 12.40 COMPLETE
+\Q{12.40} % 12.40 COMPLETE
 	Text I/O와 binary I/O의 차이점이 뭔가요?
 \A
 	Text mode의 파일은 출력 가능한(printable) 문자로 (탭 같은 문자 포함)
@@ -1361,23 +1371,23 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	그러나 어떤 시스템에서는 완전한 레코드를 만들기 위해 여러 개의
 	null byte를 파일 뒤에 추가할 수도 있습니다.
 
-	\seealso{12.37, 19.12}
+	\seealso{\ql{12.37}, \ql{19.12}}
 
 \R
-	\cite{ansi} \S\ 4.9.2; \cite{iso} \S\ 7.9.2;
-	\cite{rationale} \S\ 4.9.2;
+	\cite{ansi} \S\ 4.9.2; \cite{iso} \S\ 7.9.2 \\
+	\cite{rationale} \S\ 4.9.2 \\
 	\cite{hs} \S\ 15 \page{344}, \S\ 15.2.1 \page{348}
 \end{faq}
 
 \begin{faq}
-\q % 12.41 COMPLETE
+\Q{12.41} % 12.41 COMPLETE
 	Structure를 어떻게 파일에서 읽거나(read) 쓸(write) 수 있을까요?
 \A
-	질문 2.11을 참고하기 바랍니다.
+	질문 \ql{2.11}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\q % 12.42
+\Q{12.42} % 12.42
 	오래된 binary data file에서 data를 읽어오려면 어떻게 해야 할까요?
 \A
 	Word size와 byte-order 차이, floating-point format, structure padding
@@ -1416,10 +1426,10 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	우선하여 (most significant byte first, ``big endian'') 저장되어
 	있다고 가정했습니다.  \TT{(long)} 타입으로 casting한 것은
 	16-bit 또는 24-bit shift 연산이 \TT{long} 값에 확실히 동작하도록
-	(질문 3.14 참고) 보장해주며, \TT{(unsigned)}로 casting한 것은
+	(질문 \ql{3.14} 참고) 보장해주며, \TT{(unsigned)}로 casting한 것은
 	부호 확장(sign extension)을 막기 위한 것입니다.
 	(일반적으로 이러한 코드를 작성할 때에는 모든 data type을 
-	\TT{unsigned}로 하는 것이 좋습니다.  그러나 먼저 질문 3.19를
+	\TT{unsigned}로 하는 것이 좋습니다.  그러나 먼저 질문 \ql{3.19}를
 	참고하기 바랍니다.)
 
 	Structure의 내용을 파일에 쓰는(write) 코드는 다음과 같습니다:
@@ -1436,5 +1446,5 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
   putc(s.i16 & 0xff, fp);
 \end{verbatim}
 
-	\seealso{2.12, 12.38, 16.7, 20.5}
+	\seealso{\ql{2.12}, \ql{12.38}, \ql{16.7}, \ql{20.5}}
 \end{faq}
