@@ -120,7 +120,8 @@ also common to use the word ``standard'' by itself, often capitalized.)
         이름입니다. 이제는 1999년에 제정된 것을 알기 때문에 ``C99''라고
         부르는 것이 올바른 표현입니다.
 \R
-	\cite{hs5} \S\ 1.1 \Page{4--5}
+	\cite{hs5} \S\ 1.1 \Page{4--5} \\
+        \cite{rational2} \S\ 0 
 \end{faq}
 
 \begin{faq}
@@ -217,6 +218,15 @@ also common to use the word ``standard'' by itself, often capitalized.)
   http://www.dkuug.dk/JTC1/SC22/WG14/
   http://www.dmk.com/
 \end{verbatim}
+
+\T
+\begin{verbatim}
+  http://www.open-std.org/jtc1/sc22/wg14/
+\end{verbatim}
+	\noindent 위 사이트의 새 주소는 다음과 같습니다:
+\begin{verbatim}
+  http://www.open-std.org/jtc1/sc22/wg14/
+\end{verbatim}
 \end{faq}
 
 \section{Function Prototypes}
@@ -241,43 +251,67 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 
 \A
         \begin{sloppypar}
-	그 이유는 새 (스타일) 프로토타입 선언인
-	``\verb+extern int func(float)+''을 구 (스타일) 정의인
+	그 이유는 새 (스타일) 프로토타입(prototype) 선언인
+	``\verb+extern int func(float)+''을 오래된 (스타일) 정의인
 	``\verb+int func(x) float x;+''와 섞어 썼기 때문에 발생합니다.
-	대개는 이 두 스타일을 섞어 쓰는 것이 가능하지만(질문 \ql{11.4} 참고)
+	보통 이 두 스타일을 섞어 쓰는 것이 가능하지만(질문 \ql{11.4} 참고)
 	이 경우에는 안됩니다.
 
-	오래된 C (프로토 타입과 가변 인자 리스트를 제공하지 않는 ANSI C;
+	Traditional C (프로토 타입과 가변 인자 리스트를 제공하지 않는 ANSI C;
 	질문 \ql{15.2} 참고) 언어에서는 함수에 전달되는 어떤 인자들을
 	``확장(widen)''시킵니다.  즉 \TT{float}은 \TT{double}로,
 	\TT{char}나 \TT{short int}는 \TT{int}로 확장시킵니다.
 	(구 스타일로 정의한 함수에서는, 이렇게 확장되어 전달된 인자가,
 	함수의 몸체 부분에 들어갈 때, 다시 원래의 크기로 변환됩니다)
+        따라서 위의 오래된 스타일로 만든 정의는 사실상 \TT{func} 함수를
+        \TT{double} 타입 인자를 받도록 만든 것입니다. (물론 함수 내부에서
+        이 인자는 다시 \TT{float} 타입으로 바뀝니다)
         \end{sloppypar}
 	이 문제는 함수 정의에서 새 스타일의 문법을 써서 고칠 수 있습니다:
 \begin{verbatim}
   int func(float x) { ...  }
 \end{verbatim}
 
-	\noindent 또는 새 형식의 프로토타입 선언을 구 형식의 정의와
+	또는 새 형식의 프로토타입 선언을 구 형식의 정의와
 	일치하도록 다음과 같이 만들어 주면 됩니다:
 \begin{verbatim}
   extern int func(double);
 \end{verbatim}
-	(이 경우, 가능하다면 구 형식의 정의에서 \TT{double}을 쓰도록
-	바꿔주는 것이 더 깨끗합니다.)
+	\noindent (이 경우, 가능하다면 구 형식의 정의에서 \TT{double}을 쓰도록
+	바꿔주는 것이 더 깨끗합니다.\footnote{Changing a parameter's type
+          may require additional changes if the address of that parameter
+          is taken and must have aparticular type})
 
-	즉, 좁은(narrow, 예를 들어 \TT{char}, \TT{short int}, \TT{float}과
-	같은) 인자나 리턴 타입을 쓰지 않는 것이 훨씬 더 안전합니다.
+        ``narrow'' 효과를 피하기 위해, ``narrow'' 효과를 발생하는 타입들을
+        (예를 들어 \TT{char}, \TT{short int}, \TT{float} 등) 함수 인자나
+        리턴 타입으로 쓰지 않는 편이 안전할 수 있습니다.
 
 	질문 \ql{1.25}를 참고하기 바랍니다.
 
 \R
 	\cite{kr1} \S\ A7.1 \page{186} \\
 	\cite{kr2} \S\ A7.3.2 \page{202} \\
-	 \cite{c89} \S\ 6.3.2.2, \S\ 6.5.4.3 \\
+	\cite{c89} \S\ 6.3.2.2, \S\ 6.5.4.3 \\
 	\cite{rationale} \S\ 3.3.2.2, \S\ 3.5.4.3 \\
-	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3}
+	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3} \\
+
+\T
+	함수 호출시, prototype이 확인되지 않다면, 컴파일러는 모든 인자에 대해
+        default argument promotion을 실시합니다. 즉, \TT{int}보다 작은
+        정수 타입들은 모두 \TT{int}로, \TT{float}은 \TT{dobule}로 변환하며,
+        나머지 타입들은 그대로 전달됩니다.  만약, 
+        인자(argument)가 파라메터와 갯수가 다를 경우, undefined behavior가
+        발생하며, 만약 나중에 함수 prototype이 발견되었는데, 이 함수 
+        prototype이 가변 인자를 받는 것으로 선언되어 있거나, 파라메터들의
+        타입이, default argument promotion 후의 인자 타입과 서로 다를때에도
+        undefined behavior가 발생합니다. (마지막 문장은 함수 인자/파라메터 뿐만
+        아니라, 함수의 리턴 타입에도 적용됩니다.)
+        
+        이 규칙은 생각보다 좀 더 까다롭습니다. 아래 Reference를 꼭 읽어 보기
+        바랍니다.
+
+        \cite{c99} \S\ 6.5.2.2, \S\ 6.7.5.3 \\
+        \cite{hs5} \S\ 9.2
 \end{faq}
 
 \begin{faq}
@@ -290,8 +324,24 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 	언젠가 공식적으로 제거될 것입니다.)
 
 \R
+	\cite{ansi} \S\ 3.7.1, \S\ 3.9.5 \\
 	\cite{c89} \S\ 6.7.1, \S\ 6.9.5 \\
-	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70}
+	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70} \\
+
+	\cite{c99} \S\ 6.5.2.2 \S\ 6.9.1 \\
+\T
+        일반적으로, 오래된 형식과 섞어 쓰기 위해서는 다음 두 가지 규칙을
+        지켜야 합니다:
+        \begin{itemize}
+          \item 함수의 리턴 타입과 모든 파라메터 타입은 default argument
+            promotion 후의 타입과 일치하도록 한다. 즉, \TT{int}보다 작은
+            정수 타입이나 \TT{float}을 쓰지 않는다.
+          \item 가변 인자를 받는 함수는 오래된 형식으로 만들지 않는다.
+        \end{itemize}
+
+\R
+	\cite{hs5} \S\ 9.2.2, \Page{291--292} \S\ 9.2.5 \Page{294--295} \\
+        GNU Coding Standard \S\ 3.4 
 \end{faq}
 
 \begin{faq}
@@ -417,7 +467,11 @@ startup code that will actually call \TT{main}.
 \R
 	\cite{c89} \S\ 5.1.2.2.1, \S\ G.5.1 \\
 	\cite{hs} \S\ 20.1 \page{416} \\
-	\cite{ctp} \S\ 3.10 \Page{50--51}
+	\cite{ctp} \S\ 3.10 \Page{50--51} \\
+
+        \cite{c99} \S\ 5.1.2.2.1, 
+                   \S\ J.1.1, \S\ J.2.1, \S\ J.3.2.1, \S\ J.5.1 \\
+        \cite{hs5} \S\ 9.9, \S\ 9.11.4, \S\ 16.5           
 \end{faq}
 
 \begin{faq}
@@ -466,6 +520,29 @@ startup code that will actually call \TT{main}.
 \R
 	\cite{c89} \S\ G.5.1 \\
 	\cite{hs} \S\ 20.1 \Page{416--7}
+\T
+	전역 변수 \TT{environ}은 POSIX.1 표준입니다. (물론 POSIX.1은
+        C 표준과 다르기 때문에, C 언어 관점에서는 비표준이라 할 수 있습니다.)
+\begin{verbatim}
+  #include <unistd.h>
+
+  extern char **environ;
+\end{verbatim}
+	원래, 전통적으로 UNIX 시스템에서는 \TT{main}이 세번째 인자를
+        받을 수 있게 선언할 수 있었습니다. 즉 다음과 같습니다:
+\begin{verbatim}
+  int main(int argc, char *argv[], char *envp[]);
+\end{verbatim}
+	그러나, 이 것은 (C 표준이 아닌 것은 물론) POSIX.1 표준도
+        아닙니다. POSIX.1을 따르면, ISO C 표준을 존중하기 위해, \TT{main}의
+        세번째 인자인 \TT{envp}와 같은 방식으로 동작하는, 전역 변수
+        \TT{environ}을 써야 한다고 씌여 있습니다.
+
+        질문 \ql{19.33}을 참고하기 바랍니다.
+% TODO: 다른 질문과 연관성을 꼭 쓰도록. 특히 19장과..
+% TODO: POSIX.1에 대해서도 다룰 것.
+\R
+	\cite{hs5} \S\ 9.9 \page{304}
 \end{faq}
 
 \begin{faq}
@@ -636,7 +713,8 @@ directive.
 	소스 리스팅 제어, 구조체 압축(packing), 경고 출력 수준 등이 
 	포함됩니다.
 \R
-	\cite{c89} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}
+	\cite{c89} \S\ 6.8.6; \\
+        \cite{hs} \S\ 3.7 \page{61}
 \end{faq}
 
 \begin{faq}
@@ -682,7 +760,8 @@ directive.
 	타입으로 변환해야 합니다 (질문 \ql{4.5}를 꼭 참고하기 바랍니다).
 
 \R
-	\cite{c89} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}
+	\cite{c89} \S\ 6.1.2.5, \S\ 6.3.6 \\
+        \cite{hs} \S\ 7.6.2 \page{204}
 \end{faq}
 
 \begin{faq}
@@ -708,7 +787,7 @@ directive.
 	\TT{malloc(0)}은 무엇을 의미하죠? 이 때 널 포인터가 리턴되는
 	것인가요, 아니면 0 바이트를 가리키는 포인터가 리턴되는 것인가요?
 \A
-	ANSI/\cite{c89} 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
+	ANSI/ISO 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
 	구현 방법에 의존적\footnote{implementation-defined}입니다.
 	(질문 \ql{11.33}을 참고하기 바랍니다.
 
@@ -722,13 +801,13 @@ directive.
 	외부 이름(external identifier)을 쓸 때, 왜 ANSI 표준은
 	여섯 글자 이상인 이름의 유일성을 보장할 수 없다고 할까요?
 \A
-	오래된 링커(linker)의 경우, ANSI/\cite{c89} C나, C 컴파일러
+	오래된 링커(linker)의 경우, ANSI/ISO C나, C 컴파일러
 	개발자와 상관없이 시스템에 의존적인 경우가 많다는 것이 문제입니다.
 	이 제한은 이름의 첫 여섯 글자만을 유일하다고 보장하기 때문에,
 	첫 여섯 글자가 같은 이름들은, 전체가 같은 이름으로 취급합니다.
-	이 제한은 이미 쓸모없어져 가고 있으므로 (obsolescent), \cite{c9x} 표준에서는
+	이 제한은 이미 쓸모없어져 가고 있으므로 (obsolescent), ISO 표준에서는
 	없어질 예정입니다.
-
+% TODO: 위 없어질 예정이라는 말 확인 바람..
 \T
 	즉, ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로 취급될 수
 	있다는 말입니다.
