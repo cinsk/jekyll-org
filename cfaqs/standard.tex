@@ -1,0 +1,758 @@
+\chapter{ANSI/ISO Standard C}	\label{chap:standard}
+% chapter 11: standard
+\begin{faq}
+\Q{11.1}
+	``ANSI C 표준''이란 무엇인가요?
+
+\A
+	1983년, 미국 규격 협회(American National Standards Institute, ANSI)는
+	C 언어의 표준을 제정하기 위해 X3J11이라는 위원회를 열었습니다.
+	매우 긴 기간동안 토론한 끝에 이 위원회의 보고서는
+	1989년 12월 14일 ANSX3.159-1989라는 이름으로 비준받아서, 1990년에
+	출판되었습니다.  대부분의 내용은 기존의 C 언어에서 가져온 것이며,
+	몇몇은 C++에서 (대부분 함수 prototype에 대한 것) 가져온 것입니다.
+	그리고 (논쟁의 여지가 있던 3중 음자(trigraph) 문자 시퀀스를 포함한)
+	다국적 문자 세트를 지원하는 기능도 포함시켰습니다.  ANSI C 표준은
+	C run-time 라이브러리도 표준화시켰습니다.
+
+	그 후에 국제 표준 기구인 \cite{iso}는 미국 표준인 X3.159를
+	\cite{iso}/IEC 9899:1990으로 대체하여 국제 표준으로 만들었습니다.
+	이 표준에서는 ANSI의 표준을 정정하고 보충한 것이 대부분이었기 때문에
+	흔히 `ANSI/\cite{iso} 9899-1990' [1992] 라고 부릅니다.
+
+	1994년 `Technical Corrigendum 1(TC1)'은 표준에서 약 40 가지를
+	수정하였습니다.  대부분 수정은 부분적으로 명확한 설명이 필요한 것에
+	보충 설명을 단 것입니다.  그리고 `Normative Addendum 1(NA1)'은 약
+	50 페이지 분량의 새로운 개념을 추가했으며, 거의 대부분이
+	국제화(internationalization)에 관한 함수 설명입니다.
+	1995년 TC2는 몇가지 정정 사항을 추가했습니다.
+
+	이 글을 쓸 때, 표준의 완전한 개정판은 이제 막바지 작업에
+	들어 갔습니다.  새로운 표준은 현재 ``\cite{c9x}''라고 이름이 붙었고,
+	1999년 말에 완성될 거라는 뜻을 나타냅니다.  (이 글의 많은
+	부분도 새로운 \cite{c9x}를 반영하려고 수정되었습니다.)
+
+	오리지널 ANSI 표준은 많은 부분에서 결정한 부분에 대한 설명과,
+	작은 문제들에 대한 논의를 포함한 ``\cite{rationale} (이론적 해석)''을
+	포함하고 있습니다.  몇 가지는 이 글에 이미 포함되었습니다.
+	(\cite{rationale} 자체는 ANSI 표준 X3.159-1989에 포함된 부분이 아니지만
+	정보 제공 목적으로만 제공되는 것이며, \cite{iso} 표준에 포함되는 내용도
+	아닙니다.  \cite{c9x} 용으로 새 판이 준비되고 있는 상황입니다.)
+\end{faq}
+
+\begin{faq}
+\Q{11.2}
+	표준 문서를 어디서 얻을 수 있죠?
+\A
+	미국이라면 다음 주소에서 사본을 신청할 수 있습니다:
+\begin{verbatim}
+  American National Standards Institute
+  11 W.  42nd St., 13th floor
+  New York, NY  10036  USA
+  (+1) 212 642 4900
+\end{verbatim}
+	\noindent 또는 다음 주소도 가능합니다:
+\begin{verbatim}
+  Global Engineering Documents
+  15 Inverness Way E
+  Englewood, CO  80112  USA
+  (+1) 303 397 2715
+  (800) 854 7179  (U.S.  & Canada)
+\end{verbatim}
+	다른 나라들에서는 제네바(Geneva)에 있는 \cite{iso}에 주문하거나
+	각 국의 표준 위원회에 연락하시기 바랍니다:
+\begin{verbatim}
+  \cite{iso} Sales
+  Case Postale 56
+  CH-1211 Geneve 20
+  Switzerland
+\end{verbatim}
+	(또는 \verb+http://www.iso.ch+를 방문하거나, \verb+comp.std.internat+
+	FAQ 리스트에서 Standards.Faq를 참고하기 바랍니다).
+
+	저자가 마지막으로 검사했을 때, ANSI에서 주문하려면 130.00\$가
+	필요했으며, GLobal에서 주문할 때에는 400.50\$가 필요했습니다.
+	(\cite{rationale}을 포함한) 오리지널 X3.159는 ANSI에서 205.00\$,
+	Global에서는 162.50\$가 필요했습니다.  ANSI에서는 표준 문서를
+	판매한 수익금으로 운영하기 때문에 전자 출판 형식으로는 제공해주지
+	않습니다.
+
+	미국이라면 (\cite{rationale}를 포함한) 오리지널 ANSI X3.159의 사본을
+	``FIPS PUIB 160''으로 다음 주소에서 주문할 수 있을 것입니다:
+\begin{verbatim}
+  National Technical Information Service (NTIS)
+  U.S.  Department of Commerce
+  Springfield, VA  22161
+  703 487 4650
+\end{verbatim}
+	Herbert Schildt씨가 해설한(annotated) ``Annotated ANSI C Standard''는
+	ANSI가 아닌 \cite{iso} 9899를 설명하고 있습니다; Osborne/McGraw-Hill에서
+	출판되었으며, ISBN 0-07-881952-0이며, 대략 \$40 선에서 판매되고
+	있습니다.  표준과 이 책의 가격 차이는 대부분 저자가 단 
+	해설(annotation) 가격입니다: 그러나 많은 에러와 너무 많은 생략으로
+	평판이 좋지 않습니다.  net의 대부분 사람들은 아예 이 책을 무시합니다.
+	Clive Feather씨는 이 책에 대한 서평을 썼고 아래의 URL에서 볼 수
+	있습니다:
+\begin{verbatim}
+  http://www.lysator.liu.se/c/schildt.html
+\end{verbatim}
+
+	\cite{rationale} 문서는 (완전한 표준은 아님) 익명(anonymous) FTP로
+	\verb+ftp.uu.net+의 (질문 18.16 참고)
+	\verb+doc/standards/ansi/X3.159-1989+ 디렉토리에서 얻을 수 있습니다.
+	또 \verb+http://www.lysator.liu.se/c/rat/title.html+에서 볼 수도
+	있습니다.  Silicon Press에서 출판되기도 했습니다.  
+	ISBN 0-929306-07-4입니다.
+
+	\cite{iso}/IEC \cite{c9x}의 진행판은 JTC1/SC22/WG14 사이트인
+	\verb+http://www.dkuung.dk/JTC1/SC22/WG14/+에서 얻을 수 있습니다.
+
+	질문 11.2b를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.2b}
+	개정된 표준에 대한 정보는 어디에서 얻을 수 있나요?
+\A
+	(\cite{c9x} 진행판을 포함한) 관련된 정보는 다음 웹 사이트에서 찾을 수
+	있습니다:
+\begin{verbatim}
+  http://www.lysator.liu.se/c/index.html
+  http://www.dkuug.dk/JTC1/SC22/WG14/
+  http://www.dmk.com/
+\end{verbatim}
+\end{faq}
+
+\begin{faq}
+\Q{11.3}
+	제 ANSI 컴파일러는 다음과 같은 코드를 봤을 때, 함수가 일치하지 않는다고
+	에러를 발생합니다:
+
+\begin{verbatim}
+  extern int func(float);
+
+  int func(x)
+  float x;
+  { ...
+\end{verbatim}
+
+\A
+	그 이유는 새 (스타일) 프로토타입 선언인
+	``\verb+extern int func(float)+''을 구 (스타일) 정의인
+	``\verb+int func(x) float x;+''와 섞어 썼기 때문에 발생합니다.
+	대개는 이 두 스타일을 섞어 쓰는 것이 가능하지만(질문 11.4 참고)
+	이 경우에는 안됩니다.
+
+	오래된 C (프로토 타입과 가변 인자 리스트를 제공하지 않는 ANSI C;
+	질문 15.2 참고) 언어에서는 함수에 전달되는 어떤 인자들을
+	``확장(widen)''시킵니다.  즉 \TT{float}은 \TT{double}로,
+	\TT{char}나 \TT{short int}는 \TT{int}로 확장시킵니다.
+	(구 스타일로 정의한 함수에서는, 이렇게 확장되어 전달된 인자가,
+	함수의 몸체 부분에 들어갈 때, 다시 원래의 크기로 변환됩니다)
+
+	이 문제는 함수 정의에서 새 스타일의 문법을 써서 고칠 수 있습니다:
+\begin{verbatim}
+  int func(float x) { ...  }
+\end{verbatim}
+
+	\noindent 또는 새 형식의 프로토타입 선언을 구 형식의 정의와
+	일치하도록 다음과 같이 만들어 주면 됩니다:
+\begin{verbatim}
+  extern int func(double);
+\end{verbatim}
+	(이 경우, 가능하다면 구 형식의 정의에서 \TT{double}을 쓰도록
+	바꿔주는 것이 더 깨끗합니다.)
+
+	즉, 좁은(narrow, 예를 들어 \TT{char}, \TT{short int}, \TT{float}과
+	같은) 인자나 리턴 타입을 쓰지 않는 것이 훨씬 더 안전합니다.
+
+	질문 1.25를 참고하기 바랍니다.
+
+\R
+	\cite{kr1} \S\ A7.1 \page{186}; 
+	\cite{kr2} \S\ A7.3.2 \page{202};
+	 \cite{iso} \S\ 6.3.2.2, \S\ 6.5.4.3; 
+	\cite{rationale} \S\ 3.3.2.2, \S\ 3.5.4.3; 
+	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3}.
+\end{faq}
+
+\begin{faq}
+\Q{11.4}
+	함수 구문에서 오래된 형식과 새 형식을 섞어 쓸 수 있나요?
+\A
+	섞어 쓸 수 있긴 하지만 매우 주의를 필요합니다.  (질문 11.3을 꼭
+	보시기 바랍니다).  현재에는 prototype 형식이 선언과 정의에 모두
+	사용되고 있습니다.  (오래된 형식은 쓸모 없이 되어가고 있기 때문에,
+	언젠가 공식적으로 제거될 것입니다.)
+
+\R
+	\cite{iso} \S\ 6.7.1, \S\ 6.9.5; 
+	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70}.
+\end{faq}
+
+\begin{faq}
+\Q{11.5}
+	컴파일러가 다음 선언을 만나면:
+\begin{verbatim}
+  extern int f(struct x *p);
+\end{verbatim}
+	``struct x introduced in prototype scope''라는 이상한 경고를
+	발생시킵니다.
+\A
+	C 언어의 스코프(scope) 규칙에 따르면 함수의 프로토타입에만
+	선언된 구조체는 같은 소스의 다른 구조체와 호환성이 없습니다
+	(이 구조체는 함수의 프로토타입 선언이 끝날 때 스코프를 벗어납니다.)
+
+	이 문제를 해결하려면 먼저 함수 선언 앞에 다음과 같이 별도로
+	구조체 선언을 해 주어야 합니다:
+
+\begin{verbatim}
+  struct x;
+\end{verbatim}
+	\noindent 이렇게 하면, 이 구조체의 선언이 파일 스코프를 가지게 되어,
+	이후에 나올 선언에서 \TT{struct x}를 사용할 때, 같은 \TT{struct x}를
+	가리키도록 할 수 있습니다.
+\R
+	\cite{iso} \S\ 6.1.2.1, \S\ 6.1.2.6, \S\ 6.5.2.3.
+\end{faq}
+
+\begin{faq}
+\Q{11.8}
+	배열의 크기를 지정할 때, 다음과 같이 상수 값을 써도 안되는
+	이유가 뭔가요?
+\begin{verbatim}
+  const int n = 5;
+  int a[n];
+\end{verbatim}
+\A
+	\TT{const} (qualifier) 키워드는 ``읽기 전용''인 것을 의미합니다;
+	즉 지정한 오브젝트는 실행할 때 (일반적으로) 변경할 수 없습니다.
+	따라서 이러한 `const' 오브젝트는 상수 수식(constant expression)이
+	아닙니다.  (이 부분에서 C 언어와 C++이 다릅니다.)
+	컴파일할 때 지정할 상수를 원한다면 \verb+#define+으로 (또는
+	\TT{enum}으로) 상수를 정의하기 바랍니다.
+\R
+	\cite{iso} \S\ 6.4; 
+	\cite{hs} \S\ 7.11.2,7.11.3 \Page{226--7}.
+\end{faq}
+
+\begin{faq}
+\Q{11.9}
+	`\verb+const char *p+'와 `\verb+char * const p+'의 차이는
+	무엇인가요?
+
+\A
+	`\verb+const char *p+'는 (`\verb+char const *p+'라고 쓸 수 있음)
+	상수 문자에 대한 포인터를 선언한 것입니다 (문자를 바꿀 수 없습니다);
+	`\verb+char * const p+'는 문자에 대한 상수 포인터를 선언한 것입니다
+	(문자를 변경할 수는 있지만 포인터를 변경할 수는 없습니다).
+
+	해설을 잘 음미해보시기 바랍니다; 질문 1.21도 참고하시기 바랍니다.
+
+\R
+	\cite{iso} \S\ 6.5.4.1; 
+	\cite{rationale} \S\ 3.5.4.1; 
+	\cite{hs} \S\ 4.4.4 \page{81}.
+\T
+	즉, `\verb+const char *p+'는 p가 다른 위치를 가리키도록 바꿀 수 있으나,
+	p가 가리키는 대상(\TT{const char})을 바꿀 수 없습니다.
+	`\verb+char * const p+'는 p가 가리키는 대상(\TT{char})은 바꿀 수
+	있지만, p가 다른 것을 가리키게 할 수는 없습니다.
+
+\end{faq}
+
+\begin{faq}
+\Q{11.10}
+	\verb+const char **+를 인자로 받는 함수에 \verb+char **+를
+	전달하면 안되나요?
+\A	
+	const T 타입에 대한 포인터가 (pointer to const T) 필요한 곳에, 
+	T 타입에 대한 포인터를 (pointer to T) 쓸 수 없습니다.
+	약간 다른 타입의 포인터를 전달할 수 있는 규칙은 재귀적으로 (recursive)
+	적용될 수 없기 때문입니다.
+
+	따라서 명백하게 (explicit) 캐스팅을 (이 경우에
+	\verb+const char **+으로) 해 주어야 합니다.  
+
+\R	\cite{iso} \S\ 6.1.2.6, \S\ 6.3.16.1, \S\ 6.5.3; 
+	\cite{hs} \S\ 7.9.1 \Page{221--2}.
+\end{faq}
+
+\begin{faq}
+\Q{11.12a}
+	\TT{main()}의 정확한 선언 방법을 알고 싶습니다.
+\A
+	\TT{main()}의 선언은 다음 중에서 골라 써야 합니다:
+\begin{verbatim}
+  int main();
+  int main(void);
+  int main(int argc, char *argv[]);
+\end{verbatim}
+	\noindent (물론 이때 `\TT{argv}'와 `\TT{argc}'라는 이름은
+	얼마든지 바꿀 수 있습니다.) 질문 11.12b부터 11.15까지 참고하기
+	바랍니다.
+
+\R
+	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1; 
+	\cite{hs} \S\ 20.1 \page{416}; 
+	\cite{ctp} \S\ 3.10 \Page{50--51}.
+\end{faq}
+
+\begin{faq}
+\Q{11.12b}
+	``main returns no value''라는 경고를 피하기 위해,
+	\TT{main()}을 \TT{void} 타입으로 선언해도 괜찮을까요?
+\A
+	안됩니다.  \TT{main()}은 반드시 \TT{int} 타입을 리턴하도록
+	선언되어야 하며, 인자는 0개 또는 2개이어야 합니다.
+	종료할 때, \TT{exit()}를 썼는데도 계속 이러한 경고가 발생한다면,
+	마지막에 쓸데없는 여분의 (redundant) 리턴 문장을 써 주어
+	경고가 발생하는 것을 막을 수 있습니다.  (가능하다면 컴파일러가
+	제공하는 ``not reached''를 의미하는 지시어(directive)를 써
+	주어도 됩니다).
+
+	단순히 경고를 없애려고 함수를 \TT{void} 타입으로 선언하는 것은 
+	매우 좋지 않습니다; 왜냐하면, 내부적인 함수 호출/리턴 시컨스가
+	함수를 호출하는 쪽과 (\TT{main()}의 경우, C run-time startup code)
+	서로 다를 수 있기 때문입니다.  
+
+% DOTO: 아래 내용 번역
+	(Note that this discussion of main() pertains only to "hosted"
+	implementations; none of it applies to "freestanding"
+	implementations, which may not even have main().   However,
+	freestanding implementations are comparatively rare, and if
+	you're using one, you probably know it.   If you've never heard
+	of the distinction, you're probably using a hosted
+	implementation, and the above rules apply.)
+
+\R	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1; 
+	\cite{hs} \S\ 20.1 \page{416}; 
+	\cite{ctp} \S\ 3.10 \Page{50--51}.
+\end{faq}
+
+\begin{faq}
+\Q{11.13}
+	\TT{main}의 세 번째 인자인 \TT{envp}가 있다고 들었습니다.
+\A
+	세 번째 인자는 자주 쓰이기는 하지만 표준 인자는 아닙니다.
+	이는 환경(environment) 변수에 접근하기 위한 것으로,
+	이 목적으로 쓰이는 표준 함수 \TT{getenv()}가 제공되고,
+	전역 변수로 \TT{environ}이 제공되기 때문에,
+	이 비표준 세번째 인자를 쓸 이유가 없습니다 (하지만,
+	전역 변수 \TT{environ}도 비표준이기는 마찬가지입니다).
+
+\R
+	\cite{iso} \S\ G.5.1; 
+	\cite{hs} \S\ 20.1 \Page{416--7}.
+\end{faq}
+
+\begin{faq}
+\Q{11.14}
+	\TT{main()}을 \TT{void} 타입으로 선언한다 하더라도, \TT{exit()}
+	함수를 써서 종료한다면 문제될 게 전혀 없지 않나요?
+	게다가 제가 쓰고 있는 운영 체제는 프로그램의 종료/리턴 코드를
+	아예 무시한답니다.
+\A
+	\TT{main()}의 리턴 값이 쓰이냐, 쓰이지 않느냐는 중요한 문제가
+	아닙니다; 문제는 \TT{main()}을 \TT{void} 타입으로 선언함으로
+	인하여, \TT{main()}을 호출하는 부분이 (런-타임 시작(startup) 코드)
+	\TT{main()}을 제대로 호출하지 못할 수 있다는 것입니다
+	(이는 calling convension 문제입니다; 질문 11.12b를 참고하기
+	바랍니다).
+
+	Borland C++ 4.5에서 \TT{void main()}을 썼을 때, 프로그램이
+	망가질 수 있다는 것이 이미 보고되었습니다.
+	그리고 어떤 컴파일러들은 (DEC C V4.1과 gcc) \TT{main}을 \TT{void}
+	타입으로 선언했을 때, 경고를 발생합니다.
+
+	여러분의 운영 체제가 종료 상태(exit status)를 무시할 수도 있고,
+	\TT{void main()}이 동작할 수도 있지만, 이는 이식성이 없을 뿐만
+	아니라, 올바른 것도 아닙니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.15}
+	제가 보고 있는 책 ``C Programming for the Compleat Idiot''에서는
+	항상 \TT{void main()}을 사용합니다.
+\A
+	아마도 그 책의 저자는 자신도 그 범주(complete에 계산한 모양입니다.
+	많은 책들이 \TT{void main()}을 쓰고 있지만 이는 잘못된 것입니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.16}
+	\TT{main()}에서 어떤 값을 리턴하는 것과 \TT{exit()}를 쓰는 것과
+	완전히 같나요?
+\A
+	그렇다고, 또는 그렇지 않다고 할 수 있습니다.
+	C 표준에서는 완전히 같다고 언급하고 있지만, 
+	\TT{main}에 local 데이터가 `cleanup' 과정에서 필요할 경우,
+	 \TT{main}에서 리턴하는 방법은 제대로 동작하지 않을 수 있습니다;
+	질문 16.4를 참고하기 바랍니다.
+	그리고 아주 오래된 (표준을 지원하지 않는) 몇몇 시스템에서는 
+	두 가지 형식 중 하나가 제대로 동작하지 않을 수 있습니다.
+% TODO: 다음 문장 번역
+%	(Finally, the two forms are obviously not equivalent 
+%	in a recursive call to main().)
+
+	(마지막으로, 이 두가지 형태는 \TT{main()}을 재귀적으로 호출할 경우,
+	다른 코드를 생성합니다.)
+
+\T
+	제 개인적인 생각으로, 일반적으로 \TT{main()}을 재귀적으로 
+	호출할 수 없기 때문에, 바로 위의 문장은 별 의미가 없을 것 같습니다.
+
+\R	\cite{kr2} \S\ 7.6 \Page{163--4}; 
+	\cite{iso} \S\ 5.1.2.2.3.
+\end{faq}
+
+\begin{faq}
+\Q{11.17}
+	ANSI ``stringizing'' 전처리기 연산자인 \verb+#+를 써서 심볼릭
+	상수의 값을 문자열에 집어 넣으려고 합니다, 그런데,
+	그 결과, 상수의 값이 들어가는 대신, 상수의 이름이 들어가는군요.
+\A
+	매크로가 원래 지닌 뜻으로 확장되길 원한다면 다음과 갈이 
+	두 단계를 거쳐서 쓸 수 있습니다:
+\begin{verbatim}
+  #define Str(x) #x
+  #define Xstr(x) Str(x)
+  #define OP plus
+  char *opname = Xstr(OP);
+\end{verbatim}
+	이 코드는 \TT{opname}을 ``OP''로 설정하지 않고, ``plus''로
+	설정합니다.
+
+	비슷한 상황이 ``token-pasting'' 연산자인 \verb+##+를 쓸 때,
+	두 매크로의 값을 연결하려 할 때	발생할 수 있습니다.
+
+\R
+	\cite{iso} \S\ 6.8.3.2, \S\ 6.8.3.5.
+\end{faq}
+
+\begin{faq}
+\Q{11.18}
+	메시지 ``warning: macro replacement within a string literal''은
+	무슨 뜻이죠?
+
+\A:
+	ANSI 이전의 어떤 컴파일러/전처리기는 매크로 정의를 다음과 같이
+	정의할 경우:
+
+\begin{verbatim}
+  #define TRACE(var, fmt) printf("TRACE: var = fmt\n", var)
+\end{verbatim}
+
+	\noindent 다음과 같은 식으로 호출하게 되면:
+
+\begin{verbatim}
+  TRACE(i, %d);
+\end{verbatim}
+
+	\noindent 다음과 같이 확장하게 됩니다:
+\begin{verbatim}
+  printf("TRACE: i = %d\n", i);
+\end{verbatim}
+
+	즉, 매크로 인자로 나온 이름이 문자열 안에 있는 경우라도
+	확장시켜 버립니다.
+
+	이러한 식의 매크로 확장은 K\&R에 언급된 것도 아니며, 표준 C 언어에서
+	언급된 것도 아닙니다.  매크로 인자 자체가 문자열이 되기를 원한다면
+	전처리기 연산자인 \verb+#+를 쓰거나, 문자열 연결 (concatenation) 기능을
+	쓰면 됩니다 (이는 ANSI 표준의 새로운 기능입니다.):
+
+\begin{verbatim}
+  #define TRACE(var, fmt) \
+    printf("TRACE: " #var " = " #fmt "\n", var)
+\end{verbatim}
+	질문 11.17을 참고하기 바랍니다.
+
+\R
+	\cite{hs} \S\ 3.3.8 \page{51}.
+\end{faq}
+
+\begin{faq}
+\Q{11.19}
+	\verb+#ifdef+를 써서 포함시키지 말라고 한 곳에서 매우 이상한
+	구문(syntax) 에러가 납니다.
+\A
+	ANSI C에서, \verb+#if+, \verb+#ifdef+, \verb+#ifndef+에 쓴 텍스트는
+	전처리기가 처리할 수 있는 유효한 것이어야 (valid preprocssing
+	token) 합니다. 
+	즉, C 언어에서처럼 \verb+"+나 \verb+'+는 각각이 쌍을 이루어서
+	나와야 하며, 따옴표가 줄의 경계를 벗어나도
+	안되며\footnote{the \TT{\"},
+	\TT{\'} pairs mustn't cross line boundaries},
+	서로 다른 따옴표가 교차되어 있으면 안된다는 뜻입니다.
+	(특히, 영어의 생략형(contracted word)에
+	쓰이는,  작은 따옴표(apostophe)는
+	문자 상수의 시작처럼 보인다는 것을 기억해야 합니다.)
+%	(Note particularly that an apostrophe within a contracted word
+%	looks like the beginning of a character constant.)
+% TODO: 위 문장 번역, 확인 필요.
+	따라서 긴 주석이나 pseudo code를 쓰는 것이 목적이라면
+	\verb+#ifdef+를 써서 빼라고 지정을 했더라도 공식적(offical)인
+	주석(comment)인 \verb+/* ...  */+을 써야 합니다.
+\R
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.1; 
+	\cite{hs} \S\ 3.2 \page{40}.
+\end{faq}
+
+\begin{faq}
+\Q{11.20}
+	\verb+#pragma+는 어디에 쓰나요?
+\A
+	\verb+#pragma+는 모든 종류의 (이식성이 떨어지는) 모든 구현 방법에
+	따른 기능을 제어하고, 확장 기능을 제공합니다; 여기에는
+	소스 리스팅 제어, 구조체 압축(packing), 경고 출력 수준 등이 
+	포함됩니다.
+\R
+	\cite{iso} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}.
+\end{faq}
+
+\begin{faq}
+\Q{11.21}
+	``\verb+#pragma once+''가 의미하는 것이 모죠?
+\A
+	이는 어떤 전처리기들이 제공하는 기능으로 헤더 파일이 단 한번씩만
+	포함되도록 하는, 질문 10.7에 소개된 \verb+#ifndef+ 트릭과 같은 역할을
+	합니다.  단 이식성이 떨어집니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.22}
+	\verb+char a[3] = "abc";+가 올바른 표현인가요?
+\A
+	ANSI C (그리고 ANSI 이전의 몇몇 시스템에서)는 이러한 것을 올바른
+	표현이라고 말하지만 쓰이는 곳은 거의 없습니다.  이 코드는 정확히
+	세개의 요소를 갖는 배열을 선언하고 각각을 `\TT{a}', `\TT{b}',
+	`\TT{c}'로 초기화합니다.
+	즉, 문자열의 끝을 나타내는 \verb+\0+은 들어가지 않습니다.
+	따라서 이 배열은 C 언어의 문자열이라고 말하기가 곤란합니다.
+	그래서 \TT{strcpy}나 \TT{printf}와 같은 함수에 인자로
+	전달될 수 없습니다.
+
+	대개, 배열의 크기를 지정하지 않고, 컴파일러가 배열의
+	크기를 알아서 지정하도록 (즉 위의 경우에서, 크기를 지정하지 않으면,
+	배열의 크기는 4가 됨) 하는 것이 일반적입니다.
+\R
+	\cite{iso} \S\ 6.5.7; 
+	\cite{hs} \S\ 4.6.4 \page{98}.
+\end{faq}
+
+\begin{faq}
+\Q{11.24}
+	왜 \verb+void *+ 타입의 포인터에는 산술(arithmetic) 계산을
+	할 수 없을까요?
+\A
+	포인터가 가리키는 오브젝트의 크기를 알 수 없기 때입니다.  따라서
+	연산을 하기 전에 포인터를 \verb+char *+나 처리하고자 하는 포인터
+	타입으로 변환해야 합니다 (질문 4.5를 꼭 참고하기 바랍니다).
+
+\R
+	\cite{iso} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}.
+\end{faq}
+
+\begin{faq}
+\Q{11.25}
+	\TT{memcpy()}와 \TT{memmove()}은 하는 일이 같지 않나요?
+
+\A
+	\TT{memmove()}는 원본과 대상이 겹칠 경우에도 안전하게
+	동작한다는 것을 보장합니다.  \TT{memcpy()}는 이러한 보증을
+	하지 않으므로 좀 더 빨리 동작할 수 있습니다..
+	의심이 간다면 \TT{memmove()}를 쓰는 것이 더 안전합니다.
+
+\R
+	\cite{kr2} \S\ B3 \page{250}; 
+	\cite{iso} \S\ 7.11.2.1, \S\ 7.11.2.2; 
+	\cite{rationale} \S\ 4.11.2; 
+	\cite{hs} \S\ 14.3 \Page{341--2};
+	\cite{pcs} \S\ 11 \Page{165--6}.
+\end{faq}
+
+\begin{faq}
+\Q{11.26}
+	\TT{malloc(0)}은 무엇을 의미하죠? 이 때 널 포인터가 리턴되는
+	것인가요, 아니면 0 바이트를 가리키는 포인터가 리턴되는 것인가요?
+\A
+	ANSI/\cite{iso} 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
+	구현 방법에 의존적\footnote{implementation-defined}입니다.
+	(질문 11.33을 참고하기 바랍니다.
+
+\R
+	\cite{iso} \S\ 7.10.3; 
+	\cite{pcs} \S\ 16.1 \page{386}.
+\end{faq}
+
+\begin{faq}
+\Q{11.27}
+	외부 이름(external identifier)을 쓸 때, 왜 ANSI 표준은
+	여섯 글자 이상인 이름의 유일성을 보장할 수 없다고 할까요?
+\A
+	오래된 링커(linker)의 경우, ANSI/\cite{iso} C나, C 컴파일러
+	개발자와 상관없이 시스템에 의존적인 경우가 많다는 것이 문제입니다.
+	이 제한은 이름의 첫 여섯 글자만을 유일하다고 보장하기 때문에,
+	첫 여섯 글자가 같은 이름들은, 전체가 같은 이름으로 취급합니다.
+	이 제한은 이미 쓸모없어져 가고 있으므로 (obsolescent), \cite{c9x} 표준에서는
+	없어질 예정입니다.
+
+\T
+	즉, ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로 취급될 수
+	있다는 말입니다.
+\R
+	\cite{iso} \S\ 6.1.2, \S\ 6.9.1; 
+	\cite{rationale} \S\ 3.1.2;
+	\cite{c9x} \S\ 6.1.2; 
+	\cite{hs} \S\ 2.5 \Page{22--3}.
+\end{faq}
+
+\begin{faq}
+\Q{11.29}
+	제 컴파일러는 간단한 테스트 프로그램조차 컴파일하지
+	못합니다.  수 많은 구문 에러를 (syntax error) 출력합니다.
+
+\A
+	아마도 ANSI 이전의 컴파일러인 것 갈습니다.  그러한 컴파일러들은
+	함수 원형(prototype)과 같은 것을 처리하지 못합니다.
+
+	질문 1.31, 10.9, 11.30, 16.1b를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.30}
+	제가 쓰는 컴파일러는 ANSI 컴파일러인데도 어떤 ANSI/ISO 표준
+	함수들이 정의되어 있지 않다고 하는군요.
+\A
+	컴파일러가 ANSI의 구문을 썼다고 하더라도, ANSI 호환의 헤더 파일이나,
+	런-타임 라이브러리를 갖지 않을 수 있습니다.  (사실
+	gcc와 같이, 시스템 밴더(vendor)가 제공하지 않는 컴파일러에서는
+	종종 있는 일입니다.) 질문 11.29, 13.25, 13.26을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.31}
+	구 스타일로 써진 C 프로그램을 ANSI C로 바꿔주거나, 또는 그와
+	반대 작업을 해주는 프로그램이 있을까요?
+
+\A	프로토타입을 쓰는 새 방식과, 구 방식을 바꿔주는 `protoize'와
+	`unprotoize'라는 프로그램이 있습니다.
+	(이 프로그램이 구 스타일의 C와 ANSI C와의 100\% 완전한
+	변환을 보장하지는 않습니다.) 이 프로그램들은
+	FSF의 GNU C compiler 배포판에 포함되어 있습니다; 질문
+	18.3을 참고하기 바랍니다.
+
+	`unproto' 프로그램은 (\TT{ftp.win.tue.nl}의
+	\verb+/pub/unix/unproto5.shar.Z+) 전처리기와 컴파일러 사이에서
+	변환을 담당하는 일종의 `필터(filter)'입니다.  그리고
+	ANSI C 스타일과 구 스타일의 변환을 거의 완벽하게 해 줍니다.
+
+	GNU Ghostscript 패키지에는 간단한 ansi2knr이라는 프로그램이 포함되어
+	있습니다.
+
+	그러나, ANSI C 스타일을 구 스타일로 바꿀 때, 이러한 변환이 모두
+	자동으로 안전하게 변환되는 것은 아닙니다.  ANSI C에서는
+	K\&R C에는 없는 새로운 기능과 복잡성을 내포하고 있으므로,
+	프로토타입이 있는 함수를 호출할 때에 주의해야 합니다; 아마도
+	캐스팅이 필요할 지도 모릅니다.  질문 11.3과 11.29를 참고하기 바랍니다.
+
+	변형된 `lint' 같은 프로그램은 프로토타입을 만들어 내주기도 합니다.
+	1992년 3월에 \TT{comp.sources.misc}에 게시된 CPROTO 프로그램도
+	이런 기능을 합니다.  또 ``cextract''라는 프로그램도 있습니다.
+	또 이러한 프로그램들이 컴파일러와 함께 제공되기도 합니다.
+	질문 18.16을 참고하기 바랍니다.  (그러나 작은 (narrow) 인자를
+	갖는 구 스타일 함수를 프로토타입 스타일로 변경할 때, 주의해야
+	합니다; 질문 11.3을 참고하기 바랍니다.)
+\end{faq}
+
+\begin{faq}
+\Q{11.32}
+	Frobozz Magic C 컴파일러는 ANSI 호환이라고 되어 있는데도,
+	왜 제 코드를 컴파일하지 못할까요? 제 코드는 gcc에서 동작하는 것을
+	보니, ANSI 호환인데요.
+\A
+	많은 컴파일러들이 비표준 확장 기능을 제공합니다.  gcc는 특히
+	더 많은 확장 기능을 제공하는 것으로 알려져 있습니다.
+	아마도 여러분이 만든 그 코드가 이러한 확장 기능을 사용하는
+	것 같습니다.  특히, 어떤 컴파일러를 가지고 한 언어의 성질을
+	검사한다는 것은 매우 위험합니다; 어떤 표준은 구현 방법에 따라
+	여러 가지 방법을 선택할 수 있도록 하고 있을 수 있으며,
+	컴파일러가 잘못된 경우도 많기 때문입니다.  질문 11.35를 참고하기
+	바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{11.33}
+	``구현 방법에 따라 정의됨 (implementation defined)'',
+	``나타나지 않은 (unspecified)'', ``정의되어 있지 않은 행동 (undefined
+	behavior)''이라는 용어가 있는데, 서로 차이가 있는 것인가요?
+\A
+	간단하게 말해서, ``implementation defined''는
+	각각의 구현 방법에 따라, 어떤 행동 방식(behavior)이 결정될 수
+	있고, 그에 따라 문서화되어 있다는 뜻입니다.
+	``unspecified''는 구현 방법에 따라 다른 행동 방식이 결정될 수는
+	있지만, 문서화될 필요가 없다는 뜻입니다.
+	``undefined''는 어떤 일이라도 일어날 수 있다는 뜻입니다.
+	어떤 경우에도 표준은 필요 조건을 강요하지
+	않습니다\footnote{In no case does the Standard impose requirements};
+	때때로 처음 두 가지 경우에 대해서는 여러 가지의 상태가 제안되기도
+	합니다.	
+
+% TODO: 위의 번역 확인
+%	In no case does the Standard impose requirements; in
+%	the first two cases it occasionally suggests (and may require a
+%	choice from among) a small set of likely behaviors.
+
+	표준에서 `undefined behavior'라고 정의한 부분은 말 그대로 입니다.
+	컴파일러는 어떤! 일이라도 할 수 있습니다.  특히, 프로그램의
+	나머지 부분이 정상적으로 동작한다는 보장이 없습니다.
+	따라서 이런 부분이 여러분의 프로그램에 포함된다면 매우 위험합니다;
+	질문 3.2에서 간단한 예를 볼 수 있습니다.
+
+	이식성이 뛰어난 프로그램을 만들고자 한다면, 이러한 것을 다 무시하고,
+	위 세가지에 의존하는 어떠한 것도 만들어서는 안될 것입니다.
+
+	질문 3.9와 11.34를 참고하기 바랍니다.
+
+\R
+	\cite{iso} \S\ 3.10, \S\ 3.16, \S\ 3.17; 
+	\cite{rationale} \S\ 1.6.
+\end{faq}
+
+\begin{faq}
+\Q{11.34}
+	ANSI 표준에는 많은 것들이 정의되지 않은 채 남아 있습니다.
+	이러한 것들에 대해서도 표준을 정해야 하지 않을까요?
+	
+\A	C 언어의 한가지 특징은, 어떠한 것들은 컴퓨터와 컴파일러에 따라
+	각각 다른 행동 방식이 나올 수 있다는 것입니다.
+	이 것은, 컴파일러가 일반적인 작업을 좀더 효과적으로 수행할 수
+	있도록 하기 위해서입니다.  따라서 표준은 사소한 것까지 정의하지
+	않고 단순히 관습을 따르는 것입니다.
+
+	프로그래밍 언어 표준은 언어 사용자와 컴파일러 개발자 사이에
+	위치한 일종의 계약으로 생각할 수 있습니다.
+	절반은 컴파일러 개발자가 제공하려 하는 것과, 사용자가
+	`이런 것들은 제공될 것이다'하고 생각하는 것들로 이루어지고,
+	나머지 절반은 사용자가 따라야 하는 규칙과 개발자가 따를 것으로
+	생각되는 규칙으로 이루어 집니다.
+	따라서 어느 한 쪽이 이런 규약을 어긴다면, 어떤 일이 발생할 지
+	아무도 보장할 수 없습니다.
+
+	\seealso{11.35}
+\R
+	\cite{rationale} \S\ 1.1.
+\end{faq}
+
+\begin{faq}
+\Q{11.35}
+	\verb2i = i++2과 같은 코드의 행동 방식은 정의되어 있지
+	않다고 들었습니다.  그런데, 이 코드를 ANSI를 준수하는
+	컴파일러에서 실행하면 제가 추측한 그 결과가 나옵니다.
+\A
+	컴파일러는 행동 방식이 정의되어 있지 않는(undefined behavior) 코드에
+	대해서는 여러분이 예상한 방식을 포함한, 어떠한 일도 할 수 있습니다.
+	이런 것에 의존하는 것은 매우 나쁩니다.  질문 11.32와 11.33, 11.34를
+	참고하기 바랍니다.
+\end{faq}

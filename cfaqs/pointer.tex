@@ -1,0 +1,292 @@
+\chapter{Pointer}	\label{chap:pointer}
+% chapter 4: pointer
+
+Pointer는 C 언어에서 제공하는 가장 강력하고 인기있는 기능이지만,
+초보 programmer들에게는 악몽과도 같은 것입니다.
+Pointer가 가리켜야 할 것을 가리키고 있지 않을 때 발생하는 혼란은
+끝이 없습니다. (사실 포인터에서 발생하는 이러한 문제들은 대개
+메모리 할당과 관련이 있습니다; \ref{chap:memalloc}~장을 참고하기 바랍니다.)
+
+
+\section{Basic Pointer Use}
+% from 4.1
+
+\begin{faq}
+\q % 4.1 COMPLETE
+	도대체, 포인터를 써서 좋은 점이 있나요?
+
+\A
+	다음과 같은 장점을 포함하여 여러가지 좋은 점이 있습니다:
+\begin{itemize}
+\item
+	dynamically allocated arrays (질문 6.14, 6.16 참고)
+\item
+	generic access to several similar variables
+\item
+	(simulated) by-reference function parameters (질문 4.8, 20.1 참고)
+\item
+	dynamically allocated structures of all kinds, especially
+	trees and linked lists
+\item
+	walking over arrays (for example, while parsing strings)
+\item
+	efficient, by-reference ``copies'' of arrays and structures,
+	especially as function parameters
+\end{itemize}
+
+	(위의 장점들은 이해하기 어려울 수도 있습니다.)
+% (Note that this is hardly a comprehensive list!)
+
+	\seealso{6.8}
+\end{faq}
+
+\begin{faq}
+\q % 4.2 COMPLETE
+	포인터를 선언하고 메모리를 할당하려고 합니다.  그런데 제대로
+	동작하지 않습니다.  이 코드에 잘못된 부분이 있나요?
+
+\begin{verbatim}
+  char *p;
+  *p = malloc(10);
+\end{verbatim}
+
+\A
+	질문하신 분이 선언한 pointer는 \verb+p+이지, \verb+*p+가 아닙니다.
+	pointer가 어떤 곳을 가리키게 하려면 다음과 같이 그냥 pointer의
+	이름을 써야 합니다:
+
+\begin{verbatim}
+  p = malloc(10);
+\end{verbatim}
+
+	\noindent 그리고, 이 pointer가 가리키는 메모리 공간을 쓰기 위해서는
+	다음과 같이 `indirection' operator(연산자)인 \verb+*+를 사용합니다:
+
+\begin{verbatim}
+  *p = 'H';
+\end{verbatim}
+
+	질문하신 것같은 실수는 자주 볼 수 있습니다.
+	왜냐하면 \TT{malloc}을 지역 변수 선언의 초기값으로 썼다면 다음과 
+	같이 하기 때문입니다:
+
+\begin{verbatim}
+  char *p = malloc(10);
+\end{verbatim}
+
+	이 코드를 선언과 지정(assignment)으로 분리시키려면 \verb+*+를
+	제거해야 한다는 것을 기억하기 바랍니다.
+
+	요약하면, expression에서 \TT{p}는 pointer이고, \TT{*p}는
+	포인터가 가리키는 곳이라는 (이 경우 하나의 \TT{char}) 것입니다.
+
+	\seealso{1.21, 7.1, 8.3}
+
+\R
+	\cite{ctp} \S\ 3.1 \page{28}.
+\end{faq}
+
+\begin{faq}
+\Q{4.3}	
+	`\verb2*p++2'은 `\verb+p+'를 증가시키는 것인가요, 아니면, `\verb+p+'가
+	가리키는 것을 증가시키는 것인가요?
+
+\A	Postfix \verb2++2 연산자는 prefix 연산자보다 높은 우선 순위를 갖습니다.
+	따라서 \verb2*p++2는 \verb2*(p++)2와 같습니다; 일단 \TT{p}를 증가시킨
+	다음, \verb+p+가 증가하기 전에 가리키던 곳의 값을 리턴합니다.
+	\verb+p+가 가리키는 것을 증가시키려면 \verb2(*p)++2을 (또는, 부작용이
+	일어나도 상관없는 경우,  \verb2++*p2를 써도 됩니다) 쓰면 됩니다.
+
+\R
+	\cite{kr1} \S\ 5.1 \page{91}; 
+	\cite{kr2} \S\ 5.1 \page{95}; 
+	\cite{iso} \S\ 6.3.2, \S\ 6.3.3; 
+	\cite{hs} \S\ 7.4.4 \Page{192--3}, \S\ 7.5 \page{193}, 
+		\S\ 7.5.7, 7.5.8 \Page{199--200}.
+\end{faq}
+
+\section{Pointer Manipulations}
+% from 4.4
+
+\begin{faq}
+\Q{4.5}	
+	문자 포인터로 (\verb+char *+ pointer) 어떤 int를 가리키고 있고,
+	현재, 이 포인터를 써서 다음 int를 가리키게 하려고 합니다.  왜 이 코드가
+	동작하지 않을까요?
+
+\begin{verbatim}
+  ((int *)p)++;
+\end{verbatim}
+
+\A	C 언어에서 캐스팅(casting)은 ``실제 비트들이 다른 타입인 것처럼
+	흉내내는 것''이 아닙니다; 캐스팅은 변환(conversion) 연산이며,
+	정의에 의해 rvalue (대입되거나, \verb2++2를 써서 증가될 수
+	없는)를 만들어 냅니다.  	(위와 같은 문장을 실수로 만들어냈던,
+	의도적으로 한 것이든, 또 설령 어떤 컴파일러가 위와 같은
+	코드를 원하는 대로 코드를 만들어낸다고 해도 이것은 표준 기능이
+	아닙니다.
+% TODO: 번역 맞는지 확인할 것
+%	(It is either an accident
+%	or a delibrate but nonstandard extension if a particular
+%	compiler accepts expressions such as the above.)
+	따라서 다음과 같이 하는 것이 옳습니다:
+
+\begin{verbatim}
+  p = (char *)((int *)p + 1);
+\end{verbatim}
+
+	\noindent 또는 간단히 다음과 같이 할 수 있습니다
+	(\verb+p+가 \verb+char *+이기 때문에):
+
+\begin{verbatim}
+  p += sizeof(int);
+\end{verbatim}
+
+	될 수 있으면 캐스팅 대신 올바른 타입의 포인터를 쓰는 것이 바람직하다는
+	것을 염두에 두시기 바랍니다.
+
+\R
+	\cite{kr2} \S\ A7.5 \page{205};
+	\cite{iso} \S\ 6.3.4; 
+	\cite{rationale} \S\ 3.3.2.4; 
+	\cite{hs} \S\ 7.1 \Page{179--80}.
+\end{faq}
+
+\section{Pointers as Function Parameters}
+% from 4.8
+
+\begin{faq}
+\Q{4.8}
+	포인터를 인자로 받는 함수를 만들고, 그 함수에서 이 포인터를
+	초기화하는 함수를 만들었습니다:
+
+\begin{verbatim}
+  void f(int *ip)
+  {
+    static int dummy = 5;
+    ip = &dummy;
+  }
+\end{verbatim}
+
+	\noindent 그러나 다음과 같이 호출했을 때, 포인터의 값은 변경되지
+	않는군요.
+
+\begin{verbatim}
+  int *ip;
+  f(ip);
+\end{verbatim}
+
+\A
+	C 언어는 인자를 전달할 때, `call by value' 방식을 쓴다는 것을
+	기억하기 바랍니다.  위의 함수에서는 단지 복사된 포인터를 변경하기 때문에
+	실제 인자로 전달한 \verb+ip+는 변경되지 않습니다.  따라서
+	이 문제를 해결하려면 함수가 포인터의 주소를 받을 수 있도록
+	(즉, 인자가 포인터를 가리키는 포인터(pointer-to-pointer)) 만들거나,
+	함수가 포인터를 리턴하도록 해야 합니다.
+
+	질문 4.9와 4.11을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{4.9}
+	함수가 범용 포인터(generic pointer)를 레퍼런스(reference)로 받게
+	하기 위해 \verb+void **+ 포인터를 써도 되나요?
+
+\A
+	이식성이 없습니다.  C 언어에서 범용의 포인터를 가리키는 포인터
+	(pointer-to-pointer)는 존재하지 않습니다.  \verb+void *+가 범용의
+	포인터로 쓰이는 이유는 단지 다른 포인터 타입의 값을 대입할 경우,
+	자동으로 변환이 일어나기 때문입니다; 이 변환은 \verb+void *+ 타입이
+	아닌 다른 포인터를 \verb+void **+와 같은 것으로 변환할 때에는
+	(원래 포인터 타입을 알 수 없기 때문에) 적용할 수 없습니다.
+\end{faq}
+
+\begin{faq}
+\Q{4.10}
+	다음과 같은 함수가 있을 때:
+
+\begin{verbatim}
+  extern int f(int *);
+\end{verbatim}
+
+	\noindent 상수(constant)의 레퍼런스를 전달할 수 있나요? 다음과 같이
+	해 봤지만 잘 되질 않습니다:
+
+\begin{verbatim}
+  f(&5);
+\end{verbatim}
+
+\A
+	직접적으로 할 수는 없습니다.  일단 임시 변수를 선언하고, 이 변수의
+	주소를 함수에 전달해야 합니다:
+
+\begin{verbatim}
+  int five = 5;
+  f(&five);
+\end{verbatim}
+
+	\noindent 질문 2.10, 4.8, 20.1을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{4.11}
+	C 언어에 ``pass by reference''가 존재하나요?
+\A
+	존재하지 않는다고 할 수 있습니다.  엄밀히 말해 C 언어는 무조건
+	`call by value'만 사용합니다.  단, 원하는 타입의 포인터 타입을
+	인자로 받고, \verb+&+ 연산자를 써서 주소를 전달함으로써,
+	`pass by reference'를 흉내낼 수는 있습니다.
+	또한 배열을 인자로 전달할 경우에는 컴파일러가 자동으로 이 작업을
+	해 줍니다 (배열 대신 포인터를 사용하는 것은 질문 6.4를 참고하기
+	바랍니다).  어쨋든, C 언어는 진정한 `pass by reference'나
+	C++의 레퍼런스 파라메터(parameter)와 같은 것은 없습니다.
+	(그러나 매크로 함수들은 ``pass by name''을 제공합니다.)
+	
+	질문 4.8과 20.1을 참고하기 바랍니다.
+
+\R	\cite{kr1} \S\ 1.8 \Page{24--5}, \S\ 5.2 \Page{91--3}; 
+	\cite{kr2} \S\ 1.8 \Page{27--8}, \S\ 5.2 \Page{95--7}; 
+	\cite{iso} \S\ 6.3.2.2; 
+	\cite{hs} \S\ 9.5 \Page{273--4}.
+\end{faq}
+
+\section{Miscellaneous Pointer Use}
+% from 4.12
+
+\begin{faq}
+\Q{4.12}
+	함수를 호출할 때, 포인터를 써서 호출하는 방식을 봤습니다.
+	왜 이런 일을 하는 거죠?
+
+\A	원래, 함수를 가리키는 포인터는 \verb+*+ 연산자를 쓸 경우 (그리고
+	우선 순위를 위해 괄호를 같이 쓸 경우) 진짜(real) 진짜 함수 호출로
+	변경됩니다:
+
+\begin{verbatim}
+  int r, func(), (*fp)() = func;
+  r = (*fp)();
+\end{verbatim}
+
+	\noindent 다른 말로 표현하면, 함수는 항상 포인터를 써서 호출되고,
+	실제 함수를 호출할 경우, 내부적으로 포인터 (수식에서, 초기화에서
+	처럼; 질문 1.34 참고)로 변경된다고 할 수 있습니다.
+	이렇게 바꿔 말할 수 있는 원인은, ANSI 표준이 함수 포인터를
+	다음과 같이 쓸 수 있다고 말하고 있기 때문입니다:
+
+\begin{verbatim}
+  r = fp();
+\end{verbatim}
+
+	\noindent 이 때, `\TT{fp}'는 함수 이름이거나, 함수를 가리키는
+	포인터입니다.  (어려운 것은 전혀 없습니다; 왜냐하면
+	뒤에 인자 리스트를 붙여서 함수를
+	호출하는 것을 제외하고는 함수 포인터를 쓸 데가 없기 때문입니다.)
+
+	질문 1.34를 참고하기 바랍니다.
+
+\R	\cite{kr1} \S\ 5.12 \page{116}; 
+	\cite{kr2} \S\ 5.11 \page{120}; 
+	\cite{iso} \S\ 6.3.2.2; 
+	\cite{rationale} \S\ 3.3.2.2; 
+	\cite{hs} \S\ 5.8 \page{147}, \S\ 7.4.3 \page{190}.
+\end{faq}

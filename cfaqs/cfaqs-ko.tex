@@ -1,0 +1,206 @@
+% $Id$
+\documentclass[10pt,a4paper,draft]{report}
+\usepackage{graphicx}
+\usepackage{epic}
+\usepackage{hangul}
+\usepackage{fancyheadings}
+
+%
+% In the new comp.lang.c FAQ, there are FAQ numbers which look like
+% 12.15b.  I want to implement not to specify FAQ numbers in the `faq'
+% environment, but I don't know how to implement \label command on the
+% faq number like 12.15b.
+%
+% Do I have to implement not to increment faq counter?  If so,
+% what about faq numbers look like 12.15c?
+%
+% Okay. I found the exact definition of \newcommand, and I solve this
+% problem using optional argument to macros (Look the definition of \q.)
+%
+% But the real problem was not \q but \faqref.
+% \faqref should generate a reference string looks like 12.5.
+% In this example, I can generate the number 5 easily using \ref command,
+% but I failed to generated the chapter number of the \label command.
+%
+% Perhaps I have to look the definition of \label and \ref command, but
+% I don't know where.
+%
+% I decided to persuase The TeXbook by Donald E. Knuth so that I can
+% understand the basic of TeX.
+%
+% Before that, I have to make \faqref accepts two argument; the chapter
+% label and the faq label. (What a poor implementation it is!)
+%
+
+%
+% ChangeLog
+%
+% 1.1.1.1 -- Import documents. (little modified from the first edition)
+% 1.1.1.2 -- Define \page and \Page command and applied them.
+% 
+
+\newcommand{\page}[1]{\mbox{p.\ #1}}
+\newcommand{\Page}[1]{\mbox{pp.\ #1}}
+
+\newcommand{\initfaq}{\newcounter{faq}[chapter]}
+%\newcommand{\faqref}[1]{\thechapter.\ref{#1}}
+\newcommand{\faqref}[3][1]{\ref{#2}.\ref{#3}#1}
+
+\newenvironment{faq}
+	{\addtocounter{faq}{1}\vspace{1em}\begin{itemize}}{\end{itemize}}
+\newenvironment{faq*}
+	{\vspace{1em}\begin{itemize}}{\end{itemize}}
+\newcommand{\Q}[1]{\item[\fbox{\textbf{\Large{Q #1}}}]}
+%\newcommand{\q}{\item[\fbox{\textbf{\Large{\thechapter.\thefaq}}}]}
+\newcommand{\q}[1][]{\item[\fbox{\textbf{\Large{\thechapter.\thefaq#1}}}]}
+%\newcommand{\q}[1][]{\item[\fbox{\thechapter.\thefaq#1}]}
+
+\newcommand{\A}{\item[Answer]}
+\newcommand{\R}{\item[References]}
+\newcommand{\T}{\item[Note]}
+\newcommand{\seealso}[1]{덧붙여 질문 #1도 참고하시기 바랍니다\@.}
+
+\newcommand{\TT}[1]{\texttt{#1}}
+
+\newcommand{\BF}[1]{\textbf{#1}}
+
+\newcommand{\IT}[1]{\textit{#1}}
+\newcommand{\EM}[1]{\textit{#1}}
+
+\newcommand{\trans}[1]{(#1)}
+
+\addtolength{\textwidth}{\marginparsep}
+\addtolength{\textwidth}{\marginparwidth}
+\addtolength{\textwidth}{\oddsidemargin}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\marginparsep}{0cm}
+\setlength{\marginparwidth}{0cm}
+\setlength{\voffset}{0cm}
+\addtolength{\textheight}{1cm}
+
+
+\title{C Programming FAQs}
+\author{번역: Seong-Kook Cin}
+\date{\today}
+
+
+\setlength{\parindent}{1ex}
+\setlength{\parsep}{0.5\parsep}
+\setlength{\parskip}{1ex}
+
+\begin{document}
+
+\고딕
+\pagestyle{fancy}
+
+\maketitle
+
+\vspace{10em}
+\begin{center}
+\EM{This book is decicated to C programmers everywhere.}
+
+\vspace{2cm}
+
+\BF{모든 C 프로그래머들에게 이 책을 바칩니다.}
+\end{center}
+
+\newpage
+\tableofcontents
+
+
+
+% chapter: preface
+\newpage
+\input preface
+
+% chapter 1: decinit
+\newpage
+\input decinit
+
+% chapter 2: struct
+\newpage
+\input struct
+
+% chapter 3: expr
+\newpage
+\input expr
+
+% chapter 4: pointer
+\newpage
+\input pointer
+
+% chapter 5: nullptr
+\newpage
+\input nullptr
+
+% chapter 6: arrayptr
+\newpage
+\input arrayptr
+
+% chapter 7: memalloc
+\newpage
+\input memalloc
+
+% chapter 8: charstr
+\newpage
+\input charstr
+
+% chapter 9: boolexpr
+\newpage
+\input boolexpr
+
+% chapter 10: preproc
+\newpage
+\input preproc
+
+% chapter 11: standard
+\newpage
+\input standard
+
+% chapter 12: stdio
+\newpage
+\input stdio
+
+% chapter 13: libfunc
+\newpage
+\input libfunc
+
+% chapter 14: float
+\newpage
+\input float
+
+% chapter 15: vlal
+\newpage
+\input vlal
+
+% chapter 16: sproblem
+\newpage
+\input sproblem
+
+% chapter 17: style
+\newpage
+\input style
+
+% chapter 18: toolres
+\newpage
+\input toolres
+
+% chapter 19: sysdep
+\newpage
+\input sysdep
+
+% chapter 20: misc
+\newpage
+\input misc
+
+% chapter 21: ext
+\newpage
+\input ext
+
+% bibliography
+\newpage
+\input bib
+
+\end{document}
+

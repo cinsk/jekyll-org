@@ -1,0 +1,349 @@
+
+\chapter{Expressions}	\label{chap:expr}
+% chapter 3: expr
+
+C 언어 디자인 목표 중의 하나는 효과성을 강조합니다 --- 즉 C 컴파일러가
+상대적으로 작고 만들기 쉽게 하자는 것과, (기계어) 코드를 쉽게 생성할 수
+있도록 하자는 것입니다.  이 두가지 목표는 C 언어 specification에 큰 영향을
+미쳤습니다.  비록 C 언어가 좀 더 tight하게 정의되었으면 하는 사용자들과
+C 언어가 지원하는 것보다 좀 더 많은 것을 (예를 들어 사용자의 실수를 미리
+방지하는 기능) 요구하는 사용자들에게는 반가운 내용은 아니었지만 말입니다.
+
+\section{Evaluation Order}
+복잡한 expression(수식) 안에서 subexpression(부분식)을 평하가는 순서는
+완전히 컴파일러 마음대로입니다; 이 순서는 여러분이 생각하는
+operator precedence(연산자 우선 순위)와는 별 상관이 없습니다.
+여러개의 보이는 부작용(multiple visible side effects)이 없거나,
+한 변수에 여러 개의 side effect가 평행하게(parallel) 작용하지 않는 한
+컴파일러의 평가 순서는 생각할 필요가 없습니다.  그렇지 않다면 이러한 경우,
+컴파일러의 행동은 정의되어 있지 않을 수 있습니다. (The behavior may be
+undefined.)
+
+
+\begin{faq}
+\Q{3.1}
+	이 코드가 왜 동작하지 않을까요?
+
+\begin{verbatim}
+  a[i] = i++;
+\end{verbatim}
+
+\A
+	부분식인 `\TT{i++}'은 부작용을 일으킬 수 있습니다 --- 즉 \TT{i}의
+	값이 변경됩니다 --- 수식의 다른 부분에 \TT{i}가 또 쓰이기 때문에,
+	이것이 변경되기 이전의 값일지, 변경된 다음의 값일지 알 수가
+	없습니다.  (K\&R에서는 이런 수식이 어떠한 행동을 취할 지 명세되지
+	않았다고(unspecified) 하지만, C 표준에서는 이런 수식의 결과에 대해
+	정의되지 않았다고(undefined) \BF{강력하게} 말하고 있습니다 ---
+	질문 11.33을 참고하기 바랍니다.)
+
+\R
+	\cite{kr1} \S\ 2.12; 
+	\cite{kr2} \S\ 2.12; 
+	\cite{iso} \S\ 6.3; 
+	\cite{hs} \S\ 7.12 \Page{227--9}.
+\end{faq}
+
+\begin{faq}
+\Q{3.2}
+	제 컴파일러로 다음과 같은 코드를 실행하면:
+
+\begin{verbatim}
+  int i = 7;
+  printf("%d\n", i++ * i++);
+\end{verbatim}
+
+	\noindent
+	`49'를 출력합니다.  평가 순서(order of evaluation)에 상관없이,
+	`56'을 출력해야 하지 않을까요?
+\A
+	증가(\verb2++2), 감소(\verb+--+) 연산자가 뒤에 쓰일 때에는
+	먼저 기존의 값을 계산한 다음, 증가/감소하게 됩니다.  ``after''라는 말이
+	쓰이긴 하지만 잘못 이해하고 있는 것입니다.
+
+	즉 기존의 값을 만든 다음 바로 증가/감소를 할지, 아니면 다른 부분식을
+	평가하고 난 다음에 할 지는 보장할 수 없습니다.  보장되는 것은 증가/감소
+	연산이 전체 수식이 끝나기 전에 (ANSI C의 표현을 빌리자면 뒤따르는
+	``sequence point''로 넘어가기 전에; 질문 3.8 참고) 이루어진다는 것
+	뿐입니다.  위의 코드에서는 컴파일러가 기존의 값으로 곱한 다음,
+	증가시키기 때문에 그런 결과가 나오는 것입니다.
+
+	부작용이 예상되는 것을 동시에 같은 식에서 쓰면 그 행동양식은 
+	정의되어 있지 않습니다.  (대충 말하면 \verb2++2, \verb2--2, \verb2=2,
+	\verb2+=2, \verb+-=+등이 한 수식에서 쓰여서 같은 오브젝트(변수)가 두
+	번 이상 변경될 경우를 의미합니다; 정확한 정의는 질문 3.8을 참고하기
+	바라며 ``정의되어 있지 않다(undefined)''라는 용어에 대해서는 질문
+	11.33을 참고하기 바랍니다.) 이러한 상황에서 여러분의 컴파일러가
+	어떻게 동작할 지 알려고 할 필요가 없습니다 (많은 C 교과서에서 잘못된
+	설명을 하고 있습니다); K\&R에서 언급했던 것처럼, ``다양한 컴퓨터에서
+	어떻게 동작하는 지를 모른다면, 그것을 아예 모르는 것이 낫습니다.
+	(원문: If you don't know how they are done on various machine, that
+	innocence may help to protect you.)
+
+\T
+	A 란의 ``after''란 단어는 원문을 보시면 더 빨리 이해하실 수 있습니다:
+
+\begin{quote}
+	Although the postincrement and postdecrement operators \verb2++2 and
+	\verb2--2 perform their operations after yielding the former value, the
+	implication of ``after'' is often misunderstood.  
+\end{quote}
+
+\R
+	\cite{kr1} \S\ 2.12 \page{50}; 
+	\cite{kr2} \S\ 2.12 \page{54}; 
+	\cite{iso} \S\ 6.3; 
+	\cite{hs} \S\ 7.12 \Page{227--9}; 
+	\cite{ctp} \S\ 3.7 \page{47}; 
+	\cite{pcs} \S\ 9.5 \Page{120--1}.
+\end{faq}
+
+\begin{faq}
+\Q{3.3}
+	다음과 같은 코드를 여러 컴파일러에서 실행해 보았습니다:
+
+\begin{verbatim}
+  int i = 3;
+  i = i++;
+\end{verbatim}
+
+	\noindent 어떤 컴파일러는 \TT{i}가 3이라고 하며, 또 4를 출력하는
+	컴파일러도 있었습니다.  어떤 컴파일러가 맞는 것인가요?
+\A
+	여기에는 올바른 답이 없습니다; 위와 같은 수식은 행동 양식이 정의되어
+	있지 않습니다.  질문 3.1, 3.8, 3.9, 11.33을 참고하기 바랍니다.  
+	(\verb2i++2나 \verb2++i2는 둘 다 \verb2i + 12과 같지 않습니다.
+	원하는 것이 단순히 \TT{i} 값을 증가시키는 것이라면 \verb2i=i+12,
+	\verb2i+=12, \verb2i++2, \verb2++i2 중 하나를 쓰시기 바랍니다.
+	질문 3.12를 참고하기 바랍니다)
+\end{faq}
+
+\begin{faq}
+\Q{3.3b}
+	다음과 같은 테크닉은 \TT{a}와 \TT{b}를 임시 변수없이 바꾸어
+	준다고 합니다:
+
+\begin{verbatim}
+  a ^= b ^= a ^= b
+\end{verbatim}
+
+	\noindent 이 코드가 올바른가요?
+\A
+	이식성(portability)이 없을 뿐만 아니라, 제대로 동작하지도 않는
+	코드입니다.  위의 코드는 한 `sequence point'에서 변수 \TT{a}의 
+	값을 두번이나 변경하려 하기 때문에, 행동 양식이
+	정의되어 있지 않습니다.
+
+	예를 들어 다음과 같은 코드를 SCO 최적화 C 컴파일러(icc)에서 돌렸을
+	경우, \TT{b}를 123으로 설정하고 \TT{a}를 0으로 설정한다고
+	보고되었습니다:
+
+\begin{verbatim}
+  int a = 123, b = 7654;
+  a ^= b ^= a ^= b;
+\end{verbatim}
+
+	질문 3.1, 3.8, 10.3, 22.15c를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{3.4}
+	괄호(parenthese)를 써서 평가 순서를 제가 원하는 대로 바꿀 수 있을까요?
+	만약에 괄호를 쓰지 않더라도 알아서 되지 않나요?
+\A
+	항상 그런 것은 아닙니다.
+
+	연산자 우선 순위와 괄호는 수식 평가의 일부분만을 변경할 수 있습니다.
+	다음과 같은 수식에서:
+
+\begin{verbatim}
+  f() + g() * h()
+\end{verbatim}
+
+	우리는 곱셈이 덧셈보다 먼저 일어난다는 것을 알고 있습니다.
+	그러나, 세개의 함수 중 어떤 함수가 먼저 호출될지는 알 수 없습니다.
+
+	부분식(subexpression)의 평가 순서가 중요할 때에는, 임시 변수를 만들고
+	각각 다른 문장(statement)으로 나눠 쓰는 것이 좋습니다.
+
+\R
+	\cite{kr1} \S\ 2.12 \page{49}, \S\ A.7 \page{185}; 
+	\cite{kr2} \S\ 2.12 \Page{52--3}, \S\ A.7 \page{200}.
+\end{faq}
+
+\begin{faq}
+\Q{3.5}
+	그렇다면 \verb+&&+, \verb+||+ 연산자에서는 어떤가요?
+	다음과 같은 코드를 본 기억이 있거든요.
+\begin{verbatim}
+  while ((c = getchar()) != EOF && c != '\n')
+    ....
+\end{verbatim}
+\A
+	위 코드는 이른바 `short-circuit' 예외(exception)라고 하는
+	예외 사항입니다.  즉, 연산자의 왼쪽의 결과만 가지고도 전체
+	결과를 알 수 있을 때에는 오른쪽은 평가되지 않습니다 (즉,
+	\verb+||+ 연산자에서 왼쪽이 참이거나, \verb+&&+ 연산자에서
+	왼쪽이 거짓인 경우).  그러므로, 콤마(comma) 연산자와 마찬가지로
+	이 연산자들은 왼쪽에서 오른쪽으로 평가된다는 것을 보장할 수 있습니다.
+	게다가 이 연산자들은 모두 (\verb+?:+ 연산자 포함) 추가로
+	내부적인 `sequence point'를 가지고 있습니다.  (질문 3.8 참고)
+
+\R
+	\cite{kr1} \S\ 2.6 \page{38}, \S\ A7.11--12 \Page{190--1}; 
+	\cite{kr2} \S\ 2.6 \page{41}, Secs.  A7.14--15 \Page{207--8}; 
+	\cite{iso} \S\ 6.3.13, \S\ 6.3.14, \S\ 6.3.15; 
+	\cite{hs} \S\ 7.7 \Page{217--8}, \S\ 7.8 \Page{218--20}, 
+		\S\ 7.12.1 \page{229};
+	\cite{ctp} \S\ 3.7 \Page{46--7}.
+\end{faq}
+
+\begin{faq}
+\Q{3.8}
+	이러한 복잡한 규칙을 다 알아야 하나요? 또 `sequence point'라는
+	것은 무엇인가요?
+\A
+	`sequence point'라는 것은 어떤 시간대 (전체 수식의 평가가 끝난
+	시점, 또는 \verb+||+.  \verb+&&+, \verb+?:+, 또는 콤마(comma)
+	연산자, 또는 함수 호출 바로 이전)의 위치를 의미하는 것으로, 
+	모든 부작용이 일어나지 않는다고 보장하는 시점입니다.  ANSI/\cite{iso}
+	C 표준에서는 다음과 같이 정의하고 있습니다:
+
+\begin{quote}
+	Between the previous and next sequence point an
+	object shall have its stored value modified at
+	most once by the evaluation of an expression.
+	Furthermore, the prior value shall be accessed
+	only to determine the value to be stored.
+\end{quote}
+
+	\noindent
+	위에서 두번째 문장이 어려울 수도 있습니다.  즉, 어떤 오브젝트에 값을
+	쓰는(write) 경우, 전체 수식은 이 오브젝트에 저장할 값을 계산하기
+	위한 목적으로 쓰여야 한다는 것을 의미합니다.
+% TODO: 아래 문장 번역.
+%	이 규칙에 의해서 올바른 문장은 ...
+	This rule
+	effectively constrains legal expressions to those in which the
+	accesses demonstrably precede the modification.
+
+	질문 3.9를 참고하기 바랍니다.
+
+\R
+	\cite{iso} \S\ 5.1.2.3, \S\ 6.3, \S\ 6.6, Annex C;
+	\cite{rationale} \S\ 2.1.2.3; 
+	\cite{hs} \S\ 7.12.1 \Page{228--9}.
+\end{faq}
+
+\begin{faq}
+\Q{3.9}
+	다음 코드에서 배열의 몇번째 요소에 값을 쓸 지는 모르지만,
+	\verb+i+는 단 한번만 증가되는 것으로 생각할 수 있나요?
+
+\begin{verbatim}
+  a[i] = i++;
+\end{verbatim}
+
+\A
+	아닙니다! 일단 수식이나 프로그램의 행동 양식이 정의되어 있지
+	않다(undefined)라고 했으면, 모든 면에서 어떻게 동작할 지 모릅니다.
+	질문 3.2, 3.3, 11.33을 참고하기 바랍니다.
+\end{faq}
+
+\section{Other Expression Questions}
+% from 3.12
+C 언어는 expression(수식)에서 각각 다른 타입의 operand(피연산자)를 
+변경하는 적당한 규칙을 가지고 있습니다.  보통 이런 규칙은 매우 간단합니다.
+그러나 예상할 수 없는 결과가 나올 수 있으며, 질문 3.14와 3.15가
+그러한 상황에 대해 설명해 줍니다.
+덧붙여, 이 절의 질문들은 autoincrement operator와 conditional
+\verb+?:+ (또는 ``ternary''라고도 하는) operator에 대한 것도 다룹니다.
+
+% Besides conversion surprises, the questions in this section
+% concern the autoincrement operator and the conditional (or ``ternary'')
+% ?: operator.
+
+\begin{faq}
+\Q{3.12}
+	만약 수식의 값을 쓰지 않는다면, 변수의 값을 증가시키기 위해,
+	\verb2i++2을 써야 하나요, \verb2++i2를 써야 하나요?
+\A
+	그 두가지는 단지 어떠한 값을 만들어 내느냐에 따라 차이가 있는
+	것이므로, 변수의 값을 증가시키기 위한 목적으로만 쓰인다면 차이가
+	없습니다.  (그러나, C++에서는 \verb+2++i2의 형식을 더 선호합니다.)
+	질문 3.3을 참고하기 바랍니다.
+
+\R
+	\cite{kr1} \S\ 2.8 \page{43}; 
+	\cite{kr2} \S\ 2.8 \page{47}; 
+	\cite{iso} \S\ 6.3.2.4, \S\ 6.3.3.1; 
+	\cite{hs} \S\ 7.4.4 \Page{192--3}, \S\ 7.5.8 \Page{199--200}.
+\end{faq}
+
+\begin{faq}
+\Q{3.14}
+	이 코드는 왜 동작하지 않을까요?
+
+\begin{verbatim}
+  int a = 1000, b = 1000;
+  long int c = a * b;
+\end{verbatim}
+
+\A
+	C 언어의 `integral promotion' 규칙에 의해 위의 곱셈은 `int' 타입의
+	곱셈으로 계산됩니다.  따라서 그 결과가 오버플로우(overflow) 되거나,
+	또는
+	`promotion'하기 전에 잘려나갈(truncate) 수 있습니다.  따라서 `long'
+	타입의 곱셈을 수행하라고 (강제로) 다음과 같이 알려주어야 합니다:
+
+\begin{verbatim}
+  long int c = (long int)a * b;
+\end{verbatim}
+
+	`\verb+(long int)(a * b)+'와 같이 하는 것은 질문의 코드와 똑같은 결과를
+	만드므로 바람직하지 않습니다:
+
+	결과값이 실수 타입인 경우, 나눗셈을 할 경우에도 비슷한 문제가 발생할 수
+	있습니다.  해결 방법은 위와 같습니다.
+
+\R
+	\cite{kr1} \S\ 2.7 \page{41}; 
+	\cite{kr2} \S\ 2.7 \page{44}; 
+	\cite{iso} \S\ 6.2.1.5; 
+	\cite{hs} \S\ 6.3.4 \page{176}; 
+	\cite{ctp} \S\ 3.9 \Page{49--50}.
+\end{faq}
+
+\begin{faq}
+\Q{3.16}
+	어떤 조건에 따라 서로 다른 변수에 값을 대입하려고 합니다.
+	다음과 같은 코드를 써도 좋습니까?
+
+\begin{verbatim}
+  ((condition) ? a : b) = complicated_expression;
+\end{verbatim}
+
+\A
+	안됩니다.  \verb+?:+ 연산자는 대부분 연산자들과 같이 
+	`값(value)'을 만들어 내고, 따라서 이 값에 다른 값을 
+	대입할 수 없습니다.
+	(다른 말로, \verb+?:+는 `lvalue'를 만들어내지 않습니다.) 정말 
+	이런 식의 코드를 써야 한다면, 다음과 같이 할 수 있습니다:
+
+\begin{verbatim}
+  *((condition) ? &a : &b) = complicated_expression;
+\end{verbatim}
+
+	\noindent 그러나 일반적으로 이런 식의 코드는 지저분해 보이기 때문에
+	잘 쓰이지 않습니다.
+
+\R
+	\cite{iso} \S\ 6.3.15; 
+	\cite{hs} \S\ 7.1 \Page{179--180}.
+\end{faq}
+
+\section{Preserving Rules}
+% from 3.18
+앞 절에서 말한 ``expression(수식)에서 각각 다른 타입의 operand(피연산자)를 
+변경하는 적당한 규칙''의 의미는 classic C와 ANSI/ISO C에서 약간 바뀌었습니다;
+이 절에서는 그 차이에 대하여 설명합니다.

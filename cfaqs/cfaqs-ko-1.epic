@@ -1,0 +1,54 @@
+\setlength{\unitlength}{0.00083333in}
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+{\renewcommand{\dashlinestretch}{30}
+\begin{picture}(2862,939)(0,-10)
+\drawline(150,912)(450,912)(450,612)
+	(150,612)(150,912)
+\put(255,695){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}h}}}}}
+\drawline(450,912)(750,912)(750,612)
+	(450,612)(450,912)
+\put(547,717){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}e}}}}}
+\drawline(750,912)(1050,912)(1050,612)
+	(750,612)(750,912)
+\put(877,695){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}l}}}}}
+\drawline(1050,912)(1350,912)(1350,612)
+	(1050,612)(1050,912)
+\put(1177,695){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}l}}}}}
+\drawline(1350,912)(1650,912)(1650,612)
+	(1350,612)(1350,912)
+\put(1447,717){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}o}}}}}
+\drawline(1650,912)(1950,912)(1950,612)
+	(1650,612)(1650,912)
+\put(1732,695){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}$\backslash$0}}}}}
+\drawline(1050,312)(1350,312)(1350,12)
+	(1050,12)(1050,312)
+\put(1155,95){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}h}}}}}
+\drawline(1350,312)(1650,312)(1650,12)
+	(1350,12)(1350,312)
+\put(1447,117){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}e}}}}}
+\drawline(1650,312)(1950,312)(1950,12)
+	(1650,12)(1650,312)
+\put(1777,95){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}l}}}}}
+\drawline(1950,312)(2250,312)(2250,12)
+	(1950,12)(1950,312)
+\put(2077,95){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}l}}}}}
+\drawline(2250,312)(2550,312)(2550,12)
+	(2250,12)(2250,312)
+\put(2347,117){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}o}}}}}
+\drawline(2550,312)(2850,312)(2850,12)
+	(2550,12)(2550,312)
+\put(2632,95){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\bfdefault}{\updefault}$\backslash$0}}}}}
+\drawline(150,312)(600,312)(600,12)
+	(150,12)(150,312)
+\drawline(375,162)(1050,162)
+\drawline(930.000,132.000)(1050.000,162.000)(930.000,192.000)
+\put(0,687){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}a:}}}}}
+\put(0,162){\makebox(0,0)[lb]{\smash{{{\SetFigFont{12}{14.4}{\rmdefault}{\mddefault}{\updefault}p:}}}}}
+\end{picture}
+}

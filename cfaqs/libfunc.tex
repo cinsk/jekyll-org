@@ -1,0 +1,575 @@
+\chapter{Library Functions}	\label{chap:libfunc}
+% chapter 13: libfunc
+
+예전에는 특정 run-time library는 C 언어의 공식 일부분이 아니었습니다.
+ANSI/ISO Standard C의 출현으로 대부분의 전통적인 (traditional) run-time
+library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
+
+특별히 중요한 라이브러리 함수들은 각각 다른 절에 설명되었습니다; 메모리
+할당에 관련된 \TT{malloc}과 \TT{free}에 관한 것은 \ref{chap:memalloc}~장에
+설명되었으며, \verb+<stdio.h>+에 나온 ``standard I/O'' 함수들은
+\ref{chap:stdio}~장에 설명되었습니다.
+이 장은 다음과 같이 나누어집니다:
+
+\begin{description}
+\item String Function: 13.1--13.7
+\item Sorting: 13.8--13.11
+\item Date and Time: 13.12--13.14
+\item Random Numbers: 13.15--13.21
+\item Other Library Functions: 13.22-13.28
+\end{description}
+
+마지막 몇 개의 질문들은 (13.25부터 13.28까지) link시 문제가 되는 
+(예를 들면, ``undefined external'' 에러) 것을 다루었습니다.
+
+\section{String Functions}
+% from 13.1
+
+\begin{faq}
+\Q{13.1}
+	수치를 문자로 바꾸고 싶은데 (\TT{atoi} 함수의 반대 기능),
+	\TT{itoa()}라는 함수가 있나요?
+\A	그냥 \TT{sprintf()}를 쓰시면 됩니다.  (\TT{sprintf}가 너무
+	복잡하고, 큰 비용(시간이나 크기 면에서)이 든다고 생각할 지
+	모르나, 사실 효과적으로 동작합니다.) 질문 7.5a에 대한 답변에
+	나온 예를 보기 바랍니다.  질문 12.21을 참고하기 바랍니다.
+
+	\TT{long}이나 실수도 \TT{sprintf()}를 써서 바꿀 수 있습니다
+	(각각 \TT{\%ld}와 \TT{\%f}를 쓰면 됨).
+
+\R
+	\cite{kr1} \S\ 3.6 \page{60}; 
+	\cite{kr2} \S\ 3.6 \page{64}.
+\end{faq}
+
+\begin{faq}
+\Q{13.2}
+	왜 \TT{strncpy()}는 대상 문자열에 항상 \verb+\0+을 써 주지
+	않는 것일까요?
+\A
+	\TT{strncpy()}의 원래 개발 목적은 고정 크기를 갖고, \verb+\0+으로
+	끝나지 않는 데이터도 처리할 수 있는 것이 그 목적입니다.
+	(\TT{strncpy()}의 한 가지 단점은 여분의 공간에 0을 계속 기록한다는
+	것입니다.) \TT{strncpy()}는 버퍼의 끝에 수동으로 0을 채워주어야 할
+	필요가 있기 때문에 그리 자주 쓰이지는 않습니다.
+	이 문제를 해결하기 위해 \TT{strncpy()} 대신 \TT{strncat}을
+	쓰기도 합니다: 대상 버퍼가 비어있는 경우,  \TT{strncat}은 여러분이
+	\TT{strncpy}에서 기대한 그 작업을 수행해 줍니다.  또 다른 방법은
+	다음과 같습니다:
+\begin{verbatim}
+  sprintf (dest, "\%.*s", n, source);
+\end{verbatim}
+
+	문자열이 아닌 어떤 크기의 바이트를 복사하고자 한다면 \TT{strncpy()}
+	대신 \TT{memcpy()}를 쓰는 것이 더 효과적입니다.
+\end{faq}
+
+\begin{faq}
+\Q{13.5}
+	어떤 버전의 \TT{toupper()}에서는 대문자를 인자로 줄 경우,
+	이상하게 동작합니다.  그리고 이런 것을 예상해서인지 \TT{toupper()}를
+	부르기 전에 \TT{islower()}를 부르는 코드도 보았습니다.
+\A
+	오래된 버전의 \TT{toupper()}와 \TT{tolower()}의 경우, 변환이 필요없는
+	값이 인자로 전달되면, 제대로 동작하지 않습니다.  (즉 알파벳이 아닌
+	문자나, 또는 이미 변환이 된 알파벳인 경우).
+	ANSI/\cite{iso} C 표준에는 이러한 함수들이 어떤 값이 전달되더라도
+	안전하게 동작한다고 씌여 있습니다.
+
+\R
+	\cite{iso} \S\ 7.3.2; 
+	\cite{hs} \S\ 12.9 \Page{320--1}; 
+	\cite{pcs} \page{182}.
+\end{faq}
+
+
+\begin{faq}
+\Q{13.6}
+	문자열을 공백으로 구별된 단어로 끊어내고 싶은데요.  
+% TODO: 아래문장 번역
+	How can I duplicate the process by which main() is handed argc
+	and argv?
+
+\A
+	이러한 단어로 (``token''이라고 함) 문자열을 끊어주는 표준 함수는
+	\TT{strtok()}입니다.  물론, 이 함수가 이러한 모든 일을 다 처리할 수
+	있는 것은 아닙니다.  (예를 들어, 인용(quoting)을 제대로 처리하기
+	힘듭니다.)
+\R
+	\cite{kr2} \S\ B3 \page{250}; 
+	\cite{iso} \S\ 7.11.5.8; 
+	\cite{hs} \S\ 13.7 \Page{333--4}; 
+	\cite{pcs} \page{178}.
+\end{faq}
+
+\begin{faq}
+\Q{13.7}
+	와일드 카드(wildcard)와 정규식(regular expression)을 처리하려고
+	합니다.
+\A
+	우선 정규식(regular expression, \TT{ed}나 \TT{grep}과 같은
+	UNIX 유틸리티에서 흔히 쓰임))과 파일 이름 와일드 카드와는
+	서로 다른 것이라는 것을 먼저 알아두시기 바랍니다.
+
+	정규식 매칭에 사용되는 패키지는 많습니다.  그리고 대부분의 패키지들은
+	두 가지 함수를 사용합니다: 하나는 정규식을 ``컴파일''하기 위한 것이고,
+	다른 하나는 이 ``컴파일된'' 정규식과 문자열을 비교해주는 함수입니다.
+	먼저 헤더 파일 \verb+<regex.h>+나 \verb+<regexp.h>+가 있는지,
+	그리고 \TT{regcmp/regex}, \TT{regcomp/regexec},
+	\verb+re_comp/re_exec+ 함수가 존재하는 지 (이 함수들은 대개
+	각각의 독립적인 라이브러리 형태로 제공됩니다.) 체크해보시기 바랍니다.
+	인기있고, 공개로 제공되는 Henry Spencer씨의 regexp 패키지를
+	\TT{ftp.cs.toronto.edu}의 \TT{pub/regexp.shar.Z}에서 얻을 수
+	있습니다.  GNU 프로젝트에서는 rx라고 하는 패키지를 제공합니다.
+	\seealso{18.16}
+
+	파일이름 와일드카드 매칭은 (filename wildcard matching) 각각의
+	시스템에 따라 다르게 이루어집니다.  UNIX에서는 와일드 카드를
+	shell이 처리해 주므로, 각각의 프로그램들은 이 와일드 카드에 대해
+	전혀 고려하지 않아도 됩니다.  그러나 MS-DOS에서는 shell이라
+	할 수 있는 command interpreter가 이를 처리해 주지 않으므로,
+	이 와일드 카드를 처리해주는 특별한 오브젝트 파일과 함께
+	컴파일해야 합니다.  그리고 (MS-DOS와 VMS를 포함한) 대부분의
+	시스템에서는 와일드카드로 파일을 리스팅해주거나, 파일을 open하는
+	시스템 서비스들을 제공합니다.  먼저 컴파일러/라이브러리의 문서를
+	참고하기 바랍니다.  \seealso{19.20, 20.3}
+\end{faq}
+
+\section{Sorting}
+% from 13.8
+
+\begin{faq}
+\Q{13.8}
+	\TT{qsort()} 함수를 써서 문자열의 배열을 (array of strings)
+	정렬하려고 합니다.
+	\TT{strcmp()} 함수를 비교 함수로 사용했는데 동작하지 않습니다.
+\A
+	질문하신 ``문자열의 배열 (array of strings)''은 아다모
+	``문자에 대한 포인터의 배열 (array of pointers to char)''를
+	의미한 것일 것입니다.  \TT{qsort}에 전달되는 비교 함수는
+	정렬하고자 하는 객체에 대한 포인터를 인자로 받아야 합니다.
+	이 경우, 문자에 대한 포인터를 가리키는 포인터를 입력 받아야 합니다.
+	그런데 \TT{strcmp()}는 단순히 문자를 가리키는 포인터를 입력
+	받습니다.  그러므로 \TT{strcmp()}를 직접 비교 함수로 사용할 수는
+	없습니다.  다음과 같이 wrapper 함수를 만들어야 합니다:
+
+\begin{verbatim}
+  /* compare strings via pointers */
+  int pstrcmp(const void *p1, const void *p2)
+  {
+    return strcmp(*(char * const *)p1, *(char * const *)p2);
+  }
+\end{verbatim}
+
+	비교 함수의 인자는 ``범용 포인터''인 \verb+const void *+이어야 합니다.
+	그리고 함수 내부에서 이를 원하는 형태로 (예를 들면 문자를 가리키는
+	포인터) 바꾸어 씁니다.
+
+%	The comparison function's arguments are expressed as "generic
+%	pointers," const void *.   They are converted back to what they
+%	"really are" (pointers to pointers to char) and dereferenced,
+%	yielding char *'s which can be passed to strcmp().
+
+	(\cite{kr2} \S\ 5.11 \Page{119--20}에 
+	나온 것을 혼동하면 안됩니다.  그것은
+	표준 함수인 \TT{qsort}와는 관계없습니다.)
+
+%	(Don't be misled by the discussion in K&R2 \S\ 5.11 pp.\ 119-20,
+%	which is not discussing the Standard library's qsort).
+
+\R
+	\cite{iso} \S\ 7.10.5.2; 
+	\cite{hs} \S\ 20.5 \page{419}.
+\end{faq}
+
+\begin{faq}
+\Q{13.9}
+	구조체를 요소로 갖는 배열을 \TT{qsort()}로 정렬하려 합니다.
+	Now I'm trying to sort an array of structures with qsort().   My
+	comparison function takes pointers to structures, but the
+	compiler complains that the function is of the wrong type for
+	qsort().   How can I cast the function pointer to shut off the
+	warning?
+
+\A	The conversions must be in the comparison function, which must
+	be declared as accepting "generic pointers" (const void *) as
+	discussed in question 13.8 above.   The comparison function might
+	look like
+
+\begin{verbatim}
+  int mystructcmp(const void *p1, const void *p2)
+  {
+    const struct mystruct *sp1 = p1;
+    const struct mystruct *sp2 = p2;
+    /* now compare sp1->whatever and sp2-> ...  */
+\end{verbatim}
+	(The conversions from generic pointers to struct mystruct
+	pointers happen in the initializations sp1 = p1 and sp2 = p2;
+	the compiler performs the conversions implicitly since p1 and p2
+	are void pointers.)
+
+	If, on the other hand, you're sorting pointers to structures,
+	you'll need indirection, as in question 13.8:
+	sp1 = *(struct mystruct * const *)p1 .
+
+	일반적으로 ``컴파일러가 경고를 출력하는 것을 없애기 위해'' 캐스트를
+	쓰는 것은 매우 좋지 않은 습관입니다.
+	컴파일러 경고는 일반적으로 여러분에게 어떠한 것을 알려주기 위해
+	발생하는 것입니다.  따라서 여러분이 무엇을 하고있는지 확실히 잘 알고
+	있다면 무시해도 좋습니다.  \seealso{4.9}
+	
+\R
+	\cite{iso} \S\ 7.10.5.2; 
+	\cite{hs} \S\ 20.5 \page{419}.
+\end{faq}
+
+\begin{faq}
+\Q{13.10}
+	`linked list'를 정렬하는 방법은?
+\A
+	때때로, 리스트를 만들 때, 정렬하며 만드는 방법이 더 쉬울 때가
+	많습니다 (또는 트리(tree)를 쓸 때에도).  삽입 정렬이나 (insertion sort)
+	병합 정렬은 (merge sort) 리스트를 쓸 때, 매우 효과적입니다.
+	만약 표준 라이브러리 함수를 써서 정렬하고 싶다면, 먼저 이들
+	리스트를 가리키는 포인터의 배열을 만들고, \TT{qsort()}를 쓰면
+	됩니다.  그리고, 이 정렬된 포인터를 이용하여, 리스트를 정리하면
+	됩니다.
+\R
+	\cite{knuth} \S\ 5.2.1 \Page{80--102}, \S\ 5.2.4 \Page{159--168};
+	\cite{calgo} \S\ 8 \Page{98--100}, \S\ 12 \Page{163--175}.
+\end{faq}
+
+\begin{faq}
+\Q{13.11}
+	메모리의 크기보다 더 큰 데이터를 정렬하고 싶은데, 어떻게 하죠?
+\A
+	외부 정렬을 (external sort) 써야 합니다.  여기에 대한 것은
+	\cite{knuth}에 잘 나와 있습니다.  기본적인 아이디어는, 데이터를
+	(메모리에 불러올 수 있을 정도의 작은) 조각으로 나누고,
+	이 데이터를 정렬하고 난 다음, 이를 임시 파일에 저장하고,
+	다 반복하였으면, 전체 데이터를 병합하는 (merge) 것입니다.
+	운영 체제에서 이러한 정렬 프로그램을 제공할 수도 있으니
+	프로그램 안에서 이러한 프로그램을 실행시키는 것을
+	생각할 수도 있습니다: 질문 19.27과 19.30을 참고하기 바랍니다.
+\R
+	\cite{knuth} \S\ 5.4 \Page{247--378}; 
+	\cite{calgo} \S\ 13 \Page{177--187}.
+\end{faq}
+
+\section{Date and Time}
+% from 13.12
+
+\begin{faq}
+\Q{13.12}
+	현재 날짜와, 요일을 알아내려면 어떻게 하죠?
+\A
+	\TT{time()}, \TT{ctime()}, \TT{localtime()}, 또는 \TT{strftime()}을
+	쓰면 됩니다.  예를 들면:
+\begin{verbatim}
+  #include <stdio.h>
+  #include <time.h>
+
+  int main()
+  {
+    time_t now;
+    time(&now);
+    printf("It's %.24s.\n", ctime(&now));
+    return 0;
+  }
+\end{verbatim}
+	\noindent 와 같습니다.
+
+\R
+	\cite{kr2} \S\ B10 \Page{255--7}; 
+	\cite{iso} \S\ 7.12; 
+	\cite{hs} \S\ 18.
+\end{faq}
+
+\begin{faq}
+\Q{13.13}
+	라이브러리 함수 \TT{localtime()}은 \verb+time_t+를 \verb+struct tm+으로
+	바꾸어 줍니다.  그리고 \TT{ctime()}은 \verb+time_t+를 문자열로
+	바꾸어 줍니다.  이 역 변환은 할 수 없을가요? 즉, 문자열이나
+	\verb+struct tm+을 \verb+time_t+ 타입으로 변경하고 싶습니다.
+\A
+	ANSI C에서는 \TT{struct tm} 타입을 \verb+time_t+로 바꾸어 주는
+	\TT{mktime()} 함수를 제공합니다.
+
+	문자열을 \verb+time_t+로 바꾸는 것은 조금 힘듭니다.  왜냐하면,
+	각 나라 혹은 지역별로 사용하는 날짜와 시간 형식이 각각 다르기
+	때문입니다.  어떤 시스템은 \TT{strptime()}이라는 함수를 제공하며,
+	그 기능은 \TT{strftime()}의 반대입니다.  또 (RCS 패키지와 함께
+	제공되는) \TT{partime()}이라는 함수와 (최신의 C news 배포판에서
+	제공하는) \TT{getdate()}라는 함수도 자주 쓰입니다.
+	질문 18.16을 보기 바랍니다.
+\R
+	\cite{kr2} \S\ B10 \page{256}; 
+	\cite{iso} \S\ 7.12.2.3; 
+	\cite{hs} \S\ 18.4 \Page{401--2}.
+\end{faq}
+
+\begin{faq}
+\Q{13.14}
+	주어진 날짜에 (\TT{N} days) 날짜를 더하는 기능이 있나요?
+	또 주어진 두 날짜를 비교하는 함수가 있을까요?
+
+\A
+	이러한 문제를 해결하기 위해서 ANSI/\cite{iso} 표준 C에서는
+	\TT{mktime()}과 \TT{difftime()} 함수를 제공합니다.
+	\TT{mktime()}은 정규화되지 않은 (non-normailized) 날짜를
+	\verb+struct tm+ 타입으로 입력받아 이것을 정규화시켜 줍니다.
+	(부가적으로 이를 \verb+time_t+값으로 변경시켜 줍니다.)
+	\TT{difftime()}은 두 개의 \verb+time_t+ 값을 입력받아 초 단위로
+	비교해 줍니다; \TT{mktime()}을 써서 \verb+time_t+ 값을 만들 수 
+	있습니다.
+
+	그러나 이 해결책들은 \verb+time_t+ 범위에서만 동작합니다.
+	\verb+tm_days+ 필드는 \TT{int}이기 때문에 일(day) 수가
+	32,736 이상일 경우 오버플로우가 발생할 수 있습니다.
+	또한 썸머 타임\footnote{daylight saving time}을 고려하면
+	하루는 24 시간이 아닐 수도 있습니다 (따라서 86400으로 나누면
+	해결될 것이라는 생각을 하면 안됩니다).
+
+	``Julian day number''를 사용하는 방법도 있습니다.
+	Julian day를 다루는 함수들은 Snippets 콜렉션에 (질문 18.15c 참고)
+	있습니다.  그리고 이 콜렉션은 Simtel/Oakland 아카이브(archive)에서
+	(파일 \TT{JULCAL10.ZIP}, 질문 18.16 참고) 얻을 수 있습니다.
+	아래의 ``Date conversions'' 기사도 참고하기 바랍니다.
+
+	\seealso{13.13, 20.31, 20.32}
+\R
+	\cite{kr2} \S\ B10 \page{256}; 
+	\cite{iso} \S\ 7.12.2.2, 7.12.2.3;
+	\cite{hs} \S\ 18.4,18.5 \Page{401--2}; 
+	\cite{dateconv}.
+\end{faq}
+
+\begin{faq}
+\Q{13.14b}
+	C 언어는 2000년 문제에 어떤 문제가 있을까요?
+\A
+	없습니다.  단지, 허술하게 작성된 C 프로그램에 문제가 있을 뿐입니다.
+	
+	\TT{struct tm}의 \verb+tm_year+ 필드는 1900년대에서 시작한 년도를
+	가지고 있습니다.  따라서 2000년일 경우에 이 값은 100이 됩니다.
+	\verb+tm_year+를 제대로 사용하는 코드라면 (변환할 때, 1900을 더하거나
+	빼는) 전혀 문제될 것이 없습니다.  그러나 이 값을 두 자리 숫자로
+	바로 사용한다거나 다음과 갈은 코드를 썼다면:
+\begin{verbatim}
+  tm.tm_year = yyyy % 100;        /* WRONG */
+\end{verbatim}
+	\noindent 또는, 다음과 같이 했다면:
+\begin{verbatim}
+  printf("19%d", tm.tm_year);     /* WRONG */
+\end{verbatim}
+	\noindent 2000년 문제가 발생합니다.  \seealso{20.32}
+\R
+	\cite{kr2} \S\ B10 \page{255}; 
+	\cite{iso} \S\ 7.12.1; 
+	\cite{hs} \S\ 18.4 \page{401}.
+\end{faq}
+
+\section{Random Numbers}
+% from 13.15
+
+\begin{faq}
+\Q{13.15}
+	난수(random number) 발생기가 필요합니다.
+\A
+	표준 C 라이브러리에는 \TT{rand()}라는 함수가 있습니다.  물론
+	각각의 시스템에 따라 이 함수의 구현(implementation)은 완전하지
+	않을 수 있습니다.  그러나, 이 함수보다 더 좋은 성능을 가진 함수를
+	직접 만들기란 쉬운 일이 아닙니다.
+
+	직접 난수 발생기를 만들려고 한다면, 읽어야 할 책들이 많습니다;
+	참고 문헌란을 보시기 바랍니다.  또한 넷 상에 게시되는 많은 패키지도
+	있습니다: r250, RANLIB, FSULTRA (질문 18.16을 보기 바랍니다.)
+\R
+	\cite{kr2} \S\ 2.7 \page{46}, \S\ 7.8.7 \page{168}; 
+	\cite{iso} \S\ 7.10.2.1; 
+	\cite{hs} \S\ 17.7 \page{393}; 
+	\cite{pcs} \S\ 11 \page{172}; 
+	\cite{knuth} Vol.\ 2 Chap.\ 3 \Page{1--177}; 
+	\cite{random}.
+\end{faq}
+
+\begin{faq}
+\Q{13.16}
+	어떤 범위를 갖는 난수를 발생시키고 싶습니다.
+\A
+	다음과 갈이 하는 것은 (0에서 N-1까지의 수치를 리턴함) 매우 서투른
+	방법입니다:
+\begin{verbatim}
+  rand() % N         /* POOR */
+\end{verbatim}
+	\noindent 왜냐하면, 대부분의 난수 발생기에서 하위(low-order) 비트들은
+	그리 랜덤하지 않기 때문입니다.  (질문 13.18을 보기 바랍니다.) 따라서,
+	다음과 같이 하는 것이 좋습니다:
+\begin{verbatim}
+  (int)((double)rand() / ((double)RAND_MAX + 1) * N)
+\end{verbatim}
+	\noindent 실수를 쓰기 싫다면, 다음과 같이 해도 좋습니다:
+\begin{verbatim}
+  rand() / (RAND_MAX / N + 1)
+\end{verbatim}
+	\noindent 두 방법 모두 \verb+RAND_MAX+를 (\verb+<stdlib.h>+에
+	정의되어 있음) 사용하고, \TT{N}이 \verb+RAND_MAX+보다 아주
+	작은 값이라는 것을 가정한 방법입니다.
+
+	(어쨋든, \verb+RAND_MAX+는 \TT{rand()}가 리턴할 수 있는 최대 수치를
+	나타낸다는 것을 알아 두시기 바랍니다.  \verb+RAND_MAX+에 여러분이
+	다른 수치를 대입할 수는 없으며, \TT{rand()}가 다른 범위의 수치를
+	리턴하도록 해 주는 다른 방법은 존재하지 않습니다.)
+
+	만약에 여러분이 0과 1 사이의 범위를 가지는 난수 발생기를 가지고
+	있다면, 그리고 0과 N-1 사이의 범위를 가지는 정수 난수를 만들고
+	싶다면, 단순히 그 난수 발생기의 수치에 N을 곱하면 됩니다.
+\R
+	\cite{kr2} \S\ 7.8.7 \page{168}; 
+	\cite{pcs} \S\ 11 \page{172}.
+\end{faq}
+
+
+\begin{faq}
+\Q{13.17}
+	프로그램을 실행시킬 때마다, \TT{rand()}는 일정한 순서로 난수를
+	(random number)	발생시킵니다.  왜 그러죠?
+\A
+	\TT{srand()} 함수를 불러서 가상 난수 발생기에게 (pseudo-random
+	number generator) 초기 값을 임의로 주면 됩니다.  이 초기값은
+	`seed'라고 하며, 대개는 현재 시간이나, 유저가 어떤 키를 누르기
+	전까지의 시간차로 지정합니다.  (물론 어떤 키를 누르기 전의 시간을
+	얻는 방법은 이식성있게 만들기가 힘듭니다; 질문 19.37을 보기
+	바랍니다).  (일반적으로 프로그램 내에서는 \TT{srand()} 함수를
+	한번만 불러주어도 충분합니다.  \TT{rand()}를 부를 때마다,
+	\TT{srand()}를 부른다면, 충분한 임의의 수치를 얻을 수 없습니다.)
+\R
+	\cite{kr2} \S\ 7.8.7 \page{168}; 
+	\cite{iso} \S\ 7.10.2.2; 
+	\cite{hs} \S\ 17.7 \page{393}.
+\end{faq}
+
+\begin{faq}
+\Q{13.18}
+	참/거짓을 나타내는 난수(random number)가 필요합니다.  그래서
+	\verb+rand() % 2+를 썼는데, 계속 0, 1, 0, 1, 0 만을 반복하는군요.
+\A
+	엉성하게 만들어진 가상 난수 발생기는 (pseudorandom number generator)
+	하위 (low-order) 비트들에 대해서는 그렇게 랜덤하지 않습니다.
+	상위 (high-order) 비트를 써보기 바랍니다: 질문 13.16을 보기 바랍니다.
+\R
+	\cite{knuth} \S\ 3.2.1.1 \Page{12--14}.
+\end{faq}
+
+
+\begin{faq}
+\Q{13.20}
+	
+	How can I generate random numbers with a normal or Gaussian
+	distribution?
+
+\A
+	Marsaglia씨에 의해 개발되고 Knuth씨가 추천한 방법입니다:
+
+\begin{verbatim}
+  #include <stdlib.h>
+  #include <math.h>
+
+  double gaussrand()
+  {
+    static double V1, V2, S;
+    static int phase = 0;
+    double X;
+
+    if (phase == 0) {
+      do {
+        double U1 = (double)rand() / RAND_MAX;
+        double U2 = (double)rand() / RAND_MAX;
+
+        V1 = 2 * U1 - 1;
+        V2 = 2 * U2 - 1;
+        S = V1 * V1 + V2 * V2;
+      } while (S >= 1 || S == 0);
+
+      X = V1 * sqrt(-2 * log(S) / S);
+    }
+    else
+      X = V2 * sqrt(-2 * log(S) / S);
+
+      phase = 1 - phase;
+
+      return X;
+  }
+\end{verbatim}
+	다른 방법에 대한 것은 이 목록의 화장판(질문 20.40 참고)에서
+	참고하기 바랍니다.
+\R
+	Knuth \S\ 3.4.1 \page{117}; Marsaglia and Bray,
+	``A Convenient Method for Generating Normal Variables'';
+	Press et al., \EM{Numerical Recipes in C} \S\ 7.2 \Page{288--290}.
+\end{faq}
+
+\section{Other Library Functions}
+% from 13.22
+
+\begin{faq}
+\Q{13.24}
+	오래된 프로그램을 포팅하려고 합니다.  그런데 \TT{index}, \TT{rindex},
+	\TT{bcopy}, \TT{bcmp}, \TT{bzero} 함수가 정의되어 있지 않은 것
+	같습니다.  ``undefined external''이라는 에러가 뜨는 군요.
+\A
+	안 쓰는 구식의 함수들입니다.  다음 함수들을 쓰기 바랍니다.
+
+\begin{tabular}{lp{7cm}} \hline
+	\TT{index}	& \TT{strchr} 함수를 쓰기 바랍니다.  \\
+	\TT{rindex}	& \TT{strrchr} 함수를 쓰기 바랍니다.  \\
+	\TT{bcopy}	& 첫 번째 인자와 두 번째 인자를 바꾸어서
+		\TT{memmove} 함수를 쓰기 바랍니다.  
+		\seealso{11.25} \\
+	\TT{bcmp}	& \TT{memcmp} 함수를 쓰기 바랍니다.  \\
+	\TT{bzero}	& 두 번째 인자를 0으로 해서 \TT{memset} 함수를
+		쓰기 바랍니다.  \\ \hline
+\end{tabular}
+
+\R
+	\cite{pcs} \S\ 11.
+\end{faq}
+
+\begin{faq}
+\Q{13.25}
+	전 적절한 헤더 파일들을 \verb+#include+시켰는데도
+	라이브러리 함수가 정의되어 있지 않다고 에러가 발생합니다.
+\A
+	일반적으로, 헤더 파일은 선언(declaration)만을 포함하고 있습니다.
+	어떤 경우에는 (특히, 비표준 함수인 경우) 실제 정의를 포함시키기
+	위해서는 특별한 라이브러리를 같이 링크(link)하라고 명령을 주어야
+	합니다.  (\verb+#include+하는 것만으로는 불충분합니다.)
+	\seealso{11.30, 13.26, 14.3}
+\end{faq}
+
+\begin{faq}
+\Q{13.26}
+	올바른 라이브러리를 포함시키라고 했는데도 라이브러리 함수가
+	정의되어 있지 않다고 에러가 발생합니다.
+\A
+	많은 링커(linker)들이 오브젝트 파일과 라이브러리 파일들을
+	한번만 검색합니다.  그리고 첫번째로 찾은 라이브러리에서
+	호출한 함수에 대한 정의를 뽑아냅니다.  만약 이 라이브러리에서
+	함수 정의를 찾지 못한다면 에러를 발생합니다.
+	따라서 라이브러리와 오브젝트 파일을 찾는 순서를 잘 써주어야 합니다;
+	일반적으로는 라이브러리를 마지막에 찾게 하는 것이이 좋습니다.
+	(예를 들어 UNIX에서는 command-line의 마지막에 `\verb+-l+'을 써서
+	지정합니다.) \seealso{13.28}
+\end{faq}
+
+\begin{faq}
+\Q{13.28}
+	\verb+_end+가 정의되어 있지 않다고 링커가 에러를 내는데 이게
+	무엇을 의미하나요?
+\A
+	오래된 UNIX 링커에서 흔히 발생하는 것입니다.  대개 \verb+_end+가
+	정의되어 있지 않다고 에러가 나는 것은 다른 심볼(symbol)들도
+	정의가 되어 있지 않다는 것을 의미합니다.  정의되어 있지 않은
+	다른 심볼들이 있나 검사해 보기 바랍니다.  그러면 \verb+_end+가
+	정의되어 있지 않다고 하는 에러는 사라집니다.  (\seealso{13.25, 13.26})
+\end{faq}

@@ -1,0 +1,488 @@
+\chapter{C Preprocessor}	\label{chap:preproc}
+% chapter 10: preproc
+
+\begin{faq}
+\Q{10.2}
+	다음과 같은 매크로를 쓰는 것에 대해 어떻게 생각하세요?
+\begin{verbatim}
+  #define begin    {
+  #define end      }
+\end{verbatim}
+\A
+	윽, 17 절을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.3}
+	두 변수의 값을 바꾸기 위한 일반적인 매크로를 만들 수 있을까요?
+\A
+	이 질문에 대한 좋은 답변은 없습니다.  변수가 정수형일때에는
+	잘 알려진 exclusive OR를 쓰는 방법이 있긴 합니다만 포인터나
+	실수(floating-point)일 때에는 동작하지 않습니다.  또한 두 변수가
+	같은 변수일 경우에도 동작하지 않습니다.  (질문 3.3b와 20.15c를 참고하기
+	바랍니다.) 매크로가 모든 타입에 대해 동작하기 원하고, 임시 변수를
+	사용하길 원하지 않는다고 할 때, 이 조건을 다 만족시키는 매크로는
+	만들 수 없습니다.  왜냐하면 표준 C 언어에 임시 변수 타입을 알 수 있는
+	방법이 없기 때문입니다.
+
+	가장 좋은? 방법은 이런 목적으로 매크로를 사용하겠다는 생각을
+	아예 안하는 것입니다.  물론 이 임시 변수에 대한 타입을 매크로 함수의
+	인자로 전달한다면 가능합니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.4}
+	여러 문장으로 이루어진 매크로를 만드는 좋은 방법 좀 알려
+	주세요.
+\A	
+	이런 매크로를 만드는 일반적인 방법은 매크로 자체를 일반 함수처럼
+	쓸 수 있도록 하는 것입니다.  즉 호출하는 쪽에서 마지막 `;'을 직접
+	써 주게 하고 매크로의 몸통에서는 `;'을 따로 써 주지 않는 식으로
+	쓰는 것입니다.  
+	그러므로 매크로 몸통은 중괄호로 둘러싼 `compound statement' 형식으로
+	만들 수 없습니다.  왜냐하면 이 매크로가 호출될 때 세미콜론이 추가적으로
+	붙는다면 \TT{if}나 \TT{if}/\TT{else} 문장에서 에러가 발생할 수
+	있기 때문입니다.
+	
+
+	따라서 보통 다음과 같은 방법을 씁니다:
+
+\begin{verbatim}
+  #define MACRO(arg1, arg2) do { \
+      /* declarations */         \
+      stmt1;                     \
+      stmt2;                     \
+      /* ...  */                 \
+    } while(0) /* (no trailing ; ) */
+\end{verbatim}
+	매크로를 부르는 쪽이 세미콜론을 붙이면, 매크로가 하나의 문장으로
+	바뀝니다.  (좋은 컴파일러라면 필요없는 
+	테스트\footnote{``dead'' test}나,
+	조건문에서 상수 0을 검사하는 일\footnote{branches on the constant
+	condition 0}같은 것은 알아서 없애 줍니다.  그러나
+	lint는 불평할 수 있습니다.)
+
+	매크로의 모든 문장이 매우 간단한 것, 즉 선언이나 루프가 없다면,
+	콤마(`\verb+,+') 연산자를 써서 한 문장으로 만들 수 있습니다.
+	(예를 들어 질문 10.26의 \TT{DEBUG()} 매크로를 보기 바랍니다.)
+	이 테크닉은 또 매크로가 어떤 `값(value)'을 리턴할 수 있게 해 줍니다.
+
+\T
+	무슨 소리냐 하면
+	매크로를 정의할 때, 마지막에 세미콜론을 붙여 버린다면
+	아래와 같은 상황에서 에러가 발생할 수도 있다는 뜻입니다:
+\begin{verbatim}
+  #define MULTI_STATEMNT_MACRO(x)	do { \
+      stmt1; \
+      stmt2; \
+    } while(0);
+
+  if (some_condiftion)
+    MULTI_STATEMNT_MACRO(a);
+  else {
+    /* ...  */
+  }
+\end{verbatim}
+
+	매크로를 확장해보면 세미콜론이 두 번 만들어지고, 따라서
+	\TT{else} 부분에서 에러가 발생합니다.
+       
+\R
+	\cite{hs} \S\ 3.3.2 \page{45}; 
+	\cite{ctp} \S\ 6.3 \Page{82--3}.
+\end{faq}
+
+\begin{faq}
+\Q{10.6}
+	여러 개의 소스 파일로 이루어진 프로그램을 만들었습니다.
+	그런데, 어떤 것들을 \verb+.c+ 파일에 두어야 하고, 어떤 것들을
+	\verb+.h+ 파일에 두어야 하는지를 모르겠습니다.  (또 ``\verb+.h+''는
+	어디에 쓰이나요?)
+% TODO: 번역 확인
+%	(What does ``.h'' mean, anyway?)
+
+\A	보통 헤더 (\verb+.h+) 파일에 넣는 것들은 다음과 같습니다:
+
+\begin{itemize}
+\item 매크로 정의 (\verb+#define+)
+\item 구조체, \TT{union}, \TT{enum} 선언
+\item \TT{typedef} 선언
+\item 외부(external) 함수 선언 (질문 1.11 참고)
+\item 전역(global) 변수 선언
+\end{itemize}
+
+	특히 여러 파일에서 공통적으로 쓰이는 선언이나 정의는 꼭 헤더 파일에
+	넣는 것이 중요합니다.  (게다가 절대로 외부 함수 prototype을
+	\verb+.c+에 넣어서는 안됩니다.  질문 1.7을 참고하기 바랍니다.)
+
+	또, 정의나 선언이 하나의 \verb+.c+ 파일에서만 쓰인다면, 그 파일에
+	두어도 좋습니다.
+
+	질문 1.7과 10.7을 참고하기 바랍니다.
+
+\R
+	\cite{kr2} \S\ 4.5 \Page{81--2}; 
+	\cite{hs} \S\ 9.2.3 \page{267}; 
+	\cite{ctp} \S\ 4.6 \Page{66--7}.
+\end{faq}
+
+\begin{faq}
+\Q{10.7}
+	헤더 파일에서 다른 파일을 \verb+#include+ 하는 것은
+	괜찮나요?
+\A
+	스타일에 관한 질문이군요.  따라서 상당한 논란의 여지가 있습니다.
+	많은 사람들이 ``중첩된(nested) \verb+#include+ 파일''을 쓰지
+	않는 것이 좋다고 말합니다: 권위있는 Indian Hill 스타일
+	가이드에서도 (질문 17.9 참고) 이런 쓰임새를 피하라고 씌여있습니다;
+	관련된 정의를 찾기가 훨씬 더 어렵기 때문입니다; 또한 두번
+	\verb+#include+하는 경우, 정의가 중복되어 (multiple-definition)
+	에러가 발생할 가능성이 높습니다; 또 수동으로 Makefile을
+	만들 경우, 상당히 복잡해질 가능성이 있습니다.
+	그러나 헤더 파일을 중첩하여 포함할 경우, 각각의 헤더 파일을
+	모듈화할(modular way) 수 (헤더 파일에서 필요한 다른
+	헤더 파일을 \verb+#include+함으로써 수고를 덜어줌) 있다는
+	장점도 있습니다; \TT{grep}과 같은 툴을 (또는 tags 파일) 사용하면
+	정의가 어떤 파일에 되어 있느냐에 상관없이 쉽게 찾을 수 있습니다;
+	다음과 같은 테크닉이 상당히 인기있습니다:
+
+\begin{verbatim}
+  #ifndef HFILENAME_USED
+  #define HFILENAME_USED
+  ...header file contents...
+  #endif
+\end{verbatim}
+
+	\noindent (이 때, 각각의 헤더 파일에 각각 다른 매크로 이름을
+	사용합니다) 이 방식은 헤더 파일이 꼭 한 번만 포함되도록 해 주므로
+	여러 번 \verb+#include+하더라도 문제가 발생하지 않습니다; 또한
+	자동으로 Makefile을 관리해주는 툴을 (큰 프로젝트를 관리할 때에는
+	꼭 필요합니다, 질문 18.1 참고) 사용할 경우, 중첩된 \verb+#include+를
+	처리해 주므로 좀 더 편합니다.  질문 17.10을 참고하기 바랍니다.
+\R
+	\cite{rationale} \S\ 4.1.2.
+\end{faq}
+
+\begin{faq}
+\Q{10.8a}
+	\verb+#include <>+와 \verb+#include ""+에 차이가 있나요?
+\A
+	\verb+<>+ 형식은 헤더 파일이 시스템에서 제공한 것이거나
+	표준 헤더 파일일 경우에 사용하며, \verb+""+는 프로그래머가 제작한
+	헤더 파일에 사용합니다.
+\T
+	아래 질문 10.8b를 참고하기 바랍니다.
+
+%	어디에 있는 파일을 찾느냐 하는 것은 표준에 정의되어있지 않습니다.
+%	그러나 대개의 컴파일러의 경우, 전자(\verb+<...>+)는 시스템에서
+%	정의된 (표준 헤더 파일들이 있는) 디렉토리에서 헤더 파일을 찾게 되며,
+%	후자의 경우, 먼저 어떤 ``지역적인(local)'' 디렉토리를 --- 프로그래머의
+%	현재 디렉토리 --- 먼저 뒤진 다음 시스템에서 정의된 디렉토리를
+%	뒤집니다.  (\cite{hs} Sec 3.4 p.54)
+\end{faq}
+
+\begin{faq}
+\Q{10.8b}
+	헤더 파일을 찾는 알고리즘을 알고 싶어요.
+\A
+	정확한 알고리즘은 구현 방법에 따라 다릅니다 (implementation-defined).
+	(즉, 이 방법에 대해 문서화되어 있을 가능성이 높습니다.  질문 11.33을
+	참고하기 바랍니다).
+
+	일반적으로 \verb+<>+ 형식으로 포함된 헤더 파일들은 하나 이상의
+	표준으로 지정된 디렉토리에서 찾게 됩니다.  \verb+""+ 형식으로 포함된
+	헤더 파일은 우선 ``현재 디렉토리''에서 찾은 다음, 없을 경우,
+	표준으로 지정된 디렉토리에서 찾게 됩니다.
+
+	전형적으로 (특히 UNIX 컴파일러), 현재 디렉토리란 \verb+#include+
+	를 쓴 파일이 있는 디렉토리를 말합니다.  다른 컴파일러에서는
+	현재 디렉토리가 컴파일러가 실행된 그 디렉토리를 의미하기도 합니다.
+	컴파일러의 매뉴얼을 참고하기 바랍니다.
+\R
+	\cite{kr2} \S\ A12.4 \page{231}; 
+	\cite{iso} \S\ 6.8.2; 
+	\cite{hs} \S\ 3.4 \page{55}.
+\end{faq}
+
+\begin{faq}
+\Q{10.9}
+	잘못된 것이 없어 보이는 데에도 코드의 첫번째 선언문에서
+	`syntax error'가 발생합니다.
+\A
+	아마도 마지막으로 \verb+#include+한 헤더 파일의 내용에서,
+	마지막 선언 부분에서
+	세미콜론(semicolon)이 빠져 있을 가능성이 높습니다.
+	질문 2.18, 11.29, 16.1b를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.10b}
+	라이브러리 함수 정의를 포함하는 헤더 파일을 제대로
+	\verb+#include+시켰는데도 링커(linker)는 정의되어 있지 않다고
+	에러를 발생합니다.
+
+\A
+	질문 13.25를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.11}
+	시스템 헤더 파일인 \verb+<sgtty.h>+가 없습니다.
+	제게 복사본을 주실 수는 없을까요?
+
+\A	표준 헤더 파일들은 컴파일러, 운영체제, 프로세서와 관련된 적절한
+	정의와 함께 이루어져 있으므로, (환경이 다른) 다른 사람의 헤더
+	파일을 가져온다	하더라도 제대로 동작하지 않습니다.  
+
+	컴파일러 vendor에게 요청해 보시기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.12}
+	전처리기(preprocessor) \verb+#if+ 수식에서 문자열을
+	비교할 수 있을까요?
+
+\A	직접 비교할 수 없습니다; \verb+#if+는 정수 연산만
+	지원합니다.  또, 여러 매크로들을 어떤 정수값을 나타내게
+	\verb+#define+한 다음, 이 매크로들은 비교하면 됩니다.
+
+	질문 20.17을 참고하기 바랍니다.
+
+\R	\cite{kr2} \S\ 4.11.3 \page{91}; 
+	\cite{iso} \S\ 6.8.1; 
+	\cite{hs} \S\ 7.11.1 \page{225}.
+\end{faq}
+	
+\begin{faq}
+\Q{10.13}
+	\verb+#if+ 지시어(directive)에서 \TT{sizeof} 연산을
+	쓸 수 있을까요?
+\A
+	쓸 수 없습니다.  `전처리(preprocessing)'는 말 그대로 (타입 이름들
+	파싱(parsing)하기 전에) 컴파일 초기 단계 이전에 이루어지기
+	때문입니다.  \TT{sizeof}를 쓰는 대신 ANSI 표준인 \verb+<limits.h>+에
+	정의되어 있는 상수를 쓰는 방법으로 바꾸기 바랍니다.
+	가능하다면, ``configure'' 스크립트(script)를 쓰는 것도 좋습니다.
+	(프로그램을 어떤 타입의 크기에 독립적으로 작성하는 게 더 바람직하다고
+	할 수 있습니다; 질문 1.1을 참고하기 바랍니다.)
+
+\R
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1; 
+	\cite{hs} \S\ 7.11.1 \page{225}.
+\T
+% TODO: 아래 autoconf 소개를 tool 소개란으로 옮길 것.
+% 또 \T 란에서 질문 10.13을 참고하라는 것도 바꿀 것.  (질문 10.16에 있음)
+
+	GNU autoconf 패키지는 시스템에서 어떤 기능을 제공하는지,
+	어떤 타입의 크기가 얼마인지 알아내는 `configure' 스크립트를
+	자동으로 만들어 줍니다.  이 `configure'를 실행하면
+	Makefile이 만들어지므로, 사용자가 소스에서 실행 파일을 만드는
+	데 필요한 수고를 많이 덜어 줍니다.
+	이 패키지에 관한 것은 아래 URL을 참고하기 바랍니다:
+
+\begin{verbatim}
+  http://www.gnu.org/software/autoconf/
+  ftp://ftp.gnu.org/pub/gnu/autoconf/
+\end{verbatim}
+
+\end{faq}
+
+\begin{faq}
+\Q{10.14}
+	\verb+#define+ 줄에서 \verb+#ifdef+를 써서 각각 다른 방식으로
+	정의하게 할 수 있을까요?
+
+\A
+	안됩니다.  
+	전처리기를 자신에게 실행하는 (run the preprocessor on itself)
+	것은 불가능합니다.  대신 \verb+#ifdef+를 써서 두 개의 \verb+#define+
+	문장으로 만드는 방식을 쓰기 바랍니다.
+
+\R
+	\cite{iso} \S\ 6.8.3, \S\ 6.8.3.4; 
+	\cite{hs} \S\ 3.2 \Page{40--1}.
+\end{faq}
+
+\begin{faq}
+\Q{10.15}
+	\verb+typedef+ 이름을 \verb+#ifdef+와 같이 테스트할 수 있는
+	방법이 있을까요?
+
+\A
+	불행하게도 그런 방법은 존재하지 않습니다.  대신 이런 방법을
+	생각할 수 있습니다: 몇가지 매크로를 (예: \verb+MY_TYPE_DEFINED+)
+	정의해서 어떤 \TT{typedef}들이 선언되어 있는지 매크로를 써서
+	검사할 수 있습니다 (물론, 완전하지 않습니다).
+
+\R
+	\cite{iso} \S\ 5.1.1.2, \S\ 6.8.1; 
+	\cite{hs} \S\ 7.11.1 \page{225}.
+\end{faq}
+
+\begin{faq}
+\Q{10.16}
+	컴퓨터가 `big-endian' 방식인지, `little-endian' 방식인지
+	\verb+#if+를 써서 검사할 수 있을까요?
+
+\A
+	거의 불가능합니다.  (전처리기 연산은 long int 타입만
+	가능합니다, 따라서 어드레싱(addressing)에 대한 개념 자체가 존재하지
+	않습니다.) 그런데 컴퓨터의 endian을 알아야 할 필요가 있습니까?
+	될 수 있으면, 이런 것과 무관하게 코드를 작성하는 것이 바람직합니다.
+	질문 20.9를 참고하기 바랍니다.
+\R
+	\cite{iso} \S\ 6.8.1; 
+	\cite{hs} \S\ 7.11.1 \page{225}.
+\T
+	GNU autoconf를 쓰면 프로그램을 컴파일하기 전
+	간단한 인디언 테스용 프로그램을 실행해서, 프로그래머가
+	어떤 매크로(예를 들어 \verb+BIG_ENDIAN_MACHINE+)를
+	정의할 수 있습니다.  (질문 10.13 참고).
+\end{faq}
+
+\begin{faq}
+\Q{10.18}
+	어떤 코드를 분석하려 하는데, 너무나도 많은 \verb+#ifdef+ 때문에
+	어렵습니다.  어떤 조건부 컴파일에 관한 것만 남겨두고 나머지
+	부분만 `preprocssing'할 수 있는 방법이 있을까요? (물론
+	\verb+#include+나 \verb+#define+은 제외한다는 조건하에서)
+
+\A
+	이러한 일을 처리해 주는 \TT{unifdef}, \TT{rmifdef}, \TT{scpp}
+	(``selective C preprocessor'') 등의 프로그램이 있습니다.
+	질문 18.16을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.19}
+	미리 정의된 모든 `identifier'들을 뽑아낼 수 있을까요?
+
+\A
+	자주 언급되는 사항임에도 이런 일을 할 수 있는 표준 방법은 없습니다.
+	\TT{gcc}는 \verb+-E+와 함께 사용할 수 있는 \verb+-dM+ 옵션을
+	제공합니다.  다른 컴파일러도 비슷한 기능을 제공할 것입니다.
+	컴파일러의 매뉴얼에서 도움을 얻을 수 없다면, 컴파일러나
+	전처리기 실행 파일에서 읽을 수 있는 문자열을 뽑아내어 (UNIX의
+	\TT{strings} 유틸리티) 검사하는 것이 가장 합리적인 방법일 수
+	있습니다.
+	그러나, 어떤 전형적인, 시스템 의존적인 `identifier'가 많을 수
+	있으니 (특히 ``UNIX'') 주의하시기 바랍니다.  그리고 이들은 대개
+	표준이 아니며 (왜냐하면 사용자의 이름 공간(namespace)과 
+	충돌하므로), 곧 제거될 것들입니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.20}
+	다음과 같이 `identifier'를 생성하는 매크로를 본 적이
+	있습니다:
+\begin{verbatim}
+  #define Paste(a, b) a/**/b
+\end{verbatim}
+	\noindent 그러나 동작하질 않는군요.
+
+\A
+	그것은 어떤 (특히 John Reiser의) 오래된 전처리기(preprocessor)에서
+	제공되는 문서화되지 않는(undocumented) 기능입니다.
+	그리고 이 기능은 이미 없어졌습니다..  ANSI는 (\cite{kr1}에서도) 이
+	주석(comment)이 공백으로 대체된다고 말하고 있습니다.  그러나
+	이런 식의 기능이 필요하기 때문에 ANSI는 다음과 같이 새로운
+	방식의 `token-pasting' 연산자인 \verb+##+를 제공합니다:
+\begin{verbatim}
+  #define Paste(a, b) a##b
+\end{verbatim}
+
+	질문 11.17을 참고하기 바랍니다.
+
+\R
+	\cite{iso} \S\ 6.8.3.3; 
+	\cite{rationale} \S\ 3.8.3.3; 
+	\cite{hs} \S\ 3.3.9 \page{52}.
+\end{faq}
+
+\begin{faq}
+\Q{10.22}
+	다음 매크로를 쓰면 ``macro replacement within a string literal?''
+	이라는 경고가 발생합니다:
+\begin{verbatim}
+  #define TRACE(n) printf("TRACE: %d\n", n)
+\end{verbatim}
+	\noindent 제가 생각하기엔:
+\begin{verbatim}
+  TRACE(count);
+\end{verbatim}
+	\noindent 를 다음과 같이 확장하는 것 같습니다:
+\begin{verbatim}
+  printf("TRACE: %d\count", count);
+\end{verbatim}
+
+\A
+	질문 11.18을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.23-4}
+	\verb+#+ 연산자를 써서 매크로 인자를 문자열 안에 쓸 때,
+	제대로 동작하지 않습니다.
+\A
+	질문 11.17과 11.18을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.25}
+	조금 복잡한 `preprocessing'을 하고 싶은데 어떻게 해야
+	할지 모르겠군요.
+
+\A
+	C 언어의 전처리기(preprocessor)는 범용의(general purpose) 툴이
+	아닙니다.  (또한 전처리기가 독립적인 프로그램으로 제공되는지도
+	알 수 없습니다.) 이를 복잡한 형식으로 사용하기에 앞서,
+	어떤 특정한 목적의 작은 전처리기 툴을 직접 만드는 것이
+	나을 지 생각해 보기 바랍니다.  make(1)과 같은 툴을 사용하면, 
+	이러한 툴을 자동으로 실행하도록 만들 수 있습니다.
+
+	C 언어 대신 다른 것을 `preprocessing' 하려고 한다면 범용의
+	전처리기를 (오래 전부터 대부분의 UNIX 시스템에서는 `m4'라는
+	전처리기를 제공합니다.) 사용하시기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{10.26}
+	가변 인자를 받는 매크로를 만들 수 있습니까?
+
+\A
+	각각의 인자를 하나의 괄호로 둘러싸서 하나의 인자처럼 전달하는 것은
+	매우 인기있는 트릭입니다.  다음과 같이 할 수 있습니다:
+\begin{verbatim}
+  #define DEBUG(args) (printf("DEBUG: "), printf args)
+
+  if (n != 0) DEBUG(("n is %d\n", n));
+\end{verbatim}
+	문제는 이런 매크로 함수를 호출할 때, 항상 괄호를 두 쌍을 써 줘야
+	한다는 것을 기억해야 합니다.
+
+	GCC는 함수처럼 가변 인자를 받을 수 있는 확장 매크로를 지원하지만
+	이 기능은 표준이 아닙디다.  또 다른 방법으로, 인자의 갯수에 따라
+	다른 매크로를 (\TT{DEBUG1}, \TT{DEBUG2} 같이) 제공하는 것입니다.
+	또는 다음과 같이 콤마(comma)를 별도의 매크로를 써서 제공하는
+	방법을 생각할 수도 있습니다:
+
+\begin{verbatim}
+  #define DEBUG(args) (printf("DEBUG: "), printf(args))
+  #define _ ,
+
+  DEBUG("i = %d" _ i)
+\end{verbatim}
+
+	\cite{c9x}는 가변 인자를 처리할 수 있는 함수 매크로를 소개하고 있습니다.
+	\verb+...+ 형식을 매크로의 끝에 사용하고 (\TT{varargs} 함수처럼),
+	매크로 함수 안에서 \verb+__VA_ARGS__+ pseudo 매크로를 써서 가변 인자를
+	처리할 수 있습니다.
+
+	마지막으로 잘 정의된, 가변 인자를 받는 함수를 쓸 수 있습니다.
+	질문 15.4와 15.5를 참고하기 바랍니다.  (매크로 함수를 원한다면,
+	함수 형식이 아닌 매크로를 제공하기 바랍니다.  예를 들면
+	\verb+#define printf myprintf+.  )
+
+\R
+	\cite{c9x} \S\ 6.8.3, \S\ 6.8.3.1.
+\end{faq}

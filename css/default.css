@@ -1,0 +1,27 @@
+h1 { 
+  color: white; background: gray; padding: 0.1em; 
+  /* border: 1px solid black; */ 
+}
+
+// h1 { font: large/150% sans-serif; }
+body { padding: 4pt; }
+p { font: 12pt sans-serif; }
+p.quote { color: gray; }
+//p.footer { font: small/150%; sans-serif; }
+strong { color: red; }
+em { color: maroon; }
+.warning { font-weight: bold; }
+div.main { magin: 4pt;}
+p.cwarn { color: red; }
+img.album { margin: 10pt; }
+div.menu {
+  color: #3366cc;
+  background: #f2f2f9;
+  border-color: #3366cc;
+  border-style: solid;
+  border-width: thin;
+  vertical-align: top; 
+  width: 10em; 
+  padding: 4pt;
+  margin: 4pt;
+}

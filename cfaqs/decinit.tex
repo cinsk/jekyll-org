@@ -1,0 +1,698 @@
+
+\chapter{Declarations and Initializations}	\label{chap:decinit}
+% chapter 1: decinit
+
+C 언어의 선언 문법은 (declaration syntax) 그 자체가 하나의 프로그래밍
+언어라고 할 수 있습니다.  선언은 다음과 같이 여러 부분으로 구성되어 (꼭
+모든 부분을 다 가져야 할 필요는 없습니다.) 있습니다: storage class,
+base type, type qualifier, 그리고 declarator (declarator는 
+initializer를 포함할 수 있습니다.)  각 declarator는 새 identifier를
+선언하는 것 이외에, identifier가 배열인지, 포인터인지, 함수인지, ㄸ도는
+어떤 복잡한 타입인지를 알려줍니다.  따라서 선언이 실제 identifier가
+어떻게 쓰일 것인지를 (declaration mimics use) 알려 줍니다 (질문 1.21은 이 
+`declaration mimics use' 관계를 자세하게 다룹니다.)
+
+\section{Basic Type}	\label{sec:bastype}
+프로그래머들은 종종 C 언어가 충분히 저수준 언어이면서도, C 언어의
+type system이 상당한 수준으로 추상화되어 있다는 것에 놀라곤 합니다;
+기본 타입들의 크기와 표현 방법이 언어 자체에 정확히 정의되어 있지 않습니다.
+
+\begin{faq}
+\q % 1.1 COMPLETE
+	어떤 타입의 정수를 쓸 것인지 어떻게 결정하죠?
+
+\A
+	큰 값 (32,767 이상이거나 -32,767 이하)이 필요한 경우, \TT{long}을
+	쓰기 바랍니다.  차지하는 공간이 매우 중요하다면 (큰 배열이나 많은
+	구조체를 쓸 경우), \TT{short}를 쓰기 바랍니다.  이런 경우가 아니라면
+	\TT{int}를 쓰는 것이 가장 좋습니다.  오버플로우 문제가 중요시되고 
+	음수가 필요하지 않는 경우라면, 또는 비트를 다룰 때 부호
+	확장\footnote{sign-extension}에서 문제가 발생하는 것을 원치 않는다면
+	적절한 크기를 가진 형의 \TT{unsigned} 형을 쓰는 것도 좋습니다.
+	(하지만 수식에서 \TT{signed} 형과 \TT{unsigned} 형을 섞어 쓰는
+	것은 좋지 않습니다.)
+
+	문자 타입도 (특히 \TT{unsigned char}) ``작은'' 정수타입으로 쓰일 수
+	있지만, 예상치 못한 부호 확장이나 코드의 크기를 증가시킬 수 있기 
+	때문에 바람직하지 않습니다.  (\TT{unsigned char} 타입을 쓰는 것이
+	도움이 될 경우도 있습니다; 
+	관련된 문제는 질문 12.1를 참고하기 바랍니다.)
+
+	비슷한 크기/빠르기 문제가 \TT{float}과 \TT{double}에서 발생할 수 
+	있습니다.  변수의 주소가 필요하고 어떤 특별한 타입이 필요한 경우라면 
+	위의 규칙들은 모두 적용되지 않습니다.
+
+	C 언어에서 각각의 type들이 정확한 크기를 가지도록 정의되어 있다고
+	착각하기 쉬운데, 사실은 그렇지 않습니다.  C 언어에서 정의하고 있는
+	것은 다음과 같습니다:
+
+\begin{itemize}
+\item
+	\TT{char} type은 127 이상을 저장할 수 있다;
+\item
+	\TT{short int} type과 \TT{int} type은 32,767까지 저장할 수 있다;
+\item
+	\TT{long int}는 2,147,483,647까지 저장할 수 있다;
+\item
+	따라서 다음 규칙을 적용할 수 있다:
+\begin{verbatim}
+  sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long)
+\end{verbatim}
+\end{itemize}
+
+	이 규칙은 \TT{char}가 적어도 8 bit가 되어야 한다는 것과,
+	\TT{short int}와 \TT{int}는 적어도 16 bit4이어야 한다는 것과,
+	\TT{long int}는 적어도 32 bit가 되어야 한다는 것을
+	뜻합니다. (각각 type의 signed와 unsigned version은 같은 크기를
+	가진다고 보장되어 있습니다.)
+	ANSI C에서 특정 machine에서 
+	각각 type의 최소값과 최대값은 \verb+<limits.h>+에 정의되어 있으며,
+	요약하면 다음과 같습니다:
+
+\begin{center}
+\begin{tabular}{lrrrr}	\hline
+Base type & Minimum size & Minimum value & Maximum value & Maximum value  \\
+	& (bits)	& (signed)	& (signed)	& (unsigned) \\ \hline
+\TT{char}	& 8	& -127		& 127		& 255 \\
+\TT{short}	& 16	& -32,767	& 32,767	& 65,535 \\
+\TT{int}	& 16	& -32,767	& 32,767	& 65,535 \\
+\TT{long}	& 32	& -2,147,483,647 & 2,147,483,647 & 4,294,967,295 \\
+\hline
+\end{tabular}
+\end{center}
+	
+	이 표는 표준이 보장하는 최소값들을 보여줍니다.
+	많은 implementation이 이보다 더 큰 값을 제공하지만,
+	portable한 프로그램을 만들고 싶다면 이러한 것에 의존해서는 안됩니다.
+
+	어떠한 이유에서 \BF{정확한} 크기가 필요한 경우라면 --- 이런 경우로는 
+	외부 저장 배치(externally-imposed stroage layout)가 필요한 경우를 들 
+	수 있습니다.
+	질문 20.5를 참고하기 바랍니다  --- 
+	적절한 \TT{typedef}를 쓰시기 바랍니다.
+
+\R
+	\cite{kr1} \S\ 2.2 \page{34}; 
+	\cite{kr2} \S\ 2.2 \page{36}, \S\ A4.2 \Page{195--6}, 
+		\S\ B11 \page{257};
+	\cite{iso} \S\ 5.2.4.2.1, \S\ 6.1.2.5;
+	\cite{hs} \S\ 5.1,5.2 \Page{110--114}.
+\end{faq}
+
+\begin{faq}
+\q % 1.2 COMPLETE
+	왜 표준에서는 각 type의 크기를 정확히 정의하지 않나요?
+\A
+	다른 high-level 언어에 비해 C 언어가 확실히 저 수준 언어이기는
+	하지만, object의 정확한 크기는 implementation이 결정할 문제입니다.
+	(C 언어에서 여러분이 bit의 갯수를 지정할 수 있는 유일한 곳은
+	structure 안에서 bitfield를 쓸 때입니다.; 질문 2.25와 2.26을
+	참고하기 바랍니다.)  대부분의 프로그램에서는 크기를 정확히
+	지정할 필요가 없습니다;  크기를 정확히 지정하는 많은 프로그램들은
+	지정하지 않도록 프로그램을 작성했을 때, 더 낫습니다.
+
+	\TT{int} type은 컴퓨터의 가장 자연스러운 word size를 나타내는 것으로
+	알려져 있으며, 대부분의 정수를 저장할 때 가장 적당한 type입니다.
+	질문 1.1의 guideline을 보기 바랍니다; \seealso{12.42, 20.5}
+\end{faq}
+
+
+\begin{faq}
+\q % 1.3 COMPLETE
+	C 언어가 size를 정확히 정의하지 않기 때문에, 저는 \TT{int16},
+	\TT{int32}와 같은 \TT{typedef} 이름을 씁니다.  그래서
+	컴퓨터에 따라서 \TT{int}, \TT{short}, \TT{long} 등을 써서
+	만듭니다.  이 방법이 모든 문제를 해결해 줄 수 있을 것 같은데,
+	맞습니까?
+\A
+	정확히 size를 제어할 필요가 있다면, 좋은 방법입니다.
+	그러나 다음과 같은 사항을 주의해야 합니다:
+\begin{itemize}
+\item
+	정확한 크기 제어가 불가능할 수도 있습니다 (예를 들면,
+	대부분의 36-bit machine)
+\item
+	\TT{int16}이나 \TT{int32}를 쓰는 목적이 ``적어도 이 정도의 크기를
+	보장''하는 것이라면 전혀 쓸모가 없습니다.  왜냐하면 \TT{int}와
+	\TT{long} type의 정의 자체가 각각 ``적어도 16 bit'', ``적어도
+	32 bit''를 뜻하기 때문입니다.
+\item
+	Typedef는 byte-order 문제를 해결해 주지 못합니다.
+	(예를 들어 여러분이 data를 교환(interchange)하려 하거나,
+	외부적으로 고정된 저장 형식에 맞추려고\footnote{conforming
+	to externally imposed storage layouts} 하는 경우)
+\end{itemize}
+	\seealso{10.16, 20.5}
+\end{faq}
+
+	
+\begin{faq}
+\q % 1.4
+	64-bit를 지원하는 컴퓨터에서 64-bit 타입을 쓸 수 있는 방법이 있나요?
+
+\A	
+% TODO: book version과 상당한 차이가 있음. 체크 바람
+	다가오는 C 표준(C9X)에서는 \TT{long long} 타입이 적어도 64 비트
+	이상이 될 것을 명시하고 있습니다.  그리고 이 타입은 이미 여러 
+	컴파일러에 의해 지원되고 있습니다 (어떠한 컴파일러는 
+	\verb+__longlong+ 타입으로 지원합니다.) 
+	또 대부분의 컴파일러들은 \TT{short int}를 16 비트로,
+	\TT{int}를 32 비트로, \TT{long int}를 64 비트로 지원하고 있으며,
+	이와 다르게 할 이유가 없습니다.
+
+	질문 18.15d를 참고하시기 바랍니다.
+
+\R 
+	\cite{c9x} \S\ 5.2.4.2.1, \S\ 6.1.2.5.
+\end{faq}
+
+\section{Pointer Declarations}	\label{sec:pointerdec}
+% from 1.5
+포인터에 관한 것은 \ref{chap:pointer}~장부터 \ref{chap:memalloc}~장까지
+설명되어 있지만, 여기에서는 선언에 관련된 것만 다룹니다.
+
+\begin{faq}
+\q % 1.5 COMPLETE
+	다음 선언에서 무엇이 잘못되었나요?
+\begin{verbatim}
+  char *p1, p2;
+\end{verbatim}
+	\TT{p2}를 쓰려고 할 때 에러가 납니다.
+
+\A
+	위의 선언에서 잘못된 점은 없습니다 --- 여러분이 원하는 작업을
+	해 주지 못한다는 것을 제외하면 말입니다.
+	Pointer 선언에서 \TT{*}는 `base type'의 일부분이 아닙니다;
+	\TT{*}는 선언할 이름으로 구성된 \EM{declarator}의 일부분입니다
+	(질문 1.21 참고).  선언을 쓸 경우에 공백 문자의 구분은 의미가
+	없습니다.  따라서 첫번째 declarator는 ``\TT{* p1}''이며,
+	\TT{*}를 포함하고 있기 때문에, \TT{p1}은 `a pointer to \TT{char}',
+	즉 \TT{char}를 가리키는 pointer가 됩니다.
+	그러나 \TT{p2}의 declarator는 \TT{p2} 이외에 다른 것을 가지고
+	있지 않으므로, (여러분이 원하는 바가 아니겠지만) 간단히 
+	\TT{char} type이 됩니다.  한 선언에서 두 개의 pointer를 선언하려면,
+	다음과 같이 해야 합니다:
+
+\begin{verbatim}
+  char *p1, *p2;
+\end{verbatim}
+
+	\TT{*}가 declarator의 일부분이기 때문에, 위에 쓴 것처럼 공백 문자를
+	쓰는 것이 좋습니다; \TT{char*}와 같이 쓰는 것은 실수를 내기 쉬우며,
+	혼동을 가져올 수 있습니다.
+
+	\seealso{1.13}
+\end{faq}
+
+\begin{faq}
+\q % 1.6 COMPLETE
+	Pointer를 선언하고 그 pointer가 어떤 공간을 할당하려고 했으나,
+	제대로 동작하지 않습니다.  아래 코드에 어떤 문제가 있습니까?
+\begin{verbatim}
+  char *p;
+  *p = malloc(10);
+\end{verbatim}
+
+\A
+	여러분이 선언한 pointer는 \TT{p}이지 \TT{*p}가 아닙니다.
+	질문 4.2를 참고하기 바랍니다.
+\end{faq}
+	
+\section{Declaration Style}	\label{sec:decstyle}
+% from 1.7
+변수나 함수를 선언하는 것은 단순히 컴파일러를 기쁘게? 하기 위한 것이
+아닙니다; it also injects useful order into a programming project.
+When declarations are arranged appropriately within a project, mismatches
+and other difficulties can be more easily avoided, and the compiler
+can more accurately catch any error that do occur.
+
+\begin{faq}
+\q % 1.7 COMPLETE
+	전역\trans{global} 함수와 변수를 선언 또는 정의하는 가장 좋은
+	방법이 무엇일까요?
+
+\A 
+	먼저 한 ``global'' 변수는 (여러 translation unit에서) 
+	여러 개의 선언을 가질 수 있지만, 반드시 하나의 정의를 가져야 합니다.
+	Global 변수에서 정의는 공간을 할당하고, 필요하다면 초기값을 지정하는
+	일종의 선언입니다.
+	함수에서 선언은 function body를 제공하는 일종의 선언입니다.
+	아래는 선언의 예입니다:
+
+\begin{verbatim}
+  extern int i;
+
+  extern int f();
+\end{verbatim}
+
+	(\TT{extern} keyword는 함수 선언에서 option입니다; 질문 1.11을
+	참고하기 바랍니다.)
+
+	아래는 정의의 예입니다:
+\begin{verbatim}
+  int i = 0;
+
+  int f()
+  {
+    return 1;
+  }
+\end{verbatim}
+	여러 소스 파일에서 변수나 함수를 공유할 필요가 있다면,
+	당연히 여러분은 모든 변수와 함수를 일관되게(consistent) 만들어야
+	합니다.  가장 좋은 방법은 각 정의를 관련된 \verb+.c+ 파일에 저장하고,
+	external 선언을 헤더 파일(``\verb+.h+'')에 두는 것입니다.  
+	그리고 선언이 
+	필요한 곳에서는 \verb+#include+를 써서 포함시키면 됩니다.  정의를 
+	포함하는 \verb+.c+ 파일에도 같은 헤더 파일을 포함시켜야
+	컴파일러가 선언과 정의가 일치하는지 검사해 줍니다.
+
+	이 규칙은 매우 portability가 높은 방법입니다; 
+	이는 ANSI C 표준의 요구에도 
+	부합하며, ANSI 이전의 컴파일러와 링커에서도 잘 동작합니다 (UNIX
+	컴파일러와 링커는 최대 하나가 초기화된다는 조건 아래에 여러 개의
+	선언을
+	가능케 하는 ``common model''을 지원합니다; 이는 ANSI 표준에 의해 
+	``common extension''으로 언급되어 있지만, 
+	`pun\footnote{발음은 같으나 뜻이 다른 말}'은 아닙니다.
+	어떤 이상한 시스템에서는 외부 선언과 정의를 구별하기 위해서 
+	반드시 초기값을 필요로 하기도 합니다.)
+
+	한 헤더 파일에 하나의 선언만 나오도록 하기 위해 다음과 같은 전처리기
+	트릭을 쓸 수도 있습니다:
+
+\begin{verbatim}
+  DEFINE(int, i);
+\end{verbatim}
+
+	그리고 어떤 매크로의 설정에 따라 이 줄이 선언이나 정의가 되도록 할 수
+	있지만 이는 문제를 유발할 가능성이 많으므로 추천하지 않습니다.
+
+	컴파일러가 선언이 불일치하는지 검사하기 위해서는 반드시 전역 선언을
+	헤더 파일에 넣는 것이 중요합니다.  특히, external 함수의 
+	prototype을 \verb+.c+ 파일에 넣지 않도록 하기 바랍니다.
+	이는 정의와 일치하는 지 검사해 주지도 않으며, 만약 정의와 일치하지
+	않는다면 오히려 쓰지 않는 것보다 못합니다.
+
+	질문 10.6과 18.8을 참고하기 바랍니다.
+
+\R
+	\cite{kr1} \S\ 4.5 \Page{76--7}; 
+	\cite{kr2} \S\ 4.4 \Page{80--1};
+	\cite{iso} \S\ 6.1.2.2, \S\ 6.7, \S\ 6.7.2, \S\ G.5.11; 
+	\cite{rationale} \S\ 3.1.2.2; 
+	\cite{hs} \S\ 4.8 \Page{101--104}, \S\ 9.2.3 \page{267};
+	\cite{ctp} \S\ 4.2 \Page{54--56}.
+\end{faq}
+
+\begin{faq}
+\q % 1.8 COMPLETE
+	C 언어에서 추상화된 data type을 만드는 가장 좋은 방법이 무엇일까요?
+\A
+	질문 2.4를 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\q % 1.9
+	``semiglobal'' 변수, 즉, 몇 소스 파일의 함수들은 볼 수 있으나,
+	다른 소스 파일에서는 볼 수 없는 그러한 `절반 정도의' 전역 변수를
+	만들 수 있을까요?
+
+
+\A
+	C 언어에서 그런 일은 할 수 없습니다.
+	모든 함수를 같은 source 파일에 넣는 것이 불편하거나 불가능하다면,
+	아래 중 한가지 방법을 쓰시기 바랍니다:
+
+% WORK FROM HERE..
+\begin{itemize}
+\item
+	한 라이브러리나 패키지의 모든 함수와 변수에 적당한 prefix 이름을 
+	붙이고, 사용자에게 이 prefix
+
+\item
+\end{itemize}
+\end{faq}
+
+\section{Storage Class}	\label{sec:storageclass}
+% from 1.10
+우리는 선언의 두 가지 부분, base type과 declarator를 이미 다루었습니다. 
+다음 몇 질문에서는 storage class에 대한 것을 다룹니다.  Storage class는
+선언된 object나 함수의 visibility와 lifetime을 
+(각각 ``scope''와 ``duration''이라고 부르기도 합니다.) 다룹니다.
+
+\begin{faq}
+\Q{1.11} 
+	함수 선언에서 \TT{extern}이 의미하는 게 무엇인가요?
+\A 
+	이 함수의 정의가 다른 소스 파일에 있을 수 있다는 것을 알려주는
+	단순한 스타일적인 문제입니다.  따라서 다음 두 줄의 차이는 없습니다:
+
+\begin{verbatim}
+  extern int f();
+  int f();
+\end{verbatim}
+
+\R
+	\cite{iso} \S\ 6.1.2.2, \S\ 6.5.1; 
+	\cite{rationale} \S\ 3.1.2.2; 
+	\cite{hs} \S\ 4.3, 4.3.1 \Page{75--6}.
+\end{faq}
+
+\begin{faq}
+\Q{1.12}
+	\TT{auto} 키워드는 어디에 쓰이나요?
+\A 
+	전혀 쓰이지 않습니다.  이는 오래된(archaic) 문법에 쓰이는 것으로
+	현재에는 쓰이지 않습니다.  질문 20.37을 참고하기 바랍니다.
+
+\R
+	\cite{kr1} \S\ A8.1 \page{193}; 
+	\cite{iso} \S\ 6.1.2.4, \S\ 6.5.1;
+	\cite{hs} \S\ 4.3 \page{75}, \S\ 4.3.1 \page{76}.
+\end{faq}
+
+\section{Typedefs}	\label{sec:typedef}
+% from 1.13
+\TT{typedef}가 문법적으로는 storage class이지만, 이 키워드는 
+이름이 알려주듯, 새로운 type 이름을 정의하는 데에
+쓰입니다.
+
+\begin{faq}
+\Q{1.14} 
+	Linked list 정의가 안됩니다.  다음과 같이 했는데 컴파일러는
+	계속 에러 메시지만 출력합니다.  C 언어에서 구조체는 자신에 대한
+	포인터를 포함할 수 없는 것인가요?
+\begin{verbatim}
+  typedef struct {
+    char *item;
+    NODEPTR next;
+  } *NODEPTR;
+\end{verbatim}
+
+\A
+	C 언어에서 구조체는 자신에 대한 포인터를 포함할 수 있습니다.
+	이 질문에서 문제는 \TT{NODEPTR}이 \TT{typedef} 이름이고, 이 
+	이름을 사용한 시점에서 이 이름의 정의가 끝나지 않았다는 것입니다.
+	이 코드를 고치기 위해서, 먼저 구조체에 태그(tag, \TT{struct node})를
+	만들고 ``\TT{next}'' 필드를 ``\TT{struct node *}'' 타입으로 
+	선언합니다.  또는 \TT{typedef} 선언과 구조체 정의를 분리시켜도
+	됩니다.  다음 코드가 해결 방법 중 하나입니다.
+
+\begin{verbatim}
+  struct node {
+    char *item;
+    struct node *next;
+  };
+  typedef struct node *NODEPTR;
+\end{verbatim}
+
+	이 문제를 해결하기 위해 적어도 세 가지의 다른 방법이 있습니다.
+
+	서로를 포함하는 한 쌍의 \TT{typedef}된 구조체를 정의할 때도 비슷한
+	문제가 발생할 수 있으며, 위와 같은 방식으로 해결할 수 있습니다.
+
+	질문 2.1을 참고하시기 바랍니다.
+
+\R
+	\cite{kr1} \S\ 6.5 \page{101}; 
+	\cite{kr2} \S\ 6.5 \page{139}; 
+	\cite{iso} \S\ 6.5.2, \S\ 6.5.2.3; 
+	\cite{hs} \S\ 5.6.1 \Page{132--3}.
+\end{faq}
+
+\section{The \TT{const} qualifier}	\label{sec:const}
+% from 1.18
+C 언어 선언에서는 type qualifier라는 게 있으며, 이는 ANSI C에서
+새로 추가된 것입니다.  Qualifier에 관한 질문은 \ref{chap:standard}~장에서
+다룹니다.
+
+\section{Complex Declarations}	\label{sec:complexdec}
+% from 1.21
+C 언어의 선언은 엄청나게 복잡해질 수 있습니다.
+일단 이 암호?를 풀어낼 방법을 배우면, 물론 이런 복잡한 선언은 거의 쓰이지
+않지만, 어떤 선언이 나오더라도 두려워하지 않게 됩니다.
+
+여러분이 프로그램을 \verb+*(*(*a[N])())()+와 같은 declarator로
+암호화하려는 취미가 없다면, 질문 1.21의 두번째와 같이 \TT{typedef}를 써서
+간단하게 만들 수 있습니다.
+
+
+\begin{faq}
+\Q{1.21}
+	문자를 가리키는 포인터를 리턴하는 함수에 대한 포인터를 리턴하는
+	함수에 대한 포인터 N 개로 이루어진 배열(array)을 어떻게 선언하죠?
+
+\T	참고로 원문은 다음과 같습니다:
+\begin{quote}
+	How do I declare an array of N pointers to functions returning
+	pointers to functions returning pointers to characters?
+\end{quote}
+
+\A	다음과 같이 세 가지로 답할 수 있습니다:
+
+\begin{itemize}
+	\item \verb+char *(*(*a[N])())();+
+	\item \TT{typedef}를 써서 차례대로 만들어 가면 됩니다:
+\begin{verbatim}
+  typedef char *pc;      /* pointer to char */
+  typedef pc fpc();      /* function returning pointer to char */
+  typedef fpc *pfpc;     /* pointer to above */
+  typedef pfpc fpfpc();  /* function returning...  */
+  typedef fpfpc *pfpfpc; /* pointer to...  */
+  pfpfpc a[N];           /* array of...  */
+\end{verbatim}
+
+	\item \TT{cdecl} 프로그램을 쓰면 영어를 C 언어로, 또는 C 언어를 영어로
+	변환할 수 있습니다.
+
+\begin{verbatim}
+  cdecl> declare a as array of pointer to function
+      returning pointer to function returning pointer
+      to char
+  char *(*(*a[])())()
+\end{verbatim}
+
+	\noindent \TT{cdecl}은 복잡한 선언이나 캐스팅에 대해서도 많은 도움을
+	줍니다.  질문 18.1을 참고하시기 바랍니다.
+\end{itemize}
+
+	C 언어를 설명하는 좋은 책이라면 이러한 복잡한 선언에 대한 내용이 
+	있기 마련이니 이 부분을 꼭 읽어보시기 바랍니다.
+
+	위의 예에서 쓰인 함수 포인터\trans{pointer-to-function} 선언은 파라메터
+	타입에 대한 정보를 포함하지 않았습니다.  만약 파라메터가 복잡한 
+	함수라면 전체 선언은 매우 읽기 어렵습니다  
+	(최신 버전의 \TT{cdecl}은 이 경우에도 도움이 됩니다.)
+
+\R 
+	\cite{kr2} \S\ 5.12 \page{122}; 
+	\cite{iso} \S\ 6.5ff (esp.\ \S\ 6.5.4); 
+	\cite{hs} \S\ 4.5 \Page{85--92}, \S\ 5.10.1 \Page{149--50}.
+\end{faq}
+
+\begin{faq}
+\Q{1.22}
+	같은 타입의 함수에 대한 포인터를 리턴하는 함수를 선언할 수
+	있나요? 저는 상태 머신\trans{state machine}을 만들고, 각 함수가
+	하나의 상태를 나타내게 한 다음, 이 함수가 다음 상태를 나타내는
+	함수 포인터를 리턴하게 하려고 합니다.  그러나 이런 함수를 선언할
+	방법을 찾지 못하고 있습니다.
+\A	직접 할 수는 없습니다.  한가지 방법은 함수가 일반적인\trans{generic}
+	함수 포인터를 리턴하게 한 다음, 이를 원하는 타입으로 캐스팅하는 것과 
+	또 다른 방법으론 함수가 어떤 구조체를 리턴하게 하고, 그 구조체에
+	이 타입의 함수에 대한 포인터를 저장하는 방식을 쓸 수 있습니다.
+\end{faq}
+
+\section{Array Sizes}	\label{sec:arraysize}
+% from 1.23
+
+\section{Declaraction Problems}	\label{sec:decproblem}
+% from 1.25
+때때로 컴파일러는 여러분이 얼마나 조심히 선언을 만들었는지에 상관없이
+불평을 하기도 합니다.  이 절의 질문들은 왜 그런지 그 이유를 설명합니다
+(\ref{chap:sproblem}~장은 실행 시간에 발생할 수 있는 이상한 문제들에
+대해 설명합니다.)
+
+\begin{faq}
+\Q{1.25}
+	제 컴파일러는 함수가 중복되어 정의되어 있다고 에러 메시지를
+	출력하지만 저는 한번만 정의했고, 한 번만 호출했습니다.  무엇이
+	잘못되었는지 모르겠군요.
+
+\A	함수의 선언이, 이 함수를 호출할 때까지 나타나지 않으면, 컴파일러는
+	이 함수가 \TT{int}를 리턴한다고 가정합니다.  그 다음 나중에 실제
+	선언이나 정의가 나오고, 가정과 일치하지 않을 경우 그러한 에러가
+	발생합니다.  즉, \TT{int}가 아닌 다른 타입을 리턴하는 함수는 호출하기
+	전에 반드시 선언해야 합니다.
+
+	또는 어떤 헤더 파일에 선언되어 있는 함수 이름을 (정말로) 중복해서 다른
+	함수로 만들었을 경우에 이 문제가 발생할 수 있습니다.
+
+	질문 11.3과 질문 15.1을 참고하기 바랍니다.
+
+\R
+	\cite{kr1} \S\ 4.2 \page{70}; 
+	\cite{kr2} \S\ 4.2 \page{72}; 
+	\cite{iso} \S\ 6.3.2.2; 
+	\cite{hs} \S\ 4.7 \page{101}.
+\end{faq}
+
+\begin{faq}
+\Q{1.25b}
+	\TT{main()}을 선언하는 정확한 방법이 궁금합니다.  \TT{void
+main()}으로 해도 좋은가요?
+\A
+	질문 11.12a와 11.15를 참고하기 바랍니다.  (어쨋든 \TT{void main()}은
+	틀린 선언입니다.)
+\end{faq}
+
+\section{Namespace}	\label{sec:namespace}
+% from 1.29
+이름을 짓는 것이 어려워 보이지 않을 지 몰라도, 사실 매우 어려운 문제입니다.
+물론 함수나 변수의 이름을 짓는 것이 책이나 건물, 아기들의 이름을 짓는 것보다는
+쉽습니다 --- 여러분은 많은 사람들이 여러분 코드의 이름들을 싫어할 지 모른다고
+고민할 필요는 없습니다 --- 적어도 같은 이름이 이미 쓰이고 있는지만
+조사하면 됩니다.
+
+\section{Initialization}	\label{sec:init}
+% from 1.30
+변수의 선언은, 물론 그 변수에 대한 초기값을 포함할 수 있습니다.
+만약 초기값을 주지 않으면, 기본적인 초기화(default initialization)가
+수행될 수 있습니다.
+
+\begin{faq}
+\Q{1.30}
+	초기화되지 않은 변수의 값을 미리 예상할 수 있습니까?
+	전역 변수는 초기화되지 않은 경우 0을 가진다고 하는데,
+	이것을 널 포인터나 실수 0.0으로 해석해도 괜찮은가요?
+
+\A
+	``static'' 속성을 가진 초기화되지 않은 (전역 변수이거나
+	\TT{static}으로 선언된 변수) 변수는 0의 값을 가집니다.
+	즉 프로그래머가 ``\verb+= 0+''으로 써 준 것과 똑같다는
+	말입니다.  따라서 널 포인터일 경우에도 올바른 값을
+	가집니다 (5 절 참고).  마찬가지로 실수일 경우 0.0으로
+	해석됩니다.
+
+	``automatic'' 속성을 가진 (\TT{static}으로 선언되지 않은
+	지역 변수) 변수는 초기화되지 않을 경우 쓰레기 값을
+	가집니다.  (이 경우에 쓰레기 값이 무엇인지는 아무도 모르며,
+	쓸 이유가 없습니다.)
+
+	\TT{malloc()}이나 \TT{realloc()}으로, 동적으로 할당된 메모리도
+	쓰레기 값을 가집니다.  따라서 프로그램에서
+	적당하게 초기화시켜 주어야 합니다.  \TT{calloc()}으로 할당받은
+	메모리는 비트 단위로 0을 가지고 되지만, 이 것이
+	포인터나 실수 타입에서 0을 의미한다고 말할 수는 없습니다
+	(질문 7.31과 5 절 참고).
+
+\R
+	\cite{kr1} \S\ 4.9 \Page{82--4}; 
+	\cite{kr2} \S\ 4.9 \Page{85--86}; 
+	\cite{iso} \S\ 6.5.7, \S\ 7.10.3.1, \S\ 7.10.5.3; 
+	\cite{hs} \S\ 4.2.8 \Page{72--3}, \S\ 4.6 \Page{92--3}, 
+		\S\ 4.6.2 \Page{94--5}, \S\ 4.6.3 \page{96}, 
+		\S\ 16.1 \page{386}.
+\end{faq}
+
+\begin{faq}
+\Q{1.31}
+	이 코드는 어떤 책에서 나온 것인데 컴파일되지 않습니다.
+
+\begin{verbatim}
+  int f()
+  {
+    char a[] = "hello, world!";
+  }
+\end{verbatim}
+
+\A
+	아마도 쓰고 있는 컴파일러가 ANSI 이전의 컴파일러일 것이라고
+	추측됩니다.  ANSI 이전의 컴파일러는 ``automatic aggregates''
+	(예를 들어,
+	\TT{static}이 아닌 지역 배열, 구조체, \TT{union})의
+	초기화를 지원하지 않습니다.
+
+	(그리고 변수 \TT{a}가 어떻게 쓰일 지에 따라
+	다르겠지만, 이 변수를 전역(global) 또는 정적(static)으로, 또는
+	포인터로 바꾸어서 해결할 수 있으며, 또는 \TT{strcpy()} 등을 써서 
+	대입시켜주는 방법도 있습니다.) 
+
+	질문 11.29을 참고하기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.31b}
+	이 초기화에서 잘못된 것이 무엇인가요?
+
+\begin{verbatim}
+  char *p = malloc(10);
+\end{verbatim}
+
+	\noindent 제 컴파일러는 ``invalid initializer''라는 에러 메시지를
+	출력합니다.
+
+\A
+	아마 위의 선언이 정적(static)이거나 전역(non-local) 변수일 것입니다.
+	초기화에서 함수 호출을 쓰는 것은 자동(automatic)
+	변수\footnote{즉, static이 아닌 변수를 의미함.}에서만 가능합니다.
+\end{faq}
+
+\begin{faq}
+\Q{1.32}
+	다음 두 선언에 차이점이 있나요?
+
+\begin{verbatim}
+  char a[] = "string literal";
+  char *p  = "string literal";
+\end{verbatim}
+
+\A
+	문자열은 크게 두 가지 방법으로 쓰일 수 있습니다.  하나는 배열의
+	초기값 (위에서는 \TT{char a[]}에 해당)으로 쓰이는 것입니다.  이는
+	배열의 각 요소들인 문자들에 대입되는 초기값을 나타냅니다.  이 경우가
+	아니라면 문자열이 이름이 없는 정적(static)인 배열에 저장되고 ---
+	대개 이 배열은 읽기 전용의 속성을 가집니다  --- 수식(expression)에서
+	쓰일 때에는 이 배열의 첫 요소를 가리키는 포인터로서 쓰이게 됩니다.  
+	따라서 위의 선언 중 두번째 것은 실제 문자열이 읽기전용 배열에 저장되기
+	때문에 포인터 \TT{p}를 가지고 문자열을 수정할 수 없습니다.
+
+	(오래된 C 언어 코드의 경우, \TT{p}와 같은 포인터로 문자열의 내용을
+	변경하려고 시도하는 경우도 있습니다.  이러한 경우를 해결하기 위해
+	어떤 컴파일러는 문자열을 쓰기 가능한 메모리에 저장하도록 하는 옵션을
+	가지고 있습니다.)
+
+	질문 1.31, 6.1, 6.2, 6.8을 참고하기 바랍니다.
+
+\R	
+	\cite{kr2} \S\ 5.5 \page{104}; 
+	\cite{iso} \S\ 6.1.4, \S\ 6.5.7;
+	\cite{rationale} \S\ 3.1.4; 
+	\cite{hs} \S\ 2.7.4 \Page{31--2}.
+\end{faq}
+
+\begin{faq}
+\Q{1.34}
+	함수 포인터를 선언하는 문법은 알겠는데, 초기화시키는 방법을
+	모르겠습니다.
+\A
+	다음과 같이 하면 됩니다:
+
+\begin{verbatim}
+  extern int func();
+  int (*fp)() = func;
+\end{verbatim}
+
+	\noindent 위와 같이 함수 이름이 수식에서 쓰인 경우, 이 이름은 ---
+	이 함수의 시작 주소를 나타내는 --- 포인터로 변경(decay)됩니다.
+	배열 이름이 단독으로 쓰이는 경우와 비슷합니다.
+
+	일반적으로 명백히 함수의 선언을 미리 적어주게 됩니다.  왜냐하면 이
+	경우,
+	자동으로 외부 함수 선언\footnote{implicit external function
+	declaration}을
+	만들어주지 않기 때문입니다 (왜냐하면 초기화에서 쓰이는 함수 이름은
+	함수 호출이 아니기 때문입니다).  
+
+	질문 1.25와 4.12를 참고하기 바랍니다.
+\end{faq}
