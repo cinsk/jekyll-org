@@ -44,10 +44,11 @@ also common to use the word ``standard'' by itself, often capitalized.)
 	다국적 문자 세트를 지원하는 기능도 포함시켰습니다.  ANSI C 표준은
 	C run-time 라이브러리도 표준화시켰습니다.
 
-	그 후에 국제 표준 기구인 \cite{iso}는 미국 표준인 X3.159를
-	\cite{iso}/IEC 9899:1990으로 대체하여 국제 표준으로 만들었습니다.
+	그 후에 국제 표준 기구인 ISO\footnote{International Organization
+        for Standardization}는 미국 표준인 X3.159를
+	ISO/IEC 9899:1990으로 대체하여 국제 표준으로 만들었습니다.
 	이 표준에서는 ANSI의 표준을 정정하고 보충한 것이 대부분이었기 때문에
-	흔히 `ANSI/\cite{iso} 9899-1990' [1992] 라고 부릅니다.
+	흔히 `ANSI/ISO 9899-1990' [1992] 라고 부릅니다.
 
 	1994년 `Technical Corrigendum 1(TC1)'은 표준에서 약 40 가지를
 	수정하였습니다.  대부분 수정은 부분적으로 명확한 설명이 필요한 것에
@@ -65,8 +66,61 @@ also common to use the word ``standard'' by itself, often capitalized.)
 	작은 문제들에 대한 논의를 포함한 ``\cite{rationale} (이론적 해석)''을
 	포함하고 있습니다.  몇 가지는 이 글에 이미 포함되었습니다.
 	(\cite{rationale} 자체는 ANSI 표준 X3.159-1989에 포함된 부분이 아니지만
-	정보 제공 목적으로만 제공되는 것이며, \cite{iso} 표준에 포함되는 내용도
+	정보 제공 목적으로만 제공되는 것이며, ISO 표준에 포함되는 내용도
 	아닙니다.  \cite{c9x} 용으로 새 판이 준비되고 있는 상황입니다.)
+\T
+	\cite{hs5} 소개 부분에 나온 내용을 인용 및 요약하면 
+        크게, C 언어는 네번의 변화를 거쳤습니다.
+
+        첫째, Brian Kernighan씨와 Dennis Ritchie씨가 1978년에 쓴 
+        \EM{The C Programming Language}에서 소개한 C 언어입니다. 보통
+        ``K\&R''이라고 부르며, 1980년대에 쓰였던 모든 C 언어를 ``traditionall
+        C''라고 합니다.
+
+        둘째, 표준을 정해 놓는 것이, C 언어가 널리 퍼지게 하는데 도움이
+        될 것이라는 믿음에서, 앞에서 소개한 ANSI 표준이 만들어졌습니다.
+        (지금은 NCITS J11이 된) X3J11 위원회는 1989년에 C 언어 표준과
+        런타임 라이브러리를 ``\EM{American National Standard X3.159-1989}''로
+        공식화 했으며, 보통 ``ANSI C''라고 부릅니다. 이는 곧 국제 표준으로
+        받아들여져, 국제 표준인 ISO/IEC 9899:1990으로 등록되었습니다. 
+        ANSI C와 이 국제 C 언어 표준과 차이점은 거의 없습니다. 그리고
+        이 국제 표준을 보통 ``Standard C''라고 부릅니다. 그러나 이 표준은
+        또 변했기 때문에, 이 것을 ``Standard C (1989)''로 부르거나,
+        줄여서 ``C89''라고 합니다.
+
+        세째, WG14 그룹은 C89에 대한 두 문서를 만들었는데
+        하나는 `Technical Corrigenda'이며
+        (버그 수정 문서), 또 하나는 `Amendment (확장)'입니다. 이들이 반영된
+        표준은, ``C89 with Amendment 1'' 또는 ``C95''라고 부릅니다.
+
+        네째, WG14는 계속 작업을 거듭했고, 그 추가 및 확장 사항들이
+        다시 반영되어, 1999년에 표준으로 제정되었습니다. 이는 
+        ``\EM{ISO/IEC 9899:1999}'' 또는, 줄여서 ``c99''라고 부르며, 이 것이
+        가장 최신의 표준입니다.
+
+        참고로, Bjarne Stroustrup씨가 1980년 초반에 디자인한 C++은 현재
+        가장 인기있는 언어 중의 하나이며, 이 언어는 C 언어를 기초로 만들어
+        졌습니다. 이 C++ 언어도 역시 표준화가 (1998년) 이루어졌으며, 그 결과,
+        \EM{ISO/IEC 14882:1998} 또는 간단히 ``Standard C++''이라고 부릅니다.
+
+        표준화가 이루어진 년도를 주의깊게 보았다면, C 언어 최신 표준이
+        C++ 언어의 표준이 제정된 다음에 개정된 것을 알 수 있습니다.
+        물론 단순히 이 사실 만으로 알 수 있는 것은 아니지만, 사실 표준 C++
+        언어가, 표준 C 언어의 모든 점을 포함하고 있지 않습니다.
+        따라서 정확히 말해서, ``C 언어는 C++ 언어의 부분집합이다'' 또는
+        ``C++ 언어는 C 언어를 포함한다''라는 말은 모두 틀린 말입니다.
+        물론 C++ 언어가 C 언어의 대부분을 포함하고 있지만, 전부는 아닙니다.
+
+        따라서, C 언어 표준을 완벽하게 지원하도록 만든 코드가 C++ 언어 표준에
+        맞지 않을 가능성이 있습니다.  C 언어와 C++ 언어에서 완벽하게 동작하는
+        코드를 (어떤 사람들은) ``Clean C''라고 부릅니다.
+
+        앞 답변에서 ``C9x''라고 부르는 것은, 1990년대에 아직, 새 C 표준이
+        정해지지 않았을 때, (정확한 제정 연도를 몰랐기 때문에) 붙여진
+        이름입니다. 이제는 1999년에 제정된 것을 알기 때문에 ``C99''라고
+        부르는 것이 올바른 표현입니다.
+\R
+	\cite{hs5} \S\ 1.1 \Page{4--5}
 \end{faq}
 
 \begin{faq}
@@ -88,10 +142,10 @@ also common to use the word ``standard'' by itself, often capitalized.)
   (+1) 303 397 2715
   (800) 854 7179  (U.S.  & Canada)
 \end{verbatim}
-	다른 나라들에서는 제네바(Geneva)에 있는 \cite{iso}에 주문하거나
+	다른 나라들에서는 제네바(Geneva)에 있는 ISO에 주문하거나
 	각 국의 표준 위원회에 연락하시기 바랍니다:
 \begin{verbatim}
-  \cite{iso} Sales
+  ISO Sales
   Case Postale 56
   CH-1211 Geneve 20
   Switzerland
@@ -115,7 +169,7 @@ also common to use the word ``standard'' by itself, often capitalized.)
   703 487 4650
 \end{verbatim}
 	Herbert Schildt씨가 해설한(annotated) ``Annotated ANSI C Standard''는
-	ANSI가 아닌 \cite{iso} 9899를 설명하고 있습니다; Osborne/McGraw-Hill에서
+	ANSI가 아닌 ISO 9899를 설명하고 있습니다; Osborne/McGraw-Hill에서
 	출판되었으며, ISBN 0-07-881952-0이며, 대략 \$40 선에서 판매되고
 	있습니다.  표준과 이 책의 가격 차이는 대부분 저자가 단 
 	해설(annotation) 가격입니다: 그러나 많은 에러와 너무 많은 생략으로
@@ -133,10 +187,23 @@ also common to use the word ``standard'' by itself, often capitalized.)
 	있습니다.  Silicon Press에서 출판되기도 했습니다.  
 	ISBN 0-929306-07-4입니다.
 
-	\cite{iso}/IEC \cite{c9x}의 진행판은 JTC1/SC22/WG14 사이트인
+	ISO/IEC C9X의 진행판은 JTC1/SC22/WG14 사이트인
 	\verb+http://www.dkuung.dk/JTC1/SC22/WG14/+에서 얻을 수 있습니다.
 
 	질문 \ql{11.2b}를 참고하기 바랍니다.
+\T
+	최신 C 표준인 C99의 PDF 버전 (ISO web site에서) 공식 가격은
+        (2005년 1월 24일자로) 340 CHF입니다. 이 날짜로, 원화 가격은 약
+        30만원입니다. ANSI를 비롯, 다른 web site에서도
+        판매하고 있습니다.  구입할 때, 무료로 배포된는 Corrigenda (버그 수정)
+        문서도 꼭 함께 받으시기 바랍니다. 현재 다음 두 가지가 나와 있습니다:
+        \begin{itemize}
+          \item ISO/IEC 9899:1999/Cor 1:2001
+          \item ISO/IEC 9899:1999/Cor 2:2004
+        \end{itemize}
+        \noindent 검색 엔진을 쓸 때, ``9899:1999''로 검색하시면 빨리 찾을
+        수 있습니다. 
+
 \end{faq}
 
 \begin{faq}
@@ -208,7 +275,7 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 \R
 	\cite{kr1} \S\ A7.1 \page{186} \\
 	\cite{kr2} \S\ A7.3.2 \page{202} \\
-	 \cite{iso} \S\ 6.3.2.2, \S\ 6.5.4.3 \\
+	 \cite{c89} \S\ 6.3.2.2, \S\ 6.5.4.3 \\
 	\cite{rationale} \S\ 3.3.2.2, \S\ 3.5.4.3 \\
 	\cite{hs} \S\ 9.2 \Page{265--7}, \S\ 9.4 \Page{272--3}
 \end{faq}
@@ -223,7 +290,7 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 	언젠가 공식적으로 제거될 것입니다.)
 
 \R
-	\cite{iso} \S\ 6.7.1, \S\ 6.9.5 \\
+	\cite{c89} \S\ 6.7.1, \S\ 6.9.5 \\
 	\cite{hs} \S\ 9.2.2 \Page{265--7}, \S\ 9.2.5 \Page{269--70}
 \end{faq}
 
@@ -250,7 +317,7 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 	이후에 나올 선언에서 \TT{struct x}를 사용할 때, 같은 \TT{struct x}를
 	가리키도록 할 수 있습니다.
 \R
-	\cite{iso} \S\ 6.1.2.1, \S\ 6.1.2.6, \S\ 6.5.2.3.
+	\cite{c89} \S\ 6.1.2.1, \S\ 6.1.2.6, \S\ 6.5.2.3.
 \end{faq}
 
 
@@ -279,7 +346,7 @@ pointer declarations can be tricky. (The questions in this section refer to
 	컴파일할 때 지정할 상수를 원한다면 \verb+#define+으로 (또는
 	\TT{enum}으로) 상수를 정의하기 바랍니다.
 \R
-	\cite{iso} \S\ 6.4 \\
+	\cite{c89} \S\ 6.4 \\
 	\cite{hs} \S\ 7.11.2,7.11.3 \Page{226--7}
 \end{faq}
 
@@ -297,7 +364,7 @@ pointer declarations can be tricky. (The questions in this section refer to
 	해설을 잘 음미해보시기 바랍니다; 질문 \ql{1.21}도 참고하시기 바랍니다.
 
 \R
-	\cite{iso} \S\ 6.5.4.1 \\
+	\cite{c89} \S\ 6.5.4.1 \\
 	\cite{rationale} \S\ 3.5.4.1 \\
 	\cite{hs} \S\ 4.4.4 \page{81}
 \T
@@ -321,7 +388,7 @@ pointer declarations can be tricky. (The questions in this section refer to
 	따라서 명백하게 (explicit) 캐스팅을 (이 경우에
 	\verb+const char **+으로) 해 주어야 합니다.  
 
-\R	\cite{iso} \S\ 6.1.2.6, \S\ 6.3.16.1, \S\ 6.5.3 \\
+\R	\cite{c89} \S\ 6.1.2.6, \S\ 6.3.16.1, \S\ 6.5.3 \\
 	\cite{hs} \S\ 7.9.1 \Page{221--2}
 \end{faq}
 
@@ -348,7 +415,7 @@ startup code that will actually call \TT{main}.
 	바랍니다.
 
 \R
-	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1 \\
+	\cite{c89} \S\ 5.1.2.2.1, \S\ G.5.1 \\
 	\cite{hs} \S\ 20.1 \page{416} \\
 	\cite{ctp} \S\ 3.10 \Page{50--51}
 \end{faq}
@@ -380,7 +447,7 @@ startup code that will actually call \TT{main}.
 	of the distinction, you're probably using a hosted
 	implementation, and the above rules apply.)
 
-\R	\cite{iso} \S\ 5.1.2.2.1, \S\ G.5.1 \\
+\R	\cite{c89} \S\ 5.1.2.2.1, \S\ G.5.1 \\
 	\cite{hs} \S\ 20.1 \page{416} \\
 	\cite{ctp} \S\ 3.10 \Page{50--51}
 \end{faq}
@@ -397,7 +464,7 @@ startup code that will actually call \TT{main}.
 	전역 변수 \TT{environ}도 비표준이기는 마찬가지입니다).
 
 \R
-	\cite{iso} \S\ G.5.1 \\
+	\cite{c89} \S\ G.5.1 \\
 	\cite{hs} \S\ 20.1 \Page{416--7}
 \end{faq}
 
@@ -458,7 +525,7 @@ startup code that will actually call \TT{main}.
 	호출할 수 없기 때문에, 바로 위의 문장은 별 의미가 없을 것 같습니다.
 
 \R	\cite{kr2} \S\ 7.6 \Page{163--4} \\
-	\cite{iso} \S\ 5.1.2.2.3
+	\cite{c89} \S\ 5.1.2.2.3
 \end{faq}
 
 \section{Preprocessor Features}
@@ -488,7 +555,7 @@ directive.
 	두 매크로의 값을 연결하려 할 때	발생할 수 있습니다.
 
 \R
-	\cite{iso} \S\ 6.8.3.2, \S\ 6.8.3.5.
+	\cite{c89} \S\ 6.8.3.2, \S\ 6.8.3.5.
 \end{faq}
 
 \begin{faq}
@@ -556,7 +623,7 @@ directive.
 	\verb+#ifdef+를 써서 빼라고 지정을 했더라도 공식적(offical)인
 	주석(comment)인 \verb+/* ...  */+을 써야 합니다.
 \R
-	\cite{iso} \S\ 5.1.1.2, \S\ 6.1 \\
+	\cite{c89} \S\ 5.1.1.2, \S\ 6.1 \\
 	\cite{hs} \S\ 3.2 \page{40}
 \end{faq}
 
@@ -569,7 +636,7 @@ directive.
 	소스 리스팅 제어, 구조체 압축(packing), 경고 출력 수준 등이 
 	포함됩니다.
 \R
-	\cite{iso} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}
+	\cite{c89} \S\ 6.8.6; \cite{hs} \S\ 3.7 \page{61}
 \end{faq}
 
 \begin{faq}
@@ -601,7 +668,7 @@ directive.
 	크기를 알아서 지정하도록 (즉 위의 경우에서, 크기를 지정하지 않으면,
 	배열의 크기는 4가 됨) 하는 것이 일반적입니다.
 \R
-	\cite{iso} \S\ 6.5.7 \\
+	\cite{c89} \S\ 6.5.7 \\
 	\cite{hs} \S\ 4.6.4 \page{98}
 \end{faq}
 
@@ -615,7 +682,7 @@ directive.
 	타입으로 변환해야 합니다 (질문 \ql{4.5}를 꼭 참고하기 바랍니다).
 
 \R
-	\cite{iso} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}
+	\cite{c89} \S\ 6.1.2.5, \S\ 6.3.6; \cite{hs} \S\ 7.6.2 \page{204}
 \end{faq}
 
 \begin{faq}
@@ -630,7 +697,7 @@ directive.
 
 \R
 	\cite{kr2} \S\ B3 \page{250} \\
-	\cite{iso} \S\ 7.11.2.1, \S\ 7.11.2.2 \\
+	\cite{c89} \S\ 7.11.2.1, \S\ 7.11.2.2 \\
 	\cite{rationale} \S\ 4.11.2 \\
 	\cite{hs} \S\ 14.3 \Page{341--2} \\
 	\cite{pcs} \S\ 11 \Page{165--6}
@@ -641,12 +708,12 @@ directive.
 	\TT{malloc(0)}은 무엇을 의미하죠? 이 때 널 포인터가 리턴되는
 	것인가요, 아니면 0 바이트를 가리키는 포인터가 리턴되는 것인가요?
 \A
-	ANSI/\cite{iso} 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
+	ANSI/\cite{c89} 표준은 둘 중 하나일 수 있다고 말하고 있습니다; 그 결과는
 	구현 방법에 의존적\footnote{implementation-defined}입니다.
 	(질문 \ql{11.33}을 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 7.10.3 \\
+	\cite{c89} \S\ 7.10.3 \\
 	\cite{pcs} \S\ 16.1 \page{386}
 \end{faq}
 
@@ -655,7 +722,7 @@ directive.
 	외부 이름(external identifier)을 쓸 때, 왜 ANSI 표준은
 	여섯 글자 이상인 이름의 유일성을 보장할 수 없다고 할까요?
 \A
-	오래된 링커(linker)의 경우, ANSI/\cite{iso} C나, C 컴파일러
+	오래된 링커(linker)의 경우, ANSI/\cite{c89} C나, C 컴파일러
 	개발자와 상관없이 시스템에 의존적인 경우가 많다는 것이 문제입니다.
 	이 제한은 이름의 첫 여섯 글자만을 유일하다고 보장하기 때문에,
 	첫 여섯 글자가 같은 이름들은, 전체가 같은 이름으로 취급합니다.
@@ -666,7 +733,7 @@ directive.
 	즉, ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로 취급될 수
 	있다는 말입니다.
 \R
-	\cite{iso} \S\ 6.1.2, \S\ 6.9.1 \\
+	\cite{c89} \S\ 6.1.2, \S\ 6.9.1 \\
 	\cite{rationale} \S\ 3.1.2 \\
 	\cite{c9x} \S\ 6.1.2 \\
 	\cite{hs} \S\ 2.5 \Page{22--3}
@@ -798,7 +865,7 @@ must simple avoid depending on these issues.
 	질문 \ql{3.9}와 \ql{11.34}를 참고하기 바랍니다.
 
 \R
-	\cite{iso} \S\ 3.10, \S\ 3.16, \S\ 3.17 \\
+	\cite{c89} \S\ 3.10, \S\ 3.16, \S\ 3.17 \\
 	\cite{rationale} \S\ 1.6
 \end{faq}
 
