@@ -12,7 +12,7 @@ BZIP=/usr/bin/bzip2
 
 TOPDIR=$(shell pwd)
 
-SUBDIRS=books cfaqs
+SUBDIRS=books cfaqs trips
 
 export TOPDIR
 export LATEX DVIPS DVIPDFMX GZIP BZIP
