@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/TR/xhtml1" xml:lang="ko" lang="ko">
+  <head>
+    <meta http-equiv="charset" content="euc-kr"></meta>
+    <title>Seong-Kook Shin's home page</title>
+    <link rel="stylesheet" type="text/css" 
+      href="../css/default.css" title="default"></link>
+
+    <link rel="Start" href="../index.html"></link>
+    <link rel="Up" href="../index.html"></link>
+    <link rel="Next" href="../profile.html"></link>
+  </head>
+
+  <!--$$lang:ko:index$$-->
+  <body>
+
+    <h1>C Programming FAQs (Korean)</h1>
+
+    <p>[ <a href="./index.html">English</a> | Korean ]</p>
+    <p>
+      Usenet <a href="news:comp.lang.c">comp.lang.c</a>의 공식
+      FAQ (Frequently Asked Question)인 C Programming FAQs에 대한
+      한국어 판을 제공합니다.
+    </p>
+
+    <p>
+      원 문서에 대한 저작권은 <a href="http://www.eskimo.com/~scs/">Steve
+        Summit</a>씨에게 있으며, Steve씨의 허락을 받아 번역판을 제공합니다.
+      이 번역판에 대한 저작권은 문서의 첫부분에 있습니다.
+    </p>
+        
+    <p>
+      이 문서는 on-line C FAQ 리스트와는 약간 다릅니다; 이 문서는 on-line
+      FAQ 리스트의 모든 부분을 포함하고 있으며, 책으로 출판된 <em>C Programmnig
+        FAQs -- Frequently Asked Question</em>, Addison Wesley 출판,
+      0-201-84519-9의 내용을 다수 포함하고 있습니다. 또한
+      (C99로 알려진) ISO/IEC 9899:1999 C 표준에 대한 내용도 다수 포함합니다.
+    </p>
+
+    <p>
+      이 곳에 있는 모든 문서들은 출력 품질은 별로 좋지 않습니다. 현재
+      내용을 추가하고 개선하는데 집중하고 있으며, 레이아웃이나 디자인 문제는
+      차후에 개선하도록 하겠습니다.
+    </p>
+      
+    <h2>Files</h2>
+    <p>
+      1996년, 이 문서에 대한 작업을 처음 시작할 때 WYSIWYG이 아닌 문서 작업에
+      관심이 있었기 때문에, 이 문서는 LaTeX 형식으로 만들고 있습니다.
+      따라서 PostScript와 PDF 형태로 제공됩니다.
+    </p>
+
+    <p>
+      HTML 형태의 문서를 요구하는 분들이 많아서, 다시 이 문서를 HTML 형태로
+      만들었습니다. HTML 형식의 문서는 .ps 또는 .pdf 형식보다 좀 더 최신의
+      내용을 담고 있습니다. 검색도 가능하며, 문서 안에서 다른 곳으로 쉽게
+      이동하기 위한 하이퍼링크를 많이 달았기 때문에, HTML 형식의 문서를
+      먼저 보기를 권합니다.
+    </p>
+
+    <ul>
+      <li><a href="html/">바로 가기</a> HTML (.html)</li>
+    </ul>
+
+    <ul>
+      <li><a href="cfaqs-ko.ps">다운로드</a> Postscript (.ps)</li>
+      <li><a href="cfaqs-ko.ps.gz">다운로드</a> gzipped Postscript (.ps.gz)</li>
+      <li><a href="cfaqs-ko.ps.bz2">다운로드</a> bzipped Postscript (.ps.bz2)</li>
+    </ul>
+
+    <ul>
+      <li><a href="cfaqs-ko.pdf">다운로드</a> PDF</li>
+      <li><a href="cfaqs-ko.pdf.gz">다운로드</a> gzipped PDF (.pdf.gz)</li>
+      <li><a href="cfaqs-ko.pdf.bz2">다운로드</a> bzipped PDF (.pdf.bz2)</li>
+    </ul>
+
+    <p>
+      현재 이 문서는 <a href="http://www.tug.org/teTeX/">teTex</a> 버전 2.0.2와
+      <a href="http://ftp.ktug.or.kr/mirrors/HLaTeX/hlatex-en.html">HLaTeX</a>
+      버전 0.991로 만들었으며, 
+      <a href="http://www.latex2html.org/">latex2html</a> 버전 2002.2로
+      변환하고 있습니다.
+    </p>
+
+    <h2>Help Wanted</h2>
+    <p>
+      이 문서를 좀 더 좋은 품질로 만들기 위해 도움을 주고 싶다면,
+      아래 단락을 읽고 저에게 메일을 주시기 바랍니다.
+    </p>
+
+    <p>
+      LaTeX 소스로부터 좀 더 좋은 품질의 .ps 또는 .pdf 파일을 얻는 방법을
+      아신다면 제게 알려주시기 바랍니다.  안타깝게도 현재 .pdf 문서에서
+      한글(한국어)로 검색이 불가능합니다. 현재 
+      <a href="http://project.ktug.or.kr/dvipdfmx/">dvipdfmx</a>로
+      .pdf 문서를 만들고 있습니다.
+    </p>
+
+    <p>
+      이 문서에 있을 수 있는 버그나 오타가 발견되면 꼭
+      알려주시기 바랍니다.  무엇보다도 도움이 됩니다. ;-)
+    </p>
+
+
+    <h2>Donation</h2>
+    <p>
+      문서 자체를 자세히 검토할 시간은 없지만 도움을 주고 싶으면,
+      문서 작업을 위해 기부하실 수 있습니다. 현재 갖고 있는 문서 및 책은
+      다음과 같습니다:
+    </p>
+
+    <ul>
+      <li><em>C Programming Language</em>, 2번째 판, ISBN 0-13-110362-8</li>
+      <li><em>C: A Reference Manual</em>, 5번째 판, ISBN 0-13-089592-X</li>
+      <li><em>C Programming FAQs</em>, ISBN 0-201-84519-9</li>
+      <li><em>ISO/IEC 9899:1999 Programming Languages -- C</em>,
+        2번째 판</li>
+      <li><em>ISO/IEC 14882:1998 Programming Languages -- C++</em>, 
+        1번째 판</li>
+    </ul>
+
+    <p>
+      다음 문서 및 책이 필요합니다:
+    </p>
+
+    <ul>
+      <li>잃어버린 <em>POSIX Programmer's Guide</em>, ISBN 0937175730</li>
+      <li>닳아진
+        <em>Advanced Programming in the UNIX Environment</em>,
+        ISBN 0201563177</li>
+      <li><em>C Programming Language</em>, 첫번째 판, 0-13-110163-3</li>
+      <li><em>ISO/IEC 9899:1990 Programming Languages -- C</em></li>
+      <li><em>Single UNIX Specification</em> 버전 3, 또는
+        IEEE Std 1003.1 (POSIX), 또는 ISO/IEC 9945. (pdf 포맷 필요)</li>
+      <li>이 외에도 도움이 될 만할 책 또는 문서는 언제라도 환영합니다.</li>
+    </ul>
+
+    <p>
+      꼭 위에서 언급한 버전이나 edition이 아니더라도 괜찮습니다.
+      특히 K&amp;R이라고 알려진 "C Programming Language", 초판이 절실합니다.
+    </p>
+    
+    <h2>Links</h2>
+    <p>
+      C 언어 표준에 관한 정보를 얻을 수 있는 유용한 사이트 목록입니다.
+      C 언어를 처음 배우시는 분들에게는 큰 도움이 되지 않을 수 있습니다.
+    </p>
+
+    <ul>
+      <li><a href="http://www.open-std.org/jtc1/sc22/wg14/">JTC1/SC22/WG14 -
+          C</a> <em>Rationale for International Standard -- 
+          Programming Languages -- C</em> 문서를 이 곳에서 얻을 수
+        있습니다. [영어]</li>
+      <li><a href="http://www.lysator.liu.se/c/">Programming in C</a>
+        [영어]</li>
+      <li><a href="http://CAReferenceManual.com/">C: A Reference Manual</a>
+        [영어]</li>
+    </ul>
+
+    <p>
+      다음 목록도 유용하지만, 꼭 C 언어 표준에 관한 것을 다루는 곳은 아닙니다.
+    </p>
+
+    <ul>
+      <li>POSIX.1이라고 알려진
+        <a href="http://www.unix.org/single_unix_specification/"><em>The
+          Single UNIX Specification</em></a> IEEE Std 1003.1, 2004 edition, 
+          Version 3.  등록을 해야 하며, 등록은 무료입니다. [영어]</li>
+      <li><a href="http://kldp.org/">Korean Linux Documentation Project</a>
+        C 언어 표준을 다루는 곳은 아니지만 여러 개의 
+        <a href="http://bbs.kldp.org/">포럼</a>이 있으며, 프로그래밍 지식을
+        익히기에 좋은 곳입니다.
+    </ul>
+      
+    <hr></hr>
+    <p class="footer">
+      오프 라인 문서를 보고 있다면 최신판은
+      <a href="http://pcrc.hongik.ac.kr/~cinsk/">여기</a>에서 얻을 수 있습니다.
+      <!-- </p>
+      
+      <p class="footer"> --> <br></br>
+      Copyright &copy; 2004
+      Seong-Kook Shin (신성국).  All rights reserved.
+
+      <br></br>
+
+      <p class="footer">$Id$</p>
+    </p>
+  </body>
+</html>
+
+<!--
+  compile-command: 
+-->
