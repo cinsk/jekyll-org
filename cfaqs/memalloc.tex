@@ -490,6 +490,21 @@
 \R
         \cite{ansi} \S\ 4.1.5, \S\ 4.1.6 \\
         \cite{iso} \S\ 7.1.6, \S\ 7.1.7
+\T
+	C99는 \verb+size_t+ 타입의 값을 쉽게 출력할 수 있도록 \TT{printf}, 
+        \TT{scanf} 형태의
+        함수에 \TT{z} modifier를 추가했습니다. 정수 출력에 쓰이는 conversion인,
+        \TT{d}, \TT{i}, \TT{o}, \TT{u}, \TT{x}, \TT{X}에 \TT{z}를 붙여서
+        \verb+size_t+를 쉽게 출력할 수 있습니다.  예를 들면:
+\begin{verbatim}
+  size_t sz;
+  ...
+  printf("%zu\n", sz);
+\end{verbatim}
+\R
+	\cite{c99} \S\ 7.19.6.2 \page{283}
+	\cite{hs5} \S\ 15.11.6 \page{392}
+
 \end{faq}
         
 \begin{faq}
