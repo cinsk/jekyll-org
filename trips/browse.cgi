@@ -27,6 +27,13 @@ set verbose_mode 1
 set thumbnail_width 120
 
 #
+# Image information -- To hide the information of each image,
+#                      set this variable to zero.
+#
+set use_identify 1
+
+
+#
 # Set debug mode
 #
 set debug_mode 0
@@ -118,7 +125,7 @@ proc proc_thumbnails {} {
     if {$page < $page_cnt} {
 	puts "\[ <a href=\"browse.cgi?mode=thumbnails&cwd=$cwd&page=[expr $page + 1]\">Next</a> \] "
     } else {
-	puts "\[ Previous \] "
+	puts "\[ Next \] "
     }
     puts "</p>"
 
@@ -141,7 +148,7 @@ proc proc_thumbnails {} {
 	} else {
 	    set imgname $file
 	}
-	puts "<td><a href=\"browse.cgi?mode=slide&cwd=$cwd&page=$page&file=$file\"><img width=\"120\" border=\"0\" src=\"$imgname\"></a>"
+	puts "<td><a href=\"browse.cgi?mode=slide&cwd=$cwd&page=$page&file=$file\"><img width=\"120\" border=\"1\" src=\"$imgname\"/></a>"
 	set cnt [expr $cnt + 1]
 	if {$cnt == $img_per_line} {
 	    puts "<!-- cnt: $cnt, img_per_line: $img_per_line -->"
@@ -159,6 +166,7 @@ proc proc_thumbnails {} {
 
 proc proc_slide {} {
     global img_list img_per_page img_per_line cwd
+    global use_identify
     set file [::ncgi::value file]
     set page [::ncgi::value page]
     set index [lsearch $img_list $file]
@@ -166,26 +174,36 @@ proc proc_slide {} {
     if {$index > 0} {
 	set prev [lindex $img_list [expr $index - 1]]
     }
-    if {$index < [llength $img_list]} {
+    if {$index < [expr [llength $img_list] - 1]} {
 	set next [lindex $img_list [expr $index + 1]]
     }
 
     proc_header
+
     puts "<p align=\"center\">"
     if {[info exists prev]} {
 	set page [expr ($index - 1) / $img_per_page]
+        if {$page <= 0} { set page 1 }
 	puts "\[ <a href=\"browse.cgi?mode=slide&page=$page&cwd=$cwd&file=$prev\">Previous</a> \] "
+    } else {
+        puts "\[ Previous \]"
     }
+
     puts "\[ <a href=\"browse.cgi?mode=thumbnails&page=$page&cwd=$cwd\">Thumbnails</a> \] "
     
     if {[info exists next]} {
 	set page [expr ($index + 1) / $img_per_page]
+        if {$page <= 0} { set page 1 }
 	puts "\[ <a href=\"browse.cgi?mode=slide&page=$page&cwd=$cwd&file=$next\">Next</a> \] "
+    } else {
+        puts "\[ Next \]"
     }
     puts "</p>"
 
-    puts "<p align=\"center\"><img src=\"$file\" border=\"1\"></p>"
-    puts "<p align=\"center\">[exec identify $file]</p>"
+    puts "<p align=\"center\"><img src=\"$file\" border=\"1\"/></p>"
+    if {$use_identify != 0} {
+        puts "<p align=\"center\">[exec identify $file]</p>"
+    }
     proc_footer
 }
 
