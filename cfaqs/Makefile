@@ -55,5 +55,8 @@ clean:
 	rm -rf html
 
 upload: all
+	ssh $(REMOTE_USR)@$(REMOTE_HOST) \
+		"cd && mkdir -p $(REMOTE_PREFIX)/cfaqs/html"
 	scp index*.html cfaqs-ko.ps* cfaqs-ko.pdf* \
 		$(REMOTE_USR)@$(REMOTE_HOST):$(REMOTE_PREFIX)/cfaqs/
+	scp html/* $(REMOTE_USR)@$(REMOTE_HOST):$(REMOTE_PREFIX)/cfaqs/html/
