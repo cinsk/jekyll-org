@@ -22,6 +22,12 @@ proc print_record { list } {
     puts "            <p class=\"bkinfo\"><strong>Author</strong>: $book(author)</p>"
     puts "            <p class=\"bkinfo\"><strong>Publisher</strong>: $book(publisher)</p>"
     puts "            <p class=\"bkinfo\"><strong>ISBN</strong>: $book(isbn)</p>"
+
+    if {[string length $book(url)] > 0} {
+        puts "            <p class=\"bkinfo\"><strong>URL</strong>: "
+        puts "              <a href=\"$book(url)\">$book(url)</a></p>"
+    }
+
     puts "            <p class=\"bkinfo\"><strong>Description</strong>: $book(description)</p>"
     puts "            </div>"
     puts "          </td></tr>"
@@ -68,6 +74,7 @@ foreach filename "$argv" {
     set book(description) ""
     set book(image) ""
     set book(publisher) ""
+    set book(url) ""
 
     while {[get_line "$fid" line] >= 0} {
         set linelen [string length "$line"]
