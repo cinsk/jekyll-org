@@ -593,8 +593,8 @@ preprocessor's lack of support for variable-length macro argument lists.
 	\verb+#if+ 지시어(directive)에서 \TT{sizeof} 연산을
 	쓸 수 있을까요?
 \A
-	쓸 수 없습니다.  `전처리(preprocessing)'는 말 그대로 (타입 이름들
-	파싱(parsing)하기 전에) 컴파일 초기 단계 이전에 이루어지기
+	쓸 수 없습니다.  `전처리(preprocessing)'는 말 그대로 (타입 이름을
+	parsing하기 전에) 컴파일 초기 단계 이전에 이루어지기
 	때문입니다.  \TT{sizeof}를 쓰는 대신 ANSI 표준인 \verb+<limits.h>+에
 	정의되어 있는 상수를 쓰는 방법으로 바꾸기 바랍니다.
 	가능하다면, ``configure'' 스크립트(script)를 쓰는 것도 좋습니다.
@@ -666,8 +666,8 @@ preprocessor's lack of support for variable-length macro argument lists.
         질문 \ql{1.13}, \ql{10.13}을 참고하기 바랍니다.
 
         대신 이런 방법을 생각할 수 있습니다: 
-        몇가지 매크로를 (예: \verb+MY_TYPE_DEFINED+)
-	정의해서 어떤 \TT{typedef}들이 선언되어 있는지 매크로를 써서
+        몇가지 매크로를 정의해서 (예: \verb+MY_TYPE_DEFINED+)
+	어떤 \TT{typedef}들이 선언되어 있는지 매크로를 써서
 	검사할 수 있습니다 (물론, 완전하지 않습니다).
 
 \R
@@ -697,9 +697,10 @@ preprocessor's lack of support for variable-length macro argument lists.
 	\cite{hs} \S\ 7.11.1 \page{225}
 \T
 	GNU autoconf를 쓰면 프로그램을 컴파일하기 전
-	간단한 인디언 테스용 프로그램을 실행해서, 프로그래머가
-	어떤 매크로(예를 들어 \verb+BIG_ENDIAN_MACHINE+)를
-	정의할 수 있습니다.  (질문 \ql{10.13} 참고).
+	간단한 인디언 테스용 프로그램을 실행해서, 자동으로 
+	어떤 매크로를 정의하게 만들고 (예를 들어 \verb+BIG_ENDIAN_MACHINE+)
+        프로그래머가 이 매크로의 정의 여부에 따라 프로그램을 작성할
+        수 있습니다.  (질문 \ql{10.13} 참고).
 \end{faq}
 
 \begin{faq}
@@ -762,8 +763,8 @@ introduces defined, supported mechanisms.
 \A
 	(특히 John Reiser의) 오래된 전처리기에서는, 주석(comment)을
 	봤을 때, 주석 자체를 없애기 때문에, 주석 양 옆의 토큰(token)을
-        서로 붙이는(pasting) 데 씁니다. 그러나, ANSI 표준에서는
-        (\cite{kr1}에서도) 주석(comment)이 공백으로 대체된다고 씌여있기 때문에,
+        서로 붙이는데 (pasting) 씁니다. 그러나, ANSI 표준에서는
+        (\cite{kr1} 포함), Comment가 공백으로 대체된다고 씌여있기 때문에,
         더 이상 쓸 수 없는 기능입니다. 따라서 위 \TT{Paste()} 매크로는
         쓸 수 없습니다. 대신, 토큰을 서로 붙이는 기능 자체는 필요하기 때문에,
         ANSI는 이 역할을 하는 연산자인 \verb+##+를 제공합니다. 따라서
@@ -808,7 +809,7 @@ introduces defined, supported mechanisms.
         확장하지 않습니다; 이 코드가 제대로 동작했다면, 그 자체가 잘못된
         것입니다. ANSI C는 이런 목적으로 쓸 수 있는, 문자열로 
         만들어주는(stringizing) 연산자를 제공합니다 (질문 \ql{11.17} 참고).
-        그러나 문자로 만들어주는(charizing) 연산자는 제공하지 않습니다.
+        그러나 문자로 만들어주는 (charizing) 연산자는 제공하지 않습니다.
 
         이 매크로를 해결하는 가장 좋은 방법은 다음과 같이 매크로를 만들고:
 \begin{verbatim}
@@ -899,7 +900,7 @@ introduces defined, supported mechanisms.
 	프리프로세서를 제공합니다.)
 \end{faq}
 
-\section{Macros with Variable-Length Argument Lists}
+\section{Macros with \\ Variable-Length Argument Lists}
 % from 10.26
 There are sometimes good reasons for a function to accept a variable number
 of arguments (the canonical example is \TT{printf}; see also Chapter 15).

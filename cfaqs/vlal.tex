@@ -24,9 +24,9 @@ variable-length part''라는 과장된 용어를 쓰고 있다는 사실을 발견했지만,
 가지는}''을 뜻합니다.  따라서 ``vararg function'' 또는 ``varargs argument''라고
 말할 수도 있습니다.)
 
-Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
-첫째, \TT{va\_list}라는 특별한 pointer type을 써서 선언하고, \TT{va\_start}를
-불러서 초기화합니다.
+Variable-length argument list를 쓰는 방법은 크게 세 단계로 이루어 집니다.
+먼저 \TT{va\_list} 타입의 특별한 pointer type을 써서 선언하고, 그 다음
+\TT{va\_start}를 불러서 초기화합니다.
 % TODO: errta 참고할 것.. variable argument list로 고쳐야 할 것 같은데..
 % initialized to point to (the beginning of the argument list) by calling 
 % va_start
@@ -449,8 +449,11 @@ Variable-length argument list를 쓰는 것은 세 가지 단계를 거칩니다.
 	가변 인자 리스트에서 가변 인자 부분은 항상 ``default argument
 	promotion''이 적용됩니다: 즉 \TT{float} 타입의 인자들은 항상
 	\TT{double}로 변환되며, \TT{char}나 \TT{short int}의 경우
-	항상 \TT{int}로 변환됩니다.  그러므로 \verb+va_arg(argp, float)+은
-	잘못된 코드입니다.  대신 \verb+va_arg(argp, double)+을 써야 합니다.
+	항상 \TT{int}로 변환됩니다.  
+
+        \noindent 따라서, \verb+va_arg(argp, float)+은
+	잘못된 코드이며, 대신 \verb+va_arg(argp,+\ \TT{double)}을
+        써야 합니다.
 	비슷한 이유로 \TT{char}, \TT{short}, \TT{int}를 받기 위해서는
 	\verb+va_arg(argp, int)+를 써야 합니다.
 	% TODO: 아래 문장 번역 -- 필요 없을 것 같다는 생각..

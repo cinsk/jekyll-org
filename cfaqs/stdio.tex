@@ -265,7 +265,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	format specifier를 보여줍니다.
 
 \begin{center}
-\begin{tabular}{p{4cm}p{4cm}p{4cm}}	\hline
+\begin{tabular}{p{2.5cm}p{3.2cm}p{3.7cm}}	\hline
 Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \TT{\%c}			& \TT{int}		& \TT{char *} \\
 \TT{\%d}, \TT{\%i}		& \TT{int}		& \TT{int *} \\
@@ -314,8 +314,8 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 \begin{faq}
 \Q{12.10} % 12.10 COMPLETE
-	\TT{printf()}에서 가변 폭(field width)을 지정하고 싶은데요,
-	예를 들면, \%8d를 쓰지 말고 실행 시간에 이 폭을 지정하려 합니다.
+	\TT{printf()}에서 가변 폭(field width)을 지정하려 합니다.
+	예를 들어, \%8d를 쓰지 말고 실행 시간에 이 폭을 지정하려 합니다.
 \A
 	\verb+printf("%*d", width, x)+를 쓰면 됩니다.
 	Format specifier에서 별표는 필드 폭을 지정하기 위해 \TT{int} 값이
@@ -336,8 +336,8 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	천 단위로 수치에 콤마(comma)를 찍어서 출력하고 싶습니다.  화폐 단위같은
 	수치를 출력할 수 있는 방법이 있나요?
 \A
-	\verb+<locale.h>+는 이러한 연산을 수행하기 위한 약간의 기능들을
-	제공합니다.  그러나 이런 일을 하기 위한 표준 루틴은 존재하지 않습니다.
+	\verb+<locale.h>+는 이러한 연산을 수행하기 위한 간단한 기능을
+	제공합니다.  그러나 이런 일을 하기 위한 표준 루틴은 없습니다.
 	(\TT{printf()}가 할 수 있는 것은 (미리 정의된) 어떤 locale 설정에 따라 
 	10진 문자를 출력하는 것만 알 수 있습니다\footnote{
 	The only thing \TT{printf()} does in response to a
@@ -402,7 +402,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	\TT{scanf()}에 전달하는 인자는 항상 포인터이어야 합니다:
 	각각의 값이 변환될 때마다 \TT{scanf}는 여러분이 전달한 포인터가
 	가리키는 위치에 그 값을 저장합니다. (\seealso{\ql{20.1}})
-	따라서 \verb+scanf("%d", &i)+로 써야 합니다.
+	그렇기 때문에, \verb+scanf("%d", &i)+로 써야 합니다.
 \end{faq}
 
 \begin{faq}
@@ -473,8 +473,8 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 
 \begin{faq}
 \Q{12.16} % 12.16 COMPLETE
-	지정한 형식으로 파일에서 데이터를 읽으려면 어떻게 해야 할까요?
-	\TT{scanf}에서 \TT{\%f}를 10번 쓰는 방법 말고, 어떻게 10개의 
+	파일에서 데이터를 미리 지정한 형식으로 읽으려면 어떻게 해야 할까요?
+	\TT{scanf()}에서 \TT{\%f}를 10번 쓰는 방법 말고, 어떻게 10개의 
 	\TT{float}을 파일에서 읽을 수 있을까요?
 % TODO: translate below sentence.
 	How can I read an arbitrary number of fields from a line into an array?
@@ -791,7 +791,7 @@ avoiding it entirely.
 	\noindent 정수에 대해서는 \%d의 출력 결과에 필요한 문자 갯수가 
 	다음 식을 넘지 않습니다:
 \begin{verbatim}
-    ((sizeof (int) * CHAR_BIT + 2) / 3 + 1)   /* +1 for '-' */
+  ((sizeof (int) * CHAR_BIT + 2) / 3 + 1)   /* +1 for '-' */
 \end{verbatim}
 	\noindent (\verb+CHAR_BIT+는 \verb+<limits.h>+에 정의되어
 	있음) 그러나 이런 식으로 매번 계산하는 것은 지나치게 조심스러운
@@ -878,8 +878,9 @@ avoiding it entirely.
 	사용한 코드를 볼 수 있습니다.
 
 \T
-	머피의 법칙(Murphy's Law)에 관한 것은 다음을 참고하기 바랍니다: 
-	\cite{raymond:jargon}.
+	머피의 법칙(Murphy's Law)에 관한 것은 \cite{raymond:jargon}를
+        참고하기 바랍니다.
+
 \R
 	\cite{rationale} \S\ 4.9.7.2 \\
 	\cite{hs} \S\ 15.7 \page{356}
@@ -932,11 +933,11 @@ avoiding it entirely.
 
 \begin{faq}
 \Q{12.25} % 12.25 COMPLETE
-	\TT{fgetpos/fsetpos}와 \TT{ftell/fseek}의 차이점은 무엇인가요?
-	\TT{fgetpos/fsetpos}는 어디에 쓰는 거죠?
+	\TT{fgetpos}/\TT{fsetpos}와 \TT{ftell}/\TT{fseek}이 차이가 있나요?
+        \TT{fgetpos/fsetpos}는 어디에 쓰는 거죠?
 \A
 	새로운 \TT{fgetpos/fsetpos} 함수는
-	offset을 나타내기 위해 특별한 \TT{typedef}인 \verb+fpos_t+를 
+	파일 offset을 나타내기 위해, \TT{typedef}인 \verb+fpos_t+를 
 	사용합니다.
 	따라서 올바르게 만들어졌다면 아무리 큰 파일이더라도 offset을
 	표현할 수 있습니다.
@@ -961,19 +962,18 @@ avoiding it entirely.
 	입력을 무시해서, 다음 프롬프트를 출력할 때 이 입력이 출력되지 않도록
 	하고 싶습니다.  \TT{fflush(stdin)}을 쓰면 될까요?
 \A
-	표준 C 언어에서 \TT{fflush()}는 출력 스트림에 대해서만 동작합니다.
+	C 언어 표준에 따르면,
+        \TT{fflush()}는 output stream에 대해서만 동작합니다.
 	``flush''라는 정의가 buffering된 문자들을 쓰는 것을 
 	완료시킨다는\footnote{To complete the writing of buffered characters}
 	것이므로 문자를 취소시키는 것(discard)과는 아무런 관계가 없습니다.
 	따라서 
 	입력 스트림의 입력을 무시하는 기능과는 전혀 상관이 없습니다.
 
-	아직 읽지 않은 문자(unread characters)들을
-	stdio input stream에서 무시하는(discard)
-	표준 방법은
-	존재하지 않습니다.
-	어떤 회사에서는 \TT{fflush(stdin)}이 읽지 않은 문자들을 취소할 수
-	있도록 라이브러리를 만들기도 하지만, 이식성이 뛰어난 프로그램을
+	아직 읽지 않은 문자(unread characters)들을 stdio input stream에서
+        무시하는(discard) 표준 방법은 존재하지 않습니다.
+	어떤 컴파일러 회사들은 \TT{fflush(stdin)}이 읽지 않은 문자들을 취소할 수
+	있도록 라이브러리를 제공하기도 하지만, 이식성이 뛰어난 프로그램을
 	만들려면 절대로 써서는 안되는 기능입니다.
 	(어떤 stdio 라이브러리는 \TT{fpurge}나 \TT{fabort}를 같은 기능으로
 	제공하기도 하지만, 마찬가지로 표준은 아닙니다.)
@@ -988,9 +988,9 @@ avoiding it entirely.
 	그 입력을 무시해버릴 수 있다는 것을 꼭 염두에 두어야 합니다.
 
 % 아래 줄은 book version에서는 없는 내용입니다.
-	또는 \verb+\n+이 나오기 전까지의 문자를 읽어서 무시하거나 curses
-	루틴인 \TT{flushinp()}를 사용하거나, 
-	쓰면 됩니다. \seealso{\ql{19.1}, \ql{19.2}}
+	또는 \verb+\n+이 나오기 전까지 문자를 읽어서 무시하거나,
+        curses에서 제공하는 루틴인 \TT{flushinp()}를 쓰면 됩니다.
+        \seealso{\ql{19.1}, \ql{19.2}}
 \R
 	\cite{c89} \S\ 7.9.5.2 \\
 	\cite{hs} \S\ 15.2
@@ -1162,7 +1162,7 @@ avoiding it entirely.
 	일단 \TT{freopen()}을 쓴 다음, 다시 원래의 \TT{stdout}으로
 	(또는 \TT{stdin}으로) 복귀할 수는 없나요?
 \A
-	좋은 해결책은 존재하지 않습니다.  다시 돌아올 필요가 있다면,
+	좋은 해결책이 없습니다. 다시 돌아올 필요가 있을 때,
 	\TT{freopen()}을 쓰는 것은 별로 좋은 방법이 아닙니다.
 	차라리 따로 output (또는 input) stream 변수를 만들어서
 	작업해서 \TT{stdout}을 (또는 \TT{stdin}) 건드리지 않는 것이
@@ -1173,7 +1173,7 @@ avoiding it entirely.
 \end{verbatim}
 
 	\noindent \TT{printf(...)}를 전부 \TT{fprintf(ofp, ...)}로
-	바꾸면 됩니다.  (물론 \TT{putchar}나 \TT{puts}를 썼다면
+	바꿉니다.  (물론, \TT{putchar}나 \TT{puts}를 썼다면
 	이 함수들도 바꾸어야 할 것입니다.)  그런 다음,
 	\TT{ofp}가 \TT{stdout}를 가리키도록 하는 등의 작업을 하면
 	됩니다.
@@ -1195,7 +1195,7 @@ avoiding it entirely.
 
 	이러한 코드는 동작한다고 말하기 어렵습니다.  왜냐하면
 	\TT{stdout}은 (또 \TT{stdin}, \TT{stderr}) 보통
-	상수(constant)이기 때문에 다른 값으로 설정(assign)할 수
+	상수(constant)이기 때문에 다른 값으로 assign할 수
 	없기 때문입니다.  (그렇기 때문에 \TT{freopen}이라는 함수가
 	제공되는 것입니다.)
 
@@ -1245,7 +1245,7 @@ avoiding it entirely.
 \A
 	이런 일을 할 수 있는 portable한 방법은 없습니다.
 	UNIX에서는 special file인 \TT{/dev/tty}를 열면 됩니다.
-	MS-DOS에서는 파일 \TT{CON}을 열거나 \TT{getch}와 같은
+        또, MS-DOS에서는, 파일 \TT{CON}을 열거나, \TT{getch}처럼
 	BIOS call을 이용하는 루틴을 쓰면 input이 redirect되었는지와는
 	상관없이 keyboard를 쓸 수 있습니다.
 \end{faq}
@@ -1320,13 +1320,14 @@ avoiding it entirely.
 
 \begin{faq}
 \Q{12.39} % 12.39 COMPLETE
-	Binary file에 쓰기 위한 ``filter''를 만들고 있습니다.
+	Binary file에 쓰기 위한 일종의 ``filter''를 만들고 있습니다.
 	그런데 \TT{stdin}과 \TT{stdout}은 이미 text stream으로 열려 있는
 	상태라서 문제가 됩니다. 어떻게 하면 이 stream을 binary mode로
 	바꿀 수 있을까요?
 \A
-	이런 일을 하기 위한 standard 방법은 없습니다.
-	UNIX와 같은 OS는 text/binary를 구별하지 않으므로 mode를 바꿀 필요가
+	이런 일을 하기 위한 표준 방법은 없습니다.
+	UNIX와 같은 OS는 text와 binary를 따로 구별하지 않으므로,
+        mode를 바꿀 필요가
 	없습니다.  어떤 MS-DOS 컴파일러는 \TT{setmode}라는 함수를
 	제공하기도 합니다.  다른 OS의 경우에는 여러분 스스로
 	찾아야 할 것입니다.

@@ -42,8 +42,9 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	만약 여기에 나온 것 이외에 더 많은 것을 알고 있다면
 	관리자에게 연락하기 바랍니다.)
 
-	여러 툴에 대한 다른 목록과 논쟁은 유즈넷 \TT{comp.compilers}와
-	\TT{comp.software-eng}에서 찾아 볼 수 있습니다.
+	Usenet \TT{comp.compilers}와
+	\TT{comp.software-eng}에서 여러 툴에 대한 다른 목록과, 논쟁을 
+        찾아 볼 수 있습니다.
 
 	\seealso{\ql{18.3}, \ql{18.16}}
 \T
@@ -111,6 +112,15 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 		TX 78746, 512-433-3333, http://www.tkg.com, zf@tkg.com .
 	\end{itemize}
 
+\T
+	요즈음에는 다음과 같은 툴들이 인기가 많습니다:
+        \begin{itemize}
+          \item Electric Fence (또는 줄여서 efence) --- C 프로그램에서
+            buffer overrun과 underrun을 검사해 줍니다.
+          \item Valgrind --- 다양한 메모리 에러를 검사해 주며, 코드를
+            다시 컴파일할 필요가 없습니다. 다만 현재 x86 프로세스를 쓰는
+            Linux 시스템에서만 쓸 수 있습니다.
+        \end{itemize}
 \end{faq}
 
 \begin{faq}
@@ -120,8 +130,8 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	인기있고, 공짜로 구할 수 있으며, 고 품질인 FSF의 GNU C 컴파일러
 	(또는 gcc라고 불리움)를 쓰면 됩니다.  이는 \TT{prep.ai.mit.edu}의
 	\TT{pub/gnu} 디렉토리나 기타 GNU 아카이브 사이트에서 구할 수 있습니다.
-	MS-DOS 용으로 포팅한 djgpp도 있습니다.  홈페이지는
-	\TT{http://www.delorie.com/djgpp/}입니다.
+	MS-DOS 용으로 포팅한 djgpp도 있으며,
+	\TT{http://www.delorie.com/djgpp/}에서 얻을 수 있습니다.
 
 	PCC라는 쉐어웨어(shareware) 컴파일러도 있으며, 이름은
 	\TT{PCC12C.ZIP}입니다.
@@ -130,7 +140,7 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	Mix Software에서 만들었고, 주소는 1132 Commerce Drive, Richardson,
 	TX 75801, USA, 전화번호는 214-783-6001입니다.
 
-	최근에 개발된 컴파일러로는 lcc가 있습니다.  Anonymous FTP로
+	최근에 개발된 컴파일러로는 lcc가 있습니다.  Anonymous FTP로 \\
 	\TT{ftp.cs.princeton.edu}의 \TT{pub/lcc}에서 구할 수 있습니다.
 
 	\TT{ftp.hitech.com.au}의 \TT{hitech/pacific}에서 쉐어웨어 MS-DOS용
@@ -139,26 +149,38 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 
 	매킨토시 용으로 구할 수 있는 쉐어웨어 컴파일러는 알려진 것이 없습니다.
 
-	\TT{comp.compilers}에 관련된 아카이트에는 컴파일러, 인터프리터,
-	문법(grammer) 등에 대한 굉장히 많은 정보가 들어 있습니다.
-	(FAQ 리스트를 포함한) \TT{comp.compilers} 아카이브는 iecc.com에서
+	\TT{comp.compilers} archive에는 compiler, interpreter,
+        grammer등에 대한 굉장히 많은 정보가 들어 있습니다.
+	(FAQ 리스트를 포함한) \TT{comp.compilers} archive는 iecc.com에서
 	근무하는 moderator인 John R.  Levine씨에 의해 관리되고 있습니다.
 	사용 가능한 컴파일러들과 이에 관련된 자료는 Mark Hopkins, Steven
 	Robenalt, 그리고 David Muir Sharnoff씨에 의해 관리되며
-	\TT{ftp.idiom.com}의 \TT{pub/compilers-list/}에서 구할 수 있습니다.
+	\TT{ftp.idiom.com}의 \TT{pub/compilers-list/}에 있습니다.
 	(\TT{rtfm.mit.edu} 또는 \TT{ftp.uu.net}의 \TT{comp.compilers}
 	디렉토리에서 \TT{news.answers}에 관한 아카이브도 참고하기 바랍니다;
 	질문 \ql{20.40}도 참고하기 바랍니다.)
 
 \T
-	이 답변은 상대적으로 오래된 것입니다.   GCC는 원래 ``GNU C Compiler''의
+	위 답변은 상대적으로 오래된 것입니다.   GCC는 원래 ``GNU C Compiler''의
 	약자이었지만,  C 언어 뿐만 아니라 C++, java와 같은 언어도 지원하기
 	때문에 이름이 ``GNU Compiler Collection''으로 이름이 바뀌었습니다.
 	GCC와 더불어 GNU software를 구하시려면 \TT{ftp.gnu.org}의
 	\TT{/pub/}에서
 	구할 수 있으며, 국내에서는 \TT{ftp.bora.net}의 \TT{/pub/gnu/}에서
 	download 받는 것이 빠릅니다.   자세한 것은 GCC의 홈페이지인
-	\TT{http://www.gnu.org/software/gcc/}를 방문하시면 얻을 수 있습니다.
+        아래 사이트를 방문하시면 얻을 수 있습니다:
+\begin{verbatim}
+  http://www.gnu.org/software/gcc/
+\end{verbatim}
+
+	\TT{lcc}는 표준 C 언어로 씌여진, 이식성이 매우 우수한(retargetable)
+        C 컴파일러이며, ALPHA, SPARC, MIPS R3000, Intel x86용 코드를 만들어
+        냅니다. \TT{lcc}는 소스가 다른 컴파일러에 비해 상대적으로 짧고 읽기가
+        쉬워서 컴파일러 교육용으로 많이 쓰입니다. 아래 사이트를 방문하시면
+        좀 더 많은 정보를 얻을 수 있습니다:
+\begin{verbatim}
+  http://www.cs.princeton.edu/software/lcc/
+\end{verbatim}
 
 % TODO: cygwin(cygnus?) toolkit 설명.
 
@@ -281,7 +303,7 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	\TT{misc} 디렉토리에서 구할 수 있습니다.  HTML 버전은 아래에서
 	구할 수 있습니다:
 \begin{verbatim}
-  http://www-h.eng.cam.ac.uk/help/tpl/languages/C/teaching_C/teaching_C.html
+  http://www-h.eng.cam.ac.uk/help/tpl/languages/C/teaching_C/
 \end{verbatim}
 
 	\item Coronado Enterprises C tutorial은 Simtel 미러 사이트의
@@ -326,11 +348,12 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 \end{verbatim}
 
 	\item Vinit Carpenter씨는 C와 C++을 배울때 쓸모있는 여러가지 자료에
-	대한 목록을 유지하고 있습니다.  이 목록은 \TT{comp.lang.c}와
+	대한 목록을 유지하고 있습니다.  이 목록은 newsgroup \TT{comp.lang.c}와
  	\TT{comp.lang.c++}에 게시되며 이 FAQ list가 있는 곳에 (질문 \ql{20.40}
-	참고), 같이 보관되어 있으며,
-	\TT{http://www.cyberdiem.com/vin/learn.html}에서 구할 수 있습니다.
-
+	참고), 같이 보관되어 있으며, 아래에서 구할 수 있습니다.
+\begin{verbatim}
+  http://www.cyberdiem.com/vin/learn.html
+\end{verbatim}
 	\end{itemize}
 
 	\seealso{\ql{18.10}, \ql{18.15c}}
@@ -439,10 +462,12 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	수식(expression)을 파싱(parsing)하고 평가하는 코드가 필요합니다.
 \A
 
-	두 개의 패키지가 각각 \TT{comp.sources.misc}에 1993년 12월에,
-	\TT{alt.sources}에 1994년 1월에 게시되었지만, 지금은 없습니다.
-	대신 \TT{sunsite.unc.edu}의
-	\TT{pub/packages/development/libraries/defunc-1.3.tar.Z}로
+	두 개의 패키지가 각각 1993년 12월에 \TT{comp.sources.misc}에 
+	1994년 1월에 \TT{alt.sources}에 게시되었지만, 지금은 없고,
+	대신 \TT{sunsite.unc.edu}의 다음 위치에서 얻을 수 있습니다:
+\begin{verbatim}
+  pub/packages/development/libraries/defunc-1.3.tar.Z
+\end{verbatim}
 	구할 수 있으며, \TT{lamont.ldgo.columbia.edu}의 ``parbse''로
 	구할 수 있습니다.
 	여러가지 옵션들이 포함되어 있는 S-Lang 인터프리터는 anonymous ftp로
@@ -450,8 +475,9 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	또한 Cmm (``C-minus-minus'')이라는 쉐어웨어도 있습니다.
 	\seealso{\ql{18.16}, \ql{20.6}}
 
-	파싱/평가하는 코드는 \EM{Software Solutions in C}의
-	Chapter 12, \mbox{페이지 235--55}에서도 찾아볼 수 있습니다.
+	\EM{Software Solutions in C}의
+	Chapter 12, \mbox{페이지 235--55}에서 파싱/평가하는 코드를
+        찾아볼 수 있습니다.
 \end{faq}
 
 \begin{faq}
@@ -488,7 +514,11 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	other packages are Ronald Guilmette's RoadTest(tm) Compiler Test
 	Suites (ftp to netcom.com, pub/rfg/roadtest/announce.txt for
 	information) and Nullstone's Automated Compiler Performance
-	Analysis Tool (see http://www.nullstone.com).   The FSF's GNU C
+	Analysis Tool.
+\begin{verbatim}
+  http://www.nullstone.com/
+\end{verbatim}
+	\noindent The FSF's GNU C
 	(gcc) distribution includes a c-torture-test which checks a
 	number of common problems with compilers.   Kahan's paranoia
 	test, found in netlib/paranoia on netlib.att.com, strenuously
@@ -503,12 +533,14 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 \A
 	Bob Stout씨의 ``SNIPPETS''는 매우 인기있으며,
 	\TT{ftp.brokersys.com}의 \TT{pub/snippets}나 
-	\TT{http://www.brokersys.com/snippets/}에서 얻을 수 있습니다.
+	\TT{http://www.brokersys.com/snippets/}에 있습니다.
 
-	Lars Wirzenius씨의 ``public'' 라이브러리는 \TT{ftp.funet.fi}의
-	\TT{pub/language/C/Publib/}에서 얻을 수 있습니다.
-
-	\seealso{\ql{14.12}, \ql{18.9}, \ql{18.13}, \ql{18.16}}
+	Lars Wirzenius씨의 `public' 라이브러리는 \TT{ftp.funet.fi}의
+        다음 위치에 있습니다:
+\begin{verbatim}
+  pub/language/C/Publib/
+\end{verbatim}
+	\noindent \seealso{\ql{14.12}, \ql{18.9}, \ql{18.13}, \ql{18.16}}
 
 \T
 	SNIPPETS의 홈페이지는 아래로 변경되었습니다:
@@ -525,10 +557,12 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	``multiple precison arithmetic''을 위한 코드가 필요합니다.
 \A
 	BSD Unix libc 소스에 있는 ``quad'' 함수들은 매우 인기있는 패키지입니다.
-	(\TT{ftp.uu.net}의 
-	\TT{/systems/unix/bsd-sources/}....\TT{/src/lib/libc/quad/*}
-	에서 구할 수 있으며, GNU MP 라이브러리, 또 MIRACL 패키지
-	(\TT{http:://indigo.ie/~mscott/} 참고), 그리고 오래된 Unix에서
+	(\TT{ftp.uu.net}의 다음 위치에 있습니다:
+\begin{verbatim}
+  /systems/unix/bsd-sources/ .... /src/lib/libc/quad/*
+\end{verbatim}
+	\noindent GNU MP 라이브러리, 또 MIRACL 패키지
+	(\TT{http://indigo.ie/~mscott/} 참고), 그리고 오래된 Unix에서
 	제공되는 libmp.a를 참고 바랍니다.  \seealso{\ql{14.12}, \ql{18.16}}
 
 \R
@@ -544,7 +578,7 @@ A:	Plum Hall (formerly in Cardiff, NJ; now in Hawaii) sells one;
 	쓰려는 사람들도 덩달아 많아지고 있기 때문에 
 	이 질문은 매우 대답하기 쉬우면서도 어렵습니다.
 
-	널리 알려진, 공개를 취지로 한 아카이브 사이트들을 예로 들면,
+	널리 알려진, 공개를 취지로 한 archive 사이트들을 예로 들면,
 	\TT{ftp.uu.net}, \TT{archive.wustl.edu}, \TT{oak.oakland.edu},
 	\TT{sumex-aim.stanford.edu}, 그리고 \TT{wuachive.wustl.edu}가
 	있습니다.  이 사이트들은 모두 많은 소프트웨어를 가지고 있으며,

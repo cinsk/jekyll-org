@@ -46,15 +46,17 @@ also common to use the word ``standard'' by itself, often capitalized.)
 
 	그 후에 국제 표준 기구인 ISO\footnote{International Organization
         for Standardization}는 미국 표준인 X3.159를
-	ISO/IEC 9899:1990으로 대체하여 국제 표준으로 만들었습니다.
+	국제 표준인 ISO/IEC 9899:1990으로 바꿔서 국제 표준으로 만들었습니다.
 	이 표준에서는 ANSI의 표준을 정정하고 보충한 것이 대부분이었기 때문에
 	흔히 `ANSI/ISO 9899-1990' [1992] 라고 부릅니다.
 
 	1994년 `Technical Corrigendum 1(TC1)'은 표준에서 약 40 가지를
 	수정하였습니다.  대부분 수정은 부분적으로 명확한 설명이 필요한 것에
 	보충 설명을 단 것입니다.  그리고 `Normative Addendum 1(NA1)'은 약
-	50 페이지 분량의 새로운 개념을 추가했으며, 거의 대부분이
-	국제화(internationalization)에 관한 함수 설명입니다.
+	50 페이지 분량의 새로운 내용을 추가했으며, 대부분이
+	국제화(internationalization\footnote{이 단어가 너무 길기 때문에
+          보통 i18n으로 부르기도 합니다. 여기에서 18은 이 단어의 총 글자 
+          수입니다.})에 관한 함수 설명입니다.
 	1995년 TC2는 몇가지 정정 사항을 추가했습니다.
 
 	이 글을 쓸 때, 표준의 완전한 개정판은 이제 막바지 작업에
@@ -115,7 +117,7 @@ also common to use the word ``standard'' by itself, often capitalized.)
         맞지 않을 가능성이 있습니다.  C 언어와 C++ 언어에서 완벽하게 동작하는
         코드를 (어떤 사람들은) ``Clean C''라고 부릅니다.
 
-        앞 답변에서 ``C9x''라고 부르는 것은, 1990년대에 아직, 새 C 표준이
+        앞 답변에서 ``C9X''라고 부르는 것은, 1990년대에 아직, 새 C 표준이
         정해지지 않았을 때, (정확한 제정 연도를 몰랐기 때문에) 붙여진
         이름입니다. 이제는 1999년에 제정된 것을 알기 때문에 ``C99''라고
         부르는 것이 올바른 표현입니다.
@@ -181,16 +183,19 @@ also common to use the word ``standard'' by itself, often capitalized.)
   http://www.lysator.liu.se/c/schildt.html
 \end{verbatim}
 
-	\cite{rationale} 문서는 (완전한 표준은 아님) 익명(anonymous) FTP로
+	\cite{rationale} 문서는 (완전한 표준은 아님) anonymous FTP로
 	\verb+ftp.uu.net+의 (질문 \ql{18.16} 참고)
-	\verb+doc/standards/ansi/X3.159-1989+ 디렉토리에서 얻을 수 있습니다.
-	또 \verb+http://www.lysator.liu.se/c/rat/title.html+에서 볼 수도
-	있습니다.  Silicon Press에서 출판되기도 했습니다.  
+	\verb+doc/standards/ansi/X3.159-1989+ 디렉토리에서
+        얻을 수 있습니다.
+	또 \verb+http://www.lysator.liu.se/c/rat/title.html+에서
+        볼 수도 있습니다.  Silicon Press에서 출판되기도 했습니다.  
 	ISBN 0-929306-07-4입니다.
 
-	ISO/IEC C9X의 진행판은 JTC1/SC22/WG14 사이트인
-	\verb+http://www.dkuung.dk/JTC1/SC22/WG14/+에서 얻을 수 있습니다.
-
+	ISO/IEC C9X의 진행판은 JTC1/SC22/WG14 사이트인 아래에서 얻을 수
+        있습니다:
+\begin{verbatim}
+  http://www.dkuung.dk/JTC1/SC22/WG14/
+\end{verbatim}
 	질문 \ql{11.2b}를 참고하기 바랍니다.
 \T
 	최신 C 표준인 C99의 PDF 버전 (ISO web site에서) 공식 가격은
@@ -439,7 +444,8 @@ pointer declarations can be tricky. (The questions in this section refer to
 
 \A
 	`\verb+const char *p+'는 (`\verb+char const *p+'라고 쓸 수 있음)
-	상수 문자에 대한 포인터를 선언한 것입니다 (문자를 바꿀 수 없습니다);
+	상수 문자에 대한 포인터를 선언한 것입니다 (가리키는 문자를 바꿀 수
+        없는 포인터);
 	`\verb+char * const p+'는 문자에 대한 상수 포인터를 선언한 것입니다
 	(문자를 변경할 수는 있지만 포인터를 변경할 수는 없습니다).
 
@@ -451,7 +457,8 @@ pointer declarations can be tricky. (The questions in this section refer to
 	\cite{rationale} \S\ 3.5.4.1 \\
 	\cite{hs} \S\ 4.4.4 \page{81}
 \T
-	아래에서, \verb+const_pointer+는 포인터가 상수인 것을 나타내며,
+	아래 예에서, \verb+const_pointer+는 포인터가 상수인 것을 
+        나타냅니다. 그리고, 
         \verb+pointer_to_const+는 상수를 가리키는 포인터를 나타냅니다:
 \begin{verbatim}
   int * const const_pointer;
@@ -771,8 +778,9 @@ startup code that will actually call \TT{main}.
 	\cite{c89} \S\ 5.1.2.2.3
 
 \T
-	C++ 언어와는 달리, C 언어 표준에서는 \TT{main()}이 재귀적으로 (즉,
-        \TT{main}이 다시 \TT{main}을 부르는 경우) 호출되는 것을 막지
+	C++ 언어와는 달리, C 언어 표준에서는 \TT{main()}이 재귀적으로
+        (즉, recursive하게, \TT{main}이 다시 \TT{main}을 부르는 경우)
+        호출되는 것을 막지
         않았습니다.\footnote{C++ 언어에서는 \TT{main}을 재귀적으로 부를 수
           없으며, \TT{main}의 주소를 얻는 것도 금지되어 있습니다.}
         즉, 원한다면 \TT{main}에서 다시 \TT{main}을 부를 수 있습니다.
@@ -828,7 +836,7 @@ directive.
   char *opname = Xstr(OP);
 \end{verbatim}
 	이 코드는 \TT{opname}을 ``OP''로 설정하지 않고, ``plus''로
-	설정합니다. (\TT{Xstr()} 매크로가 인자를 확장하고 \TT{Str()}
+	설정합니다. (즉, \TT{Xstr()} 매크로가 인자를 확장하고 \TT{Str()}
           매크로가 문자열로 만듭니다.)
 
 	비슷한 상황이 ``token-pasting'' 연산자인 \verb+##+를 쓸 때,
@@ -920,7 +928,8 @@ directive.
 \A
 	\verb+#pragma+는 모든 종류의 (이식성이 떨어지는) 모든 구현 방법에
 	따른 기능을 제어하고, 확장 기능을 제공합니다; 여기에는
-	소스 리스팅 제어, 구조체 압축(packing), 경고 출력 수준(\TT{lint}의
+	소스 리스팅 제어, 구조체 압축(packing), 그리고 
+        경고 출력 수준(\TT{lint}의
         오래된 주석 형태인 \verb+/* NOTREACHED */+와 같이) 등이 
 	포함됩니다.
 \R
@@ -1103,7 +1112,7 @@ suspect.
 	프로토타입이 있는 함수를 호출할 때에 주의해야 합니다; 아마도
 	캐스팅이 필요할 지도 모릅니다.  질문 \ql{11.3}과 \ql{11.29}를 참고하기 바랍니다.
 
-	변형된 `lint' 같은 프로그램은 프로토타입을 만들어 내주기도 합니다.
+	변형된 `lint' 같은 프로그램은 prototype을 만들어 내주기도 합니다.
 	1992년 3월에 \TT{comp.sources.misc}에 게시된 CPROTO 프로그램도
 	이런 기능을 합니다.  또 ``cextract''라는 프로그램도 있습니다.
 	또 이러한 프로그램들이 컴파일러와 함께 제공되기도 합니다.

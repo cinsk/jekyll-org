@@ -14,13 +14,13 @@
 
 \A
 	이 문제에 대한 표준, 또는 이식성이 뛰어난 방법은 없습니다.
-	스크린(screen)과 키보드에 관한 것은 아예 C 표준에 한마디도
+	screen과 keyboard에 관한 것은 아예 C 표준에 한마디도
 	나와 있지 않습니다.  대신 간단한 I/O (문자로 이루어진) 스트림(stream)에
 	대한 것만 나와 있습니다.
 
 	Interactive한 키보드 입력은 대개 여러 입력이 모아져서 프로그램에
 	한 줄씩 전달되게 됩니다.  이런 까닭은 운영 체제가 입력된 줄을
-	편집(backspace/delete 등)할 수 있는 일관된 방법을 
+	편집할 (backspace/delete 등) 수 있는 일관된 방법을 
 	(편집 기능을 일일히 코딩하지 않더라도) 제공하기	위해서 입니다.  
 	즉 사용자가 RETURN 키를 눌렀을 때에 비로소, 한 줄이 프로그램에
 	전달됩니다.  프로그램이 한 문자씩 읽어들이게 짜여져 있다고 하더라도
@@ -48,8 +48,12 @@
 	써야 합니다.  \TT{comp.lang.c}는 C 언어가 정의하고 있는
 	기능에 대한 것을 다루는 곳이므로 이 질문을 다루기에는
 	적당하지 않습니다.  시스템에 의존적인 다른 뉴스 그룹, 예를
-	들면 \TT{comp.unix.questions}나 \TT{comp.os.msdos.programmer}에
-	물어보는 것이 낫습니다.  또는 그러한 그룹의 FAQ 목록을 보는 것도
+	들면 아래 뉴스 그룹에 묻는 것이 좋습니다:
+        \begin{itemize}
+          \item \TT{comp.os.msdos.programmer},
+          \item \TT{comp.unix.questions}
+        \end{itemize}
+	\noindent 또는 그러한 그룹의 FAQ 목록을 보는 것도
 	좋은 방법입니다.  또 이런 방법은 시스템의 여러 종류마다 각각 차이가
 	있을 수 있으므로, 참을성을 가지고 기다려야 할 지도 모릅니다.
 
@@ -143,7 +147,7 @@
 	시스템이 있습니다.  또는 ``\TT{select}''나 ``\TT{poll}''이라는
 	시스템 콜로 이 작업을 대신할 수 있습니다.
 	또 \TT{FIONREAD} \TT{ioctl}, \verb+c_cc[VTIME]+, \TT{kbhit()},
-	\TT{rdchk()}, \TT{open()}이나 \TT{fcntl()}에서 \verb+O_NDELAY+
+	\TT{rdchk()}, 그리고 \TT{open()}이나 \TT{fcntl()}에서 \verb+O_NDELAY+
 	옵션이 이러한 작업을 해 줄 수 있습니다.
 	\seealso{\ql{19.1}}
 \end{faq}
@@ -151,7 +155,7 @@
 
 \begin{faq}
 \Q{19.3}
-	한 자리에 몇 퍼센트가 진행되었는지 계속 표시할 수 있는 방법이나
+	현재 어떤 일이 몇 퍼센트가 진행되었는지 계속 표시할 수 있는 방법이나
 	``twirling baton\footnote{작업 진행 표시기 ---
 	\TT{-}, \TT{/}, \TT{|}, \TT{$\backslash$}를
 	같은 위치에 번갈아 가며 출력.}''을
@@ -669,7 +673,7 @@
 \begin{quote}
 	The function \BF{system} passes its string argument to the operating
 	system's \EM{command processor} for execution in some
-	implementation-defined way.  In UNIX systems, the command
+	implementation-\-defined way.  In UNIX systems, the command
 	processor is the shell.  The value returned by \BF{system} is
 	implementation-defined but is usually the completion status
 	of the command.
@@ -744,8 +748,8 @@
 
 \begin{faq}
 \Q{19.33}
-	프로세스가 그 프로세스를 호출한 프로세스(parent)의 
-        환경 변수(environment variable)를 바꿀 수 있나요?
+	프로세스가 그 프로세스를 호출한 parent 프로세스의 
+        environment variable(환경 변수)를 바꿀 수 있나요?
 \A
 	가능할 수도, 그렇지 않을 수도 있습니다.
 	대부분의 운영 체제가 환경 변수를 다루는 방식이 Unix와 비슷하기는
@@ -753,8 +757,8 @@
 	의해 바뀔 수 있는 것이 편리할 수도 있지만, 어쨋든 시스템에
 	의존적인 문제입니다.
 
-	Unix에서는 프로세스는 자신의 환경만을 고칠 (어떤 시스템들은
-	\TT{setenv()}와 \TT{putenv()} 함수를 써서) 수 있고,
+	Unix에서 process는 자신의 environment만을 (대부분 
+	\TT{setenv()}, \TT{putenv()} 함수를 써서) 고칠  수 있고,
 	변경된 환경 변수들은 그대로 자식(child) 프로세스에게 전달되지만,
 	부모(parent) 프로세스에는 전달되지 않습니다.
 	MS-DOS에서는 마스터 환경 변수\footnote{master copy
@@ -784,11 +788,11 @@
 	초 단위보다 더 세밀한 단위를 쓸려면 어떻게 하죠?
 \A
 	안타깝게도 그런 일을 처리하는 이식성이 뛰어난 방법은 없습니다.
-	V7 Unix와 그 후계들은 \TT{ftime()}이라는 매우 쓸모있는 함수를
+	V7 Unix와 그 후계 시스템들은 \TT{ftime()}이라는 매우 쓸모있는 함수를
 	제공하며, 이 함수는 millisecond 단위로 동작합니다.
-	또 다른 함수들로는 \TT{clock()}, \TT{delay()}, \TT{gettimeofday()},
+	또 다른 함수로는 \TT{clock()}, \TT{delay()}, \TT{gettimeofday()},
 	\TT{msleep()}, \TT{nap()}, \TT{napms()}, \TT{nanosleep()},
-	\TT{setitimer()}, \TT{sleep()}, \TT{times()}, \TT{usleep()}이
+	\TT{sleep()}, \TT{setitimer()}, \TT{times()}, \TT{usleep()}이
 	있습니다.  (Unix에서 제공되는 \TT{wait()} 함수는 이런 기능이
 	아닙니다.) \TT{select()}와 \TT{poll()}을 쓸 수 있다면
 	간단한 기다리기 함수를 만들 수 있습니다.
@@ -860,8 +864,8 @@
 	위에서 조건문과 추가적으로 부른 \TT{signal()}은
 	foreground에서 실행된 프로그램에서
 	발생한 키보드 인터럽트가 background에서 동작하는 프로그램에게
-	잘못 전달되는 것을 막아 줍니다.  (또 이런 꼴의 코드가 \TT{signal()}을
-	부르는 방식에 어긋나지도 않습니다.)
+	잘못 전달되는 것을 막아 줍니다.  (이런 형태의 코드는 \TT{signal()}을
+	부르는 방식에 어긋나지 않습니다.)
 
 	어떤 시스템에서는 키보드 인터럽트가 터미널 입력 시스템에 따라 영향을
 	받기도 합니다; 질문 \ql{19.1}을 참고하기 바랍니다.

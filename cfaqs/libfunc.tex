@@ -6,7 +6,7 @@
 <pre>$Id$</pre>
 \end{rawhtml}
 
-예전에는 특정 run-time library는 C 언어의 공식 일부분이 아니었습니다.
+예전에는, 특정 run-time library는 C 언어의 표준의 한 부분이 아니었습니다.
 ANSI/ISO Standard C의 출현으로 대부분의 전통적인 (traditional) run-time
 library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 
@@ -52,7 +52,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
           \item 돌려줄 버퍼를 어떻게 할당할 것인지 생각해 봐야 합니다;
             질문 \ql{7.5}를 참고 바랍니다.
           \item 간단히 만들었다면, 보통 가장 적은 음수(\verb+INT_MIN+,
-            일반적으로 -32,768 또는 -2,147,483,648)를 올바르게 처리하지 못할
+            보통 -32,768 또는 -2,147,483,648)를 올바르게 처리하지 못할
             수도 있습니다.
         \end{itemize}
 
@@ -156,7 +156,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \A
 	어떤 라이브러리들은 이 역할을 위해, \TT{strupr}와 \TT{strlwr}, 또는
         \TT{strupper}와 \TT{strlower}를 제공합니다만, 이식성도 없고, 표준도
-        아닙니다. \verb+<ctype.h>+에 정의되어 있는 매크로인 \TT{toupper}와
+        아닙니다. 헤더 파일 \verb+<ctype.h>+에 정의되어 있는 매크로인 
+        \TT{toupper}와
         \TT{tolower}를 써서 이 기능을 수행하는 함수를 만들면 됩니다;
         질문 \ql{13.5}를 참고 바랍니다. (매우 간단하지만, 만들 함수가
         전달받은 문자열을 고칠 것이냐, 아니면 따로 공간을 할당하고 변경된
@@ -170,7 +171,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \begin{faq}
 \Q{13.5} % 13.5 COMPLETE
 	어떤 버전의 \TT{toupper()}에, 대문자를 인자로 줄 경우,
-	이상하게 동작합니다.  그리고 이런 것을 예상해서인지 \TT{toupper()}를
+	이상하게 동작합니다.  이런 것을 예상해서인지 \TT{toupper()}를
 	부르기 전에 \TT{islower()}를 부르는 코드도 보았습니다.
 \A
 	오래된 버전의 \TT{toupper()}와 \TT{tolower()}의 경우, 변환이 필요없는
@@ -198,14 +199,15 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
         해야 할까요?
 
 \A
-	이러한 단어로 (``token''이라고 함) 문자열을 끊어주는 표준 함수는
-	\TT{strtok()}입니다.  물론, 이 함수가 이러한 모든 일을 다 처리할 수
+	단어 (``token'') 단위로, 문자열을 끊어주는 표준 함수
+	\TT{strtok()}이 있습니다. 물론, 이 함수가 이러한 모든 일을 다 처리할 수
 	있는 것은 아닙니다.  (예를 들어, 인용(quoting)된 문자열을
         제대로 처리하기 힘듭니다.) 아래에 각각 필드를 얻어서 출력하는
         예를 보입니다:
 \begin{verbatim}
   #include <string.H>
-  char string[] = "this is a test"; /* not char *; see Q16.6 */
+  char string[] = "this is a test"; 
+    /* not char *; see Q16.6 */
   char *p;
   for (p = strtok(string, " \t\n"); p != NULL;
                      p = strtok(NULL, " \t\n"))
@@ -309,8 +311,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	그리고 \TT{regcmp/regex}, \TT{regcomp/regexec},
 	\verb+re_comp/re_exec+ 함수가 존재하는 지 (이 함수들은 대개
 	각각의 독립적인 라이브러리 형태로 제공됩니다.) 체크해보시기 바랍니다.
-	인기있고, 공개로 제공되는 Henry Spencer씨의 regexp 패키지를
-	\TT{ftp.cs.toronto.edu}의 \TT{pub/regexp.shar.Z}에서 얻을 수
+	인기있고, 공개인 Henry Spencer씨의 regexp 패키지를
+	\TT{ftp.cs.toronto.edu}에서 \TT{pub/regexp.shar.Z}로 얻을 수
 	있습니다.  GNU 프로젝트에서는 rx라고 하는 패키지를 제공합니다.
 	\seealso{\ql{18.16}}
 
@@ -460,7 +462,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
   struct mystruct dates[NDATES];
   int ndates;
   /* ndates cells of dates[] are to be sorted */
-  qsort(dates, ndates, sizeof(struct mystruct), mystructcmp);
+  qsort(dates, ndates, sizeof(struct mystruct),
+        mystructcmp);
 \end{verbatim}
 
 	만약, structure를 가리키는 포인터를 정렬하고 싶다면, 질문 \ql{13.8}에
@@ -490,7 +493,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
         같은 방식으로 이루어집니다.)
         
         \TT{qsort}는 어떤 타입인지 알지 못하는, 일반적인 타입에 대한 정렬을
-        하므로, 정렬 대상을 가리키기 위해, generic 포인터(\TT{void *})를 
+        하므로, 정렬 대상을 가리키기 위해, generic 포인터를 (\TT{void *})
         씁니다. \TT{qsort}가 비교 함수를 부를때, 여러분이 만든 비교 함수는
         \TT{void *}를 인자로 받도록 만들어져 있어야 하며, 실제 정렬 대상에
         대해 어떤 작업을 (예를 들어 실제 비교를 하기 위해) 수행하기 위해서,
@@ -502,12 +505,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
         어떤 Structure에 대한 배열을 정렬한다고 가정해봅시다. 그리고 비교
         함수가 이 structure에 대한 포인터를 받는다고 하면 다음과 같습니다:
 \begin{verbatim}
-  int mywrongstructcmp(struct mystruct *, struct mystruct *);
+  int mywrongstructcmp(struct mystruct *, 
+                       struct mystruct *);
 \end{verbatim}
 	\noindent 만약 다음과 같이 \TT{qsort}를 부르게 되면:
 \begin{verbatim}
   qsort(dates, ndates, sizeof(struct mystruct),
-        (int (*)(const void *, const void*)mywrongstructcmp);
+        (int (*)(const void *,
+                 const void*)mywrongstructcmp);
         /* WRONG */
 \end{verbatim}
 	이 것은, 컴파일러가 ``\TT{qsort}에 전달된 비교 함수가
@@ -645,14 +650,14 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	또 주어진 두 날짜를 비교하는 함수가 있을까요?
 
 \A
-	이러한 문제를 해결하기 위해서 ANSI/ISO 표준 C에서는
-	\TT{mktime()}과 \TT{difftime()} 함수를 제공합니다.
+	이러한 문제를 해결하기 위해서, ANSI/ISO C 표준은
+	\TT{mktime}과 \TT{difftime} 함수를 제공합니다.
 	\TT{mktime()}은 정규화되지 않은 (non-normailized) 날짜를
 	\verb+struct tm+ 타입으로 입력받아 이것을 정규화시켜 줍니다.
 	lgx, \TT{struct tm}의 변수에 기준 날짜 값을 넣고, 
         \verb+tm_mday+에서 원하는 날짜만큼 더하거나 뺀 다음, \TT{mktime}을
         부르면 normalize된 년, 월, 일을 얻을 수 있습니다.
-        (또, 추가적으로 이 값을 \verb+time_t+ 타입으로 변경시켜 줍니다.)
+        (추가적으로 이 값을 \verb+time_t+ 타입으로 변경시켜 줍니다.)
 	\TT{difftime()}은 두 개의 \verb+time_t+ 값을 입력받아 초 단위로
 	비교해 줍니다; 이 때 필요한 \verb+time_t+ 값은 \TT{mktime()}을 써서
         얻습니다.
@@ -662,7 +667,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	\verb+tm_days+ 필드는 \TT{int}이기 때문에 일(day) 수가
 	\TT{int} 값을 넘는 값일 경우 (예를 들어 32,736 이상), 오버플로우가
         발생할 수 있습니다.
-	또한 써머 타임(daylight saving time)을 고려하면
+	또한 daylight saving time(써머 타임)을 고려하면
 	하루는 24 시간이 아닐 수도 있습니다 (따라서 86400 seconds/day로 나누면
 	해결될 것이라는 생각을 하면 안됩니다).
 
@@ -686,7 +691,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
            tm1.tm_mon + 1, tm1.tm_mday, tm1.tm_year + 1900);
 \end{verbatim}
 	\noindent (\verb+tm_isdst+를 -1로 설정하거나 \verb+tm_hour+를
-        12로 설정하면 써머 타임(daylight saving time) 문제로부터 보호받는데
+        12로 설정하면 daylight saving time 문제로부터 보호받는데
         도움을 줍니다.)
 
         아래 코드는 2000년 2월 28일과 2000년 3월 1일 사이의 날짜 차이를 구하는
@@ -729,7 +734,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
   long ToJul(int month, int day, int year);
 
   /* returns month, day, year for jul */
-  void FromJul(long jul, int *monthp, int *dayp, int *yearp);
+  void FromJul(long jul, 
+               int *monthp, int *dayp, int *yearp);
 \end{verbatim}
 	\noindent 이 때, \TT{n}일(day)을 더하는 것은 다음과 같이 합니다:
 \begin{verbatim}
@@ -832,8 +838,9 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	\[ X \leftarrow (aX + c) \bmod m \]
 	\noindent 나머지(modulus) 연산이 소수(prime) 연산이기 때문에,
         이 generator는 질문 \ql{13.18}에 나온 문제가 발생하지 않습니다.
-        여기에 쓰인 곱하기는 Schrage씨에 의해 소개된 기법을 써서, 곱한 결과인
-        \TT{aX}가 overflow나는 일은 없습니다. 위 코드는 값의 범위가
+        위에서 사용한 곱하기는 Sch\-rage씨에 의해 소개된 기법을 써서, 
+        곱한 결과인
+        \TT{aX}가 overflow를 발생시키지 않습니다. 위 코드는 값의 범위가
         \TT{[1, 2147483647]}를 만족하는 \TT{long int} 값을 돌려주며,
         이 범위는 C 언어의 \TT{rand} 함수가 \TT{RAND\_MAX}보다 작은 값을
         돌려 주는 것과 비슷한 방식입니다. (단지 위 코드가 만들어 내는 값에는
@@ -962,7 +969,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 
 \begin{faq}
 \Q{13.18}
-	참/거짓을 나타내는 난수(random number)가 필요합니다.  그래서
+	참/거짓을 나타내는 random number(난수)가 필요합니다. 
 	\verb+rand() % 2+를 썼는데, 계속 0, 1, 0, 1, 0 만을 반복합니다.
 \A
 	(불행하게도 어떤 시스템에서 제공하는 것과 같은) 엉성하게 만들어진 
@@ -1144,7 +1151,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
     double denom = RAND_MAX + 1.;
     double need;
 
-    for (need = PRECISION; need > 1; need /= (RAND_MAX + 1.)) {
+    for (need = PRECISION; need > 1;
+         need /= (RAND_MAX + 1.)) {
       x += rand() / denom;
       denom *= RAND_MAX + 1.;
     }

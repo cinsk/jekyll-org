@@ -358,8 +358,8 @@
 	\noindent 제 생각에는 \verb+malloc((strlen(s) + 1) * sizeof(char))+로
 	되어야 할 것 같은데요.
 \A
-	\verb+sizeof(char)+로 곱하는 것은 불필요합니다.  왜냐하면 정의에
-	의해서 \verb+sizeof(char)+는 항상 1이기 때문입니다.
+	\verb+sizeof(char)+로 곱하는 것은 전혀 필요 없습니다.
+        왜냐하면 정의에 의해, \verb+sizeof(char)+는 항상 1이기 때문입니다.
 	다른 말로 하면 \verb+sizeof(char)+를 곱하는 것은 전혀 문제가
 	되지 않습니다.  1을 곱하는 것은 아무런 영향을 끼치지 않기 때문입니다.
 	추가적으로 \verb+size_t+ 타입을 쓰는 것이 도움이 될 때도 있습니다.
@@ -491,20 +491,9 @@
         \cite{ansi} \S\ 4.1.5, \S\ 4.1.6 \\
         \cite{c89} \S\ 7.1.6, \S\ 7.1.7
 \T
-	C99는 \verb+size_t+ 타입의 값을 쉽게 출력할 수 있도록 \TT{printf}, 
-        \TT{scanf} 형태의
-        함수에 \TT{z} modifier를 추가했습니다. 정수 출력에 쓰이는 conversion인,
-        \TT{d}, \TT{i}, \TT{o}, \TT{u}, \TT{x}, \TT{X}에 \TT{z}를 붙여서
-        \verb+size_t+를 쉽게 출력할 수 있습니다.  예를 들면:
-\begin{verbatim}
-  size_t sz;
-  ...
-  printf("%zu\n", sz);
-\end{verbatim}
-\R
-	\cite{c99} \S\ 7.19.6.2 \page{283}
-	\cite{hs5} \S\ 15.11.6 \page{392}
-
+	C99 표준은 \verb+size_t+를 쉽게 출력하기 위해, \TT{printf},
+        \TT{scanf} 함수들에 \TT{z} modifier를 추가했습니다.
+        질문 \ql{13.1}을 참고하기 바랍니다.
 \end{faq}
         
 \begin{faq}
@@ -561,9 +550,9 @@
         묶여 있는 메모리가 많아서 다른 곳에서 메모리를 쓸 수 없게 되어
         버립니다.)
 \T
-        사용자가 직접 죽은(dead) 노드들을 리스트에 묶어 놓고 필요할 때,
+        사용자가 직접 죽은(dead) 노드들을 리스트에 저장해 두고, 필요할 때,
         \TT{malloc}을 부르는 대신 이 죽은 노드를 활용하는 것을,
-        `object caching'으로 부르기도 합니다.
+        `object caching'이라고 부르기도 합니다.
 
         예를 들어, 리스트의 노드가 다음과 같을 경우:
 \begin{verbatim}
@@ -619,7 +608,7 @@
      grave = p;
   }
 \end{verbatim}
-	\noindent 물론 수정된 두 함수가 완벽하지는 않습니다. 일단
+	\noindent 물론 수정된 두 함수가 완벽하지는 않습니다.
         \verb+delete_node()+는 \TT{free}를 부르지 않고, 필요없는 모든 
         \TT{node}를 \TT{grave} 포인터에 리스트로 보관하고, 필요한 경우,
         (즉 \verb+new_node()+를 불렀을 경우) 리스트에 보관된 노드를 다시
@@ -692,8 +681,8 @@ can---and should---recycle it by calling \TT{free}.
     free(listp);
   }
 \end{verbatim}
-	\noindent 만약 위 코드가 임시 변수인 \TT{nextp}를 쓰지 않고,
-        바로 \verb+listp = listp->next+를 썼다면, 이미 반환한 메모리를
+	\noindent 만약 위 코드가 임시 변수 \TT{nextp}를 쓰지 않고,
+        \verb+listp = listp->next+를 썼다면, 이미 반환한 메모리를
         \verb+listp->next+로 다시 접근하려 한다는 것을 알 수 있습니다.
 \R
 	\cite{kr2} \S\ 7.8.5 \page{167} \\
@@ -751,8 +740,8 @@ can---and should---recycle it by calling \TT{free}.
 	구조체를 할당했습니다.  이 구조체를 해제할 때, 각각의 포인터 멤버가
 	가리키는 메모리도 따로 해제해 주어야 하나요?
 \A
-	그렇습니다.  \TT{malloc()}으로 할당한 메모리는 각각 (정확히
-	딱 한번) \TT{free()}를 해주어야 합니다.  프로그램에서 각각
+	그렇습니다.  \TT{malloc()}으로 할당한 메모리는 각각, 정확히
+	딱 한번, \TT{free()} 해주어야 합니다.  프로그램에서 각각
 	\TT{malloc()}으로 할당한 메모리는 모두 \TT{free()}시키는 것이
 	좋은 습관입니다.
 
@@ -832,7 +821,8 @@ can---and should---recycle it by calling \TT{free}.
         (예를 들어, 질문 \ql{6.14}에 나온 것처럼 \TT{dynarray}) 동적으로 할당된
         배열의 크기를 바꾸려면 다음과 같은 코드를 씁니다:
 \begin{verbatim}
-  dynarray = (int *)realloc((void *)dynarray, 20 * sizeof(int));
+  dynarray = (int *)realloc((void *)dynarray,
+                            20 * sizeof(int));
 \end{verbatim}
         \TT{realloc}이 항상 메모리 블럭의 크기를 늘리는데\footnote{또는 항상
         크기를 줄이는데에만 쓰이는 것도 아닙니다.} 쓰이는 것은 아닙니다.
@@ -862,8 +852,8 @@ can---and should---recycle it by calling \TT{free}.
   int tmpoffset;
 
   p = malloc(10);
-  strcpy(p, "Hello,");          /* p is a string */
-  p2 = strchr(p, ',');          /* p2 points into that string */
+  strcpy(p, "Hello,");    /* p is a string */
+  p2 = strchr(p, ',');    /* p2 points into that string */
 
   tmpoffset = p2 - p;
   newp = realloc(p, 20);

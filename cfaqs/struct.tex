@@ -9,7 +9,7 @@
 Structure, union, enumeration은 여러분에게 새로운 data type을 정의할 수
 있게 해준다는 공통점을 가집니다.  먼저, structure나 union은 여러분이
 member나 field를 선언하여 새 data type을 정의할 수 있고, enumeration의 경우
-상수(constant)를 선언하여 새 data type을 정의할 수 있습니다.
+상수를 (constant) 선언하여 새 data type을 정의할 수 있습니다.
 동시에 여러분은 새로운 data type에 \EM{tag} name을 줄 수 있습니다.
 일단 새 type을 정의했다면, 정의와 동시에 또는 나중에 새 type의 
 instance(변수)를 선언할 수 있습니다.
@@ -140,11 +140,12 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
     char namestr[1];
   };
 \end{verbatim}
-	그리고 그 코드에서는 \TT{namestr}에 공간을 할당(allocation)하고, 배열
-	\TT{namestr}이 여러 요소를 가진 것처럼 쓰는 것을 봤습니다.  이게
+	그리고나서 \TT{namestr}에 공간을 할당하고 (allocation),
+        배열 \TT{namestr}이 여러 element를 가진 것처럼 쓰는 것을 봤습니다. 이게
 	안전한 방법인가요?
 \A
-        합법적인지(legal), 이식성이 뛰어난 지는 확실하지 않으나, 매우 인기있는 방법입니다.
+        합법적인지(legal), 이식성이 뛰어난 지는 확실하지 않으나, 매우 인기있는
+        방법입니다.
         보통 다음과 같은 코드를 써서 위 구조체를 사용합니다:
 \begin{verbatim}
   #include <stdlib.h>
@@ -153,7 +154,8 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
   struct name *makename(char *newname)
   {
     struct name *ret =
-      malloc(sizeof(struct name) - 1 + strlen(newname) + 1);
+      malloc(sizeof(struct name) - 1 + 
+              strlen(newname) + 1);
         /* -1 for initial [1]; +1 for \0 */
     if (ret != NULL) {
       ret->namelen = strlen(newname);
@@ -195,7 +197,8 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
   struct name *makename(char *newname)
   {
     struct name *ret =
-      malloc(sizeof(struct name) - MAX + strlen(newname) + 1);
+      malloc(sizeof(struct name) - MAX +
+             strlen(newname) + 1);
         /* -1 for initial [1]; +1 for \0 */
     if (ret != NULL) {
       ret->namelen = strlen(newname);
@@ -248,7 +251,8 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
 \begin{verbatim}
   struct name *makename(char *newname)
   {
-    char *buf = malloc(sizeof(struct name) + strlen(newname) + 1);
+    char *buf = malloc(sizeof(struct name) +
+                       strlen(newname) + 1);
     struct name *ret = (struct name *)buf;
     ret->namelen = strlen(newname);
     ret->namep = buf + sizeof(struct name);
@@ -258,8 +262,9 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
   }
 \end{verbatim}
         그러나, 위와 같이, \TT{malloc}을 한 번 불러서, 두번째 영역까지
-        할당하는 것은, 두 번째 영역이 \TT{char} 배열로 취급될 경우에만 이식성이 있습니다.
-        다른, 더 큰 데이터 타입을 쓴다면, alignment (질문 \ql{2.12}, \ql{16.7} 참고) 문제가
+        할당하는 것은, 두 번째 영역이 \TT{char} 배열로 취급될 경우에만 
+        이식성이 있습니다. 다른, 더 큰 데이터 타입을 쓴다면, alignment 
+        (질문 \ql{2.12}, \ql{16.7} 참고) 문제가
         발생할 가능성이 높습니다.
 
 	\cite{c9x}에서는 ``flexible array member''라는 개념을 소개하고 있고, 
@@ -275,22 +280,24 @@ structure에 대하여, 질문 \ql{2.19}부터 \ql{2.20}까지는 union에 대하여,
 % from 2.7
 \begin{faq}
 \Q{2.7} % 2.7 COMPLETE
-	구조체가 변수에 대입되고 함수 인자로 전달될 수 있다고 들었지만,
+	Structure가 변수에 대입되고 함수 인자로 전달될 수 있다고 들었지만,
 	\cite{kr1}에서는 그렇지 않다고 하는군요.
 \A
         \cite{kr1}에서도, 앞으로 만들어질 컴파일러에서는 이러한 제한들이
-        없을 것이라고 씌여 있습니다. 그리고 실제로도, Ritchie가 만든 컴파일러에서도
-        (\cite{kr1} 출판 이후) 구조체를 대입하고, 함수 인자로 전달하고, 구조체를
-        리턴하는 모든 연산들이 허용되었습니다. 아주 오래된 몇몇 C 컴파일러의 경우,
+        없을 것이라고 씌여 있습니다. 그리고 실제로도, Ritchie가 만든 
+        컴파일러에서도 (\cite{kr1} 출판 이후) 구조체를 대입하고, 함수
+        인자로 전달하고, 구조체를 리턴하는 모든 연산들이 허용되었습니다.
+        아주 오래된 몇몇 C 컴파일러의 경우,
         이 제한이 남아있지만 대부분의 컴파일러들은 구조체 연산을 지원합니다.
-        그리고 이 연산들은 이제 ANSI C 표준의 일부가 되었습니다. 따라서 전혀 거리낌없이 쓰셔도
-	좋습니다.\footnote{그러나, 큰 구조체를 함수의 인자로 전달하는 것은 효율성이
-        매우 떨어집니다. (질문 \ql{2.9} 참고) 따라서 이 구조체에 대한 포인터를 쓰는 것이
-        (물론 pass-by-value의 의미가 필요없다는 전제 아래에서) 훨씬 바람직합니다.}
+        그리고 이 연산들은 이제 ANSI C 표준의 일부가 되었습니다. 따라서 전혀
+        거리낌없이 쓰셔도 좋습니다.\footnote{그러나, 큰 구조체를 함수의 인자로
+          전달하는 것은 효율성이 매우 떨어집니다. (질문 \ql{2.9} 참고)
+          따라서 이 구조체에 대한 포인터를 쓰는 것이 (물론 pass-by-value의
+          의미가 필요없다는 전제 아래에서) 훨씬 바람직합니다.}
 
 	(구조체가 복사, 전달, 리턴되는 경우, 복사 작업은 통채로(monolithically)
-	이루어지기 때문에 구조체 안의 포인터 멤버 필드가 가리키는 데이터는 복사되지
-	않는다는 것에 주의하시기 바랍니다.)
+	이루어지기 때문에 구조체 안의 포인터 멤버 필드가 가리키는 데이터는
+        복사되지 않는다는 것에 주의하시기 바랍니다.)
 
         질문 \ql{14.11}의 코드를 참고하기 바랍니다.
 \R
