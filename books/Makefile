@@ -25,5 +25,7 @@ clean:
 	rm -f index.html index-ko.html
 
 upload: all
-	scp index*.html img/*.* \
-		$(REMOTE_USR)@$(REMOTE_HOST):$(REMOTE_PREFIX)/books/
+	ssh $(REMOTE_USR)@$(REMOTE_HOST) "cd $(REMOTE_PREFIX); mkdir -p books;"
+	tar -cf - index*.html img/*.* | ssh -C $(REMOTE_USR)@$(REMOTE_HOST) \
+		"cd $(REMOTE_PREFIX)/books; tar -xf -"
+
