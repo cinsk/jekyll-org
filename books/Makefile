@@ -1,3 +1,4 @@
+# $Id#
 
 EN_SRC=$(wildcard bookinfo/*.en.tmpl)
 KO_SRC=$(wildcard bookinfo/*.ko.tmpl) $(EN_SRC)
