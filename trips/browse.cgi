@@ -115,7 +115,7 @@ proc proc_thumbnails {} {
     
     puts "<p align=\"center\">"
     if {$page > 1} {
-	puts "\[ <a href=\"browse.cgi?mode=thumbnails&cwd=$cwd&page=[expr $page - 1]\">Previous</a> \] "
+	puts "\[ <a href=\"browse.cgi?mode=thumbnails&amp;cwd=$cwd&amp;page=[expr $page - 1]\">Previous</a> \] "
     } else {
 	puts "\[ Previous \] "
     }
@@ -123,7 +123,7 @@ proc proc_thumbnails {} {
     puts "\[ <a href=\"./index.html\">Up</a> \] "
 
     if {$page < $page_cnt} {
-	puts "\[ <a href=\"browse.cgi?mode=thumbnails&cwd=$cwd&page=[expr $page + 1]\">Next</a> \] "
+	puts "\[ <a href=\"browse.cgi?mode=thumbnails&amp;cwd=$cwd&amp;page=[expr $page + 1]\">Next</a> \] "
     } else {
 	puts "\[ Next \] "
     }
@@ -148,7 +148,7 @@ proc proc_thumbnails {} {
 	} else {
 	    set imgname $file
 	}
-	puts "<td><a href=\"browse.cgi?mode=slide&cwd=$cwd&page=$page&file=$file\"><img width=\"120\" border=\"1\" src=\"$imgname\"/></a>"
+	puts "<td><a href=\"browse.cgi?mode=slide&amp;cwd=$cwd&amp;page=$page&amp;file=$file\"><img width=\"120\" border=\"1\" src=\"$imgname\" alt=\"$filename\"/></a></td>"
 	set cnt [expr $cnt + 1]
 	if {$cnt == $img_per_line} {
 	    puts "<!-- cnt: $cnt, img_per_line: $img_per_line -->"
@@ -184,23 +184,23 @@ proc proc_slide {} {
     if {[info exists prev]} {
 	set page [expr ($index - 1) / $img_per_page]
         if {$page <= 0} { set page 1 }
-	puts "\[ <a href=\"browse.cgi?mode=slide&page=$page&cwd=$cwd&file=$prev\">Previous</a> \] "
+	puts "\[ <a href=\"browse.cgi?mode=slide&amp;page=$page&amp;cwd=$cwd&amp;file=$prev\">Previous</a> \] "
     } else {
         puts "\[ Previous \]"
     }
 
-    puts "\[ <a href=\"browse.cgi?mode=thumbnails&page=$page&cwd=$cwd\">Thumbnails</a> \] "
+    puts "\[ <a href=\"browse.cgi?mode=thumbnails&amp;page=$page&amp;cwd=$cwd\">Thumbnails</a> \] "
     
     if {[info exists next]} {
 	set page [expr ($index + 1) / $img_per_page]
         if {$page <= 0} { set page 1 }
-	puts "\[ <a href=\"browse.cgi?mode=slide&page=$page&cwd=$cwd&file=$next\">Next</a> \] "
+	puts "\[ <a href=\"browse.cgi?mode=slide&amp;page=$page&amp;cwd=$cwd&amp;file=$next\">Next</a> \] "
     } else {
         puts "\[ Next \]"
     }
     puts "</p>"
 
-    puts "<p align=\"center\"><img src=\"$file\" border=\"1\"/></p>"
+    puts "<p align=\"center\"><img src=\"$file\" border=\"1\" alt=\"$file\"/></p>"
     if {$use_identify != 0} {
         puts "<p align=\"center\">[exec identify $file]</p>"
     }
@@ -211,13 +211,13 @@ proc proc_header {} {
     puts {<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/TR/xhtml1" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <!-- $Id$ -->
     <meta http-equiv="charset" content="iso-8859-1"></meta>
     <title>My Humble Photo Browser</title>
     <link rel="stylesheet" type="text/css" 
-      href="/~cinsk/css/default.css" title="default"></link>
+      href="../css/default.css" title="default"></link>
 
     <link rel="Start" href="/~cinsk/index.html"></link>
     <link rel="Up" href="/~cinsk/trips/index.html"></link>
@@ -233,21 +233,29 @@ proc proc_header {} {
 proc proc_footer {} {
     puts {<hr></hr>
     <p class="footer">
+	<a href="http://jigsaw.w3.org/css-validator/check/referer">
+	  <img style="border:0;width:88px;height:31px" border="0"
+	    src="http://jigsaw.w3.org/css-validator/images/vcss" 
+	    alt="Valid CSS!" align="right"/></a>
+	<a href="http://validator.w3.org/check?uri=referer">
+          <img src="http://www.w3.org/Icons/valid-xhtml10" border="0"
+            alt="Valid XHTML 1.0!" height="31" width="88" align="right"/></a>
       If you're looking at a paper snapshot, 
       the latest version is available at 
       <a href="http://www.cinsk.org/">here</a>.
-      <!-- </p>
+    </p>
       
-      <p class="footer"> --> <br></br>
+    <p class="footer">
       Copyright &copy; 2004  
       Seong-Kook Shin.  All rights reserved.
+    </p>
 
-      <br></br>
-
-      <p class="footer">
-        $Id$
-      </p>
-    </p>}
+    <p class="cvsid">
+      $Id$
+    </p>
+  </body>
+</html>
+    }
 }
 
 set mode [::ncgi::value mode "thumbnails"]
@@ -322,3 +330,9 @@ if {[string compare $mode "thumbnails"] == 0} {
     proc_slide
 }
 
+#
+# Local Variables:
+# coding: iso8859-1
+# fill-column: 78
+# End:
+#

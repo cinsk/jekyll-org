@@ -4,15 +4,16 @@ h1 {
   /* border: 1px solid black; */ 
 }
 
-// h1 { font: large/150% sans-serif; }
+/* h1 { font: large/150% sans-serif; } */
 body { padding: 4pt; }
-p { font: 12pt sans-serif; }
+p { font: 12pt sans-serif; font-size: 12pt }
 p.quote { color: gray; }
 p.footer { font-size: 10pt; }
-//strong { color: red; }
+p.cvsid { font-family: monospace; font-size: 10pt; text-align: right; }
+/* strong { color: red; } */
 em { color: maroon; }
 .warning { font-weight: bold; }
-div.main { magin: 4pt;}
+/* div.main { magin: 4pt;} */
 p.cwarn { color: red; }
 img.album { margin: 10pt; }
 div.menu {
@@ -38,9 +39,9 @@ div.bkinfo {
   border-width: thin;
   vertical-align: top; 
   margin-right: 10pt;
-//  width: 80em; 
+/*  width: 80em; */
   padding: 4pt;
-//  margin: 4pt;
+/*  margin: 4pt; */
 }
 
-//img.bkimg { margin: 10pt; }
+/* img.bkimg { margin: 10pt; } */
