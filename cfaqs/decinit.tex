@@ -246,7 +246,8 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
 
 \section{Pointer Declarations}	\label{sec:pointerdec}
 % from 1.5
-포인터에 관한 것은 \ref{chap:pointer}~장부터 \ref{chap:memalloc}~장까지
+포인터에 관한 것은 Chapter~\ref{chap:pointer}부터
+Chapter~\ref{chap:memalloc}까지
 설명되어 있지만, 여기에서는 선언에 관련된 것만 다룹니다.
 
 \begin{faq}
@@ -658,7 +659,7 @@ can more accurately catch any error that do occur.
 \section{The \TT{const} qualifier}	\label{sec:const}
 % from 1.18
 C 언어 선언에서는 type qualifier라는 게 있으며, 이는 ANSI C에서
-새로 추가된 것입니다.  Qualifier에 관한 질문은 \ref{chap:standard}~장에서
+새로 추가된 것입니다.  Qualifier에 관한 질문은 Chapter~\ref{chap:standard}에서
 다룹니다.
 
 \begin{faq}
@@ -859,12 +860,12 @@ file2.c:
 \section{Declaraction Problems}	\label{sec:decproblem}
 Sometimes the compiler insists on complaining about your declarations no matter
 how carefully constructed you thought they were. These questions uncover some
-of the reasons why. (Chapter 16 is a similar collection of baffling run-time
-problems.)
+of the reasons why. (Chapter~\ref{chap:sproblem} is a similar collection of 
+baffling run-time problems.)
 % from 1.25
 때때로 컴파일러는 여러분이 얼마나 주의깊게 선언을 만들었는지에 상관없이
-불평을 하기도 합니다.  이 절의 질문들은 왜 그런지 그 이유를 설명합니다
-(\ref{chap:sproblem}~장은 실행 시간에 발생할 수 있는 이상한 문제들에
+불평을 하기도 합니다.  이 section의 질문들은 왜 그런지 그 이유를 설명합니다
+(Chapter~\ref{chap:sproblem}에서는 실행 시간에 발생할 수 있는 이상한 문제들에
 대해 설명합니다.)
 
 \begin{faq}
@@ -1120,8 +1121,8 @@ problems.)
 	\TT{static}으로 선언된 변수) 변수는 0의 값을 가집니다.
 	즉 프로그래머가 ``\verb+= 0+''으로 써 준 것과 똑같다는
 	말입니다.  따라서 널 포인터일 경우에도 올바른 값을
-	가집니다 (5 절 참고).  마찬가지로 실수일 경우 0.0으로
-	해석됩니다.
+	가집니다 (Chapter~\ref{chap:nullptr} 참고).
+        마찬가지로 실수일 경우 0.0으로 해석됩니다.
 
 	``automatic'' 속성을 가진 (\TT{static}으로 선언되지 않은
 	지역 변수) 변수는 초기화되지 않을 경우 쓰레기 값을
@@ -1133,7 +1134,7 @@ problems.)
 	적당히 초기화시켜 주어야 합니다.  \TT{calloc()}으로 할당받은
 	메모리는 비트 단위로 0을 가지고 되지만, 이 것이
 	포인터나 실수 타입에서 0을 의미한다고 말할 수는 없습니다
-	(질문 \ql{7.31}과 Chapter 5 참고).
+	(질문 \ql{7.31}과 Chapter~\ref{chap:nullptr} 참고).
 
 \R
 	\cite{kr1} \S\ 4.9 \Page{82--4} \\

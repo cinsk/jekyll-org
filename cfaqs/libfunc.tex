@@ -8,13 +8,13 @@
 
 예전에는, 특정 run-time library는 C 언어의 표준의 한 부분이 아니었습니다.
 ANSI/ISO Standard C의 출현으로 대부분의 전통적인 (traditional) run-time
-library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
+library는 (Chapter~\ref{chap:stdio}의 stdio 함수들을 포함) 표준이 되었습니다.
 
-특별히 중요한 라이브러리 함수들은 각각 다른 절에 설명되었습니다; 메모리
+특별히 중요한 라이브러리 함수들은 각각 다른 section에 설명되었습니다; 메모리
 할당에 관련된 \TT{malloc}과 \TT{free}에 관한 것은 \ref{chap:memalloc}~장에
 설명되었으며, \verb+<stdio.h>+에 나온 ``standard I/O'' 함수들은
-\ref{chap:stdio}~장에 설명되었습니다.
-이 장은 다음과 같이 나누어집니다:
+Chapter~\ref{chap:stdio}에 설명되었습니다.
+이 chapter는 다음과 같이 나누어집니다:
 
 \begin{description}
 \item String Function: \ql{13.1}--\ql{13.7}
@@ -127,8 +127,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
         함수가 있나요?
 \A
 	없습니다. (그 이유 중 하나는, C 언어에는 문자열을 취급하는 전용의
-        데이터 타입이 없기 때문입니다. 질문 \ql{7.2}와 Chapter 8을 참고하기
-        바랍니다.)
+        데이터 타입이 없기 때문입니다. 질문 \ql{7.2}와 
+        Chapter~\ref{chap:charstr} 참고하기 바랍니다.)
 
         원본 문자열의 \TT{POS}번째에서 시작해서 길이가 \TT{LEN}인 부분 문자열을
         꺼내기 위해서 다음과 같이 할 수 있습니다:
@@ -147,7 +147,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
   strncat(dest, source + POS, LEN);
 \end{verbatim}
 	\noindent (정의에 의해, \TT{\&source[POS]}는 \TT{source + POS}와
-        완벽히 같은 표현입니다; Chapter 6 참고)
+        완벽히 같은 표현입니다; Chapter~\ref{chap:arrayptr} 참고)
 \end{faq}
 
 \begin{faq}

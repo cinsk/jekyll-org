@@ -27,6 +27,49 @@ these terms, and it's correct to simply refer to ``the C Standard'' or
 ``standard C.'' (When the subject of C is implicit in the discussion, it's
 also common to use the word ``standard'' by itself, often capitalized.)
 
+% 아래 단락은 새로 추가한 것임.
+C 언어 표준은 항상 진행중입니다. 현재 C99까지 나왔으며, 앞으로도 다음 표준이
+나올 수 있습니다. 여기에서는 \cite{rational2}에 나온 C89 위원회의 원칙에 대해
+몇가지 간단히 소개하겠습니다:
+\begin{itemize}
+  \item Existing code is important, existing implementations are not.
+    현존하는 C 코드의 중요성을 인식하고, 가능하면 기존의 코드가 변화없이
+    동작할 수 있도록 합니다.
+  \item C code can be portable.
+    C 언어는 비록 PDP-11에서 동작하는 UNIX 시스템에서 태어났지만, 현존하는
+    모든 시스템에서 표준 C 언어를 (언어 및 라이브러리) 구현 가능하도록 합니다.
+  \item C code can be non-portable.
+    C 표준이 프로그래머가 이식성이 높은 프로그램을 작성할 수 있도록 해 주지만,
+    그렇다고 프로그래머가 고수준 어셈블러처럼 C 언어를 쓰는 것을 제한하지
+    않습니다. 시스템 의존적인 코드를 만들 수 있는 것도 C 언어의 장점 중 
+    하나이기 때문입니다.
+  \item Avoid ``quite changes.''
+    현존하는 코드의 의미를 바꾸는 변화는 문제가 될 수 있습니다. 적어도 이런
+    문제가 있다면 항상 쉽게 알 수 있는 방법을 제공해야 하며, 가능한 이런
+    은근슬쩍 의미를 바꾸지 않도록 할 것이며, 이런 변화가 있다면
+    표준과 Rationale에 ``QUITE CHANGE''로 명시할 것입니다.
+  \item A standard is a treaty between implementor and programmer.
+    시스템(컴파일러) vendor와 개발자들이 좀 더 자세히 이해할 수 있도록,
+    여러 수치 제한이 추가됩니다. 하지만, 이런 제한은 표준보다 우수하거나,
+    표준의 제한을 벗어나는 시스템을 개발하는 것을 막지 않습니다. 이런 제한들은
+    (\EM{minimum maxima})최고값이 제공할 수 있는 최하위 값의 형태로 제공됩니다.
+  \item Keep the spirit of C.
+    기존 C 언어가 가지고 있는 들을 그대로 유지합니다. 즉,
+    \begin{itemize}
+      \item Trust the programmer.
+      \item Don't prevent the programmer from doing what needs to be done.
+      \item Keep the language small and simple.
+      \item Provide only one way to do an operation.
+      \item Make it fast, even if it is not guaranteed to be portable.
+    \end{itemize}
+  \item Support international programming.
+  \item Codify existing practice to address evident deficiencies.
+  \item Minimize incompatibilities with C89.
+  \item Minimize incompatibilities with C++.
+  \item Maintain conceptual simplicity.
+\end{itemize}
+
+\noindent 좀 더 자세한 것은 \cite{rational2}를 참고하기 바랍니다.
 \section{The Standard}
 % from 11.1
 \begin{faq}
@@ -701,10 +744,10 @@ startup code that will actually call \TT{main}.
         쓸 것을 권장합니다.
 
         질문 \ql{19.33}을 참고하기 바랍니다.
-% TODO: 다른 질문과 연관성을 꼭 쓰도록. 특히 19장과..
+% TODO: 다른 질문과 연관성을 꼭 쓰도록. 특히 Chapter 19와..
 % TODO: POSIX.1에 대해서도 다룰 것.
 \R
-	\cite{hs5} \S\ 9.9 \page{304}
+	\cite{hs5} \S\ 9.9 \page{304} \\
         \cite{sus} environ
 \end{faq}
 
@@ -1306,9 +1349,106 @@ TODO: `volatile'에 대해 소개하기.
                    \S\ 7.13.2.1, \S\ 7.14
 \end{faq}
 
+
 \section{\TT{restrict} qualifier}
 The type qualifier \TT{restrict} is new in C99. 
 It may only be used to qualify pointers to object or incomplete types, and in
 serves as a ``no alias'' hint to the C compiler...
 
 TODO: `restrict' qualifier에 대하여 소개하기.
+
+\section{Flexible Array Members}
+질문 \ql{2.6}의 질문에 있는 코드는 매우 자주 쓰이지만, 엄밀하게 말해,
+C89 표준까지 ``undefined behavior''로 간주되어 왔습니다. 즉, 동작은 하지만,
+C 표준에는 위배되는 코드였습니다.
+
+C99 표준은 새로 ``flexible array member''라는 개념을 도입해서 이런 문제를
+쉽고 깔끔하게 해결할 수 있도록 도와줍니다.
+
+\begin{faq}
+\Q{11.G}
+	C99에 ``flexible array member''가 소개된 것으로 아는데, 정확히
+        무엇을 뜻하는 것인가요?
+\A
+	먼저 질문 \ql{2.6}을 보기 바랍니다. 그 질문에 나온 structure와
+        답변 첫 번째로 주어진 \TT{makename} 함수를 새로 만들 수 있습니다.
+
+\begin{verbatim}
+  struct name {
+    int namelen;
+    char namestr[];  /* flexible array member */
+  };
+\end{verbatim}
+
+	\noindent 즉, 배열의 크기를 지정하지 않으면 됩니다. 쓰는 방법은
+        다음과 같습니다:
+\begin{verbatim}
+  #include <stdlib.h>
+  #include <string.h>
+
+  struct name *makename(char *newname)
+  {
+    struct name *ret =
+      malloc(sizeof(struct name) + 
+              strlen(newname) + 1);
+        /* No need to add -1; +1 for \0 */
+    if (ret != NULL) {
+      ret->namelen = strlen(newname);
+      strcpy(ret->namestr, newname);
+    }
+    return ret;
+  }
+\end{verbatim}
+
+	\noindent 단, 다음 두 가지를 조심해야 합니다. 첫째, flexible array
+        member를 쓰기 위해서는, structure에 다른 멤버가 하나 이상 나와야
+        합니다. 즉 아래와 같은 코드는 잘못된 것입니다:
+\begin{verbatim}
+  struct name {
+    char namestr[];  /* flexible array member */
+  };
+\end{verbatim}
+	\noindent 둘째, flexible array member는 항상 structure의 마지막 
+        member로 나와야 합니다.
+
+\R
+	\cite{c99} \S\ 6.7.2.1 \\
+        \cite{rational2} \S\ 6.7.2.1
+\end{faq}
+
+\begin{faq}
+\Q{11.H}
+	질문 \ql{11.G}에 나온 것처럼, flexible array member를 가진 structure의
+        크기는 어떻게 계산되나요? 즉, \TT{sizeof} 연산자를 쓰면, 어떤 값을
+        돌려주나요?
+\A
+        Flexible array member를 가진 structure에 \TT{sizeof} 연산자를
+        쓰면, 그 flexible array member를 뺀 크기를 알려줍니다. 다음과 같은
+        structure를 생각해 봅시다:
+\begin{verbatim}
+  struct foo {
+    char ch;
+    int i[];
+  };
+\end{verbatim}
+	그리고 쓰고 있는 시스템은 \TT{sizeof(int)}가 4이고, \TT{int}는 항상
+        4 byte의 배수인 주소에 align된다고 가정합시다. 위
+        structure에서 \TT{sizeof(ch)}는 정의에 의해 1입니다.
+        그리고 \TT{i}는 flexible array member이므로 무시됩니다. 단,
+        \TT{i}는 4 byte alignment를 지켜야 하므로, \TT{ch}와 \TT{i} 사이에는
+        3 byte의 padding이 존재하게 됩니다.
+        이 padding은 structure의 크기에 포함되므로 결국 이 경우, 
+        \TT{sizeof(struct foo)}는 4입니다.
+
+        단, 위 단락은 이해를 돕기 위해 쓴 글입니다. 특이한 방식의
+        alignment를 쓰는 시스템에서는 다르게 나올 수 있습니다. 중요한 것은
+        다음 문장입니다. 꼭 기억해 두기 바랍니다.
+
+        \begin{quote}
+          \TT{sizeof} applied to the structure that includes a flexible
+          array member ignores the array but counts any padding before it.
+        \end{quote}
+\R
+	\cite{c99} \S\ 6.7.2.1 \\
+        \cite{rational2} \S\ 6.7.2.1
+\end{faq}
