@@ -1042,17 +1042,26 @@ directive.
 	개발자와 상관없이 시스템에 의존적인 경우가 많다는 것이 문제입니다.
 	이 제한은 이름의 첫 여섯 글자만을 유일하다고 보장하기 때문에,
 	첫 여섯 글자가 같은 이름들은, 전체가 같은 이름으로 취급합니다.
-	이 제한은 이미 쓸모없어져 가고 있으므로 (obsolescent), ISO 표준에서는
-	없어질 예정입니다.
+	이 제한은 이미 쓸모없어져 가고 있으므로 (obsolescent),
+        ISO 표준에서는	없어질 예정입니다.
 % TODO: 위 없어질 예정이라는 말 확인 바람..
-\T
-	즉, ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로 취급될 수
-	있다는 말입니다.
+
+	
 \R
 	\cite{c89} \S\ 6.1.2, \S\ 6.9.1 \\
 	\cite{rationale} \S\ 3.1.2 \\
 	\cite{c9x} \S\ 6.1.2 \\
 	\cite{hs} \S\ 2.5 \Page{22--3}
+\T
+	즉, 여섯 글자의 제한은 
+        ``\TT{AAAAAAB}''와 ``\TT{AAAAAAC}''가 같은 이름으로
+        취급될 수 있다는 말입니다.
+
+        그러나, 현 ISO/IEC C 표준은 internal identifier나 매크로 이름으로
+        적어도 63글자, external idendifier로 31글자가 유효하다고 말하고
+        있습니다. 또한 이 제한 사항도 다음 C 표준에서는 사라질 예정입니다.
+\R
+	\cite{c99} \S\ 5.2.4.1, \S\ 6.11.3
 \end{faq}
 
 \section{Old or Nonstandard Compilers}
@@ -1123,7 +1132,7 @@ suspect.
 
 \begin{faq}
 \Q{11.32}
-	Frobozz Magic C 컴파일러는 ANSI 호환이라고 되어 있는데도,
+	Froozz Magic C 컴파일러는 ANSI 호환이라고 되어 있는데도,
 	왜 제 코드를 컴파일하지 못할까요? 제 코드는 gcc에서 동작하는 것을
 	보니, ANSI 호환인데요.
 \A
