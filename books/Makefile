@@ -1,4 +1,4 @@
-# $Id#
+# $Id$
 
 EN_SRC=$(wildcard bookinfo/*.en.tmpl)
 KO_SRC=$(wildcard bookinfo/*.ko.tmpl) $(EN_SRC)
@@ -21,6 +21,9 @@ index-ko.html: $(KO_TMPL) $(KO_SRC) $(BOOKGEN)
 	$(BOOKGEN) $(KO_SRC) >> index-ko.html
 	cat templates/footer.ko.html >> index-ko.html
 
-
 clean:
 	rm -f index.html index-ko.html
+
+upload: all
+	scp index*.html img/*.* \
+		$(REMOTE_USR)@$(REMOTE_HOST):$(REMOTE_PREFIX)/books/
