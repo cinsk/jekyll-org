@@ -8,7 +8,7 @@ body { padding: 4pt; }
 p { font: 12pt sans-serif; }
 p.quote { color: gray; }
 //p.footer { font: small/150%; sans-serif; }
-strong { color: red; }
+//strong { color: red; }
 em { color: maroon; }
 .warning { font-weight: bold; }
 div.main { magin: 4pt;}
@@ -25,3 +25,21 @@ div.menu {
   padding: 4pt;
   margin: 4pt;
 }
+
+
+p.bkinfo { line-height: 1.2; font-size: 10pt; text-indent: -3em; margin-left: 3em; }
+table.bkinfo { width: 100%; }
+div.bkinfo { 
+  color: #3366cc;
+  background: #f2f2f9;
+  border-color: #3366cc;
+  border-style: solid;
+  border-width: thin;
+  vertical-align: top; 
+  margin-right: 10pt;
+//  width: 80em; 
+  padding: 4pt;
+//  margin: 4pt;
+}
+
+//img.bkimg { margin: 10pt; }
