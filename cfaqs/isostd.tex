@@ -1,0 +1,113 @@
+% $Id$
+\chapter{ISO C Standard Consideration}
+% chapter 22: ISO C Standard Consideration
+
+\begin{faq}
+\q Terminology
+
+\A 
+\begin{description}
+        \item[access] 
+        \verb+<+execution-time action\verb+>+
+        to read or to modify the
+        value of an object.
+        \begin{description}
+                \item[Note 1] Where only noe of these two actions is
+                meant, ``read'' or ``modify'' is used. 
+                \item[Note 2] ``Modify'' includes the case where the new value
+                being stored is the same as the previous value.
+                \item[Note 3] Expressions that are not evaluated do not access 
+                object.
+        \end{description}
+
+        \item[alignment] requirement that objects of a particular type be
+        located on storage boundaries with addresses that are particular
+        multiples of a byte address
+
+        \item[argument] actual argument or actual parameter(deprecated).
+        expression in the comma-separated list bounded by the parentheses
+        in a function call expression, or a sequence of preprocessing tokens in
+        the comma-separated list bounded by the parentheses in a function-like
+        macro invocation.
+
+        \item[behavior] external appeareance or action
+
+        \item[implementation-defined behavior]
+        unspecified behavior where each implementation documents how the
+        choice is made.
+        \begin{description}
+                \item[Example] An example of implementation-defined behavior is
+                        the propagation of the high-order bit when a signed 
+                        integer is shifted right.
+        \end{description}
+        
+        \item[locale-specific behavior] behavior that depends on local
+        conventions of nationality, culture, and language that each implementation
+        documents.
+        \begin{description}
+                \item[Example] An example of locale-specific behavior is whether 
+                the \TT{islower} function returns true for characters other than 
+                the 26 lowercase Latin characters.
+        \end{description}
+
+        \item[undefined behavior] 
+        Behavior, upon use of a nonportable or erroneous program construct or 
+        of erroneous data, for which this International Standard imposes
+        no requirements.
+
+        \begin{description}
+                \item[Note] Possible undefined behavior ranges from ignoring 
+                the situation completely with unpredictable results, to behaving 
+                during translation or program execution in a documented manner 
+                characteristic of the environment (with or without the issuance 
+                of a diagnostic message), to terminating a translation or 
+                execution (with the issuance of a diagnostic message).
+                \item[Example] An example of undefined behavior is the behavior 
+                on integer overflow.
+        \end{description}
+
+        \item[unspecified behavior]
+        Behavior where this International 
+        Standard provides two or more possibilities and imposes no further 
+        requirements on which is chosen in any instance.
+        \begin{description}
+                \item[Example] An example of unspecified behavior is the order 
+                in which the arguments to a function are evaluated.
+        \end{description}
+
+        \item[bit]
+        Unit of data storage in the execution environment large enough to hold
+        an object that may have one of two values.
+        \begin{description}
+                \item[Note] It need not be possible to express the address of each individual
+        bit of an object.
+
+        \item[byte]
+        addressable unit of data storage large enough to hold any member of
+        the basic character set of the execution environment.
+        NOTE 1 It is possible to express the address of each individual byte of
+        an object uniquely.
+        NOTE 2 A byte is composed of a contiguous sequence of bits, the number of
+        which is implementation-defined. The least significant bit is called
+        the \EM{low-order bit}; the most significant bit is called the 
+        \EM{high-order bit}.
+
+        \item[character]
+        \verb+<+abstract\verb+>+
+        member of a set of elements used for the organization, control,
+        or representation of data
+
+        \item[character]
+        single-byte character 
+        \verb+<+C\verb+>+ $<$C$>$ bit representation that fits in a byte
+
+        \item[multibyte character]
+        sequence of one or more bytes representing a member of the extended
+        chracter set of either the source or the execution environment.
+        \begin{description}
+                \item[NOTE] The extended character set is a superset of the
+                basic character set.
+        \end{description}
+      \end{description}
+\end{description}
+\end{faq}
