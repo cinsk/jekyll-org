@@ -963,25 +963,109 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \begin{faq}
 \Q{13.18}
 	참/거짓을 나타내는 난수(random number)가 필요합니다.  그래서
-	\verb+rand() % 2+를 썼는데, 계속 0, 1, 0, 1, 0 만을 반복하는군요.
+	\verb+rand() % 2+를 썼는데, 계속 0, 1, 0, 1, 0 만을 반복합니다.
 \A
-	엉성하게 만들어진 가상 난수 발생기는 (pseudorandom number generator)
-	하위 (low-order) 비트들에 대해서는 그렇게 랜덤하지 않습니다.
-	상위 (high-order) 비트를 써보기 바랍니다: 질문 \ql{13.16}을 보기 바랍니다.
+	(불행하게도 어떤 시스템에서 제공하는 것과 같은) 엉성하게 만들어진 
+	pseudo-random number generator는 하위 (low-order) 비트들에 대해서는 
+        그렇게 랜덤하지 않습니다.
+% TODO: 다음 문장 번역
+        (In fact, for a pure linear congruential random number generator
+        with period $2^e$, and this tends to be how random number generates
+        for e-bit machines are written, the low-order \EM{n} bits repeat
+        with period $2^n$.) 이러한 이유에서,
+	상위 (high-order) 비트를 쓰는 것이 더 바람직합니다:
+        질문 \ql{13.16}을 보기 바랍니다.
 \R
 	\cite{knuth} \S\ 3.2.1.1 \Page{12--14}
+\end{faq}
+
+\begin{faq}
+\Q{13.19}
+	반복되지 않는, random number의 sequence를 얻으려면 어떻게 해야 할까요?
+\A
+	여러분이 찾고 있는 것은 보통, ``random permutation(순열)'', 또는
+        ``shuffle''이라고 부릅니다.  한가지 방법으로, 뒤섞이기 원하는
+        값들을 배열에 넣고, 이 배열의 임의의 두 element의 값을 서로
+        바꾸는 작업을 반복해서 얻을 수 있습니다:
+\begin{verbatim}
+  int a[10], i, nvalues = 10;
+
+  for (i = 0; i < nvalues; i++)
+    a[i] = i + 1;
+
+  for (i = 0; i < nvalues - 1; i++) {
+    int c = randrange(nvalues - i);
+    int t = a[i]; a[i] = a[i + c]; a[i + c] = t;  /* swap */
+  }
+\end{verbatim}
+	\noindent 여기에서 \TT{randrange(N)}은
+        \TT{rand() / (RAND\_MAX / (N) + 1)} 또는 질문 \ql{13.16}에 나온
+        코드를 씁니다.
+\R
+	\cite{knuth} \S\ 3.4.2 \Page{137--8}
 \end{faq}
 
 
 \begin{faq}
 \Q{13.20}
-	
 	How can I generate random numbers with a normal or Gaussian
 	distribution?
 
 \A
-	Marsaglia씨에 의해 개발되고 Knuth씨가 추천한 방법입니다:
+	적어도 다음과 같은 세 가지 방법이 있습니다:
 
+        \begin{itemize}
+          \item Exploit the Central Limit THeorem (``law of large numbers'')
+            and add up several uniformly distributed random numbers:
+\begin{verbatim}
+  #include <stdlib.h>
+  #include <math.h>
+
+  #define NSUM 25
+
+  double gaussrand()
+  {
+    double x = 0;
+    int i;
+    for (i = 0; i < NSUM; i++)
+      x += (double)rand() / RAND_MAX;
+
+    x -= NSUM / 2.0;
+    x /= sqrt(NSUM / 12.0);
+
+    return x;
+  }
+\end{verbatim}
+	\noindent (Don't overlook the sqrt(NSUM / 12.) correction, although
+        it's easy to do so accidentally, especially when \TT{NSUM} is 12.)
+
+      \item Use a method described by Abramowitz and Stegun:
+\begin{verbatim}
+  #include <stdlib.h>
+  #include <math.h>
+
+  #define PI 3.141592654
+
+  double gaussrand()
+  {
+    static double U, V;
+    static int phase = 0;
+    double z;
+
+    if (phase == 0) {
+      U = (rand() + 1.) / (RAND_MAX + 2.);
+      V = rand() / (RAND_MAX + 1.);
+      Z = sqrt(-2 * log(U)) * sin(2 * PI * V);
+    }
+    else
+      Z = sqrt(-2 * log(U)) * cos(2 * PI * V);
+
+    phase = 1 - phase;
+
+    return Z;
+  }
+\end{verbatim}
+      \item Use a method described by Box and Muller and discussed in Knuth:
 \begin{verbatim}
   #include <stdlib.h>
   #include <math.h>
@@ -1012,16 +1096,87 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
       return X;
   }
 \end{verbatim}
-	다른 방법에 대한 것은 이 목록의 화장판(질문 \ql{20.40} 참고)에서
-	참고하기 바랍니다.
+	\end{itemize}
+	These methods all generate numbers with mean 0 and standard deviation
+        1.  (To adjust to another distribution, multiply by the standard
+        deviation and add the mean.)  Method 1 is poor ``in the tails''
+        (especially if NSUM is small), but methods 2 and 3 perform quite well.
+        See the references for more information.
+
 \R
-	Knuth \S\ 3.4.1 \page{117}; Marsaglia and Bray,
-	``A Convenient Method for Generating Normal Variables'';
-	Press et al., \EM{Numerical Recipes in C} \S\ 7.2 \Page{288--290}
+	\cite{knuth} Vol.2 \S\ 3.4.1 \page{117} \\
+        Box and Muller, 
+        ``A Note on the Generation of Random Normal Deviates'' \\
+        Marsaglia and Bray, 
+        ``A Convenient Method for Generating Normal Variables'' \\
+        Abramowitz and Stegun, \EM{Handbook of Mathematical Functions} \\
+        Press \EM{et al.}, \EM{Numerical Recipes in C} \S\ 7.2 \Page{288-90}.
 \end{faq}
 
+\begin{faq}
+\Q{13.21}
+	어떤 프로그램을 포팅하고 있는데, 이 프로그램이 \TT{drand48}이란 함수를
+        씁니다. 그리고 이 함수는 제 시스템에서 제공하지 않습니다. 어떻게 이
+        함수를 만들 수 있을까요?
+\A
+	UNIX System V에서 제공하는 \TT{drand48()} 함수는
+        (추측하건대, 48 비트의 precision을 갖는) 범위 \TT{[0, 1)} 사이의
+        floating-point(실수) random number를 리턴합니다. (이 함수의 seed 값을
+        설정하는 함수는 \TT{srand48}입니다; 두 함수 모두 C 표준이 아닙니다.)
+        정확성이 낮은 (low precision) 대체 함수는 다음과 같습니다:
+\begin{verbatim}
+  #include <stdlib.h>
+
+  double drand48(void)
+  {
+    return rand() / (RAND_MAX + 1.);
+  }
+\end{verbatim}
+
+	좀 더 정확한 값을 (\TT{drand48}처럼 48 bit의 precision을 갖는) 돌려주는
+        함수는 다음과 같습니다:
+\begin{verbatim}
+  #define PRECISION 2.82e14      /* 2**48, rounded up */
+
+  double drand48(void)
+  {
+    double x = 0;
+    double denom = RAND_MAX + 1.;
+    double need;
+
+    for (need = PRECISION; need > 1; need /= (RAND_MAX + 1.)) {
+      x += rand() / denom;
+      denom *= RAND_MAX + 1.;
+    }
+    return x;
+  }
+\end{verbatim}
+	Before using code like this, though, beware that it is numerically
+        suspect, particularly if (as is usually the case) the period of
+        \TT{rand} is on the order of \verb+RAND_MAX+. (If you have a
+        longer-period random number generator available, such as BSD
+        \TT{random}, definitely use it when simulating \TT{drand48}.)
+\R
+	\cite{pcs} \S\ 11 \page{149}
+\end{faq}
+        
 \section{Other Library Functions}
 % from 13.22
+\begin{faq}
+\Q{13.22}
+	\TT{exit(status)}가 정말로 \TT{main}에서 \TT{status}를 리턴하는 것과
+        같나요?
+\A
+	질문 \ql{11.16}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{13.23}
+	\TT{memcpy}와 \TT{memmove}가 다른 점이 있나요?
+\A
+	질문 \ql{11.25}를 보기 바랍니다.
+\end{faq}
+
 
 \begin{faq}
 \Q{13.24}
@@ -1031,7 +1186,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \A
 	안 쓰는 구식의 함수들입니다.  다음 함수들을 쓰기 바랍니다.
 
-\begin{tabular}{lp{7cm}} \hline
+\begin{tabular}{lp{8cm}} \hline
 	\TT{index}	& \TT{strchr} 함수를 쓰기 바랍니다.  \\
 	\TT{rindex}	& \TT{strrchr} 함수를 쓰기 바랍니다.  \\
 	\TT{bcopy}	& 첫 번째 인자와 두 번째 인자를 바꾸어서
@@ -1042,13 +1197,29 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 		쓰기 바랍니다.  \\ \hline
 \end{tabular}
 
+	\noindent 만약, 오래된 시스템을 쓰고 있고, 위 표의 오른쪽에 있는
+        함수들을 쓰는 프로그램을 포팅해야 한다면, 왼쪽에 있는 함수로
+        바꾸거나, 아니면 새 함수들을 만들 수 있습니다.
+        \seealso{\ql{12.22}, \ql{13.21}}
 \R
 	\cite{pcs} \S\ 11
+\T
+	\TT{index}, \TT{rindex}, \TT{bcopy}, \TT{bcmp}, \TT{bzero} 모두
+        4.3 BSD 시스템에서 제공하는 함수로서, C 표준이 아닙니다.
+        이들 함수는 특히, 오래된 network 관련 프로그램 소스에서 많이 쓰며,
+        1:1 대응되는 표준 함수들이 (위에서 소개한 것처럼) 있으니, 표준
+        함수들을 쓰시기 바랍니다. 기존 소스를 수정할 수 없는 상황이라면,
+        이들 함수를 매크로로 표준 함수로 바꿔서 만들 수 있습니다.
+        Richard Stevens씨는 \EM{UNIX Network Programming} 책에서
+        모든 코드가 4.3 BSD 함수를 쓰도록 만들고 헤더 파일 \verb+<unp.h>+에서
+        표준 함수로 (매크로를 써서) 예전 함수를 만들어 두었습니다.
+\R
+	\cite{unp1}
 \end{faq}
 
 \begin{faq}
 \Q{13.25}
-	전 적절한 헤더 파일들을 \verb+#include+시켰는데도
+	필요한 헤더 파일들을 모두 \verb+#include+시켰는데도
 	라이브러리 함수가 정의되어 있지 않다고 에러가 발생합니다.
 \A
 	일반적으로, 헤더 파일은 선언(declaration)만을 포함하고 있습니다.
@@ -1059,18 +1230,79 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \end{faq}
 
 \begin{faq}
-\Q{13.26}
+\Q{13.26} % 13.26 COMPLETE
 	올바른 라이브러리를 포함시키라고 했는데도 라이브러리 함수가
 	정의되어 있지 않다고 에러가 발생합니다.
 \A
-	많은 링커(linker)들이 오브젝트 파일과 라이브러리 파일들을
-	한번만 검색합니다.  그리고 첫번째로 찾은 라이브러리에서
-	호출한 함수에 대한 정의를 뽑아냅니다.  만약 이 라이브러리에서
-	함수 정의를 찾지 못한다면 에러를 발생합니다.
-	따라서 라이브러리와 오브젝트 파일을 찾는 순서를 잘 써주어야 합니다;
-	일반적으로는 라이브러리를 마지막에 찾게 하는 것이이 좋습니다.
-	(예를 들어 UNIX에서는 command-line의 마지막에 `\verb+-l+'을 써서
-	지정합니다.) \seealso{\ql{13.28}}
+	대부분 linker들은, 주어진 오브젝트 파일과 라이브러리 파일들을
+        단 한번씩만 조사하고, 함수 호출에 필요한 정의가 발견되면 함께
+        링크합니다. 만약 주어진 파일 목록에서 (한번 시도해서) 함수 정의를
+        찾지 못한다면, 심볼이 정의되어 있지 않다고 에러가 생깁니다.
+        따라서, linker에게 전달하는 오브젝트 파일들과 라이브러리 파일들의
+        순서가 매우 중요합니다; 보통의 경우, 라이브러리 파일을 마지막에 
+        써 두는 것이 좋습니다.
+
+        예를 들어, 대부분 UNIX 시스템에서 다음과 같이 명령을 실행하면,
+        보통 동작하지 않습니다:
+\begin{verbatim}
+  cc -lm myproc.c
+\end{verbatim}
+	\noindent 대신, \TT{-l} 옵션을 마지막에 주면 동작합니다:
+\begin{verbatim}
+  cc myproc.c -lm
+\end{verbatim}
+	라이브러리 파일을 먼저 주면, linker는 이 라이브러리에서 제공하는
+        정의들이 나중에 쓰일지 쓰이지 않을 지 알 수가 없습니다. (아직 이
+        라이브러리에 있는 함수를 쓰는 오브젝트 파일을 발견하지 못했기 때문)
+        질문 \ql{13.28}을 보기 바랍니다.
+\end{faq}
+
+\begin{faq}
+\Q{13.27}
+	제 프로그램은 단순히 ``Hello, world''를 출력하는 일만 하는데,
+        실행 파일의 크기가 (수백 KB 정도로) 매우 큽니다. 왜 그럴까요?
+        Include하는 헤더 파일을 줄여야 하나요?
+\A
+	그 문제는, 현재 라이브러리 디자인이 아주 서툰 수준이기 때문에
+        일어납니다. (특히 graphic user interface를 포함하는) run-time
+        라이브러리들은, 가능한 많은 기능을 라이브러리에 포함시키려하는
+        경향이 있습니다.  한 라이브러리가 어떤 일을 하기 위해 다른
+        라이브러리를 부른다면 (이런 방식은 매우 좋은 현상이며, 라이브러리가
+        왜 존재하는지 그 이유에 해당합니다.), (현실적으로) 그 라이브러리에
+        있는 거의 모든 내용을 한꺼번에 포함시키려 할 수 있습니다. 따라서
+        실행 파일의 크기가 커질수 있습니다.
+
+        포함하는 헤더 파일을 줄인다고 해결될 문제는 아닙니다. 왜냐하면,
+        선언된 함수를 줄인다고 해서 (보통 헤더 파일을 선언하고 그 헤더 파일에서
+        제공하는 함수를 쓰지 않는 경우), 여러분의 실행 파일에 포함되는 함수
+        정의와는 관계가 없기 (왜냐하면 쓰이지 않았기 때문에) 때문입니다.
+        \seealso{\ql{13.25}}
+        
+        힘든 방법이지만, 쓰이지 않는 함수들의 의존성을 검사한 다음, 필요없는
+        라이브러리를 link하지 않는 방법이 있습니다. 또는, 라이브러리 제작자에게
+        라이브러리를 좀 더 깔끔하게 만들어달라고 요구할 수 있습니다.
+\T
+	Shared library (dynamic linked library)를 쓰면 이 문제를 해결할 수 
+        있습니다. 즉 실행 파일이 필요한 함수들의 정의를 포함하지 않고,
+        단순히 그 함수를 부르는 stub code만이 들어가며, 실제 라이브러리는
+        필요에 따라서 시스템이 메모리에 load하는 경우에는, 실행 파일이
+        커지지 않습니다. 시스템에 따라서 shared library 기능이 없을 수 있으므로
+        확인 바랍니다.
+
+        보통 라이브러리는 여러 개의 오브젝트 파일을 묶은 형태로 존재합니다.
+        기능이 떨어지는 linker를 쓴다면, 위에서 설명한 것처럼 라이브러리 내용을
+        모두 실행 파일에 포함시키겠지만, 기능이 뛰어난 linker는 (라이브러리
+        안에 존재하는) 오브젝트 파일 단위로 link합니다. 따라서 의존성이 여러
+        오브젝트 파일에 거쳐서 존재하지 않은 한, 위와 같은 현상은 드물게
+        발생합니다. 물론 나중에는 정말로 뛰어난 linker가 나와서 이런 문제가
+        전혀 없을 수 있지만, 아직은 그런 때가 아닌 것 같습니다.
+
+        비슷한 이유에서 GNU C Library(glibc) 소스를 보면, (오브젝트 파일
+        단위로 링크되는 것을 가정하고, 최소한의 내용만 link될 수 있게 하기
+        위해서)  소스 파일 하나가 한 두개의 함수 정의만 포함하는 것을 알 수
+        있습니다.
+\R
+	GNU C Library -- \TT{http://www.gnu.org/software/libc/}
 \end{faq}
 
 \begin{faq}

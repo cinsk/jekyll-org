@@ -49,7 +49,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 % 12 단원을 plora에 들어 있음: 잃어버린 것 같군.  T_T
 %
 \begin{faq}
-\Q{12.1} % 12.1 
+\Q{12.1} % 12.1 COMPLETE
 	이 코드에서 잘못된 부분이 있나요?
 \begin{verbatim}
   char c;
@@ -94,7 +94,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 \end{faq}
 
 \begin{faq}
-\Q{12.2} % 12.2
+\Q{12.2} % 12.2 COMPLETE
 	이 코드는 마지막 문장을 두번 복사하는데 왜 그럴까요?
 \begin{verbatim}
   while (!feof(infp)) {
@@ -112,63 +112,70 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
     fputs(buf, outfp);
 \end{verbatim}
 
-	대개 \TT{feof()}를 직접 쓸 이유는 없습니다  (종종
+	대개 \TT{feof()}를 직접 쓸 이유는 없습니다  (
 	stdio 함수가 \TT{EOF}나 \TT{NULL}을 리턴한 경우, \TT{feof()}나
 	\TT{ferror()}를 써서 정말로 파일의 끝인지, 읽기(read) 에러인지
 	검사할 필요가 있긴 합니다.)
+
+\R
+	\cite{kr2} \S\ 7.6 \page{164} \\
+        \cite{ansi} \S\ 4.9.3, \S\ 4.9.7.1, \S\ 4.9.10.2 \\
+	\cite{c89} \S\ 7.9.3, \S\ 7.9.7.1, \S\ 7.9.10.2 \\
+	\cite{hs} \S\ 15.14 \page{382}
 
 \T
 	예를 들어 \TT{fread()}나 \TT{fwrite()}, \TT{fgets()}, \TT{fputs()}와
 	같은 함수들은 에러가 발생하거나 파일 끝에 다다랐을 때, \TT{EOF}를
 	리턴합니다.  이런 함수들이 정말 파일 끝에 다다랐는지 확인할려면
 	\TT{feof()}나 \TT{ferror()}를 써야 하는 것입니다.
-	
-\R
-	\cite{kr2} \S\ 7.6 \page{164} \\
-	\cite{c89} \S\ 7.9.3, \S\ 7.9.7.1, \S\ 7.9.10.2 \\
-	\cite{hs} \S\ 15.14 \page{382}
 \end{faq}
 
 \begin{faq}
-\Q{12.3} % 12.3
-	I'm using \TT{fgets()} to read lines from a file into an array of
-	pointers.  Why do all the lines end up containing copies of the
-	last line?
+\Q{12.3} % 12.3 COMPLETE
+	\TT{fgets()}를 써서, 파일에서 한 줄씩 읽어 그 내용을 포인터의 배열에 
+        저장하려 합니다. 왜 마지막 줄이 두 번 저장될까요?
+%	I'm using \TT{fgets()} to read lines from a file into an array of
+%	pointers.  Why do all the lines end up containing copies of the
+%	last line?
 
 \A
-	See question \ql{7.4}.
+	질문 \ql{7.4}를 보기 바랍니다.
 \end{faq}
 
 \begin{faq}
-\Q{12.4} % 12.4
-	제 프로그램의 프롬프트와 중간 단계까지의 출력은 제가 파이프를 써서
-	출력을 다른 프로그램에 넘길 때, 때때로 스크린에 출력되지 않습니다.
+\Q{12.4} % 12.4 COMPLETE
+	제 프로그램의 프롬프트와 중간 단계까지의 출력은 (특히 파이프를 써서
+	출력을 다른 프로그램에 넘길 때), 때때로 스크린에 출력되지 않습니다.
 \A
-	출력이 스크린에 반영되기를 원한다면\footnote{다른 방법으로,
+	출력이 당장 스크린에 반영되기를 원한다면\footnote{다른 방법으로,
 	\TT{setbuf()}나 \TT{setvbuf()}를 써서 버퍼링을 쓰지 않은 방법이
 	있지만, 버퍼링을 사용하지 않으면 성능이 떨어질 가능성이 높으므로
 	그리 좋다고 할 수 없습니다.}
 	(특히 텍스트가 \verb+\n+으로
-	끝나지 않는 경우), \TT{fflush(stdout)}을 호출해야 합니다.
+	끝나지 않는 경우), \TT{fflush(stdout)}을 불러 주는 것이 좋습니다.
 	대개의 메커니즘이 적절한 시기에 자동으로 \TT{fflush()}를 불러주지만,
-	이 메커니즘들은 \TT{stdout}이 터미널이라고 가정한 것이기에
+	이 메커니즘들은 \TT{stdout}이 interactive한 터미널로 연결되어 있다고
+        가정한 것이기 때문에, 가끔
 	제대로 동작하지 않을 수 있습니다.  (\seealso{\ql{12.24}})
 
-% TODO: error() 함수도 참고할 수 있도록 추가할 것.
-\T
-	질문 \faqref{chap:ext}{faq:error}을 참고하기 바랍니다.
-
 \R
+	\cite{ansi} \S\ 4.9.5.2 \\
 	\cite{c89} \S\ 7.9.5.2
+
+\T
+	질문 \faqref{chap:ext}{faq:error}의 예를 보면,
+        \TT{fflush}를 부르는 예를 볼 수 있습니다.
 \end{faq}
 
+
 \begin{faq}
-\Q{12.5} % 12.5
+\Q{12.5} % 12.5 COMPLETE
 	RETURN 키를 누르지 않고 한 글자를 즉시 입력받을 수 있는 방법이
 	있을까요?
 \A
 	질문 \ql{19.1}을 참고하기 바랍니다.
 \end{faq}
+
 
 \section{\TT{printf} Formats}	\label{sec:printf}
 % from 12.6
@@ -663,7 +670,7 @@ avoiding it entirely.
 
 \A
 	\TT{scanf()}가 수치 값을 처리할 경우, 수치가 아닌 문자가 나오게 되면
-	변환을 중지하고 그 문자 데이터를 \EM{입력 스트림에 그대로 놔 둡니다.}
+	변환을 중지하고 그 문자 데이터를 입력 스트림에 그대로 놔 둡니다.
 	만약 이 상태에서 또 수치 값을 입력받으려고 \TT{scanf()}를 부르게
 	되면, 문자 데이터가 있기 때문에 바로 중단합니다.  따라서
 	수치 값을 처리하는 \TT{scanf}를 루프 안에 둘 경우, 잘못된 입력이
