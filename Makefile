@@ -12,7 +12,7 @@ BZIP=/usr/bin/bzip2
 
 TOPDIR=$(shell pwd)
 
-SUBDIRS=cfaqs books
+SUBDIRS=books cfaqs
 
 export TOPDIR
 export LATEX DVIPS DVIPDFMX GZIP BZIP
@@ -33,9 +33,14 @@ clean:
 	for f in $(SUBDIRS); do \
 		$(MAKE) -C "$$f" clean; \
 	done
+	find . -name '*~' -exec rm -f {} \;
 
-upload:
+upload: all
 	for f in $(SUBDIRS); do \
 		$(MAKE) -C "$$f" upload; \
 	done
+
+	scp *.html $(REMOTE_USR)@$(REMOTE_HOST):$(REMOTE_PREFIX)/
+	tar -cf - css | ssh $(REMOTE_USR)@$(REMOTE_HOST) \
+		"cd $(REMOTE_PREFIX); tar -xf -"
 
