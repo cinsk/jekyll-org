@@ -7,7 +7,7 @@ h1 {
 body { padding: 4pt; }
 p { font: 12pt sans-serif; }
 p.quote { color: gray; }
-//p.footer { font: small/150%; sans-serif; }
+p.footer { font-size: 10pt; }
 //strong { color: red; }
 em { color: maroon; }
 .warning { font-weight: bold; }
