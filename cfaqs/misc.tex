@@ -650,7 +650,7 @@
 \Q{20.31}
 	주어진 날짜로 요일을 계산하려면 어떻게 하죠?
 \A
-	\TT{mktime()}과 \TT{localtime()}을 쓰면 됩니다.  (\see{13.13, 13.14}.
+	\TT{mktime()}과 \TT{localtime()}을 쓰면 됩니다.  (\seealso{13.13, 13.14}.
 	그러나 \verb+tm_hour+가 0이 될 때, DST 조정(adjustment)을
 	주의해야 합니다.) 또는 Zeller's congruence를 (\TT{sci.math}의
 	FAQ 리스트 참고) 쓰거나, Tomohiko Sakamoto씨의 다음 코드를

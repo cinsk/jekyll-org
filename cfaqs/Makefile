@@ -7,7 +7,6 @@ SRC=arrayptr.tex charstr.tex float.tex nullptr.tex sproblem.tex style.tex \
 	bib.tex decinit.tex libfunc.tex pointer.tex standard.tex sysdep.tex \
 	boolexpr.tex expr.tex memalloc.tex preface.tex stdio.tex toolres.tex \
 	cfaqs-ko.tex ext.tex misc.tex preproc.tex struct.tex vlal.tex \
-	linux.tex \
 	cfaqs-ko-1.epic
 
 .PHONY=all rebuild clean upload
