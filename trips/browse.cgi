@@ -47,7 +47,7 @@ set cwd [::ncgi::value cwd .]
 #
 # Commands to get the image list
 #
-set img_list [exec find $cwd -path "*.thumbnails" -prune -o -path "*.xvpics*" -prune -o \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.gif" \) -print]
+set img_list [exec find $cwd -path "*CVS*" -prune -o -path "*.thumbnails" -prune -o -path "*.xvpics*" -prune -o \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.gif" \) -print]
 
 if {[info exists env(GATEWAY_INTERFACE)] &&
     [regexp "^CGI/.*" $env(GATEWAY_INTERFACE)]} {
