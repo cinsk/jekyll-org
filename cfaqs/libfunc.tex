@@ -827,8 +827,31 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
         to be better.'')
 
 % TODO: 이 부분 책보고 채울것..
+        이 코드는 \TT{a = 16807}이고, \TT{m = 2147483647}(이 값은
+        $2^{31} - 1$입니다)이고, \TT{c = 0}인, 다음 generator를 구현합니다:
+	\[ X \leftarrow (aX + c) \bmod m \]
+	\noindent 나머지(modulus) 연산이 소수(prime) 연산이기 때문에,
+        이 generator는 질문 \ql{13.18}에 나온 문제가 발생하지 않습니다.
+        여기에 쓰인 곱하기는 Schrage씨에 의해 소개된 기법을 써서, 곱한 결과인
+        \TT{aX}가 overflow나는 일은 없습니다. 위 코드는 값의 범위가
+        \TT{[1, 2147483647]}를 만족하는 \TT{long int} 값을 돌려주며,
+        이 범위는 C 언어의 \TT{rand} 함수가 \TT{RAND\_MAX}보다 작은 값을
+        돌려 주는 것과 비슷한 방식입니다. (단지 위 코드가 만들어 내는 값에는
+        0이 들어가지 않는다는 것만 다릅니다.) 위 코드를 (Park씨와 Miller씨의
+        논문에 나온 것처럼) 범위 \TT{(0, 1)} 사이의 실수를 만들도록 고치려면,
+        위 함수의 선언을 다음과 같이 고치고:
+\begin{verbatim}
+  double PMrand(void);
+\end{verbatim}
+	\noindent 마지막 줄을 다음과 같이 고칩니다:
+\begin{verbatim}
+  return (double)seed / m;
+\end{verbatim}
+	\noindent 통계적으로 좀 더 좋은 결과를 얻으려면, (Park씨와 Miller씨의
+        추천에 따르면) \TT{a = 48271}을 쓰기 바랍니다.
 \R
 	\cite{kr2} \S\ 2.7 \page{46}, \S\ 7.8.7 \page{168} \\
+        \cite{ansi} \S\ 4.10.2.1 \\
 	\cite{c89} \S\ 7.10.2.1 \\
 	\cite{hs} \S\ 17.7 \page{393} \\
 	\cite{pcs} \S\ 11 \page{172} \\
@@ -837,7 +860,7 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \end{faq}
 
 \begin{faq}
-\Q{13.16}
+\Q{13.16} % 13.16 COMPLETE
 	어떤 범위를 갖는 난수를 발생시키고 싶습니다.
 \A
 	다음과 갈이 하는 것은 (0에서 N-1까지의 수치를 리턴함) 매우 서투른
@@ -846,8 +869,8 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
   rand() % N         /* POOR */
 \end{verbatim}
 	\noindent 왜냐하면, 대부분의 난수 발생기에서 하위(low-order) 비트들은
-	그리 랜덤하지 않기 때문입니다.  (질문 \ql{13.18}을 보기 바랍니다.) 따라서,
-	다음과 같이 하는 것이 좋습니다:
+	그리 랜덤하지 않기 때문입니다.  (질문 \ql{13.18}을 보기 바랍니다.) 
+        따라서, 다음과 같이 하는 것이 좋습니다:
 \begin{verbatim}
   (int)((double)rand() / ((double)RAND_MAX + 1) * N)
 \end{verbatim}
@@ -855,18 +878,48 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 \begin{verbatim}
   rand() / (RAND_MAX / N + 1)
 \end{verbatim}
-	\noindent 두 방법 모두 \verb+RAND_MAX+를 (\verb+<stdlib.h>+에
-	정의되어 있음) 사용하고, \TT{N}이 \verb+RAND_MAX+보다 아주
-	작은 값이라는 것을 가정한 방법입니다.
+	\noindent 두 방법 모두 (ANSI 표준에 의해 \verb+<stdlib.h>+에
+        정의되어 있는) \verb+RAND_MAX+를 사용하고, \TT{N}이
+        \verb+RAND_MAX+보다 아주 작은 값이라는 것을 가정한 방법입니다.
 
+        만약 \TT{N}이 \verb+RAND_MAX+에 가깝고, random number generator의
+        범위가 \TT{N}의 배수가 아니라면 (즉, 
+        \verb!RAND_MAX + 1 % N != 0!인
+        경우) 위 모든 방법이 나쁜 방법이 됩니다: 어떤 범위의 수치들이 다른
+        범위보다 훨씬 더 많이 나타나게 됩니다. (실수를 쓴다고 해결될 문제가
+        아닙니다. 문제는 \TT{rand} 함수가 서로 다른
+        \verb!RAND_MAX + 1!가지의 값을 리턴하고, 이 것을 \TT{N}개의 묶음으로
+        공평하게 나눌 수 없기 때문에 발생하는 것입니다.)
+        만약 이것이 문제가 된다면, \TT{rand}를 여러 번 불러서, 특정 값들을
+        무시하면 됩니다:
+\begin{verbatim}
+  unsigned int x = (RAND_MAX + 1u) / N;
+  unsigned int y = x * N;
+  unsigned int r;
+
+  do {
+    r = rand();
+  } while (r >= y);
+  return r / x;
+\end{verbatim}
+	또, \TT{[M, N]}의 범위를 가지는 random number를 구하고 싶다면,
+        위 결과를 shift해서 얻을 수 있습니다:
+\begin{verbatim}
+  M + rand() / (RAND_MAX / (N - M + 1) + 1)
+\end{verbatim}
 	(어쨋든, \verb+RAND_MAX+는 \TT{rand()}가 리턴할 수 있는 최대 수치를
-	나타낸다는 것을 알아 두시기 바랍니다.  \verb+RAND_MAX+에 여러분이
-	다른 수치를 대입할 수는 없으며, \TT{rand()}가 다른 범위의 수치를
-	리턴하도록 해 주는 다른 방법은 존재하지 않습니다.)
+	나타내는 상수라는 것을 알아 두시기 바랍니다.  \verb+RAND_MAX+에
+        여러분이 다른 수치를 대입할 수는 없으며, \TT{rand()}가 다른 범위의
+        수치를 리턴하도록 해 주는 방법은 존재하지 않습니다.)
 
-	만약에 여러분이 0과 1 사이의 범위를 가지는 난수 발생기를 가지고
-	있다면, 그리고 0과 N-1 사이의 범위를 가지는 정수 난수를 만들고
-	싶다면, 단순히 그 난수 발생기의 수치에 N을 곱하면 됩니다.
+	만약에 여러분이 (질문 \ql{13.15}의 마지막 \TT{PMrand} 함수 또는
+        질문 \ql{13.21}의 \TT{drand48} 함수처럼) 0과 1 사이의 범위를 가지는
+        난수 발생기를 가지고 있다면, 그리고 0과 N-1 사이의 범위를 가지는 정수
+        난수를 만들고 싶다면, 단순히 그 난수 발생기의 수치에 N을 곱하면 됩니다:
+\begin{verbatim}
+  (int)(drand48() * N)
+\end{verbatim}
+
 \R
 	\cite{kr2} \S\ 7.8.7 \page{168} \\
 	\cite{pcs} \S\ 11 \page{172}
@@ -878,16 +931,31 @@ library는 (\ref{chap:stdio}~절의 stdio 함수들을 포함) 표준이 되었습니다.
 	프로그램을 실행시킬 때마다, \TT{rand()}는 일정한 순서로 난수를
 	(random number)	발생시킵니다.  왜 그러죠?
 \A
-	\TT{srand()} 함수를 불러서 가상 난수 발생기에게 (pseudo-random
-	number generator) 초기 값을 임의로 주면 됩니다.  이 초기값은
-	`seed'라고 하며, 대개는 현재 시간이나, 유저가 어떤 키를 누르기
-	전까지의 시간차로 지정합니다.  (물론 어떤 키를 누르기 전의 시간을
-	얻는 방법은 이식성있게 만들기가 힘듭니다; 질문 \ql{19.37}을 보기
-	바랍니다).  (일반적으로 프로그램 내에서는 \TT{srand()} 함수를
+	대부분 가상(pseudo) random generator의 특징은 (C 라이브러리의
+        \TT{rand}도 마찬가지), 항상 같은 번호에서 시작해서 똑같은 sequence로
+        값이 나온다는 것입니다. (Among other things, a bit of predictability
+        can make debugging much easier.) 
+% TODO: 위 문장 제대로 번역.
+	예상 불가능한 난수를 발생시키고 싶으면, \TT{srand} 함수를 불러서,
+        이 pseudo-random generator의 초기값(seed)으로, 진짜 random 값을 하나
+        주면 됩니다. 보통 이 seed 값으로, 현재 시간을 쓰거나, 사용자가 키를
+        누르기까지의 시간 간격 등을 쓰게 됩니다. (물론 키를 누르기까지의
+        경과된 시간을 얻는 것은 이식성 있는 범위 안에서 만들기가 힘듭니다.
+        질문 \ql{19.37} 참고)  아래는 현재 시간을 써서 seed 값을 설정하는
+        코드입니다.
+\begin{verbatim}
+  #include <stdlib.h>
+  #include <time.h>
+
+  srand((unsigned int)time((time_t *)NULL));
+\end{verbatim}
+
+	\noindent (일반적으로 프로그램 내에서는 \TT{srand()} 함수를
 	한번만 불러주어도 충분합니다.  \TT{rand()}를 부를 때마다,
-	\TT{srand()}를 부른다면, 충분한 임의의 수치를 얻을 수 없습니다.)
+	\TT{srand()}를 부른다면, random number를 얻을 수 없습니다.)
 \R
 	\cite{kr2} \S\ 7.8.7 \page{168} \\
+        \cite{ansi} \S\ 4.10.2.2 \\
 	\cite{c89} \S\ 7.10.2.2 \\
 	\cite{hs} \S\ 17.7 \page{393}
 \end{faq}
