@@ -200,6 +200,10 @@ proc proc_slide {} {
     }
     puts "</p>"
 
+    if {[file exists $file.desc]} {
+	puts [exec cat $file.desc]
+    }
+
     puts "<p align=\"center\"><img src=\"$file\" border=\"1\" alt=\"$file\"/></p>"
     if {$use_identify != 0} {
         puts "<p align=\"center\">[exec identify $file]</p>"
