@@ -36,10 +36,47 @@
     </p>
 
     <h2>Documentation</h2>
+    <h3>Installation</h3>
     <p>
-      No documentation is available yet.  Read the source <tt>pyprofgen.py</tt>.
-      in the tar package for now.
+      To install pyprofgen version 0.2, check the required softwares are
+      present, and do the following steps:
     </p>
+
+    <div class="source"><pre class="source">
+  $ tar -xzf pyprofgen-0.2.tar.gz
+  $ cd pyprofgen-0.2
+  $ make PREFIX="/usr/local" all
+  $ make PREFIX="/usr/local" install
+  $ _</pre></div>
+
+    <h3>Usage</h3>
+    <div class="source"><pre class="source">
+  $ ls
+  demo.c
+  $ gcc -g -pg -o demo demo.c -lc_p
+  $ ./demo
+  $ ls -F
+  demo*   demo.c   gmon.out
+  $ pyprofgen --help
+  USAGE: pyprofgen [OPTION...] executable [gmon.out]
+  Generate HTML documents from gmon.out
+
+    -d DIR,               Set the output directory to DIR,
+        --directory=DIR     (default: doc)
+    -q, --quiet           Quite mode, (default: verbose mode)
+    -h, --help            Show help message
+    -v, --version         Print version information
+
+  Report bugs to &lt;cinsky at gmail.com&gt;.
+
+  $ pyprofgen demo gmon.out
+  ...
+  $ ls -F
+  demo*   demo.c   gmon.out   prof/
+  $ elinks prof/html/index.html	# use your favorite browsers.
+  $ _</pre></div>
+
+    <p></p>
 
     <h2>Requirements</h2>
     <p>
