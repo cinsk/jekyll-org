@@ -93,14 +93,31 @@
       <li>I'm the editor of MPV CE Working Group, and my primary
 	work is to write the document, "<em>MPV Interoperability
 	  Specification</em>".</li>
-
-      <li><em>libsxml</em> is almost confirming DOM style XML processor
+    </ul>
+    <p>
+      I developed <em>libsxml</em> and have maintained it.
+      <em>libsxml</em> is almost confirming DOM style XML processor
 	-- it uses less memory than other XML processor such as
 	expat or mini XML in storing XML tree structure. It supports
-	XML namespace and entity declarations.</li>
+	XML namespace and entity declarations.</p>
 
-      <li><em>libmpv</em> is MPV processor depends on libsxml.</li>
+    <ul>
+      <li>To parse and save an 1724KB-sized XML document into the memory,
+        it uses 2471KB memory space. See the memory usage graph
+        <a href="./img/libsxml-large.png">here</a>.</li>
+      <li>to parse and save a 30KB-sized XML document into the memory,
+        it uses 57KB memory space. See the memory usage graph
+        <a href="./img/libsxml-small.png">here</a>.</li>
+
+      <li>Note that these data are heavily dependent on the information
+        stored in the XML documents. The more same strings it has, the 
+        smaller the memory consumption is.</li>
     </ul>
+    
+    <p>
+      I developed <em>libmpv</em>, which is MPV processor depends on 
+      <em>libsxml</em>.
+    </p>
 
     <p>
       I've participated MASH/Shadow project in Samsung Electronics.
