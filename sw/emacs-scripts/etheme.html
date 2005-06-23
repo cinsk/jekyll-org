@@ -28,17 +28,32 @@
       <a href="http://www.gnu.org/software/emacs/">GNU Emacs</a>.
     </p>
 
+    <h2>Download</h2>
     <ul>
       <li><a href="./etheme.el">etheme.el</a>
       </li>
     </ul>
+
+    <h2>CVS Access</h2>
+    <p>
+      You can try to access the latest, unstable version of this software by
+      acessing my anonymous CVS. Press Return to pass the authentification.
+    </p>
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot login
+  password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot co emacs-scripts
+  ...
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot logout
+</pre></div>
 
     <h2>Usage</h2>
     <p>
       Append following codes in your <tt>$HOME/.emacs</tt> file:
     </p>
 
-      <div class="source"><pre class="source">
+    <div class="source"><pre class="source">
   (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
   (require 'etheme)
 </pre></div>
