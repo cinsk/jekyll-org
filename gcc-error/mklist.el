@@ -106,7 +106,10 @@ $ _
 
     <p>이 페이지는 Emacs에 의해 자동적으로 만들어 진 것입니다. 최신 소스는 제
        <a href=\"http://www.cinsk.org/viewcvs/public_html/gcc-error/\">CVS
-       서버</a>에서 얻을 수 있습니다:</p>
+       서버</a>에서 얻을 수 있습니다.  이 문서를 다음과 같은 방식으로 직접 만들기 위해서,
+       <a href=\"http://www.gnu.org/software/emacs/\">GNU Emacs</a> 최신 버전과
+       <a href=\"http://www.gnu.org/software/enscript/\">GNU enscript</a>가
+       필요합니다.</p>
 
     <div class=\"source\"><pre>
       $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot login
