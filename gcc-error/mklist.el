@@ -39,11 +39,11 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
                                buf)
       (set-buffer buf)
       (goto-char (point-min))
-      (setq pos (re-search-forward "^<PRE>" (point-max) t))
+      (setq pos (re-search-forward "<PRE>" (point-max) t))
       (and (not (null pos))
            (delete-region (point-min) (+ pos 1)))
       (goto-char (point-max))
-      (setq pos (re-search-backward "^</PRE>" (point-min) t))
+      (setq pos (re-search-backward "</PRE>" (point-min) t))
       (and (not (null pos))
            (delete-region pos (point-max)))
 
@@ -54,6 +54,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
                   (insert-buffer-substring buf))))))
 
 (setq output-buffer (get-buffer-create "*output*"))
+(setq gcc-buffer (get-buffer-create "*gcc-output*"))
 
 (defun enumerate-with-variables (dir proc)
   (let ((old-default default-directory)
@@ -69,7 +70,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       nil)))
 
 
-(setq html-header 
+(setq html-header
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
     \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
@@ -87,12 +88,42 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   <body>
     <h1>GCC Warning/Error List</h1>
 
-    <p>이 문서는 GCC(Version 3.3 기준)에서 발생할 수 있는 경고(warning) 및 에러(error)
+    <p>이 문서는 GCC(GNU Compiler Collection)에서 발생할 수 있는 경고(warning) 및
+       에러(error)
        메시지들을 나열하고, 어떤 경우에 해당하는 메시지가 발생할 수 있는지를 설명합니다.
        저자는 이 글이, C (또는 C++) 언어를 처음 배우는 분들이나, 영어에 서툰 분들에게
        도움이 되기를 바랍니다.</p>
 
-    <p>이 페이지는 Emacs에 의해 자동적으로 만들어 진 것입니다.</p>
+    <p>이 글을 작성하는 데에 쓴 GCC는 다음과 같습니다:</p>
+    <div class=\"source\"><pre>
+$ gcc --version
+gcc (GCC) 3.3.6 (Gentoo 3.3.6, ssp-3.3.6-1.0, pie-8.7.8)
+Copyright (C) 2003 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+$ _
+</pre></div>
+
+    <p>이 페이지는 Emacs에 의해 자동적으로 만들어 진 것입니다. 최신 소스는 제
+       <a href=\"http://www.cinsk.org/viewcvs/public_html/gcc-error/\">CVS
+       서버</a>에서 얻을 수 있습니다:</p>
+
+    <div class=\"source\"><pre>
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot login
+      Password: <RET>
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot co gcc-error
+      ...
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot logout
+      $ cd gcc-error
+      $ make
+      ...
+      $ ls -F
+      CVS/  Makefile	default.css  gcc-error.html  mklist.el	testsuite/
+      $ # read gcc-error.html with your favorite web browser.
+    </pre></div>
+
+
+    <hr></hr>
 ")
 
 (setq html-footer "<hr></hr>
@@ -107,11 +138,20 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 
 </body></html>")
 
+(defun word-replace (old new)
+  (goto-char (point-min))
+  (while (re-search-forward old nil t)
+    (replace-match new nil nil)))
+
 (defun write-proc (pathname)
   (let ((source (find-file-noselect pathname))
         (desc "N/A")
         args pos)
     (message (format "Processing %s" (file-name-nondirectory pathname)))
+    (save-excursion
+      (set-buffer gcc-buffer)
+      (erase-buffer))
+
     (save-excursion
       (set-buffer source)
       (and (boundp 'compile-arguments)
@@ -125,8 +165,20 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       (insert (format "<p>%s</p>\n" desc))
 
       (insert "<div class=\"source2\"><pre>")
-      (eval (append '(call-process "gcc" nil output-buffer t) 
+      ;;(call-process "pwd" nil output-buffer t)
+
+      (eval (append '(call-process "gcc" nil gcc-buffer t) 
                     (split-string args)))
+      (save-excursion
+        (set-buffer gcc-buffer)
+        (word-replace "&" "&amp;")
+        (word-replace "&" "&amp;")
+        (word-replace "<" "&lt;")
+        (word-replace ">" "&gt;")
+        (word-replace "\"" "&quot;"))
+
+      (insert-buffer-substring gcc-buffer)
+
       (insert "</pre></div>\n")
       (insert "<div class=\"source\"><pre>")
       ;;(message (format "position #1: %d" (point)))
@@ -135,8 +187,12 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       (goto-char (point-max))
       (setq pos (re-search-backward "^/\\*\\*" (point-min) t))
 
-      (and (not (null pos))
-           (htmlize-on-region (point-min) pos output-buffer))
+      (if (null pos)
+          (progn (goto-char (point-min))
+                 (setq pos (re-search-forward "^///$" (point-max) t))
+                 (and (not (null pos))
+                      (htmlize-on-region (point-min) (- pos 3) output-buffer)))
+        (htmlize-on-region (point-min) pos output-buffer))
 
 ;;    (save-excursion
       (set-buffer output-buffer)
@@ -152,7 +208,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   (insert html-header))
 
 
-(enumerate-with-variables "./testsuite" 'write-proc)
+(enumerate-with-variables "./testsuite/" 'write-proc)
 
 (save-excursion
   (set-buffer output-buffer)
