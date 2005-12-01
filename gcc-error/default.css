@@ -48,6 +48,16 @@ div.source2 {
   margin: 4pt;
 }
 
+div.source3 {
+  color: #ff254e;
+  background: #fffeee;
+  border-color: #908020;
+  border-style: solid;
+  border-width: thin;
+  padding: 4pt;
+  margin: 4pt;
+}
+
 p.bkinfo { line-height: 1.2; font-size: 10pt; text-indent: -3em; margin-left: 3em; }
 table.bkinfo { width: 100%; }
 div.bkinfo { 
