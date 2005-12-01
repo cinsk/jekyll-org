@@ -79,32 +79,29 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
     <!-- $Id$ -->
     <meta http-equiv=\"Content-Type\" 
           content=\"text/html; charset=utf-8\"/>
-    <title>Seong-Kook Shin's home page</title>
-    <link rel=\"shortcut icon\" href=\"./img/favicon.ico\"/>
+    <title>GCC Warning/Error List</title>
+    <link rel=\"shortcut icon\" href=\"http://gcc.gnu.org/favicon.ico\"/>
     <link rel=\"stylesheet\" type=\"text/css\" 
       href=\"./default.css\" title=\"default\"></link>
   </head>
 
   <body>
+      <a href=\"http://www.gnu.org/software/gcc/\"><img
+      src=\"./gcc.png\" alt=\"GCC Home\" border=\"0\" align=\"right\">
+      </img></a>
+
     <h1>GCC Warning/Error List</h1>
 
-    <p>이 문서는 GCC(GNU Compiler Collection)에서 발생할 수 있는 경고(warning) 및
+    <p>
+       이 문서는 <a href=\"http://www.gnu.org/software/gcc/\">GCC</a> 
+       (GNU Compiler Collection)에서 발생할 수 있는 경고(warning) 및
        에러(error)
        메시지들을 나열하고, 어떤 경우에 해당하는 메시지가 발생할 수 있는지를 설명합니다.
        저자는 이 글이, C (또는 C++) 언어를 처음 배우는 분들이나, 영어에 서툰 분들에게
        도움이 되기를 바랍니다.</p>
 
-    <p>이 글을 작성하는 데에 쓴 GCC는 다음과 같습니다:</p>
-    <div class=\"source\"><pre>
-$ gcc --version
-gcc (GCC) 3.3.6 (Gentoo 3.3.6, ssp-3.3.6-1.0, pie-8.7.8)
-Copyright (C) 2003 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-$ _
-</pre></div>
-
-    <p>이 페이지는 Emacs에 의해 자동적으로 만들어 진 것입니다. 최신 소스는 제
+    <p>이 페이지는 <a href=\"http://www.gnu.org/software/emacs/\">Emacs</a>에
+       의해 자동적으로 만들어 진 것입니다. 최신 소스는 제
        <a href=\"http://www.cinsk.org/viewcvs/public_html/gcc-error/\">CVS
        서버</a>에서 얻을 수 있습니다.  이 문서를 다음과 같은 방식으로 직접 만들기 위해서,
        <a href=\"http://www.gnu.org/software/emacs/\">GNU Emacs</a> 최신 버전과
