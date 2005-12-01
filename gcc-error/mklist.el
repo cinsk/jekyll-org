@@ -149,7 +149,7 @@ $ _
 (defun write-proc (pathname)
   (let ((source (find-file-noselect pathname))
         (desc "N/A")
-        args pos)
+        args pos error)
     (message (format "Processing %s" (file-name-nondirectory pathname)))
     (save-excursion
       (set-buffer gcc-buffer)
@@ -160,47 +160,59 @@ $ _
       (and (boundp 'compile-arguments)
            (setq args compile-arguments))
       (and (boundp 'description)
-           (setq desc description)))
+           (setq desc description))
+      (and (boundp 'error-string)
+           (setq error error-string)))
 
     (save-excursion
       (set-buffer output-buffer)
       (insert (format "<h2>%s</h2>\n" (file-name-nondirectory pathname)))
       (insert (format "<p>%s</p>\n" desc))
 
-      (insert "<div class=\"source2\"><pre>")
-      ;;(call-process "pwd" nil output-buffer t)
+      
+      (if error
+          (insert (format "<div class=\"source3\"><pre>TODO: %s</pre></div>"
+                          error))
+        (progn
+          (insert "<div class=\"source2\"><pre>")
+          ;;(call-process "pwd" nil output-buffer t)
 
-      (eval (append '(call-process "gcc" nil gcc-buffer t) 
-                    (split-string args)))
-      (save-excursion
-        (set-buffer gcc-buffer)
-        (word-replace "&" "&amp;")
-        (word-replace "&" "&amp;")
-        (word-replace "<" "&lt;")
-        (word-replace ">" "&gt;")
-        (word-replace "\"" "&quot;"))
+          (eval (append '(call-process "gcc" nil gcc-buffer t) 
+                        (split-string args)))
 
-      (insert-buffer-substring gcc-buffer)
+          (save-excursion
+            (set-buffer gcc-buffer)
+            (word-replace "&" "&amp;")
+            (word-replace "&" "&amp;")
+            (word-replace "<" "&lt;")
+            (word-replace ">" "&gt;")
+            (word-replace "\"" "&quot;"))
 
-      (insert "</pre></div>\n")
-      (insert "<div class=\"source\"><pre>")
-      ;;(message (format "position #1: %d" (point)))
+          (insert-buffer-substring gcc-buffer)
+
+          (insert "</pre></div>\n")))
+
+      (and (not error)
+           (progn 
+             (insert "<div class=\"source\"><pre>")
+             ;;(message (format "position #1: %d" (point)))
     
-      (set-buffer source)
-      (goto-char (point-max))
-      (setq pos (re-search-backward "^/\\*\\*" (point-min) t))
+             (set-buffer source)
+             (goto-char (point-max))
+             (setq pos (re-search-backward "^/\\*\\*" (point-min) t))
 
-      (if (null pos)
-          (progn (goto-char (point-min))
-                 (setq pos (re-search-forward "^///$" (point-max) t))
-                 (and (not (null pos))
-                      (htmlize-on-region (point-min) (- pos 3) output-buffer)))
-        (htmlize-on-region (point-min) pos output-buffer))
+             (if (null pos)
+                 (progn (goto-char (point-min))
+                        (setq pos (re-search-forward "^///$" (point-max) t))
+                        (and (not (null pos))
+                             (htmlize-on-region (point-min) (- pos 3) 
+                                                output-buffer)))
+               (htmlize-on-region (point-min) pos output-buffer))
 
-;;    (save-excursion
-      (set-buffer output-buffer)
-      ;;(message (format "position #2: %d" (point)))
-      (insert "</div></pre>\n"))
+             ;;    (save-excursion
+             (set-buffer output-buffer)
+             ;;(message (format "position #2: %d" (point)))
+             (insert "</div></pre>\n"))))
 
     (kill-buffer source)))
 
