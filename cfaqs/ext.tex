@@ -233,7 +233,6 @@
 
 % TODO: specify the homepage of the DDD
 % TODO: ???
-
 \end{faq}
 
 
@@ -265,6 +264,68 @@
 
 \A
 	이 글은 \LaTeX와 한글 \LaTeX 패키지인 H\LaTeX을 써서 만든 것입니다.
+\end{faq}
+
+\section{Internationalization}
+
+\begin{faq}
+\Q{a}
+	Internationalization과 localization이라는 말이 무슨 뜻인가요?
+
+\A
+	Internationalization, 또는 줄여서 I18N\footnote{18이란 숫자는,
+          `internationalization'이 열여덟 글자로 이루어졌기 때문에
+          붙었습니다}은 어떤 소프트웨어가 하나 이상의 문화,지역 또는 locale에
+        맞게 쓰일 수 있도록 준비하는 것을 의미합니다.
+        이와 반대로 Localization, 또는 줄여서 L10N은 
+        소프트웨어가 한 문화, 지역 또는 locale에 맞게 쓰일 수 있도록 
+        고치는 작업을 뜻합니다.
+        
+\R
+	\cite{cjkv} \page{17}
+\end{faq}
+
+\begin{faq}
+\Q{b}
+	Multiple-byte, wide character가 정확히 뭔가요?
+
+\A
+	byte 단위로 처리하는 encoding에서는 endianness(인디언)을 고려할 
+        필요가 전혀 없습니다. 이러한 encoding에서 처리하는 문자를 
+        multiple-byte character라고 합니다.
+
+\begin{center}
+\begin{tabular}{l|p{5cm}|l}
+Encoding      & Encoding Length         & Locale \\ \hline
+ASCII         & one-byte                & \EM{not applicable} \\
+ISO-2022      & one- and two-byte       & CJKV \\
+EUC           & one- through four-byte,
+                depending on locale     & CJKV \\
+GBK           & one- and two-byte       & China \\
+Big Five      & one- and two-byte       & Taiwan \\
+Big Five Plus & one- and two-byte       & Taiwan \\
+Shift-JIS     & one- and two-byte       & Japan \\
+Johab         & one- and two-byte       & Korea \\
+UHC           & one- and two-byte       & Korea \\
+UTF-8         & one- through six-byte   & \EM{not applicable} \\ \hline
+\end{tabular}
+\end{center}
+	이와 반대로, byte 단위로 처리할 수 없는 encoding에서는 endian 문제가
+        매우 중요한데, 이렇게 특별히 endian 처리가 필요한 문자를 wide 
+        character라고 합니다.
+
+\begin{center}
+\begin{tabular}{l|l}
+Encoding            & Encoding Length \\ \hline
+UCS-2               & 16-bit fixed \\
+UCS-4               & 32-bit fixed \\
+UTF-16              & 16-bit variable-length \\
+Unicode Version 2.0 & \EM{Same as UTF-16} \\ \hline
+\end{tabular}
+\end{center}
+
+\R
+	\cite{cjkv} \Page{25-26}
 \end{faq}
 
 %
