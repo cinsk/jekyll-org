@@ -392,6 +392,72 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	\cite{hs} \S\ 11.6 \Page{301--4}
 \end{faq}
 
+\begin{faq}
+\Q{12.A}
+	int16\_t과 같은 타입을 출력하기 위해서, 어떤 포맷을 써야 하나요?
+\A
+	헤더 파일 \verb+<inttypes.h>+를 포함시키면 다음과 같은 매크로를
+        쓸 수 있습니다. 모든 매크로는 문자열 상수(character string literal)로
+        치환됩니다:
+
+\begin{center}
+{ \ttfamily
+\begin{tabular}{lllll} \hline
+int\EM{N}\_t & int\_least\EM{N}\_t & int\_fast\EM{N}\_t & 
+	intmax\_t & intptr\_t \\
+\hline
+PRId\EM{N} & PRIdLEAST\EM{N} & PRIdFAST\EM{N} & PRIdMAX & PRIdPTR \\
+PRIi\EM{N} & PRIiLEAST\EM{N} & PRIiFAST\EM{N} & PRIiMAX & PRIiPTR \\
+
+\hline
+\hline
+uint\EM{N}\_t & uint\_least\EM{N}\_t & uint\_fast\EM{N}\_t &
+	uintmax\_t & uintptr\_t \\
+\hline
+PRIo\EM{N} & PRIoLEAST\EM{N} & PRIoFAST\EM{N} & PRIoMAX & PRIoPTR \\
+PRIu\EM{N} & PRIuLEAST\EM{N} & PRIuFAST\EM{N} & PRIuMAX & PRIuPTR \\
+PRIx\EM{N} & PRIxLEAST\EM{N} & PRIxFAST\EM{N} & PRIxMAX & PRIxPTR \\
+PRIX\EM{N} & PRIXLEAST\EM{N} & PRIXFAST\EM{N} & PRIXMAX & PRIXPTR \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+	모든 매크로는 \TT{PRI}로 시작하며, printf() 계열의 함수에서 쓸 수 있는,
+        \%d, \%i, \%o, \%u, \%x, \%X 포맷을 의미하는 글자인 d, i, o, u, x, X가
+        나온 다음, 각각의 타입을 대문자로 나타낸 이름이 나옵니다.
+
+	즉, \TT{uint\_fast16\_t}를 썼고, \TT{\%o}를 쓴 효과를 얻으려면,
+        \TT{PRIoFAST16}을 쓰면 됩니다. 마찬가지로, 가장 큰 unsigned 타입의
+        정수값을 저장하고 싶다면 \TT{uintmax\_t} 타입의 오브젝트를 쓰면 됩니다.
+        예를 들면 다음과 같습니다:
+\begin{verbatim}
+#include <inttypes.h>
+#include <stdio.h>
+
+int
+main(void)
+{
+  uint_fast16_t foo;
+  uintmax_t i = UINTMAX_MAX;
+  ...
+  fprintf(stderr, "foo is %" PRIoFAST16 ".\n", foo);
+  
+  printf("The largest integer value is %020" PRIxMAX "\n",
+         i);
+
+  return 0;
+}
+\end{verbatim}
+
+	\seealso{\ql{1.1}, \ql{12.B}}
+
+\R
+	\cite{c99} \S\ 7.8.1, \S\ 7.18.1
+\end{faq}
+
+
+
 \section{\TT{scanf} Formats}	\label{sec:scanf}
 % from 12.12
 
@@ -537,6 +603,62 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 %	Dealing with the files will then be much more pleasant all around.
 
 \end{faq}
+
+\begin{faq}
+\Q{12.B}
+	int16\_t와 같은 타입을 입력받기 위해서, 어떤 포맷을 써야 하나요?
+\A
+	헤더 파일 \verb+<inttypes.h>+를 포함시키면 다음과 같은 매크로를
+        쓸 수 있습니다. 모든 매크로는 문자열 상수(character string literal)로
+        치환됩니다:
+\begin{center}
+{ \ttfamily
+\begin{tabular}{lllll} \hline
+int\EM{N}\_t & int\_least\EM{N}\_t & int\_fast\EM{N}\_t & 
+	intmax\_t & intptr\_t \\
+\hline
+SCNd\EM{N} & SCNdLEAST\EM{N} & SCNdFAST\EM{N} & SCNdMAX & SCNdPTR \\
+SCNi\EM{N} & SCNiLEAST\EM{N} & SCNiFAST\EM{N} & SCNiMAX & SCNiPTR \\
+
+\hline
+\hline
+uint\EM{N}\_t & uint\_least\EM{N}\_t & uint\_fast\EM{N}\_t &
+	uintmax\_t & uintptr\_t \\
+\hline
+SCNo\EM{N} & SCNoLEAST\EM{N} & SCNoFAST\EM{N} & SCNoMAX & SCNoPTR \\
+SCNu\EM{N} & SCNuLEAST\EM{N} & SCNuFAST\EM{N} & SCNuMAX & SCNuPTR \\
+SCNx\EM{N} & SCNxLEAST\EM{N} & SCNxFAST\EM{N} & SCNxMAX & SCNxPTR \\
+SCNX\EM{N} & SCNXLEAST\EM{N} & SCNXFAST\EM{N} & SCNXMAX & SCNXPTR \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+	위 매크로들은 질문 \ql{12.A}에서 설명한 것과 동일한 규칙을 가지며,
+        PRI 대신 SCN으로 시작한다는 것만 다릅니다.
+
+\begin{verbatim}
+#include <inttypes.h>
+#include <stdio.h>
+
+main(void)
+{
+  uint_fast16_t foo;
+  uintmax_t i = UINTMAX_MAX;
+
+  sscanf("123", "%" SCNuFAST16, &foo);
+  printf("foo is %" PRIoFAST16 ".\n", foo);
+
+  return 0;
+}
+\end{verbatim}
+
+	\seealso{\ql{1.1}, \ql{12.A}}
+
+\R
+	\cite{c99} \S\ 7.8.1, \S\ 7.18.1
+\end{faq}
+
 
 \section{\TT{scanf} Problems}	\label{sec:scanfproblem}
 Though it seems to be an obvious complement to \TT{printf}, \TT{scanf} has
