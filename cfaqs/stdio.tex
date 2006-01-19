@@ -128,6 +128,23 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 	같은 함수들은 에러가 발생하거나 파일 끝에 다다랐을 때, \TT{EOF}를
 	리턴합니다.  이런 함수들이 정말 파일 끝에 다다랐는지 확인할려면
 	\TT{feof()}나 \TT{ferror()}를 써야 하는 것입니다.
+
+        이런 경우를 제외하고, feof()를 직접 쓰는 경우는 매우 드뭅니다. 따라서
+        일반적으로 다음과 같은 코드보다:
+\begin{verbatim}
+  while (!feof(fp))
+    fgets(line, max, fp);
+\end{verbatim}
+
+        다음과 같은 코드를 쓰기 바랍니다:
+\begin{verbatim}
+  while (fgets(line, max, fp) != NULL)
+    ...;
+\end{verbatim}
+
+	즉, feof()는, end-of-file인지 아닌지 검사하기 위해 쓰는 함수가 아니라,
+        end-of-file과 error인 상황을 구별하기 위해 쓰는 함수라고 기억하는 것이
+        좋습니다. (물론 이 목적으로, ferror()를 대신 쓸 수 있습니다.)
 \end{faq}
 
 \begin{faq}
