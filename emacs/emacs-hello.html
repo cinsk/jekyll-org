@@ -1,28 +1,107 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <!-- $Id$ -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <link rel="stylesheet" type="text/css" 
-          href="default.css" title="default"></link>
+          href="default.css" title="default"/>
     <title>Emacs: A &quot;Hello, World&quot; Session</title>
   </head>
-<body>
-<h2>Emacs: A &quot;Hello, World&quot; Session</h2>
+  
+  <body>
+    <h2>Emacs: A &quot;Hello, World&quot; Session</h2>
 
-<p class="navigator">
-  [Previous]
-  [<a href="index.html">Up</a>]
-  [<a href="emacs-comments.html">Next</a>]</p>
+    <p class="navigator">
+      [Previous]
+      [<a href="index.html">Up</a>]
+      [<a href="emacs-comments.html">Next</a>]</p>
+    
+    <hr/>
 
-<hr>
+    <p>
+      Here is how to type a famous hello.c and compile it, and execute
+      it in emacs:..
+    </p>
 
-<p>
-  Here is how to type a famous hello.c and compile it, and execute it in emacs:
-</p>
+    <div class="center">
+      <object 
+         type="application/x-shockwave-flash"
+         data="emacs-hello.swf"
+         width="800" height="600">
+        <param name="movie" value="emacs-hello.swf"/>
+        <param name="play" value="true"/>
+        <param name="loop" value="False"/>
+        <param name="quality" value="low"/>
+        <!-- <img src="noflash.jpg"/> -->
+      </object>
+    </div>
 
-<embed src="emacs-hello.swf"
-       width="800" height="600" type="application/x-shockwave-flash">
-</embed>
+    <p>
+      Beside the editing command, above demonstration uses following
+      Emacs commands:
+    </p>
 
-</body>
+    <ul>
+      <li><tt>C-x C-f</tt> is binded to `dired-x-find-file' that is similar to
+        `find-file' in vanillar emacs.  `dired-x-find-file' loads filename
+        near point when callled interactively with a prefix arg (e.g. C-u).
+      </li>
+    
+      <li><tt>M-x compile</tt> to execute the compile command.</li>
+
+      <li><tt>C-&lt;TAB&gt;</tt> to run `other-window'.  `other-window'
+        is binded to <tt>C-x o</tt> by default.</li>
+
+      <li><tt>C-c d</tt> to execute `unicode-shell' command which is
+        similar to `shell' except its coding system is UTF-8.
+
+      <div class="source">
+        <pre>
+(<span class="keyword">defun</span> <span class="function-name">unicode-shell</span> ()
+  <span class="doc">"Execute the shell buffer in UTF-8 encoding.
+Note that you'll need to set the environment variable LANG and others 
+appropriately."</span>
+  (interactive)
+  (<span class="keyword">let</span> ((coding-system-for-read 'utf-8)
+        (coding-system-for-write 'utf-8)
+        (coding-system-require-warning t))
+    (call-interactively 'shell)))
+        </pre>
+      </div></li>
+    </ul>
+
+    <hr></hr>
+
+    <p class="footer">
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px" border="0"
+	     src="http://jigsaw.w3.org/css-validator/images/vcss" 
+	     alt="Valid CSS!" align="right"/></a>
+      <a href="http://validator.w3.org/check?uri=referer">
+        <img src="http://www.w3.org/Icons/valid-xhtml10" border="0"
+	     alt="Valid XHTML 1.0!" height="31" width="88" align="right"/></a>
+      If you're looking at a paper snapshot, 
+      the latest version is available at 
+      <a href="http://www.cinsk.org/">here</a>.
+    </p>
+
+    <p class="footer"> 
+      Copyright &copy; 2006  
+      Seong-Kook Shin.  All rights reserved.
+    </p>
+
+    <p class="cvsid">
+      $Id$
+    </p>
+
+  </body>
 </html>
+
+<!--
+ Local Variables:
+ coding: iso-8859-1
+ fill-column: 78
+ End:
+-->

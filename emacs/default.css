@@ -1,2 +1,69 @@
 /* $Id$ */
+body { 
+       font-family: sans-serif;
+
+       padding-left: 3em;
+       padding-right: 3em;
+       padding-bottom: 10px;
+       padding-top: 9px;
+       margin: 0px;
+       text-align: left;
+       background: #fff;
+/*
+       background-image: url(/img/logo-SODI.png);
+       background-position: top left;
+       background-attachment: fixed;
+       background-repeat: no-repeat;
+*/
+}
+
+p.cvsid { font-family: monospace; font-size: 10pt; text-align: right; }
+
+div.center { 
+             text-align: center;
+}
+
+table.center { 
+               width: 100%;
+}
+.center { 
+ }
+.center { 
+             text-align: center;
+}
+
+div.source {
+             border-color: #3366cc;
+             border-style: solid;
+             border-width: thin;
+
+             color: #ffdead;
+             padding: 1ex;
+             margin: 4pt;
+             width: 80%;
+             background-color: #304020;
+             font-weight: bold;
+             }
+
+.doc {
+       }
+
+.function-name {
+                 /* font-lock-function-name-face */
+                 color: #7fffd4;
+                 font-weight: bold;
+                 }
+.keyword {
+           /* font-lock-keyword-face */
+           color: #fa8072;
+           }
+a {
+    /*    color: inherit; */
+    background-color: inherit;
+    font: inherit;
+    text-decoration: inherit;
+    }
+a:hover {
+          text-decoration: underline;
+          }
 
