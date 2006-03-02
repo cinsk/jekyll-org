@@ -78,7 +78,7 @@ div.source2 {
 }
 
 .tt { 
-  font-family: "Courier New", "Courier"", monospace;
+  font-family: "Courier New", "Courier", monospace;
 }
 
 p.bkinfo { line-height: 1.2; font-size: 10pt; text-indent: -3em; margin-left: 3em; }
