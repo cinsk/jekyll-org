@@ -1,12 +1,41 @@
 /* $Id$ */
 h1 { 
-  color: white; background: gray; padding: 0.1em; 
+  color: white;
+  background: gray;
+  padding: 0.1em; 
   /* border: 1px solid black; */ 
 }
 
+h2, h3, h4, h5, h6 { 
+  margin-left: 1%;
+}
+
 /* h1 { font: large/150% sans-serif; } */
-body { padding: 4pt; }
+body { 
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+
 p { font: 12pt sans-serif; font-size: 12pt }
+
+p.navigator { 
+  font-size: 10pt;
+  font-weight: bold;
+  line-height: .8;
+}
+
+p.navigator a { 
+  font: inherit;
+  background-color: inherit;
+  text-decoration: inherit;
+  
+}
+
+p.navigator a:hover {
+  text-decoration: underline;
+}
+
 p.quote { color: gray; }
 p.footer { font-size: 10pt; }
 p.cvsid { font-family: monospace; font-size: 10pt; text-align: right; }
@@ -36,6 +65,20 @@ div.source {
   border-width: thin;
   padding: 4pt;
   margin: 4pt;
+}
+
+div.source2 {
+  color: #332200;
+  background: #fffeee;
+  border-color: #908020;
+  border-style: solid;
+  border-width: thin;
+  padding: 4pt;
+  margin: 4pt;
+}
+
+.tt { 
+  font-family: "Courier New", "Courier"", monospace;
 }
 
 p.bkinfo { line-height: 1.2; font-size: 10pt; text-indent: -3em; margin-left: 3em; }
