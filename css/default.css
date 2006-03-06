@@ -56,6 +56,23 @@ div.menu {
   width: 10em; 
   padding: 4pt;
   margin: 4pt;
+  font-family: sans-serif;
+}
+
+div.menu ul { 
+  list-style: none;
+  margin: 0.2em;
+  padding: 5px;
+}
+
+div.menu li a { 
+  text-decoration: none;
+}
+
+div.menu li:hover a { 
+  color: white;
+  background-color: gray;
+  text-decoration: underline;
 }
 
 div.source {
