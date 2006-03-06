@@ -37,8 +37,9 @@ p.navigator a:hover {
 }
 
 p.quote { color: gray; }
-p.footer { font-size: 10pt; }
-p.cvsid { font-family: monospace; font-size: 10pt; text-align: right; }
+p.footer { font-size: 80%; }
+p.cvsid { font-family: monospace; font-size: 80%; }
+
 /* strong { color: red; } */
 em { color: maroon; }
 .warning { font-weight: bold; }
@@ -81,7 +82,13 @@ div.source2 {
   font-family: "Courier New", "Courier", monospace;
 }
 
-p.bkinfo { line-height: 1.2; font-size: 10pt; text-indent: -3em; margin-left: 3em; }
+p.bkinfo { 
+  line-height: 1.2;
+  font-size: 10pt; 
+  text-indent: -3em;
+  margin-left: 3em; 
+}
+
 table.bkinfo { width: 100%; }
 div.bkinfo { 
   color: #3366cc;
