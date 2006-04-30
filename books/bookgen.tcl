@@ -11,6 +11,7 @@ proc print_record { list } {
         set book(image) "noimage.png"
     }
     
+    puts "      <a name=\"$book(id)\"></a>"
     puts "      <table border=\"0\" class=\"bkinfo\">"
     puts "        <tr>"
     puts "          <td class=\"bkimg\" width=\"130\">"
@@ -51,6 +52,17 @@ proc get_line { fid line } {
     return "$ret"
 }
 
+proc bookid { pathname } {
+    set base [exec basename "$pathname"]
+    set index [string first "." "$base"]
+
+    if {$index < 1} {
+        return "$base"
+    } else {
+        return [string range "$base" 0 [expr "$index" - 1] ]
+    }
+}
+
 array set bookshelf {}
 
 set s_start_pat {^([^:[:space:]]+):[[:space:]]*(.*)$}
@@ -75,6 +87,7 @@ foreach filename "$argv" {
     set book(image) ""
     set book(publisher) ""
     set book(url) ""
+    set book(id) [bookid "$filename"]
 
     while {[get_line "$fid" line] >= 0} {
         set linelen [string length "$line"]
