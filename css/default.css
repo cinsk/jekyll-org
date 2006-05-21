@@ -120,4 +120,10 @@ div.bkinfo {
 /*  margin: 4pt; */
 }
 
+div.bkinfo p {
+  font-size: 10pt;
+  margin-left: 3em;
+  margin-right: 1em;
+}
+
 /* img.bkimg { margin: 10pt; } */
