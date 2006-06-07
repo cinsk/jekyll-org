@@ -17,7 +17,7 @@ proc print_record { list } {
     puts "          <td class=\"bkimg\" width=\"130\">"
     puts "            <img border=\"0\" class=\"bkimg\" alt=\"$book(image)\""
     puts "              src=\"img/$book(image)\"></img>"
-    puts "            <form method=\"get\" action=\"http://a9.com/\" name=\"searchForm\" id=\"searchForm\" style=\"margin:0\">"
+    puts "            <form method=\"get\" action=\"http://a9.com/\" name=\"searchForm\" style=\"margin:0\">"
     puts "              <input type=\"hidden\" name=\"q\" value=\"$book(isbn)\"/>"
     puts "              <input type=\"hidden\" name=\"a\" value=\"sbooks\" checked=\"checked\"/>"
     puts "              <input type=\"submit\" value=\"a9 search\" class=\"abutton\"/>"
@@ -34,7 +34,7 @@ proc print_record { list } {
         puts "              <a href=\"$book(url)\">$book(url)</a></p>"
     }
 
-    puts "            <p class=\"bkinfo\"><strong>Description</strong>: $book(description)</p>"
+    puts "            <p class=\"bkinfo\"><strong>Description</strong>:</p> $book(description)"
     puts "            </div>"
     puts "          </td></tr>"
     puts "      </table><br></br>"
