@@ -127,3 +127,16 @@ div.bkinfo p {
 }
 
 /* img.bkimg { margin: 10pt; } */
+
+/* for book entries */
+input.abutton { 
+  margin: 0;
+  margin-top: 0.5em;
+  color: #a55301;
+  font-size:60%;
+  background-color: #f1e3cd;
+  border-color: grey;
+  border-style: beveled;
+  border-width: 2px;
+  font-weight: bold;
+}
