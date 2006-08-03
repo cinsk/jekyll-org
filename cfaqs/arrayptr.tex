@@ -193,7 +193,7 @@ they fall into place.
   void f(char *a)
   { ...  }
 \end{verbatim}
-	그래서, 함수가 배열에 대한 어떤 작업을 하거나, 파라메버가 함수 내부에서
+	그래서, 함수가 배열에 대한 어떤 작업을 하거나, 파라메터가 함수 내부에서
 	배열처럼 취급될 때, 함수가 배열을 받는다고 말하는 것은 나쁘지 않습니다.
 
 	이런 사항들은 함수의 formal parameter 선언에만 적용되며, 다른 곳에서는
@@ -364,12 +364,14 @@ generates so much confusion, here are a few questions about that confusion.
 	expression이고, 하나가 정수 수식이란 전제 아래에서, 
 	\verb2*((a) + (e))2와 완전히 같습니다 (identical). 이 증명은 다음과
 	같습니다:
-\begin{verbatim}
-  a[e]
-  *((a) + (e))	        (\EM{by definition})
-  *((e) + (a))          (\EM{by commutativity of addition})
-  e[a]                  (\EM{by definition})
-\end{verbatim}
+
+\begin{tabular}{lp{7cm}}
+  \TT{a[e]} & \\
+  \TT{*((a) + (e))} & (\EM{by definition}) \\
+  \TT{*((e) + (a))} & (\EM{by commutativity of addition}) \\
+  \TT{e[a]}         & (\EM{by definition}) 
+\end{tabular}
+
 	어떤 C 책에서는 이런 것을 자랑삼아 보여주기는 하지만,
 	`혼동스러운 C 컨테스트 (Obfuscated C Contest)'에 쓰이지
 	않는한, 따로 특별히 쓸모 있는 표현이 아닙니다

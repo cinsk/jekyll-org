@@ -150,7 +150,7 @@ text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
 \begin{faq}
 \Q{12.3} % 12.3 COMPLETE
 	\TT{fgets()}를 써서, 파일에서 한 줄씩 읽어 그 내용을 포인터의 배열에 
-        저장하려 합니다. 왜 마지막 줄이 두 번 저장될까요?
+        저장하려 합니다. 왜 모든 줄의 내용이 마지막 줄로 되어 있을까요?
 %	I'm using \TT{fgets()} to read lines from a file into an array of
 %	pointers.  Why do all the lines end up containing copies of the
 %	last line?
@@ -355,8 +355,8 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 \A
 	\verb+<locale.h>+는 이러한 연산을 수행하기 위한 간단한 기능을
 	제공합니다.  그러나 이런 일을 하기 위한 표준 루틴은 없습니다.
-	(\TT{printf()}가 할 수 있는 것은 (미리 정의된) 어떤 locale 설정에 따라 
-	10진 문자를 출력하는 것만 알 수 있습니다\footnote{
+	(\TT{printf()}가 할 수 있는 일은, locale 설정에 따라 소수점을 찍는 것
+        뿐입니다.\footnote{
 	The only thing \TT{printf()} does in response to a
 	custom locale setting is to change its decimal-point character}.
 
@@ -408,6 +408,7 @@ Format				& \TT{printf}		& \TT{scanf} \\ \hline
 	\cite{c89} \S\ 7.4 \\
 	\cite{hs} \S\ 11.6 \Page{301--4}
 \end{faq}
+
 
 \begin{faq}
 \Q{12.A}
@@ -472,7 +473,6 @@ main(void)
 \R
 	\cite{c99} \S\ 7.8.1, \S\ 7.18.1
 \end{faq}
-
 
 
 \section{\TT{scanf} Formats}	\label{sec:scanf}
@@ -690,7 +690,7 @@ avoiding it entirely.
 \A
 	놀랍게도 \TT{scanf} 포맷 문자열의 \verb+\n+은 newline에 해당하는
 	것이 아니고,
-	공백(whitespace) 문자가 나올 때까지의 입력을 읽어서 무시하라는
+	공백(whitespace) 문자가 나오는 동안, 입력을 읽어서 무시하라는
 	뜻입니다.
 	(사실, \TT{scanf} format string에 나오는 어떠한(any) 공백 문자라도,
 	공백 문자를 읽어서 무시하라는 뜻입니다. 게다가 \TT{\%d}와 같은
@@ -936,12 +936,12 @@ avoiding it entirely.
 	있음) 그러나 이런 식으로 매번 계산하는 것은 지나치게 조심스러운
 	것\footnote{over-conservative}입니다.  (위의 식은 수치를 8 진수로
 	표기한다고 가정했을 때의 계산 결과입니다.  10 진법을 쓴다면 위의 계산
-	결과보다 조금 더 많거나 적은 공간을 차지할 수 있습니다.)
+	결과와 같거나, 그보다 작은 공간을 차지할 수 있습니다.)
 
 	포맷 문자열이 매우 복잡하거나 런타임이 되기 전에는 알 수 없다면
 	버퍼 크기를 예측하는 것은 \TT{sprinf()}를 새로 만드는 것처럼 어려운
 	일입니다.  그리고 복잡한 만큼 에러가 발생하기 쉽습니다 (그래서 권장하지
-	않습니다).  마지막 방법은 일단 그 포맷과 같은 포맷을 \TT{fprint()}를
+	않습니다).  마지막 방법은 일단 그 포맷과 같은 포맷을 \TT{fprintf()}를
 	써서 임시 파일에 저장한 다음, \TT{fprintf()}의 리턴값을 받거나
 	그 파일의 크기를 조사하는 방법입니다 (그러나 질문 \ql{19.12}를
 	꼭 읽기 바랍니다.  그리고 출력 에러를 생각해야 합니다).
@@ -1231,7 +1231,7 @@ avoiding it entirely.
 
 \begin{faq}
 \Q{12.30} % 12.30 COMPLETE
-	파일의 내용을 고치려고 합니다.  일단 \verb+"r"+ 모드로 파일을 연 다음,
+	파일의 내용을 고치려고 합니다.  일단 \verb?"r+"? 모드로 파일을 연 다음,
 	원하는 문자열을 읽고 다시 이 문자를 쓰려고 했으나 제대로 동작하지
 	않습니다.
 \A

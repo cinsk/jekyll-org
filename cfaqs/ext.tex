@@ -36,10 +36,12 @@
   /* 아래 함수 포인터가 NULL이면 error() 함수는 
    * stdout을 flush시키고 stderr로 프로그램 이름을
    * 출력하고, ": "를 출력합니다. */
+  void (*error_print_progname);
     
   /* error() 함수를 쓰는 프로그램은 반드시
    * program_name이라는 변수를 정의하고 프로그램의
    * 이름(실행 파일 이름)을 지정해야 합니다. */
+  extern const char *program_name;
 
   void
   error(int status, int errnum, const char *msg, ...)
@@ -225,7 +227,7 @@
 
 	성능 좋고, 공개용인 GDB(GNU symbolic debugger)를 추천합니다.
 	GDB를 바로 command-line에서 사용하는 것은 가장 쉬운 방법이긴
-	하지만, \TT{vi}를 쓰지 않고 \TT{ed}를 써서 작업하는 겪이 됩니다.
+	하지만, \TT{vi}를 쓰지 않고 \TT{ed}를 써서 작업하는 격이 됩니다.
 
 	GNU Emacs에서는 GDB를 편하게 쓸 수 있는 mode를 제공하며,
 	DDD는 GDB를 써서 X window system에서 편하게 쓸 수 있는

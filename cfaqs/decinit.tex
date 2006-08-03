@@ -67,7 +67,7 @@ sizeof(char) <= sizeof(short) <= sizeof(int) <=
 \end{itemize}
 
 	이 규칙은 \TT{char}가 적어도 8 bit가 되어야 한다는 것과,
-	\TT{short int}와 \TT{int}는 적어도 16 bit4이어야 한다는 것과,
+	\TT{short int}와 \TT{int}는 적어도 16 bit여야 한다는 것과,
 	\TT{long int}는 적어도 32 bit가 되어야 한다는 것을
 	뜻합니다. (각각 type의 signed와 unsigned version은 같은 크기를
 	가진다고 보장되어 있습니다.)
@@ -115,10 +115,57 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
             Max. value (unsigned) & 18,446,744,073,709,551,615 \\ \hline
           \end{tabular}
         \end{center}
+
+\begin{center}
+\begin{tabular}{l|p{4cm}|p{4cm}} \hline \hline
+int\EM{N}\_t &
+	INT\EM{N}\_MIN \break \hboxspace{1cm} $-(2^{N-1})$ & 
+        INT\EM{N}\_MAX \break \hboxspace{1cm} $2^{N-1} - 1$ \\
+
+uint\EM{N}\_t &
+	0 &
+	UINT\EM{N}\_MAX \break \hboxspace{1cm} $2^{N-1} - 1$ \\
+
+int\_least\EM{N}\_t &
+	INT\_LEAST\EM{N}\_MIN \break \hboxspace{1cm} $-(2^{N-1} - 1)$ &
+        INT\_LEAST\EM{N}\_MAX \break \hboxspace{1cm} $2^{N-1} - 1$ \\
+
+uint\_least\EM{N}\_t &
+	0 &
+        UINT\EM{N}\_MAX \break \hboxspace{1cm} $2^N - 1$ \\ \hline
+
+int\_fast\EM{N}\_t & 
+	INT\_FAST\EM{N}\_MIN \break \hboxspace{1cm} $-(2^{n-1}-1)$ &  
+        INT\_FAST\EM{N}\_MAX \break \hboxspace{1cm} $2^{N-1} - 1$ \\
+
+uint\_fast\EM{N}\_t & 
+	0 &
+	UINT\_FAST\EM{N}\_MAX \break \hboxspace{1cm} $2^{N} - 1$ \\ \hline
+
+intptr\_t &
+	INTPTR\_MIN \break \hboxspace{1cm} $-(2^{15}-1)$ & 
+        INTPTR\_MAX \break \hboxspace{1cm} $2^{15} - 1$ \\
+
+uintptr\_t &
+	0 &
+	UINTPTR\_MAX \break \hboxspace{1cm} $2^{16} - 1$ \\ \hline
+
+intmax\_t &
+	INTMAX\_MAX \break \hboxspace{1cm} $-(2^{63} - 1)$ & 
+        INTMAX\_MAX \break \hboxspace{1cm} $2^{63} - 1$ \\
+
+uintmax\_t &
+	0 &
+        UINTMAX\_MAX \break \hboxspace{1cm} $2^{64} - 1$ \\ \hline \hline
+\end{tabular}
+\end{center}
+
 \R
 	\cite{c99} \S\ 5.2.4.2.1 \Page{22--23}, \S\ 6.2.5
         
 \end{faq}
+
+
 
 \begin{faq}
 \Q{1.2} % 1.2 COMPLETE
@@ -179,7 +226,13 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
         \verb+int32_t+, \verb+uint8_t+, \verb+uint16_t+,
         \verb+uint32_t+를 제공합니다.
 
+        표준에 따라 정확히 말하면, \verb+int_16_t+, \verb+int32_t+등이
+        정의된 헤더 파일은 \verb+<stdint.h>+에 정의되어 있습니다.
+        다시, 표준에 따르면, \verb+<inttype.h>+는 \verb+<stdint.h>+를
+        포함하게 되며, 부가적인 사항들을 제공합니다.
+
 % TODO: hs5와 iso를 좀 더 보고 여기에 채워 넣을 것.
+% TODO: <inttype.h>에 있는 PRI*, SCN* 매크로에 대한 질문 추가하고 ref 달 것.
 \R
 	\cite{c99} \S\ 7.18
 \end{faq}
@@ -680,7 +733,7 @@ C 언어 선언에서는 type qualifier라는 게 있으며, 이는 ANSI C에서
         아래와 같이 배열을 초기화하는데 왜 \TT{const} 값을 쓸 수 없는 것인가요?
 \begin{verbatim}
   const int n = 5;
-  itn a[n];
+  int a[n];
 \end{verbatim}
 \A
         질문 \ql{11.8}을 보기 바랍니다.
@@ -898,7 +951,7 @@ baffling run-time problems.)
         \TT{void main()}으로 해도 좋은가요?
 \A
 	질문 \ql{11.12a}와 \ql{11.15}를 참고하기 바랍니다.  
-        (어쨋든 \TT{void main()}은 틀린 선언입니다.)
+        (어쨌든 \TT{void main()}은 틀린 선언입니다.)
 \end{faq}
 
 \begin{faq}
@@ -1132,7 +1185,7 @@ baffling run-time problems.)
 	\TT{malloc()}이나 \TT{realloc()}으로, 동적으로 할당된 메모리도
 	처음에 쓰레기 값을 가집니다.  따라서 프로그램에서
 	적당히 초기화시켜 주어야 합니다.  \TT{calloc()}으로 할당받은
-	메모리는 비트 단위로 0을 가지고 되지만, 이 것이
+	메모리는 비트 단위로 0을 가지게 되지만, 이 것이
 	포인터나 실수 타입에서 0을 의미한다고 말할 수는 없습니다
 	(질문 \ql{7.31}과 Chapter~\ref{chap:nullptr} 참고).
 

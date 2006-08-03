@@ -15,7 +15,7 @@ when an ambiguity was resolved contrary to someone's experience or when people
 with pre-ANSI compilers try to use code written since the standard became
 widely adopted.
 
-Standard C can be referred to in several ways. It was orinally written by
+Standard C can be referred to in several ways. It was originally written by
 a committee (X3J11) under the auspices of the American National Standards
 Institute, so it's often called ``ANSI C.''  The ANSI C Standard was adopted
 internationally by the International Organization for Standardization, so it's
@@ -54,7 +54,7 @@ C 언어 표준은 항상 진행중입니다. 현재 C99까지 나왔으며, 앞으로도 다음 표준이
     표준의 제한을 벗어나는 시스템을 개발하는 것을 막지 않습니다. 이런 제한들은
     (\EM{minimum maxima})최고값이 제공할 수 있는 최하위 값의 형태로 제공됩니다.
   \item Keep the spirit of C.
-    기존 C 언어가 가지고 있는 들을 그대로 유지합니다. 즉,
+    기존 C 언어가 가지고 있는 틀을 그대로 유지합니다. 즉,
     \begin{itemize}
       \item Trust the programmer.
       \item Don't prevent the programmer from doing what needs to be done.
@@ -119,7 +119,7 @@ C 언어 표준은 항상 진행중입니다. 현재 C99까지 나왔으며, 앞으로도 다음 표준이
 
         첫째, Brian Kernighan씨와 Dennis Ritchie씨가 1978년에 쓴 
         \EM{The C Programming Language}에서 소개한 C 언어입니다. 보통
-        ``K\&R''이라고 부르며, 1980년대에 쓰였던 모든 C 언어를 ``traditionall
+        ``K\&R''이라고 부르며, 1980년대에 쓰였던 모든 C 언어를 ``traditional
         C''라고 합니다.
 
         둘째, 표준을 정해 놓는 것이, C 언어가 널리 퍼지게 하는데 도움이
@@ -133,14 +133,14 @@ C 언어 표준은 항상 진행중입니다. 현재 C99까지 나왔으며, 앞으로도 다음 표준이
         또 변했기 때문에, 이 것을 ``Standard C (1989)''로 부르거나,
         줄여서 ``C89''라고 합니다.
 
-        세째, WG14 그룹은 C89에 대한 두 문서를 만들었는데
+        셋째, WG14 그룹은 C89에 대한 두 문서를 만들었는데
         하나는 `Technical Corrigenda'이며
         (버그 수정 문서), 또 하나는 `Amendment (확장)'입니다. 이들이 반영된
         표준은, ``C89 with Amendment 1'' 또는 ``C95''라고 부릅니다.
 
-        네째, WG14는 계속 작업을 거듭했고, 그 추가 및 확장 사항들이
+        넷째, WG14는 계속 작업을 거듭했고, 그 추가 및 확장 사항들이
         다시 반영되어, 1999년에 표준으로 제정되었습니다. 이는 
-        ``\EM{ISO/IEC 9899:1999}'' 또는, 줄여서 ``c99''라고 부르며, 이 것이
+        ``\EM{ISO/IEC 9899:1999}'' 또는, 줄여서 ``C99''라고 부르며, 이 것이
         가장 최신의 표준입니다.
 
         참고로, Bjarne Stroustrup씨가 1980년 초반에 디자인한 C++은 현재
@@ -269,7 +269,7 @@ C 언어 표준은 항상 진행중입니다. 현재 C99까지 나왔으며, 앞으로도 다음 표준이
 
 \T
 \begin{verbatim}
-  http://www.open-std.org/jtc1/sc22/wg14/
+  http://www.dkuug.dk/JTC1/SC22/WG14/
 \end{verbatim}
 	\noindent 위 사이트의 새 주소는 다음과 같습니다:
 \begin{verbatim}
@@ -366,7 +366,7 @@ acceptable, which makes the rules for prototypes somewhat more complicated.
 \Q{11.4}
 	함수 구문에서 오래된 형식과 새 형식을 섞어 쓸 수 있나요?
 \A
-	섞어 쓸 수 있긴 하지만 매우 주의를 필요합니다.  (질문 \ql{11.3}을 꼭
+	섞어 쓸 수 있긴 하지만 매우 주의해야 합니다.  (질문 \ql{11.3}을 꼭
 	보시기 바랍니다).  현재에는 prototype 형식이 선언과 정의에 모두
 	사용되고 있습니다.  (오래된 형식은 쓸모 없이 되어가고 있기 때문에,
 	언젠가 공식적으로 제거될 것입니다.)
@@ -568,7 +568,7 @@ pointer declarations can be tricky. (The questions in this section refer to
         깨뜨릴 수 있는 실마리를 제공합니다.  그래도 이러한 연산이 필요하다면,
         다시 말해, 가장 최상위 수준이 아닌 곳에서 qualifier가 서로 달라서
         대입이 되지 않는 것을 대입시키려면, 
-        직접 캐스트해서 (즉, 이 경우에는 \TT{(const char *)**}로) 쓸
+        직접 캐스트해서 (즉, 이 경우에는 \TT{(const char) **}로) 쓸
         수 있습니다. 
 
 \R
@@ -1134,8 +1134,9 @@ suspect.
 \A
 	컴파일러가 ANSI의 구문을 썼다고 하더라도, ANSI 호환의 헤더 파일이나,
 	런-타임 라이브러리를 갖지 않을 수 있습니다.  (사실
-	gcc와 같이, 시스템 밴더(vendor)가 제공하지 않는 컴파일러에서는
-	종종 있는 일입니다.) 질문 \ql{11.29}, \ql{13.25}, \ql{13.26}을 참고하기 바랍니다.
+	gcc와 같이, 시스템 벤더(vendor)가 제공하지 않는 컴파일러에서는
+	종종 있는 일입니다.) 질문 \ql{11.29}, \ql{13.25}, 
+        \ql{13.26}을 참고하기 바랍니다.
 \end{faq}
 
 \begin{faq}
@@ -1196,7 +1197,7 @@ compilers can be compatible with it (and therefore with each other).
 Compatibility is not a simple black-or-white issue, however: There are
 degrees of compliance, and the scope of the standard's definitions is not
 always as comprehensive as might be expected.  In keeping with the
-``spirit of C,'' several issues ar enot precisely specified; portable programs
+``spirit of C,'' several issues are not precisely specified; portable programs
 must simple avoid depending on these issues.
 
 \begin{faq}
@@ -1300,7 +1301,7 @@ TODO: `volatile'에 대해 소개하기.
             하드웨어를 직접 제어하는 코드
           \item 둘째, \TT{setjmp}와 \TT{longjmp} 함수를 써서 non-local goto를
             사용하는 코드
-          \item 세째, (인터럽크 관련) signal handler에서
+          \item 셋째, (인터럽크 관련) signal handler에서
             (보통 전역) 변수의 값을 설정할 때.
         \end{itemize}
         

@@ -101,7 +101,7 @@ preprocessor's lack of support for variable-length macro argument lists.
           전부 대문자로 써서, 매크로라는 것을 암시해 줍니다. 만약, 완전하게
           함수와 같이 동작하는 것이라면, 소문자로만 이름을 만드는 것도 
           괜찮습니다. 그러나 이 경우, 위 세가지 규칙을 준수하는지 확인하기
-          바랍니다. 질문에서 제공한 매크로는 위의 세가 규칙을 지킬 수 없으므로,
+          바랍니다. 질문에서 제공한 매크로는 위의 세가지 규칙을 지킬 수 없으므로,
           다음과 같이 만드는 것이 낫습니다:
 \begin{verbatim}
   #define Square(x)  ((x) * (x))    /* UNSAFE */
@@ -136,7 +136,7 @@ preprocessor's lack of support for variable-length macro argument lists.
         일반적으로, 프리프로세서를 써서 만드는 매크로는 C 언어 형식을 따르는
         것이 좋습니다. 인자가 없는 매크로는 변수나 다른 identifier처럼 보이게
         만들어야 하며, 인자가 있는 매크로는 함수처럼 만들어야 합니다.
-        ``만약 프리프로세서를 거치지 않고, 이 코드를 직접 컴파일러게 주었을
+        ``만약 프리프로세서를 거치지 않고, 이 코드를 직접 컴파일러에 주었을
         때, 문법 에러가 (syntax error) 몇 개나 발생할까?''라고 자신에게 묻는
         습관을 가지면 좋습니다. (물론 undefined symbol, non-constant array 
         dimension에 관한 많은 에러가 발생하겠지만, 이들은 문법 에러가 아닙니다.)
@@ -262,7 +262,7 @@ preprocessor's lack of support for variable-length macro argument lists.
 	이 테크닉은 또 매크로가 어떤 `값(value)'을 리턴할 수 있게 해 줍니다.
 
         \TT{gcc}와 같은 컴파일러는 이런 간단한 기능을 하는 함수가 매크로처럼
-        원하는 경우 확장(expan)할 수 있는 기능을, 비표준인, ``\TT{inline}''
+        원하는 경우 확장(expand)할 수 있는 기능을, 비표준인, ``\TT{inline}''
         키워드나 기타 방법을 써서 제공하기도 합니다.
 \T
 	무슨 소리냐 하면
@@ -274,7 +274,7 @@ preprocessor's lack of support for variable-length macro argument lists.
       stmt2; \
     } while(0);
 
-  if (some_condiftion)
+  if (some_condition)
     MULTI_STATEMNT_MACRO(a);
   else {
     /* ...  */
@@ -372,7 +372,7 @@ preprocessor's lack of support for variable-length macro argument lists.
 	헤더 파일을 \verb+#include+함으로써 수고를 덜어줄 수 있다는
 	장점도 있습니다; \TT{grep}과 같은 툴을 (또는 tags 파일) 사용하면
 	정의가 어떤 파일에 되어 있느냐에 상관없이 쉽게 찾을 수 있습니다.
-	다음과 같은 트릭이 을 쓰면, 헤더 파일이 여러 곳에서 포함되었느냐에
+	다음과 같은 트릭을 쓰면, 헤더 파일이 여러 곳에서 포함되었느냐에
         상관없이, 딱 한번만 포함되게(idempotent) 할 수 있습니다:
 
 \begin{verbatim}
@@ -472,7 +472,7 @@ preprocessor's lack of support for variable-length macro argument lists.
         없애고(undefine), 다시 정의하는(redefine) 것을 반복해서
         \verb+#include+에서 일어나는 충돌을 막을 수 있습니다.
 \T
-	서로 충돌하는 매크로의 실제 정의 부분이 서로 다음과 같다면:
+	서로 충돌하는 매크로의 실제 정의 부분이, 다음과 같이 서로 같다면:
 \begin{verbatim}
   file1.h:
     #include TRUE	1
@@ -697,7 +697,7 @@ preprocessor's lack of support for variable-length macro argument lists.
 	\cite{hs} \S\ 7.11.1 \page{225}
 \T
 	GNU autoconf를 쓰면 프로그램을 컴파일하기 전
-	간단한 인디언 테스용 프로그램을 실행해서, 자동으로 
+	간단한 인디언 테스트용 프로그램을 실행해서, 자동으로 
 	어떤 매크로를 정의하게 만들고 (예를 들어 \verb+BIG_ENDIAN_MACHINE+)
         프로그래머가 이 매크로의 정의 여부에 따라 프로그램을 작성할
         수 있습니다.  (질문 \ql{10.13} 참고).
@@ -884,7 +884,7 @@ introduces defined, supported mechanisms.
 
 \begin{faq}
 \Q{10.25} % 10.25
-	이렇듯, 복잡한 `preprocessing'을 어떻게 다 쓸 수 있을까요?
+	복잡한 전처리를 해야 하는데, 방법을 모르겠습니다.
 
 \A
 	C 언어의 전처리기(preprocessor)는 범용의(general purpose) 툴이
@@ -1031,7 +1031,7 @@ macro.
     fprintf(stderr, "DEBUG: \"%s\", line %d: ",
             dbgfile, dbgline);
     va_start(argp, fmt);
-    vfpritnf(stderr, fmt, argp);
+    vfprintf(stderr, fmt, argp);
     va_end(argp);
     fprintf(stderr, "\n");
   }

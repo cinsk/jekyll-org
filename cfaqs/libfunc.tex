@@ -46,7 +46,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
         게다가, 어떤 식으로 출력할 것인지도 제어할 수 있습니다. (그렇기 때문에,
         C 언어는 \TT{itoa} 식의 함수보다, \TT{sprintf}를 제공하는 것입니다.)
         
-        꼭 \TT{itoa}를 써야겠다면, 다음과 같은 사항들을 고려해야 합니다:
+        꼭 \TT{itoa}를 직접 만들어야 한다면, 다음과 같은 사항들을 고려해야 합니다:
         \begin{itemize}
           \item K\&R은 단순한 버전의 \TT{itoa}를 제공합니다.
           \item 돌려줄 버퍼를 어떻게 할당할 것인지 생각해 봐야 합니다;
@@ -177,7 +177,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
 	오래된 버전의 \TT{toupper()}와 \TT{tolower()}의 경우, 변환이 필요없는
 	값이 인자로 전달되면, 제대로 동작하지 않습니다.  (즉 알파벳이 아닌
 	문자나, 또는 이미 변환이 된 알파벳인 경우). 그래서 오래된 
-        (또는 이식성을 아주 높은) 코드는 \TT{toupper} 또는 \TT{tolower}를
+        (또는 이식성이 아주 높은) 코드는 \TT{toupper} 또는 \TT{tolower}를
         부르기 전에, \TT{islower}와 \TT{isupper}를 부르는 경향이 있습니다.
 
 	그러나, C 표준은 이러한 함수들이 어떤 값이 전달되더라도
@@ -229,7 +229,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
       /* skip leading whitespace */
       while (isspace(*p))
         p++;
-      if (*p = '\0')
+      if (*p != '\0')
         argv[argc++] = p;
       else {
         argv[argc] = 0;
@@ -243,7 +243,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
       if (*p != '\0' && i < argvsize - 1)
         *p++ = '\0';
     }
-    return agrc;
+    return argc;
   }
 \end{verbatim}
 	\TT{makeargv}는 다음과 같이 호출합니다:
@@ -296,7 +296,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
 	    UNIX 유틸리티에서 자주 쓰입니다. Regular expression에서,
             마침표(\TT{.})는 아무런 글자 하나에 매치(match)되며,
             \TT{.*}는 길이에 상관없이 여러 문자열에 매치됩니다.
-            (물론, regular expression에는 이보다 훨씨 더 많은 기능이
+            (물론, regular expression에는 이보다 훨씬 더 많은 기능이
             있습니다.)
           \item Filename wildcard는 대부분 OS에서 자주 쓰이며, 여러가지
             버젼이 존재합니다. 그러나 보통 \TT{?} 문자는 아무런 글자 하나에
@@ -471,7 +471,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
         시작합니다:
 \begin{verbatim}
   int myptrstructcmp(const void *p1, const void *p2)
-  {'
+  {
     struct mystruct *p1 = *(struct mystruct * const *)p1;
     struct mystruct *p2 = *(struct mystruct * const *)p2;
 \end{verbatim}
@@ -654,7 +654,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
 	\TT{mktime}과 \TT{difftime} 함수를 제공합니다.
 	\TT{mktime()}은 정규화되지 않은 (non-normailized) 날짜를
 	\verb+struct tm+ 타입으로 입력받아 이것을 정규화시켜 줍니다.
-	lgx, \TT{struct tm}의 변수에 기준 날짜 값을 넣고, 
+	즉, \TT{struct tm}의 변수에 기준 날짜 값을 넣고, 
         \verb+tm_mday+에서 원하는 날짜만큼 더하거나 뺀 다음, \TT{mktime}을
         부르면 normalize된 년, 월, 일을 얻을 수 있습니다.
         (추가적으로 이 값을 \verb+time_t+ 타입으로 변경시켜 줍니다.)
@@ -891,7 +891,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
 
         만약 \TT{N}이 \verb+RAND_MAX+에 가깝고, random number generator의
         범위가 \TT{N}의 배수가 아니라면 (즉, 
-        \verb!RAND_MAX + 1 % N != 0!인
+        \verb?RAND_MAX + 1 % N != 0?인
         경우) 위 모든 방법이 나쁜 방법이 됩니다: 어떤 범위의 수치들이 다른
         범위보다 훨씬 더 많이 나타나게 됩니다. (실수를 쓴다고 해결될 문제가
         아닙니다. 문제는 \TT{rand} 함수가 서로 다른
@@ -1022,7 +1022,7 @@ Chapter~\ref{chap:stdio}에 설명되었습니다.
 	적어도 다음과 같은 세 가지 방법이 있습니다:
 
         \begin{itemize}
-          \item Exploit the Central Limit THeorem (``law of large numbers'')
+          \item Exploit the Central Limit Theorem (``law of large numbers'')
             and add up several uniformly distributed random numbers:
 \begin{verbatim}
   #include <stdlib.h>

@@ -209,6 +209,8 @@ Variable-length argument list를 쓰는 방법은 크게 세 단계로 이루어 집니다.
       case 'c':
         i = va_arg(argp, int);
         /* not va_arg(argp, char); 질문 15.10 참고 */
+        putchar(i);
+        break;
 
       case 'd':
         i = va_arg(argp, int);
@@ -233,10 +235,12 @@ Variable-length argument list를 쓰는 방법은 크게 세 단계로 이루어 집니다.
       case 'u':
         s = va_arg(argp, unsigned int);
         fputs(baseconv(u, 10), stdout);
+        break;
 
       case 'x':
         u = va_arg(argp, unsigned int);
         fputs(baseconv(u, 16), sttout);
+        break;
 
       case '%':
         putchar('%');
@@ -261,7 +265,7 @@ Variable-length argument list를 쓰는 방법은 크게 세 단계로 이루어 집니다.
 \begin{faq}
 \Q{15.5}
 	\TT{printf()}와 같이 포맷 문자열을 받아들여 처리하는 함수를
-	만들어 그 처리를 \TT{printf()}에게 맏기고 싶습니다.
+	만들어 그 처리를 \TT{printf()}에게 맡기고 싶습니다.
 \A
 	\TT{vprintf()}, \TT{vfprintf()}, \TT{vsprintf()} 함수를 쓰면
 	됩니다. 이 함수들은, 각각 \TT{printf()}, \TT{fprintf()}, \TT{sprintf()}과
@@ -534,7 +538,7 @@ at run time, you can't do so portably.
 	일반적으로, 불가능합니다.  이상적으로, 이 경우, \verb+va_list+를
         받는 함수를 만들어야 합니다.
 
-        예를 들어, 치명적인(fital) 에러 메시지를 출력하고 프로그램을 끝내는 함수인
+        예를 들어, 치명적인(fatal) 에러 메시지를 출력하고 프로그램을 끝내는 함수인
         \TT{faterror}를 만든다고 가정해 봅시다. 여러분은 질문 \ql{15.5}에서 쓴
         \TT{error} 함수를 쓰길 원한다고 합시다:
 \begin{verbatim}

@@ -194,10 +194,12 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 
 \A
 	먼저 lint를 돌려보시기 바랍니다.  (아마도 \TT{-a}, \TT{-c}, \TT{-h},
-	\TT{-p} 등의
-	옵션을 쓸 것입니다.  대부분의 C 컴파일러는 절반만 컴파일러인
-	경우가 많습니다.  빠르게 코드를 만들어 내기 위해 소스 코드를
-	분석하는 일은 거의 하지 않기 때문입니다.
+	\TT{-p} 등의 옵션을 함께 써야 할 것입니다.)
+        대부분의 C 컴파일러는 완벽한 컴파일러가 아닙니다. 다른 말로,
+        만약 프로그래머가, 할 일을 명확하게 지시하지 않았거나, 지시한 사항이
+        동작한다고 보장할 수 없는 경우에 무시하고 넘어가는 경우가 많습니다.
+        (그런 경우에도, 컴파일러가 제공하는 경고 메시지를 최대로 출력하도록
+        해 보기 바랍니다.)
 
 	\seealso{\ql{16.5}, \ql{16.8}, \ql{18.7}}
 
@@ -384,7 +386,7 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	나와 있습니다).   그러나 K\&R이 초보자가 보기에는 적당하지 않다는
 	의견도 있습니다; 그렇지만 우리들 대부분이 그 책으로 C를 배웠으며,
 	아주 잘 배웠다고 생각합니다; 그러나 책의 내용이 너무나 딱딱하기
-	때문에 프로그래밍에 대한 전혀 배경 지식이 없는 사람에게는
+	때문에 프로그래밍에 대한 배경 지식이 전혀 없는 사람에게는
 	무리일 것입니다.   이 책에 대한 여러 보충 설명이나 정정 목록은
 	아래에서 구할 수 있습니다:
 
@@ -416,7 +418,7 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 	`Association of C and C++ Users (ACCU)'는 C/C++에 대한 
 	많은 책들에 대한 논평을 모아 놓았습니다:
 \begin{verbatim}
-  http:://bach.cis.temple.edu/accu/bookcase
+  http://bach.cis.temple.edu/accu/bookcase
   http://www.accu.org/accu
 \end{verbatim}
 
@@ -482,8 +484,8 @@ C compiler & 질문 \ql{18.3} 참고 \\ \hline \hline
 \begin{verbatim}
   pub/packages/development/libraries/defunc-1.3.tar.Z
 \end{verbatim}
-	구할 수 있으며, \TT{lamont.ldgo.columbia.edu}의 ``parbse''로
-	구할 수 있습니다.
+	또, \TT{lamont.ldgo.columbia.edu}에서 ``parse'' 패키지도
+        찾아보기 바랍니다.
 	여러가지 옵션들이 포함되어 있는 S-Lang 인터프리터는 anonymous ftp로
 	\TT{amy.tch.harvard.edu}의 \TT{/pub/slang}에서 구할 수 있습니다.
 	또한 Cmm (``C-minus-minus'')이라는 쉐어웨어도 있습니다.
