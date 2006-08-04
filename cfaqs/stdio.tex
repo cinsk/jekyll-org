@@ -33,14 +33,15 @@ C 언어의 minimalist philosophy에 동조하기 위해, stdio 함수들은 간단한,
 있습니다.   그렇지만 키보드나 스크린과 관련된 기능은 매우 적습니다
 (다시 \ref{chap:sysdep} 절을 참고하기 바랍니다).
 
-이 절의 많은 부분이 \TT{printf} (질문 \ql{12.6}에서 \ql{12.11}까지)와 \TT{scanf}
-(질문 \ql{12.12}에서 \ql{12.20}까지)에 연관되어 있습니다.  질문 \ql{12.21}에서 \ql{12.26}은
-다른 stdio 함수들을 설명합니다.  특정 파일을 access할 필요가 있다면,
-\TT{fopen} (질문 \ql{12.27}부터 \ql{12.32}까지)을 써서 직접 열어서(open) 쓰거나(use),
-표준 stream을 redirect해서 (질문 \ql{12.33}에서 \ql{12.36}까지) 쓸 수 있습니다.
-text I/O를 하려는 마음이 없다면, ``binary'' stream을 쓸 수 (질문
-\ql{12.37}에서 \ql{12.42}까지) 있습니다.   이 모든 것을 자세히 알아보기 전에
-먼저 간단한 것부터 알고 넘어갑시다.   다음 질문들을 읽어보기 바랍니다.
+이 절의 많은 부분이 \TT{printf} (질문 \ql{12.6}에서 \ql{12.11}까지)와
+\TT{scanf} (질문 \ql{12.12}에서 \ql{12.20}까지)에 연관되어 있습니다.  질문
+\ql{12.21}에서 \ql{12.26}은 다른 stdio 함수들을 설명합니다.  특정 파일을
+access할 필요가 있다면, \TT{fopen} (질문 \ql{12.27}부터 \ql{12.32}까지)을 써서
+직접 열어서(open) 쓰거나(use), 표준 stream을 redirect해서 (질문 \ql{12.33}에서
+\ql{12.36}까지) 쓸 수 있습니다.  text I/O를 하려는 마음이 없다면, ``binary''
+stream을 쓸 수 (질문 \ql{12.37}에서 \ql{12.42}까지) 있습니다.  이 모든 것을
+자세히 알아보기 전에 먼저 간단한 것부터 알고 넘어갑시다.  다음 질문들을
+읽어보기 바랍니다.
 
 \section{Basic I/O}	\label{sec:basicio}
 % from 12.1
@@ -468,7 +469,7 @@ main(void)
 }
 \end{verbatim}
 
-	\seealso{\ql{1.1}, \ql{12.B}}
+	\seealso{\ql{1.1}, \ql{11.I}, \ql{12.B}}
 
 \R
 	\cite{c99} \S\ 7.8.1, \S\ 7.18.1
@@ -670,7 +671,7 @@ main(void)
 }
 \end{verbatim}
 
-	\seealso{\ql{1.1}, \ql{12.A}}
+	\seealso{\ql{1.1}, \ql{11.I}, \ql{12.A}}
 
 \R
 	\cite{c99} \S\ 7.8.1, \S\ 7.18.1
