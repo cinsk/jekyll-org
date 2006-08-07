@@ -1190,6 +1190,58 @@ suspect.
 	바랍니다.
 \end{faq}
 
+\begin{faq}
+\Q{11.J}
+	% TODO: 좀 더 검토할 것.
+	제 컴파일러는 다음과 같은 코드를 실행하면 에러가 납니다. 무엇이 잘못된 것일까요?
+
+\begin{verbatim}
+  int a[3] = { 1, 2, 3 };
+  int b[3] = { 0, 9, 8 };
+  int *c[2] = { a, b };
+
+  ...
+\end{verbatim}
+
+\A
+	아마도 C99 표준을 지원하지 못하는 (ANSI 표준만을 지원하는) 컴파일러를
+        쓰신 것 같습니다. ANSI 표준, 즉 C89 표준에 따르면 초기화에 쓸 수 있는
+        수식에 다음과 같은 제한이 있습니다:
+
+\begin{quote}
+  \S\ 6.5.7 All the expressions in an initializer for an object that has
+  static storage duration or in an initializer list for an object that has
+  aggregate or union type shall be constant expressions All the expressions in
+  an initializer for an object that has static storage duration or in an
+  initializer list for an object that has aggregate or union type shall be
+  constant expressions.
+\end{quote}
+
+	즉, 정적 변수나 배열/구조체/union등의 초기값은 반드시 상수식(constant
+        expression)이어야 합니다.  주어진 코드에서 배열 \TT{c}의 초기값으로
+        쓰인 주소값 \TT{a}, \TT{b}는 자동 변수에서 얻은 값이기 때문에 상수식이
+        아닙니다.
+
+        C99 표준에 따르면, 다음과 같은 제한 사항이 있습니다:
+
+\begin{quote}
+  All the expressions in an initializer for an object that has static
+  storage duration shall be constant expressions or string literals. 
+\end{quote}
+
+	즉, 정적 변수일 경우에만 상수식 또는 상수 문자열을 써야 한다고 제한합니다.
+        배열/구조체/union에 대한 제한 사항은 사라진 것을 알 수 있습니다. 결국 C99
+        표준에 따르면, 주어진 코드는 완전히 합법적입니다.
+
+        두 가지 해결책이 있는데, 첫째, C99를 지원하는 컴파일러로 바꾸기 바랍니다.
+        둘째, 초기값으로 쓰일 수식을 상수식으로 바꾸면 됩니다. 예를 들어, 주어진 코드에서
+        변수 \TT{a}와 \TT{b}를 \TT{static}으로 선언하면 됩니다.
+\R
+	\cite{c89} \S\ 6.5.7 \\
+        \cite{c99} \S\ 6.7.8
+\end{faq}
+
+
 \section{Compliance}
 % from 11.33
 Obviously, the whole point of having a standard is so that programs and
