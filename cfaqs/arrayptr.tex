@@ -42,11 +42,11 @@ they fall into place.
 	선언해 두었는데 왜 동작하지 않을까요?
 
 \A
-	소스 파일에 정의한 것은 문자로 이루어진 배열입니다.  그리고
+	소스 파일에 정의한 것은 문자(\TT{char})로 이루어진 배열입니다.  그리고
 	선언한 것은 문자를 가리키는 포인터입니다.  따라서 선언과 정의가
-	일치하지 않는 경우입니다.  어떤 T 타입을 가리키는 포인터(pointer to
-	type T)의 타입은 어떤 T 타입의 배열(array of type T)과 다릅니다.
-	대신 \verb+extern char a[]+을 사용하시기 바랍니다.
+	일치하지 않는 경우입니다.  일반적으로, T 타입을 가리키는 포인터(pointer to
+	type T)의 타입은 T 타입의 배열(array of type T)과 다릅니다.
+	대신 \verb+extern char a[]+을 사용하기 바랍니다.
 \R
 	\cite{ansi} \S\ 3.5.4.2 \\
 	\cite{c89} \S\ 6.5.4.2 \\
