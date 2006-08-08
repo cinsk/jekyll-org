@@ -36,32 +36,6 @@
 % label and the faq label. (What a poor implementation it is!)
 %
 
-%
-% ** Rules of writing **
-%
-% 1. Do not try to translate all technical terms into Korean.
-%    So far we don't have appropriate terms for specific technical terms
-%    (e.g. enumeration, identifier, symbol, union, etc.)
-%
-%
-% 2. When the {faq} environment is completed, I mean, if it contains both
-%    on-line FAQ content and book content, Put ``COMPLETE'' in the header
-%       \begin{faq}
-%       \Q{9.1} % 9.1 COMPLETE
-%         ...
-%
-% 3. Do not try to use rich LaTeX commands. The output of this document
-%    should be cleanly generated as PDF(.pdf), PostScript(.ps), and HTML(.html).
-%    Especially, when you introduce new command, compile the document with
-%    latex2html whether it succeeded since latex2html cannot handle various
-%    LaTeX packages properly.
-%
-
-% ChangeLog
-%
-% 1.1.1.1 -- Import documents. (little modified from the first edition)
-% 1.1.1.2 -- Define \page and \Page command and applied them.
-% 
 
 \newcommand{\page}[1]{\mbox{p.\ #1}}
 \newcommand{\Page}[1]{\mbox{pp.\ #1}}
