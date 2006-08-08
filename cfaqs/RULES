@@ -1,0 +1,23 @@
+-*-text-*-
+$Id$
+
+RULES OF WRITING
+
+1. Do not try to translate all technical terms into Korean.
+   So far we don't have appropriate terms for specific technical terms
+   (e.g. enumeration, identifier, symbol, union, etc.)
+
+
+2. When the {faq} environment is completed, I mean, if it contains both
+   on-line FAQ content and book content, Put ``COMPLETE'' in the header
+      \begin{faq}
+      \Q{9.1} % 9.1 COMPLETE
+        ...
+
+
+3. Do not try to use rich LaTeX commands. The output of this document
+   should be cleanly generated as PDF(.pdf), PostScript(.ps), and HTML(.html).
+   Especially, when you introduce new command, compile the document with
+   latex2html whether it succeeded since latex2html cannot handle various
+   LaTeX packages properly.
+
