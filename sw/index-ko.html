@@ -44,6 +44,27 @@
       스크립트입니다.
     </p>
 
+    <h2>Latest Version</h2>
+    <p>
+      안정되지 않은, 최신 버전의 소스는 제 개인 CVS repository에서 얻을 수 있습니다.
+      제 CVS web front-end인,  
+      <a href="http://www.cinsk.org/viewcvs">이 곳</a>에서
+      볼 수 있습니다.
+    </p>
+
+    <p>
+      또는, CVS 명령을 다음과 같이 써서 얻을 수 있습니다 (아래에서 MODULE-NAME에
+      해당하는 것은 위의 front-end를 보시면 알 수 있습니다.):
+    </p>
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot login
+  password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot co MODULE-NAME
+  ...
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot logout
+</pre></div>
+
     <hr/>
 
     <div style="float: right">
