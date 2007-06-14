@@ -251,6 +251,8 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   (insert html-header))
 
 
+(setq enable-local-variables :safe)
+
 (enumerate-with-variables "./testsuite/" 'write-proc)
 
 (save-excursion
