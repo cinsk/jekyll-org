@@ -109,11 +109,11 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
        필요합니다.</p>
 
     <div class=\"source\"><pre>
-      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot login
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
       Password: <RET>
-      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot co gcc-error
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/root co gcc-error
       ...
-      $ cvs -d :pserver:anonymous@www.cinsk.org:/home/cvsroot logout
+      $ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
       $ cd gcc-error
       $ make
       ...
