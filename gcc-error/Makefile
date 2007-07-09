@@ -4,7 +4,7 @@
 #
 emacs=emacs
 
-SRC := $(wildcard testsuite/*.[ch])
+SRC := $(wildcard testsuite/*.cc testsuite/*.[ch])
 
 .PHONY: all clean rebuild
 

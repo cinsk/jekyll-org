@@ -16,6 +16,16 @@
 ;;;  4. Generate index from the first message satisfying following form:
 ;;;       "filename:line-number: (error|warning): ..."
 ;;;
+
+(defvar cxx-extensions '("C" "cc" "cxx" "cpp")
+  "A list of all C++ style pathname extensions")
+
+(defvar c-compiler "gcc"
+  "Pathname of C compiler")
+
+(defvar c++-compiler "g++"
+  "Pathname of C++ compiler")
+
 (defun htmlize-on-region (start end &optional buffer language)
   "HTMLize the region that is in LANGUAGE, put HTML code fragment in
 BUFFER.  If BUFFER is nil, htmlize-on-region uses \"*Shell Command Output*\"
@@ -64,7 +74,8 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       (set-buffer output-buffer)
       (setq default-directory path)
       (setq exec-directory path)
-      (mapcar proc (file-expand-wildcards "*.c" t))
+      (mapcar proc (append (file-expand-wildcards "*.c" t)
+                           (file-expand-wildcards "*.cc" t)))
       (setq default-directory old-default)
       (setq exec-directory old-exec)
       nil)))
@@ -159,7 +170,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   <br/>
 
   The latest version is available at 
-  <a href=\"http://www.cinsk.org/\">here</a>.
+  <a href=\"http://www.cinsk.org/gcc-error/gcc-error.html\">here</a>.
 
   <br/>
 
@@ -177,8 +188,13 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 (defun write-proc (pathname)
   (let ((source (find-file-noselect pathname))
         (desc "N/A")
+        (compiler c-compiler)
         args pos error)
     (message (format "Processing %s" (file-name-nondirectory pathname)))
+
+    (if (member (file-name-extension pathname) cxx-extensions)
+        (setq compiler c++-compiler))
+
     (save-excursion
       (set-buffer gcc-buffer)
       (erase-buffer))
