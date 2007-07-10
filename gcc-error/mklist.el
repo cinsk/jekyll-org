@@ -32,6 +32,7 @@ BUFFER.  If BUFFER is nil, htmlize-on-region uses \"*Shell Command Output*\"
 to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   (interactive "r")
   (let ((buf (get-buffer-create "*Shell Command Output*"))
+        (ebuf (get-buffer-create "*Shell Command Error Output*"))
         pos)
 
     (and (null language)
@@ -46,14 +47,18 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
                                (concat "enscript --language=html --color "
                                        "--line-numbers=1 --output=- "
                                        (format "--highlight=%s" language))
-                               buf)
+                               buf nil ebuf nil)
+
       (set-buffer buf)
       (goto-char (point-min))
       (setq pos (re-search-forward "<PRE>" (point-max) t))
+
       (and (not (null pos))
            (delete-region (point-min) (+ pos 1)))
+
       (goto-char (point-max))
       (setq pos (re-search-backward "</PRE>" (point-min) t))
+
       (and (not (null pos))
            (delete-region pos (point-max)))
 
@@ -98,8 +103,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 
   <body>
       <a href=\"http://www.gnu.org/software/gcc/\"><img
-      src=\"./gcc.png\" alt=\"GCC Home\" border=\"0\" align=\"right\">
-      </img></a>
+      src=\"./gcc.png\" alt=\"GCC Home\" border=\"0\" align=\"right\"/></a>
 
     <h1>GCC Warning/Error List</h1>
 
@@ -121,7 +125,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 
     <div class=\"source\"><pre>
       $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
-      Password: <RET>
+      Password: &lt;RET&gt;
       $ cvs -d :pserver:anonymous@www.cinsk.org:/root co gcc-error
       ...
       $ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
@@ -189,7 +193,8 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   (let ((source (find-file-noselect pathname))
         (desc "N/A")
         (compiler c-compiler)
-        args pos error)
+        (args "")
+        pos error)
     (message (format "Processing %s" (file-name-nondirectory pathname)))
 
     (if (member (file-name-extension pathname) cxx-extensions)
@@ -227,7 +232,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
           (save-excursion
             (set-buffer gcc-buffer)
             (word-replace "&" "&amp;")
-            (word-replace "&" "&amp;")
+            ;(word-replace "&" "&amp;")
             (word-replace "<" "&lt;")
             (word-replace ">" "&gt;")
             (word-replace "\"" "&quot;"))
@@ -256,7 +261,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
              ;;    (save-excursion
              (set-buffer output-buffer)
              ;;(message (format "position #2: %d" (point)))
-             (insert "</div></pre>\n"))))
+             (insert "</pre></div>\n"))))
 
     (kill-buffer source)))
 
