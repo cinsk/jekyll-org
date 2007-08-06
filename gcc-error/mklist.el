@@ -98,7 +98,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
     <title>GCC Warning/Error List</title>
     <link rel=\"shortcut icon\" href=\"http://gcc.gnu.org/favicon.ico\"/>
     <link rel=\"stylesheet\" type=\"text/css\" 
-      href=\"./default.css\" title=\"default\"></link>
+      href=\"./default.css\" title=\"default\"/>
   </head>
 
   <body>
@@ -137,8 +137,20 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       $ # read gcc-error.html with your favorite web browser.
     </pre></div>
 
+    <script type=\"text/javascript\"><!--
+          google_ad_client = \"pub-6606082321393172\";
+          google_ad_width = 728;
+          google_ad_height = 90;
+          google_ad_format = \"728x90_as\";
+          google_ad_type = \"text_image\";
+          google_ad_channel = \"\";
+          //-->
+    </script>
+    <script type=\"text/javascript\"
+            src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">
+    </script>
 
-    <hr></hr>
+    <hr/>
 ")
 
 (setq html-footer "<hr/>
