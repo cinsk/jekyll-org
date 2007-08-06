@@ -137,6 +137,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       $ # read gcc-error.html with your favorite web browser.
     </pre></div>
 
+    <p align=\"center\">
     <script type=\"text/javascript\"><!--
           google_ad_client = \"pub-6606082321393172\";
           google_ad_width = 728;
@@ -149,6 +150,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
     <script type=\"text/javascript\"
             src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">
     </script>
+    </p>
 
     <hr/>
 ")
