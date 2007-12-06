@@ -194,6 +194,9 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 
   Copyright &copy; 2005-2006
   Seong-Kook Shin.  All rights reserved.
+
+  <br/>
+  <img src=\"../img/contact.png\"/>
 </p>
 
 </body></html>")
