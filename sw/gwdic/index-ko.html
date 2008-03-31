@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+  <head>
+    <!-- $Id$ -->
+    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr"/>
+    <title>My Softwares</title>
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" 
+      href="../../css/default.css" title="default"></link>
+  </head>
+
+  <!--$$lang:ko:index$$-->
+  <body>
+    <h1>gwDic</h1>
+
+    <p class="navigator" style="text-align: right">
+      <a href="./index.html">English</a> | Korean
+    </p>
+
+    <h2>About</h2>
+    <p><img src="./gwdic.png" width="320" align="right" style="padding: 20px"/>
+      gwDic은, 간단한 웹 사전입니다. 사용자가 원하는 대로 설정할 수 있어서,
+      여러분이 쓰고 있는 웹 사전을 쉽게 추가할 수 있습니다.
+    </p>
+
+    <h2>Features</h2>
+    <p>
+      <ul>
+        <li>Emacs와 비슷한 단축키 제공 -- 마우스 필요없음.</li>
+        <li>History -- 찾아본 단어들을 쉽게 관리, 저장</li>
+        <li>스크립트 지원 -- 다양한 작업 지원 가능</li>
+      </ul>
+    </p>
+
+    <h2>Screenshots</h2>
+    <p>
+      <ul>
+        <li><a href="./gwdic.png">Main Application Window</a></li>
+        <li><a href="./gwdic-pref.png">Preference Window</a></li>
+      </ul>
+    </p>
+
+    <h2>Downloads</h2>
+    <p>
+      현재, 개발 버전만 CVS를 써서 제공합니다.
+      <a href="http://www.cinsk.org/viewcvs">여기</a>에서 바로 보시거나,
+      아래 명령을 써서 소스를 받을 수 있습니다:
+    </p>
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
+  password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root co -r rel-0_1 gwdic
+  ...
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
+</pre></div>
+
+    <h2>Install</h2>
+    <p>
+      gwdic을 설치하려면 다음과 같은 패키지가 필요합니다:
+    </p>
+    <ul>
+      <li>GTK+ 2.x</li>
+      <li>libglade 2.x</li>
+      <li><a href="http://www.dict.org/">dictd</a> 선택사항</li>
+      <li>Mozilla Firefox -- gtkembedmoz </li>
+    </ul>
+
+    <p>
+      Makefile에서 GWDIC_PREFIX를 원하는 대로 수정한 다음 아래처럼 실행하면 됩니다:
+    </p>
+
+    <div class="source"><pre class="source">
+  $ make all
+  ...
+  $ su
+  password: ****
+  # make install
+  ...
+</pre></div>
+
+    <hr/>
+
+    <div style="float: right">
+      <a href="http://www.anybrowser.org/campaign/">
+        <img border="0" src="../../img/anybrowser.png"
+	     alt="Any Browser Campaign"/></a>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+	<img border="0"
+	     src="../../img/w3c-css.png"
+	     alt="Valid CSS!" /></a>
+      <a href="http://validator.w3.org/check?uri=referer">
+	<img src="../../img/w3c-xhtml.png" border="0"
+	     alt="Valid XHTML 1.0!"/></a>
+
+      <br/>
+
+      <a href="http://www.gnu.org/software/emacs/">
+        <img border="0" src="../../img/emacs-powered.png"
+             alt="Emacs Powered"/></a>
+      <a href="http://www.gimp.org/">
+        <img border="0" src="../../img/gimp-powered.png"
+             alt="Graphics by GIMP"/></a>
+      <a href="http://www.vim.org/">
+        <img border="0" src="../../img/vim-powered.png"
+             alt="Vim Powered"/></a>
+    </div>
+
+    <p class="footer">
+      최신판은
+      <a href="http://www.cinsk.org/">여기</a>에서 얻을 수
+      있습니다.
+
+      <br/>
+
+      Copyright &copy; 2008
+      Seong-Kook Shin (신성국).  All rights reserved.
+
+    <br/>
+    <img src="../img/contact.png"/>
+    </p>
+
+    <p class="cvsid">
+      $Id$
+    </p>
+  </body>
+</html>
+
+<!--
+ Local Variables:
+ coding: euc-kr
+ fill-column: 78
+ End:
+-->

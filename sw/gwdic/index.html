@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <!-- $Id$ -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title>gwDic: simple online dictionary</title>
+    <link rel="shortcut icon" href="../img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" 
+      href="../../css/default.css" title="default"></link>
+  </head>
+
+  <!--$$lang:en:index$$-->
+  <body>
+    <h1>gwDic</h1>
+
+    <p class="navigator" style="text-align: right">
+      English | <a href="./index-ko.html">Korean</a>
+    </p>
+
+    <h2>About</h2>
+    <p><img src="./gwdic.png" width="320" align="right" style="padding: 20px"/>
+      gwDic is a simple web dictionary for everyday use. It is highly
+      configurable, so that you can add your favorite web dictionary without
+      difficulty.
+    </p>
+
+    <h2>Features</h2>
+    <p>
+      <ul>
+        <li>Emacs like short-cuts -- You don't need a mouse action to use gwdic.</li>
+        <li>History (words that you found) management</li>
+        <li>Script support --
+          virtually, you can do anything you'd like to do</li>
+      </ul>
+    </p>
+
+    <h2>Screenshots</h2>
+    <p>
+      <ul>
+        <li><a href="./gwdic.png">Main Application Window</a></li>
+        <li><a href="./gwdic-pref.png">Preference Window</a></li>
+      </ul>
+    </p>
+
+    <h2>Downloads</h2>
+    <p>
+      Currently, only development version is available from my personal CVS
+      repository. Browse it from my web front-end
+      <a href="http://www.cinsk.org/viewcvs">here</a>.
+      Or, you can downloaded it using CVS client software using following
+      commands:
+    </p>
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
+  password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root co -r rel-0_1 gwdic
+  ...
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
+</pre></div>
+
+    <h2>Install</h2>
+    <p>
+      You need following packages prior to install gwdic:
+    </p>
+    <ul>
+      <li>GTK+ 2.x</li>
+      <li>libglade 2.x</li>
+      <li><a href="http://www.dict.org/">dictd</a> (Optional)</li>
+      <li>Mozilla Firefox -- gtkembedmoz </li>
+    </ul>
+
+    <p>
+      Modify GWDIC_PREFIX variable in Makefile if you want to install somewhere
+      else than "/usr/local", then run make as following:
+    </p>
+
+    <div class="source"><pre class="source">
+  $ make all
+  ...
+  $ su
+  password: ****
+  # make install
+  ...
+</pre></div>
+
+    <hr/>
+
+    <div style="float: right">
+      <a href="http://www.anybrowser.org/campaign/">
+        <img border="0" src="../../img/anybrowser.png"
+	     alt="Any Browser Campaign"/></a>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+	<img border="0"
+	     src="../../img/w3c-css.png"
+	     alt="Valid CSS!" /></a>
+      <a href="http://validator.w3.org/check?uri=referer">
+	<img src="../../img/w3c-xhtml.png" border="0"
+	     alt="Valid XHTML 1.0!"/></a>
+
+      <br/>
+
+      <a href="http://www.gnu.org/software/emacs/">
+        <img border="0" src="../../img/emacs-powered.png"
+             alt="Emacs Powered"/></a>
+      <a href="http://www.gimp.org/">
+        <img border="0" src="../../img/gimp-powered.png"
+             alt="Graphics by GIMP"/></a>
+      <a href="http://www.vim.org/">
+        <img border="0" src="../../img/vim-powered.png"
+             alt="Vim Powered"/></a>
+    </div>
+
+    <p class="footer">
+      The latest version is available at 
+      <a href="http://www.cinsk.org/">here</a>.
+
+    <br/>
+
+      Copyright &copy; 2008
+      Seong-Kook Shin.  All rights reserved.
+
+    <br/>
+    <img src="../img/contact.png"/>
+
+    </p>
+
+    <p class="cvsid">
+      $Id$
+    </p>
+  </body>
+</html>
+
+<!--
+ Local Variables:
+ coding: iso-8859-1
+ fill-column: 78
+ End:
+-->
