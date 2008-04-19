@@ -243,7 +243,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
           (insert "<div class=\"source2\"><pre>")
           ;;(call-process "pwd" nil output-buffer t)
 
-          (eval (append '(call-process "gcc" nil gcc-buffer t) 
+          (eval (append '(call-process compiler nil gcc-buffer t) 
                         (split-string args)))
 
           (save-excursion
@@ -289,7 +289,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
   (insert html-header))
 
 
-(setq enable-local-variables :safe)
+(setq enable-local-variables :all)
 
 (enumerate-with-variables "./testsuite/" 'write-proc)
 
