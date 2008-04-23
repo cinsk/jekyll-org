@@ -6,74 +6,74 @@
 <pre>$Id$</pre>
 \end{rawhtml}
 
-C ¾ð¾îÀÇ ¼±¾ð ¹®¹ýÀº (declaration syntax) ±× ÀÚÃ¼°¡ ÇÏ³ªÀÇ ÇÁ·Î±×·¡¹Ö
-¾ð¾î¶ó°í ÇÒ ¼ö ÀÖ½À´Ï´Ù.  ¼±¾ðÀº ´ÙÀ½°ú °°ÀÌ ¿©·¯ ºÎºÐÀ¸·Î ±¸¼ºµÇ¾î (²À
-¸ðµç ºÎºÐÀ» ´Ù °¡Á®¾ß ÇÒ ÇÊ¿ä´Â ¾ø½À´Ï´Ù.) ÀÖ½À´Ï´Ù: storage class,
-base type, type qualifier, ±×¸®°í declarator (declarator´Â 
-initializer¸¦ Æ÷ÇÔÇÒ ¼ö ÀÖ½À´Ï´Ù.)  °¢ declarator´Â »õ identifier¸¦
-¼±¾ðÇÏ´Â °Í ÀÌ¿Ü¿¡, identifier°¡ ¹è¿­ÀÎÁö, Æ÷ÀÎÅÍÀÎÁö, ÇÔ¼öÀÎÁö, ¶Ç´Â
-¾î¶² º¹ÀâÇÑ Å¸ÀÔÀÎÁö¸¦ ¾Ë·ÁÁÝ´Ï´Ù.  µû¶ó¼­ ¼±¾ðÀÌ ½ÇÁ¦ identifier°¡
-¾î¶»°Ô ¾²ÀÏ °ÍÀÎÁö¸¦ (declaration mimics use) ¾Ë·Á ÁÝ´Ï´Ù (Áú¹® \ql{1.21}Àº ÀÌ 
-`declaration mimics use' °ü°è¸¦ ÀÚ¼¼ÇÏ°Ô ´Ù·ì´Ï´Ù.)
+C ì–¸ì–´ì˜ ì„ ì–¸ ë¬¸ë²•ì€ (declaration syntax) ê·¸ ìžì²´ê°€ í•˜ë‚˜ì˜ í”„ë¡œê·¸ëž˜ë°
+ì–¸ì–´ë¼ê³  í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  ì„ ì–¸ì€ ë‹¤ìŒê³¼ ê°™ì´ ì—¬ëŸ¬ ë¶€ë¶„ìœ¼ë¡œ êµ¬ì„±ë˜ì–´ (ê¼­
+ëª¨ë“  ë¶€ë¶„ì„ ë‹¤ ê°€ì ¸ì•¼ í•  í•„ìš”ëŠ” ì—†ìŠµë‹ˆë‹¤.) ìžˆìŠµë‹ˆë‹¤: storage class,
+base type, type qualifier, ê·¸ë¦¬ê³  declarator (declaratorëŠ” 
+initializerë¥¼ í¬í•¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.)  ê° declaratorëŠ” ìƒˆ identifierë¥¼
+ì„ ì–¸í•˜ëŠ” ê²ƒ ì´ì™¸ì—, identifierê°€ ë°°ì—´ì¸ì§€, í¬ì¸í„°ì¸ì§€, í•¨ìˆ˜ì¸ì§€, ë˜ëŠ”
+ì–´ë–¤ ë³µìž¡í•œ íƒ€ìž…ì¸ì§€ë¥¼ ì•Œë ¤ì¤ë‹ˆë‹¤.  ë”°ë¼ì„œ ì„ ì–¸ì´ ì‹¤ì œ identifierê°€
+ì–´ë–»ê²Œ ì“°ì¼ ê²ƒì¸ì§€ë¥¼ (declaration mimics use) ì•Œë ¤ ì¤ë‹ˆë‹¤ (ì§ˆë¬¸ \ql{1.21}ì€ ì´ 
+`declaration mimics use' ê´€ê³„ë¥¼ ìžì„¸í•˜ê²Œ ë‹¤ë£¹ë‹ˆë‹¤.)
 
 \section{Basic Type}	\label{sec:bastype}
-ÇÁ·Î±×·¡¸ÓµéÀº Á¾Á¾ C ¾ð¾î°¡ ÃæºÐÈ÷ Àú¼öÁØ ¾ð¾îÀÌ¸é¼­µµ, C ¾ð¾îÀÇ
-type systemÀÌ »ó´çÇÑ ¼öÁØÀ¸·Î Ãß»óÈ­µÇ¾î ÀÖ´Ù´Â °Í¿¡ ³î¶ó°ï ÇÕ´Ï´Ù;
-±âº» Å¸ÀÔµéÀÇ Å©±â¿Í Ç¥Çö ¹æ¹ýÀÌ ¾ð¾î ÀÚÃ¼¿¡ Á¤È®È÷ Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.
+í”„ë¡œê·¸ëž˜ë¨¸ë“¤ì€ ì¢…ì¢… C ì–¸ì–´ê°€ ì¶©ë¶„ížˆ ì €ìˆ˜ì¤€ ì–¸ì–´ì´ë©´ì„œë„, C ì–¸ì–´ì˜
+type systemì´ ìƒë‹¹í•œ ìˆ˜ì¤€ìœ¼ë¡œ ì¶”ìƒí™”ë˜ì–´ ìžˆë‹¤ëŠ” ê²ƒì— ë†€ë¼ê³¤ í•©ë‹ˆë‹¤;
+ê¸°ë³¸ íƒ€ìž…ë“¤ì˜ í¬ê¸°ì™€ í‘œí˜„ ë°©ë²•ì´ ì–¸ì–´ ìžì²´ì— ì •í™•ížˆ ì •ì˜ë˜ì–´ ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.1} % 1.1 COMPLETE
-	¾î¶² Å¸ÀÔÀÇ Á¤¼ö¸¦ ¾µ °ÍÀÎÁö ¾î¶»°Ô °áÁ¤ÇÏÁÒ?
+	ì–´ë–¤ íƒ€ìž…ì˜ ì •ìˆ˜ë¥¼ ì“¸ ê²ƒì¸ì§€ ì–´ë–»ê²Œ ê²°ì •í•˜ì£ ?
 
 \A
-	Å« °ª (32,767 ÀÌ»óÀÌ°Å³ª -32,767 ÀÌÇÏ)ÀÌ ÇÊ¿äÇÑ °æ¿ì, \TT{long}À»
-	¾²±â ¹Ù¶ø´Ï´Ù.  Â÷ÁöÇÏ´Â °ø°£ÀÌ ¸Å¿ì Áß¿äÇÏ´Ù¸é (Å« ¹è¿­ÀÌ³ª ¸¹Àº
-	±¸Á¶Ã¼¸¦ ¾µ °æ¿ì), \TT{short}¸¦ ¾²±â ¹Ù¶ø´Ï´Ù.  ÀÌ·± °æ¿ì°¡ ¾Æ´Ï¶ó¸é
-	\TT{int}¸¦ ¾²´Â °ÍÀÌ °¡Àå ÁÁ½À´Ï´Ù.  ¿À¹öÇÃ·Î¿ì ¹®Á¦°¡ Áß¿ä½ÃµÇ°í 
-	À½¼ö°¡ ÇÊ¿äÇÏÁö ¾Ê´Â °æ¿ì¶ó¸é, ¶Ç´Â ºñÆ®¸¦ ´Ù·ê ¶§ ºÎÈ£
-	È®Àå\footnote{sign-extension}¿¡¼­ ¹®Á¦°¡ ¹ß»ýÇÏ´Â °ÍÀ» ¿øÄ¡ ¾Ê´Â´Ù¸é
-	ÀûÀýÇÑ Å©±â¸¦ °¡Áø ÇüÀÇ \TT{unsigned} ÇüÀ» ¾²´Â °Íµµ ÁÁ½À´Ï´Ù.
-	(ÇÏÁö¸¸ ¼ö½Ä¿¡¼­ \TT{signed} Çü°ú \TT{unsigned} ÇüÀ» ¼¯¾î ¾²´Â
-	°ÍÀº ÁÁÁö ¾Ê½À´Ï´Ù.)
+	í° ê°’ (32,767 ì´ìƒì´ê±°ë‚˜ -32,767 ì´í•˜)ì´ í•„ìš”í•œ ê²½ìš°, \TT{long}ì„
+	ì“°ê¸° ë°”ëžë‹ˆë‹¤.  ì°¨ì§€í•˜ëŠ” ê³µê°„ì´ ë§¤ìš° ì¤‘ìš”í•˜ë‹¤ë©´ (í° ë°°ì—´ì´ë‚˜ ë§Žì€
+	êµ¬ì¡°ì²´ë¥¼ ì“¸ ê²½ìš°), \TT{short}ë¥¼ ì“°ê¸° ë°”ëžë‹ˆë‹¤.  ì´ëŸ° ê²½ìš°ê°€ ì•„ë‹ˆë¼ë©´
+	\TT{int}ë¥¼ ì“°ëŠ” ê²ƒì´ ê°€ìž¥ ì¢‹ìŠµë‹ˆë‹¤.  ì˜¤ë²„í”Œë¡œìš° ë¬¸ì œê°€ ì¤‘ìš”ì‹œë˜ê³  
+	ìŒìˆ˜ê°€ í•„ìš”í•˜ì§€ ì•ŠëŠ” ê²½ìš°ë¼ë©´, ë˜ëŠ” ë¹„íŠ¸ë¥¼ ë‹¤ë£° ë•Œ ë¶€í˜¸
+	í™•ìž¥\footnote{sign-extension}ì—ì„œ ë¬¸ì œê°€ ë°œìƒí•˜ëŠ” ê²ƒì„ ì›ì¹˜ ì•ŠëŠ”ë‹¤ë©´
+	ì ì ˆí•œ í¬ê¸°ë¥¼ ê°€ì§„ í˜•ì˜ \TT{unsigned} í˜•ì„ ì“°ëŠ” ê²ƒë„ ì¢‹ìŠµë‹ˆë‹¤.
+	(í•˜ì§€ë§Œ ìˆ˜ì‹ì—ì„œ \TT{signed} í˜•ê³¼ \TT{unsigned} í˜•ì„ ì„žì–´ ì“°ëŠ”
+	ê²ƒì€ ì¢‹ì§€ ì•ŠìŠµë‹ˆë‹¤.)
 
-	¹®ÀÚ Å¸ÀÔµµ (Æ¯È÷ \TT{unsigned char}) ``ÀÛÀº'' Á¤¼öÅ¸ÀÔÀ¸·Î ¾²ÀÏ ¼ö
-	ÀÖÁö¸¸, ¿¹»óÄ¡ ¸øÇÑ ºÎÈ£ È®ÀåÀÌ³ª ÄÚµåÀÇ Å©±â¸¦ Áõ°¡½ÃÅ³ ¼ö ÀÖ±â 
-	¶§¹®¿¡ ¹Ù¶÷Á÷ÇÏÁö ¾Ê½À´Ï´Ù.  (\TT{unsigned char} Å¸ÀÔÀ» ¾²´Â °ÍÀÌ
-	µµ¿òÀÌ µÉ °æ¿ìµµ ÀÖ½À´Ï´Ù; 
-	°ü·ÃµÈ ¹®Á¦´Â Áú¹® \ql{12.1}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
+	ë¬¸ìž íƒ€ìž…ë„ (íŠ¹ížˆ \TT{unsigned char}) ``ìž‘ì€'' ì •ìˆ˜íƒ€ìž…ìœ¼ë¡œ ì“°ì¼ ìˆ˜
+	ìžˆì§€ë§Œ, ì˜ˆìƒì¹˜ ëª»í•œ ë¶€í˜¸ í™•ìž¥ì´ë‚˜ ì½”ë“œì˜ í¬ê¸°ë¥¼ ì¦ê°€ì‹œí‚¬ ìˆ˜ ìžˆê¸° 
+	ë•Œë¬¸ì— ë°”ëžŒì§í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.  (\TT{unsigned char} íƒ€ìž…ì„ ì“°ëŠ” ê²ƒì´
+	ë„ì›€ì´ ë  ê²½ìš°ë„ ìžˆìŠµë‹ˆë‹¤; 
+	ê´€ë ¨ëœ ë¬¸ì œëŠ” ì§ˆë¬¸ \ql{12.1}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
 
-	ºñ½ÁÇÑ Å©±â/ºü¸£±â ¹®Á¦°¡ \TT{float}°ú \TT{double}¿¡¼­ ¹ß»ýÇÒ ¼ö 
-	ÀÖ½À´Ï´Ù.  º¯¼öÀÇ ÁÖ¼Ò°¡ ÇÊ¿äÇÏ°í ¾î¶² Æ¯º°ÇÑ Å¸ÀÔÀÌ ÇÊ¿äÇÑ °æ¿ì¶ó¸é 
-	À§ÀÇ ±ÔÄ¢µéÀº ¸ðµÎ Àû¿ëµÇÁö ¾Ê½À´Ï´Ù.
+	ë¹„ìŠ·í•œ í¬ê¸°/ë¹ ë¥´ê¸° ë¬¸ì œê°€ \TT{float}ê³¼ \TT{double}ì—ì„œ ë°œìƒí•  ìˆ˜ 
+	ìžˆìŠµë‹ˆë‹¤.  ë³€ìˆ˜ì˜ ì£¼ì†Œê°€ í•„ìš”í•˜ê³  ì–´ë–¤ íŠ¹ë³„í•œ íƒ€ìž…ì´ í•„ìš”í•œ ê²½ìš°ë¼ë©´ 
+	ìœ„ì˜ ê·œì¹™ë“¤ì€ ëª¨ë‘ ì ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
-	C ¾ð¾î¿¡¼­ °¢°¢ÀÇ typeµéÀÌ Á¤È®ÇÑ Å©±â¸¦ °¡Áöµµ·Ï Á¤ÀÇµÇ¾î ÀÖ´Ù°í
-	Âø°¢ÇÏ±â ½¬¿îµ¥, »ç½ÇÀº ±×·¸Áö ¾Ê½À´Ï´Ù.  C ¾ð¾î¿¡¼­ Á¤ÀÇÇÏ°í ÀÖ´Â
-	°ÍÀº ´ÙÀ½°ú °°½À´Ï´Ù:
+	C ì–¸ì–´ì—ì„œ ê°ê°ì˜ typeë“¤ì´ ì •í™•í•œ í¬ê¸°ë¥¼ ê°€ì§€ë„ë¡ ì •ì˜ë˜ì–´ ìžˆë‹¤ê³ 
+	ì°©ê°í•˜ê¸° ì‰¬ìš´ë°, ì‚¬ì‹¤ì€ ê·¸ë ‡ì§€ ì•ŠìŠµë‹ˆë‹¤.  C ì–¸ì–´ì—ì„œ ì •ì˜í•˜ê³  ìžˆëŠ”
+	ê²ƒì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 
 \begin{itemize}
 \item
-	\TT{char} typeÀº 127 ÀÌ»óÀ» ÀúÀåÇÒ ¼ö ÀÖ´Ù;
+	\TT{char} typeì€ 127 ì´ìƒì„ ì €ìž¥í•  ìˆ˜ ìžˆë‹¤;
 \item
-	\TT{short int} type°ú \TT{int} typeÀº 32,767±îÁö ÀúÀåÇÒ ¼ö ÀÖ´Ù;
+	\TT{short int} typeê³¼ \TT{int} typeì€ 32,767ê¹Œì§€ ì €ìž¥í•  ìˆ˜ ìžˆë‹¤;
 \item
-	\TT{long int}´Â 2,147,483,647±îÁö ÀúÀåÇÒ ¼ö ÀÖ´Ù;
+	\TT{long int}ëŠ” 2,147,483,647ê¹Œì§€ ì €ìž¥í•  ìˆ˜ ìžˆë‹¤;
 % TODO: insert a sentence for long long int.
 \item
-	µû¶ó¼­ ´ÙÀ½ ±ÔÄ¢À» Àû¿ëÇÒ ¼ö ÀÖ´Ù:
+	ë”°ë¼ì„œ ë‹¤ìŒ ê·œì¹™ì„ ì ìš©í•  ìˆ˜ ìžˆë‹¤:
 \begin{verbatim}
 sizeof(char) <= sizeof(short) <= sizeof(int) <= 
   sizeof(long) <= sizeof(long long)
 \end{verbatim}
 \end{itemize}
 
-	ÀÌ ±ÔÄ¢Àº \TT{char}°¡ Àû¾îµµ 8 bit°¡ µÇ¾î¾ß ÇÑ´Ù´Â °Í°ú,
-	\TT{short int}¿Í \TT{int}´Â Àû¾îµµ 16 bit¿©¾ß ÇÑ´Ù´Â °Í°ú,
-	\TT{long int}´Â Àû¾îµµ 32 bit°¡ µÇ¾î¾ß ÇÑ´Ù´Â °ÍÀ»
-	¶æÇÕ´Ï´Ù. (°¢°¢ typeÀÇ signed¿Í unsigned versionÀº °°Àº Å©±â¸¦
-	°¡Áø´Ù°í º¸ÀåµÇ¾î ÀÖ½À´Ï´Ù.)
-	ANSI C¿¡¼­ Æ¯Á¤ machine¿¡¼­ 
-	°¢°¢ typeÀÇ ÃÖ¼Ò°ª°ú ÃÖ´ë°ªÀº \verb+<limits.h>+¿¡ Á¤ÀÇµÇ¾î ÀÖÀ¸¸ç,
-	¿ä¾àÇÏ¸é ´ÙÀ½°ú °°½À´Ï´Ù:
+	ì´ ê·œì¹™ì€ \TT{char}ê°€ ì ì–´ë„ 8 bitê°€ ë˜ì–´ì•¼ í•œë‹¤ëŠ” ê²ƒê³¼,
+	\TT{short int}ì™€ \TT{int}ëŠ” ì ì–´ë„ 16 bitì—¬ì•¼ í•œë‹¤ëŠ” ê²ƒê³¼,
+	\TT{long int}ëŠ” ì ì–´ë„ 32 bitê°€ ë˜ì–´ì•¼ í•œë‹¤ëŠ” ê²ƒì„
+	ëœ»í•©ë‹ˆë‹¤. (ê°ê° typeì˜ signedì™€ unsigned versionì€ ê°™ì€ í¬ê¸°ë¥¼
+	ê°€ì§„ë‹¤ê³  ë³´ìž¥ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.)
+	ANSI Cì—ì„œ íŠ¹ì • machineì—ì„œ 
+	ê°ê° typeì˜ ìµœì†Œê°’ê³¼ ìµœëŒ€ê°’ì€ \verb+<limits.h>+ì— ì •ì˜ë˜ì–´ ìžˆìœ¼ë©°,
+	ìš”ì•½í•˜ë©´ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 
 \begin{center}
 \begin{tabular}{lrrrr}	\hline
@@ -87,15 +87,15 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
 \end{tabular}
 \end{center}
 	
-	ÀÌ Ç¥´Â Ç¥ÁØÀÌ º¸ÀåÇÏ´Â ÃÖ¼Ò°ªµéÀ» º¸¿©ÁÝ´Ï´Ù.
-	¸¹Àº implementationÀÌ ÀÌº¸´Ù ´õ Å« °ªÀ» Á¦°øÇÏÁö¸¸,
-	portableÇÑ ÇÁ·Î±×·¥À» ¸¸µé°í ½Í´Ù¸é ÀÌ·¯ÇÑ °Í¿¡ ÀÇÁ¸ÇØ¼­´Â ¾ÈµË´Ï´Ù.
+	ì´ í‘œëŠ” í‘œì¤€ì´ ë³´ìž¥í•˜ëŠ” ìµœì†Œê°’ë“¤ì„ ë³´ì—¬ì¤ë‹ˆë‹¤.
+	ë§Žì€ implementationì´ ì´ë³´ë‹¤ ë” í° ê°’ì„ ì œê³µí•˜ì§€ë§Œ,
+	portableí•œ í”„ë¡œê·¸ëž¨ì„ ë§Œë“¤ê³  ì‹¶ë‹¤ë©´ ì´ëŸ¬í•œ ê²ƒì— ì˜ì¡´í•´ì„œëŠ” ì•ˆë©ë‹ˆë‹¤.
 
-	¾î¶°ÇÑ ÀÌÀ¯¿¡¼­ \BF{Á¤È®ÇÑ} Å©±â°¡ ÇÊ¿äÇÑ °æ¿ì¶ó¸é --- ÀÌ·± °æ¿ì·Î´Â 
-	¿ÜºÎ ÀúÀå ¹èÄ¡(externally-imposed stroage layout)°¡ ÇÊ¿äÇÑ °æ¿ì¸¦ µé 
-	¼ö ÀÖ½À´Ï´Ù.
-	Áú¹® \ql{20.5}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù  --- 
-	ÀûÀýÇÑ \TT{typedef}¸¦ ¾²½Ã±â ¹Ù¶ø´Ï´Ù. (¾Æ·¡ Note Âü°í)
+	ì–´ë– í•œ ì´ìœ ì—ì„œ \BF{ì •í™•í•œ} í¬ê¸°ê°€ í•„ìš”í•œ ê²½ìš°ë¼ë©´ --- ì´ëŸ° ê²½ìš°ë¡œëŠ” 
+	ì™¸ë¶€ ì €ìž¥ ë°°ì¹˜(externally-imposed stroage layout)ê°€ í•„ìš”í•œ ê²½ìš°ë¥¼ ë“¤ 
+	ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+	ì§ˆë¬¸ \ql{20.5}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤  --- 
+	ì ì ˆí•œ \TT{typedef}ë¥¼ ì“°ì‹œê¸° ë°”ëžë‹ˆë‹¤. (ì•„ëž˜ Note ì°¸ê³ )
 
 \R
 	\mbox{\cite{kr1} \S\ 2.2 \page{34};} \\
@@ -104,8 +104,8 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
 	\cite{c89} \S\ 5.2.4.2.1, \S\ 6.1.2.5 \\
 	\cite{hs} \S\ 5.1,5.2 \Page{110--114}
 \T
-	C99 Ç¥ÁØÀº »õ Á¤¼ö Å¸ÀÔÀÎ \TT{long long int}¸¦ Ãß°¡Çß½À´Ï´Ù.
-        ÀÌ Å¸ÀÔÀº ÃÖ¼Ò 64 bitÀÌ¸ç, ´ÙÀ½°ú °°Àº Æ¯Â¡À» Áö´Õ´Ï´Ù.
+	C99 í‘œì¤€ì€ ìƒˆ ì •ìˆ˜ íƒ€ìž…ì¸ \TT{long long int}ë¥¼ ì¶”ê°€í–ˆìŠµë‹ˆë‹¤.
+        ì´ íƒ€ìž…ì€ ìµœì†Œ 64 bitì´ë©°, ë‹¤ìŒê³¼ ê°™ì€ íŠ¹ì§•ì„ ì§€ë‹™ë‹ˆë‹¤.
         \begin{center}
           \begin{tabular}{l|r} \hline
             Base type & long long \\
@@ -116,9 +116,9 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
           \end{tabular}
         \end{center}
 
-        ¶ÇÇÑ, Á¤È®ÇÑ Å©±â¸¦ ¿ä±¸ÇÏ´Â Á¤¼ö Å¸ÀÔÀ» ¼±¾ðÇÏ±â À§ÇØ, C99
-        Ç¥ÁØÀº \verb+<stdint.h>+¸¦ ÅëÇØ ¿©·¯ °¡Áö Á¤¼ö Å¸ÀÔÀ» Á¦°øÇÕ´Ï´Ù.
-        ¿©±â¿¡ °üÇÑ °ÍÀº \ql{11.I}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+        ë˜í•œ, ì •í™•í•œ í¬ê¸°ë¥¼ ìš”êµ¬í•˜ëŠ” ì •ìˆ˜ íƒ€ìž…ì„ ì„ ì–¸í•˜ê¸° ìœ„í•´, C99
+        í‘œì¤€ì€ \verb+<stdint.h>+ë¥¼ í†µí•´ ì—¬ëŸ¬ ê°€ì§€ ì •ìˆ˜ íƒ€ìž…ì„ ì œê³µí•©ë‹ˆë‹¤.
+        ì—¬ê¸°ì— ê´€í•œ ê²ƒì€ \ql{11.I}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
 \R
 	\cite{c99} \S\ 5.2.4.2.1 \Page{22--23}, \S\ 6.2.5
@@ -129,69 +129,69 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
 
 \begin{faq}
 \Q{1.2} % 1.2 COMPLETE
-	¿Ö Ç¥ÁØ¿¡¼­´Â °¢ typeÀÇ Å©±â¸¦ Á¤È®È÷ Á¤ÀÇÇÏÁö ¾Ê³ª¿ä?
+	ì™œ í‘œì¤€ì—ì„œëŠ” ê° typeì˜ í¬ê¸°ë¥¼ ì •í™•ížˆ ì •ì˜í•˜ì§€ ì•Šë‚˜ìš”?
 \A
-	´Ù¸¥ high-level ¾ð¾î¿¡ ºñÇØ C ¾ð¾î°¡ È®½ÇÈ÷ Àú ¼öÁØ ¾ð¾îÀÌ±â´Â
-	ÇÏÁö¸¸, objectÀÇ Á¤È®ÇÑ Å©±â´Â implementationÀÌ °áÁ¤ÇÒ ¹®Á¦ÀÔ´Ï´Ù.
-	(C ¾ð¾î¿¡¼­ ¿©·¯ºÐÀÌ bitÀÇ °¹¼ö¸¦ ÁöÁ¤ÇÒ ¼ö ÀÖ´Â À¯ÀÏÇÑ °÷Àº
-	structure ¾È¿¡¼­ bitfield¸¦ ¾µ ¶§ÀÔ´Ï´Ù.; Áú¹® \ql{2.25}¿Í \ql{2.26}À»
-	Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)  ´ëºÎºÐÀÇ ÇÁ·Î±×·¥¿¡¼­´Â Å©±â¸¦ Á¤È®È÷
-	ÁöÁ¤ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù;  Å©±â¸¦ Á¤È®È÷ ÁöÁ¤ÇÏ´Â ¸¹Àº ÇÁ·Î±×·¥µéÀº
-	ÁöÁ¤ÇÏÁö ¾Êµµ·Ï ÇÁ·Î±×·¥À» ÀÛ¼ºÇßÀ» ¶§, ´õ ³´½À´Ï´Ù.
+	ë‹¤ë¥¸ high-level ì–¸ì–´ì— ë¹„í•´ C ì–¸ì–´ê°€ í™•ì‹¤ížˆ ì € ìˆ˜ì¤€ ì–¸ì–´ì´ê¸°ëŠ”
+	í•˜ì§€ë§Œ, objectì˜ ì •í™•í•œ í¬ê¸°ëŠ” implementationì´ ê²°ì •í•  ë¬¸ì œìž…ë‹ˆë‹¤.
+	(C ì–¸ì–´ì—ì„œ ì—¬ëŸ¬ë¶„ì´ bitì˜ ê°¯ìˆ˜ë¥¼ ì§€ì •í•  ìˆ˜ ìžˆëŠ” ìœ ì¼í•œ ê³³ì€
+	structure ì•ˆì—ì„œ bitfieldë¥¼ ì“¸ ë•Œìž…ë‹ˆë‹¤.; ì§ˆë¬¸ \ql{2.25}ì™€ \ql{2.26}ì„
+	ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)  ëŒ€ë¶€ë¶„ì˜ í”„ë¡œê·¸ëž¨ì—ì„œëŠ” í¬ê¸°ë¥¼ ì •í™•ížˆ
+	ì§€ì •í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤;  í¬ê¸°ë¥¼ ì •í™•ížˆ ì§€ì •í•˜ëŠ” ë§Žì€ í”„ë¡œê·¸ëž¨ë“¤ì€
+	ì§€ì •í•˜ì§€ ì•Šë„ë¡ í”„ë¡œê·¸ëž¨ì„ ìž‘ì„±í–ˆì„ ë•Œ, ë” ë‚«ìŠµë‹ˆë‹¤.
 
-	\TT{int} typeÀº ÄÄÇ»ÅÍÀÇ °¡Àå ÀÚ¿¬½º·¯¿î word size¸¦ ³ªÅ¸³»´Â °ÍÀ¸·Î
-	¾Ë·ÁÁ® ÀÖÀ¸¸ç, ´ëºÎºÐÀÇ Á¤¼ö¸¦ ÀúÀåÇÒ ¶§ °¡Àå Àû´çÇÑ typeÀÔ´Ï´Ù.
-	Áú¹® \ql{1.1}ÀÇ guidelineÀ» º¸±â ¹Ù¶ø´Ï´Ù; 
+	\TT{int} typeì€ ì»´í“¨í„°ì˜ ê°€ìž¥ ìžì—°ìŠ¤ëŸ¬ìš´ word sizeë¥¼ ë‚˜íƒ€ë‚´ëŠ” ê²ƒìœ¼ë¡œ
+	ì•Œë ¤ì ¸ ìžˆìœ¼ë©°, ëŒ€ë¶€ë¶„ì˜ ì •ìˆ˜ë¥¼ ì €ìž¥í•  ë•Œ ê°€ìž¥ ì ë‹¹í•œ typeìž…ë‹ˆë‹¤.
+	ì§ˆë¬¸ \ql{1.1}ì˜ guidelineì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤; 
         \seealso{\ql{12.42}, \ql{20.5}}
 
 \T
-	C99¿¡¼­ »õ·Î Á¦°øÇÏ´Â Á¤¼ö Å¸ÀÔµéÀº °³¹ßÀÚ°¡ ¿øÇÏ´Â Å©±â¸¦ ¸¸Á·½ÃÅ³
-        ¼ö ÀÖ½À´Ï´Ù. \seealso{\ql{11.I}}
+	C99ì—ì„œ ìƒˆë¡œ ì œê³µí•˜ëŠ” ì •ìˆ˜ íƒ€ìž…ë“¤ì€ ê°œë°œìžê°€ ì›í•˜ëŠ” í¬ê¸°ë¥¼ ë§Œì¡±ì‹œí‚¬
+        ìˆ˜ ìžˆìŠµë‹ˆë‹¤. \seealso{\ql{11.I}}
         
 \end{faq}
 
 
 \begin{faq}
 \Q{1.3} % 1.3 COMPLETE
-	C ¾ð¾î°¡ size¸¦ Á¤È®È÷ Á¤ÀÇÇÏÁö ¾Ê±â ¶§¹®¿¡, Àú´Â \TT{int16},
-	\TT{int32}¿Í °°Àº \TT{typedef} ÀÌ¸§À» ¾¹´Ï´Ù.  ±×·¡¼­
-	ÄÄÇ»ÅÍ¿¡ µû¶ó¼­ \TT{int}, \TT{short}, \TT{long} µîÀ» ½á¼­
-	¸¸µì´Ï´Ù.  ÀÌ ¹æ¹ýÀÌ ¸ðµç ¹®Á¦¸¦ ÇØ°áÇØ ÁÙ ¼ö ÀÖÀ» °Í °°Àºµ¥,
-	¸Â½À´Ï±î?
+	C ì–¸ì–´ê°€ sizeë¥¼ ì •í™•ížˆ ì •ì˜í•˜ì§€ ì•Šê¸° ë•Œë¬¸ì—, ì €ëŠ” \TT{int16},
+	\TT{int32}ì™€ ê°™ì€ \TT{typedef} ì´ë¦„ì„ ì”ë‹ˆë‹¤.  ê·¸ëž˜ì„œ
+	ì»´í“¨í„°ì— ë”°ë¼ì„œ \TT{int}, \TT{short}, \TT{long} ë“±ì„ ì¨ì„œ
+	ë§Œë“­ë‹ˆë‹¤.  ì´ ë°©ë²•ì´ ëª¨ë“  ë¬¸ì œë¥¼ í•´ê²°í•´ ì¤„ ìˆ˜ ìžˆì„ ê²ƒ ê°™ì€ë°,
+	ë§žìŠµë‹ˆê¹Œ?
 \A
-	Á¤È®È÷ size¸¦ Á¦¾îÇÒ ÇÊ¿ä°¡ ÀÖ´Ù¸é, ÁÁÀº ¹æ¹ýÀÔ´Ï´Ù.
-	±×·¯³ª ´ÙÀ½°ú °°Àº »çÇ×À» ÁÖÀÇÇØ¾ß ÇÕ´Ï´Ù:
+	ì •í™•ížˆ sizeë¥¼ ì œì–´í•  í•„ìš”ê°€ ìžˆë‹¤ë©´, ì¢‹ì€ ë°©ë²•ìž…ë‹ˆë‹¤.
+	ê·¸ëŸ¬ë‚˜ ë‹¤ìŒê³¼ ê°™ì€ ì‚¬í•­ì„ ì£¼ì˜í•´ì•¼ í•©ë‹ˆë‹¤:
 \begin{itemize}
 \item
-	Á¤È®ÇÑ Å©±â Á¦¾î°¡ ºÒ°¡´ÉÇÒ ¼öµµ ÀÖ½À´Ï´Ù (¿¹¸¦ µé¸é,
-	´ëºÎºÐÀÇ 36-bit machine)
+	ì •í™•í•œ í¬ê¸° ì œì–´ê°€ ë¶ˆê°€ëŠ¥í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤ (ì˜ˆë¥¼ ë“¤ë©´,
+	ëŒ€ë¶€ë¶„ì˜ 36-bit machine)
 \item
-	\TT{int16}ÀÌ³ª \TT{int32}¸¦ ¾²´Â ¸ñÀûÀÌ ``Àû¾îµµ ÀÌ Á¤µµÀÇ Å©±â¸¦
-	º¸Àå''ÇÏ´Â °ÍÀÌ¶ó¸é ÀüÇô ¾µ¸ð°¡ ¾ø½À´Ï´Ù.  ¿Ö³ÄÇÏ¸é \TT{int}¿Í
-	\TT{long} typeÀÇ Á¤ÀÇ ÀÚÃ¼°¡ °¢°¢ ``Àû¾îµµ 16 bit'', ``Àû¾îµµ
-	32 bit''¸¦ ¶æÇÏ±â ¶§¹®ÀÔ´Ï´Ù.
+	\TT{int16}ì´ë‚˜ \TT{int32}ë¥¼ ì“°ëŠ” ëª©ì ì´ ``ì ì–´ë„ ì´ ì •ë„ì˜ í¬ê¸°ë¥¼
+	ë³´ìž¥''í•˜ëŠ” ê²ƒì´ë¼ë©´ ì „í˜€ ì“¸ëª¨ê°€ ì—†ìŠµë‹ˆë‹¤.  ì™œëƒí•˜ë©´ \TT{int}ì™€
+	\TT{long} typeì˜ ì •ì˜ ìžì²´ê°€ ê°ê° ``ì ì–´ë„ 16 bit'', ``ì ì–´ë„
+	32 bit''ë¥¼ ëœ»í•˜ê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤.
 \item
-	Typedef´Â byte-order ¹®Á¦¸¦ ÇØ°áÇØ ÁÖÁö ¸øÇÕ´Ï´Ù.
-	(¿¹¸¦ µé¾î ¿©·¯ºÐÀÌ data¸¦ ±³È¯(interchange)ÇÏ·Á ÇÏ°Å³ª,
-	¿ÜºÎÀûÀ¸·Î °íÁ¤µÈ ÀúÀå Çü½Ä¿¡ ¸ÂÃß·Á°í\footnote{conforming
-	to externally imposed storage layouts} ÇÏ´Â °æ¿ì)
+	TypedefëŠ” byte-order ë¬¸ì œë¥¼ í•´ê²°í•´ ì£¼ì§€ ëª»í•©ë‹ˆë‹¤.
+	(ì˜ˆë¥¼ ë“¤ì–´ ì—¬ëŸ¬ë¶„ì´ dataë¥¼ êµí™˜(interchange)í•˜ë ¤ í•˜ê±°ë‚˜,
+	ì™¸ë¶€ì ìœ¼ë¡œ ê³ ì •ëœ ì €ìž¥ í˜•ì‹ì— ë§žì¶”ë ¤ê³ \footnote{conforming
+	to externally imposed storage layouts} í•˜ëŠ” ê²½ìš°)
 \end{itemize}
 	\seealso{\ql{10.16}, \ql{20.5}}
 
 \R
         \cite{c89} \S\ 7.18.1.1
 \T
-        C99¿¡ µû¸£¸é \verb+<inttype.h>+¸¦ Æ÷ÇÔ½ÃÄ×À» ¶§, Á¤È®ÇÑ Å©±â¸¦ °®´Â
-        µ¥ÀÌÅÍ Å¸ÀÔÀ» À§ÇÑ \verb+int16_t+, \verb+int32_t+µîÀ» ¾µ ¼ö
-        ÀÖ½À´Ï´Ù. ÀÚ¼¼ÇÑ °ÍÀº Áú¹® \ql{11.I}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+        C99ì— ë”°ë¥´ë©´ \verb+<inttype.h>+ë¥¼ í¬í•¨ì‹œì¼°ì„ ë•Œ, ì •í™•í•œ í¬ê¸°ë¥¼ ê°–ëŠ”
+        ë°ì´í„° íƒ€ìž…ì„ ìœ„í•œ \verb+int16_t+, \verb+int32_t+ë“±ì„ ì“¸ ìˆ˜
+        ìžˆìŠµë‹ˆë‹¤. ìžì„¸í•œ ê²ƒì€ ì§ˆë¬¸ \ql{11.I}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
-        Ç¥ÁØ¿¡ µû¶ó Á¤È®È÷ ¸»ÇÏ¸é, \verb+int_16_t+, \verb+int32_t+µîÀÌ
-        Á¤ÀÇµÈ Çì´õ ÆÄÀÏÀº \verb+<stdint.h>+¿¡ Á¤ÀÇµÇ¾î ÀÖ½À´Ï´Ù.
-        ´Ù½Ã, Ç¥ÁØ¿¡ µû¸£¸é, \verb+<inttype.h>+´Â \verb+<stdint.h>+¸¦
-        Æ÷ÇÔÇÏ°Ô µÇ¸ç, ºÎ°¡ÀûÀÎ »çÇ×µéÀ» Á¦°øÇÕ´Ï´Ù.
+        í‘œì¤€ì— ë”°ë¼ ì •í™•ížˆ ë§í•˜ë©´, \verb+int_16_t+, \verb+int32_t+ë“±ì´
+        ì •ì˜ëœ í—¤ë” íŒŒì¼ì€ \verb+<stdint.h>+ì— ì •ì˜ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+        ë‹¤ì‹œ, í‘œì¤€ì— ë”°ë¥´ë©´, \verb+<inttype.h>+ëŠ” \verb+<stdint.h>+ë¥¼
+        í¬í•¨í•˜ê²Œ ë˜ë©°, ë¶€ê°€ì ì¸ ì‚¬í•­ë“¤ì„ ì œê³µí•©ë‹ˆë‹¤.
 
-% TODO: hs5¿Í iso¸¦ Á» ´õ º¸°í ¿©±â¿¡ Ã¤¿ö ³ÖÀ» °Í.
-% TODO: <inttype.h>¿¡ ÀÖ´Â PRI*, SCN* ¸ÅÅ©·Î¿¡ ´ëÇÑ Áú¹® Ãß°¡ÇÏ°í ref ´Þ °Í.
+% TODO: hs5ì™€ isoë¥¼ ì¢€ ë” ë³´ê³  ì—¬ê¸°ì— ì±„ì›Œ ë„£ì„ ê²ƒ.
+% TODO: <inttype.h>ì— ìžˆëŠ” PRI*, SCN* ë§¤í¬ë¡œì— ëŒ€í•œ ì§ˆë¬¸ ì¶”ê°€í•˜ê³  ref ë‹¬ ê²ƒ.
 
 \R
 	\cite{c99} \S\ 7.18
@@ -200,136 +200,136 @@ Base type & Min. size & Min. value & Max. value & Max. value  \\
 	
 \begin{faq}
 \Q{1.4} % 1.4
-	64-bit¸¦ Áö¿øÇÏ´Â ÄÄÇ»ÅÍ¿¡¼­ 64-bit Å¸ÀÔÀ» ¾µ ¼ö ÀÖ´Â ¹æ¹ýÀÌ ÀÖ³ª¿ä?
+	64-bitë¥¼ ì§€ì›í•˜ëŠ” ì»´í“¨í„°ì—ì„œ 64-bit íƒ€ìž…ì„ ì“¸ ìˆ˜ ìžˆëŠ” ë°©ë²•ì´ ìžˆë‚˜ìš”?
 
 \A	
-        °ñÄ¡¾ÆÇÂ ¹®Á¦ÀÔ´Ï´Ù. ´ÙÀ½°ú °°ÀÌ ¼¼ °¡Áö ¹æ½ÄÀ¸·Î ÀÌ ¹®Á¦¸¦
-        »ý°¢ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+        ê³¨ì¹˜ì•„í”ˆ ë¬¸ì œìž…ë‹ˆë‹¤. ë‹¤ìŒê³¼ ê°™ì´ ì„¸ ê°€ì§€ ë°©ì‹ìœ¼ë¡œ ì´ ë¬¸ì œë¥¼
+        ìƒê°í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
         \begin{itemize}
-          \item ÇöÁ¸ÇÏ´Â 16, 32-bit ½Ã½ºÅÛ¿¡¼­ ¼¼ Á¤¼ö Å¸ÀÔ¿¡¼­
-            (\TT{short}, \TT{int}, \TT{long}) µÎ Å¸ÀÔÀÌ ÀÏ¹ÝÀûÀ¸·Î
-            °°Àº Å©±â¸¦ °¡Áý´Ï´Ù. 64-bit ½Ã½ºÅÛ¿¡¼­´Â ¼¼ Å¸ÀÔÀÌ ¸ðµÎ
-            ´Ù¸¥ Å©±â¸¦ °¡Áú ¼ö ÀÖ½À´Ï´Ù. µû¶ó¼­ ¾î¶² vendorµéÀº
-            64-bit \TT{long int}¸¦ Á¦°øÇÕ´Ï´Ù.
+          \item í˜„ì¡´í•˜ëŠ” 16, 32-bit ì‹œìŠ¤í…œì—ì„œ ì„¸ ì •ìˆ˜ íƒ€ìž…ì—ì„œ
+            (\TT{short}, \TT{int}, \TT{long}) ë‘ íƒ€ìž…ì´ ì¼ë°˜ì ìœ¼ë¡œ
+            ê°™ì€ í¬ê¸°ë¥¼ ê°€ì§‘ë‹ˆë‹¤. 64-bit ì‹œìŠ¤í…œì—ì„œëŠ” ì„¸ íƒ€ìž…ì´ ëª¨ë‘
+            ë‹¤ë¥¸ í¬ê¸°ë¥¼ ê°€ì§ˆ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë”°ë¼ì„œ ì–´ë–¤ vendorë“¤ì€
+            64-bit \TT{long int}ë¥¼ ì œê³µí•©ë‹ˆë‹¤.
 
-          \item ¾Æ½±°Ôµµ, ÇöÁ¸ÇÏ´Â ¸¹Àº ÄÚµåµéÀÌ \TT{int}¿Í \TT{long}ÀÌ
-            °°´Ù°í ¿¹»óÇÏ°í ¾²¿©Á® ÀÖ°Å³ª, µÑ Áß ÇÏ³ª°¡ 32 bit¶ó°í °¡Á¤ÇÑ
-            »óÅÂ¿¡¼­ ¾²¿©Á® ÀÖ½À´Ï´Ù. ÀÌ·¯ÇÑ ÄÚµå¸¦ ±×´ë·Î À¯Áö½ÃÅ³ ¼ö
-            ÀÖ°Ô ¾î¶² vendorµéÀº »õ·Î¿î, ºñÇ¥ÁØÀÎ 64-bit \TT{long long}
-            (\verb+__longlong+, ¶Ç´Â \verb+__very long+µî) Å¸ÀÔÀ»
-            Áö¿øÇÕ´Ï´Ù.
+          \item ì•„ì‰½ê²Œë„, í˜„ì¡´í•˜ëŠ” ë§Žì€ ì½”ë“œë“¤ì´ \TT{int}ì™€ \TT{long}ì´
+            ê°™ë‹¤ê³  ì˜ˆìƒí•˜ê³  ì“°ì—¬ì ¸ ìžˆê±°ë‚˜, ë‘˜ ì¤‘ í•˜ë‚˜ê°€ 32 bitë¼ê³  ê°€ì •í•œ
+            ìƒíƒœì—ì„œ ì“°ì—¬ì ¸ ìžˆìŠµë‹ˆë‹¤. ì´ëŸ¬í•œ ì½”ë“œë¥¼ ê·¸ëŒ€ë¡œ ìœ ì§€ì‹œí‚¬ ìˆ˜
+            ìžˆê²Œ ì–´ë–¤ vendorë“¤ì€ ìƒˆë¡œìš´, ë¹„í‘œì¤€ì¸ 64-bit \TT{long long}
+            (\verb+__longlong+, ë˜ëŠ” \verb+__very long+ë“±) íƒ€ìž…ì„
+            ì§€ì›í•©ë‹ˆë‹¤.
 
-          \item 64-bit ½Ã½ºÅÛ¿¡¼­ \TT{int}°¡ 64 bitÀÌ¾î¾ß ÇÑ´Ù´Â
-            ³íÀÇµµ ÀÖ¾ú½À´Ï´Ù. ¿Ö³ÄÇÏ¸é º¸Åë \TT{int}´Â ½Ã½ºÅÛÀÌ
-            Ç¥ÇöÇÏ´Â °¡Àå ÀÚ¿¬½º·¯¿î word Å©±â¸¦ °¡Áö±â ¶§¹®ÀÔ´Ï´Ù.
+          \item 64-bit ì‹œìŠ¤í…œì—ì„œ \TT{int}ê°€ 64 bitì´ì–´ì•¼ í•œë‹¤ëŠ”
+            ë…¼ì˜ë„ ìžˆì—ˆìŠµë‹ˆë‹¤. ì™œëƒí•˜ë©´ ë³´í†µ \TT{int}ëŠ” ì‹œìŠ¤í…œì´
+            í‘œí˜„í•˜ëŠ” ê°€ìž¥ ìžì—°ìŠ¤ëŸ¬ìš´ word í¬ê¸°ë¥¼ ê°€ì§€ê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤.
             (``the machine's natual word size'')
         \end{itemize}
 
-        µû¶ó¼­, 64-bit Å¸ÀÔÀ» ¾²°íÀÚ ÇÏ´Â °³¹ßÀÚ´Â ÀûÀýÇÑ typedef¸¦ ½á¼­
-        ÄÚµå¸¦ ÀÛ¼ºÇØ¾ß ÇÕ´Ï´Ù. (¶Ç ÀÌ½Ä¼ºÀÌ ³ôÀº ÄÚµå¸¦ ¸¸µé±â À§ÇØ¼­,
-        16, 32-bit ½Ã½ºÅÛÀ» À§ÇØ 64-bit¸¦ ÀÏÀÏÈ÷ ¼öµ¿À¸·Î Ã³¸®ÇÒ ¼ö ÀÖ´Â
-        ÄÚµåµµ ¸¸µé¾î¾ß ÇÒ °ÍÀÔ´Ï´Ù.)  VendorµéÀº ¶Ç, ``Á¤È®È÷ 64 bitÀÎ
-        Å¸ÀÔ''º¸´Ù (ÇöÀç C Ç¥ÁØ¿¡ Á¸ÀçÇÏÁö ¾Ê´Â) 
-        ``Àû¾îµµ 64 bit ÀÌ»óÀÎ Å¸ÀÔ''À» ¼Ò°³ÇØ¾ß ÇÕ´Ï´Ù.
+        ë”°ë¼ì„œ, 64-bit íƒ€ìž…ì„ ì“°ê³ ìž í•˜ëŠ” ê°œë°œìžëŠ” ì ì ˆí•œ typedefë¥¼ ì¨ì„œ
+        ì½”ë“œë¥¼ ìž‘ì„±í•´ì•¼ í•©ë‹ˆë‹¤. (ë˜ ì´ì‹ì„±ì´ ë†’ì€ ì½”ë“œë¥¼ ë§Œë“¤ê¸° ìœ„í•´ì„œ,
+        16, 32-bit ì‹œìŠ¤í…œì„ ìœ„í•´ 64-bitë¥¼ ì¼ì¼ížˆ ìˆ˜ë™ìœ¼ë¡œ ì²˜ë¦¬í•  ìˆ˜ ìžˆëŠ”
+        ì½”ë“œë„ ë§Œë“¤ì–´ì•¼ í•  ê²ƒìž…ë‹ˆë‹¤.)  Vendorë“¤ì€ ë˜, ``ì •í™•ížˆ 64 bitì¸
+        íƒ€ìž…''ë³´ë‹¤ (í˜„ìž¬ C í‘œì¤€ì— ì¡´ìž¬í•˜ì§€ ì•ŠëŠ”) 
+        ``ì ì–´ë„ 64 bit ì´ìƒì¸ íƒ€ìž…''ì„ ì†Œê°œí•´ì•¼ í•©ë‹ˆë‹¤.
 \T
 	\cite{ansi} \S\ F.5.6 \\
         \cite{c89} \S\ G.5.6
 
 \A
-% TODO: book version°ú »ó´çÇÑ Â÷ÀÌ°¡ ÀÖÀ½. Ã¼Å© ¹Ù¶÷
-	´Ù°¡¿À´Â C Ç¥ÁØ(C9X)¿¡¼­´Â \TT{long long} Å¸ÀÔÀÌ Àû¾îµµ 64 ºñÆ®
-	ÀÌ»óÀÌ µÉ °ÍÀ» ¸í½ÃÇÏ°í ÀÖ½À´Ï´Ù.  ±×¸®°í ÀÌ Å¸ÀÔÀº ÀÌ¹Ì ¿©·¯ 
-	ÄÄÆÄÀÏ·¯¿¡ ÀÇÇØ Áö¿øµÇ°í ÀÖ½À´Ï´Ù (¾î¶°ÇÑ ÄÄÆÄÀÏ·¯´Â 
-	\verb+__longlong+ Å¸ÀÔÀ¸·Î Áö¿øÇÕ´Ï´Ù.) 
-	¶Ç ´ëºÎºÐÀÇ ÄÄÆÄÀÏ·¯µéÀº \TT{short int}¸¦ 16 ºñÆ®·Î,
-	\TT{int}¸¦ 32 ºñÆ®·Î, \TT{long int}¸¦ 64 ºñÆ®·Î Áö¿øÇÏ°í ÀÖÀ¸¸ç,
-	ÀÌ¿Í ´Ù¸£°Ô ÇÒ ÀÌÀ¯°¡ ¾ø½À´Ï´Ù.
+% TODO: book versionê³¼ ìƒë‹¹í•œ ì°¨ì´ê°€ ìžˆìŒ. ì²´í¬ ë°”ëžŒ
+	ë‹¤ê°€ì˜¤ëŠ” C í‘œì¤€(C9X)ì—ì„œëŠ” \TT{long long} íƒ€ìž…ì´ ì ì–´ë„ 64 ë¹„íŠ¸
+	ì´ìƒì´ ë  ê²ƒì„ ëª…ì‹œí•˜ê³  ìžˆìŠµë‹ˆë‹¤.  ê·¸ë¦¬ê³  ì´ íƒ€ìž…ì€ ì´ë¯¸ ì—¬ëŸ¬ 
+	ì»´íŒŒì¼ëŸ¬ì— ì˜í•´ ì§€ì›ë˜ê³  ìžˆìŠµë‹ˆë‹¤ (ì–´ë– í•œ ì»´íŒŒì¼ëŸ¬ëŠ” 
+	\verb+__longlong+ íƒ€ìž…ìœ¼ë¡œ ì§€ì›í•©ë‹ˆë‹¤.) 
+	ë˜ ëŒ€ë¶€ë¶„ì˜ ì»´íŒŒì¼ëŸ¬ë“¤ì€ \TT{short int}ë¥¼ 16 ë¹„íŠ¸ë¡œ,
+	\TT{int}ë¥¼ 32 ë¹„íŠ¸ë¡œ, \TT{long int}ë¥¼ 64 ë¹„íŠ¸ë¡œ ì§€ì›í•˜ê³  ìžˆìœ¼ë©°,
+	ì´ì™€ ë‹¤ë¥´ê²Œ í•  ì´ìœ ê°€ ì—†ìŠµë‹ˆë‹¤.
 
-	Áú¹® \ql{18.15d}¸¦ Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{18.15d}ë¥¼ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 \R 
 	\cite{c9x} \S\ 5.2.4.2.1, \S\ 6.1.2.5.
 
 \T
-	ÃÖ½Å C Ç¥ÁØ, C99¿¡¼­´Â Àû¾îµµ 64 bit ÀÌ»óÀÎ, \TT{long long} Å¸ÀÔÀ» 
-        Áö¿øÇÕ´Ï´Ù. Áú¹® \ql{1.1}, \ql{1.3}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ìµœì‹  C í‘œì¤€, C99ì—ì„œëŠ” ì ì–´ë„ 64 bit ì´ìƒì¸, \TT{long long} íƒ€ìž…ì„ 
+        ì§€ì›í•©ë‹ˆë‹¤. ì§ˆë¬¸ \ql{1.1}, \ql{1.3}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \R
 	\cite{c99} \S\ 5.2.4.2.1 \Page{22--23}, \S\ 6.2.5
 \end{faq}
 
 \section{Pointer Declarations}	\label{sec:pointerdec}
 % from 1.5
-Æ÷ÀÎÅÍ¿¡ °üÇÑ °ÍÀº Chapter~\ref{chap:pointer}ºÎÅÍ
-Chapter~\ref{chap:memalloc}±îÁö
-¼³¸íµÇ¾î ÀÖÁö¸¸, ¿©±â¿¡¼­´Â ¼±¾ð¿¡ °ü·ÃµÈ °Í¸¸ ´Ù·ì´Ï´Ù.
+í¬ì¸í„°ì— ê´€í•œ ê²ƒì€ Chapter~\ref{chap:pointer}ë¶€í„°
+Chapter~\ref{chap:memalloc}ê¹Œì§€
+ì„¤ëª…ë˜ì–´ ìžˆì§€ë§Œ, ì—¬ê¸°ì—ì„œëŠ” ì„ ì–¸ì— ê´€ë ¨ëœ ê²ƒë§Œ ë‹¤ë£¹ë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.5} % 1.5 COMPLETE
-	´ÙÀ½ ¼±¾ð¿¡¼­ ¹«¾ùÀÌ Àß¸øµÇ¾ú³ª¿ä?
+	ë‹¤ìŒ ì„ ì–¸ì—ì„œ ë¬´ì—‡ì´ ìž˜ëª»ë˜ì—ˆë‚˜ìš”?
 \begin{verbatim}
   char *p1, p2;
 \end{verbatim}
-	\TT{p2}¸¦ ¾²·Á°í ÇÒ ¶§ ¿¡·¯°¡ ³³´Ï´Ù.
+	\TT{p2}ë¥¼ ì“°ë ¤ê³  í•  ë•Œ ì—ëŸ¬ê°€ ë‚©ë‹ˆë‹¤.
 
 \A
-	À§ÀÇ ¼±¾ð¿¡¼­ Àß¸øµÈ Á¡Àº ¾ø½À´Ï´Ù --- ¿©·¯ºÐÀÌ ¿øÇÏ´Â ÀÛ¾÷À»
-	ÇØ ÁÖÁö ¸øÇÑ´Ù´Â °ÍÀ» Á¦¿ÜÇÏ¸é ¸»ÀÔ´Ï´Ù.
-	Pointer ¼±¾ð¿¡¼­ \TT{*}´Â `base type'ÀÇ ÀÏºÎºÐÀÌ ¾Æ´Õ´Ï´Ù;
-	\TT{*}´Â ¼±¾ðÇÒ ÀÌ¸§À¸·Î ±¸¼ºµÈ \EM{declarator}ÀÇ ÀÏºÎºÐÀÔ´Ï´Ù
-	(Áú¹® \ql{1.21} Âü°í).  ¼±¾ðÀ» ¾µ °æ¿ì¿¡ °ø¹é ¹®ÀÚÀÇ ±¸ºÐÀº ÀÇ¹Ì°¡
-	¾ø½À´Ï´Ù.  µû¶ó¼­ Ã¹¹øÂ° declarator´Â ``\TT{* p1}''ÀÌ¸ç,
-	\TT{*}¸¦ Æ÷ÇÔÇÏ°í ÀÖ±â ¶§¹®¿¡, \TT{p1}Àº `a pointer to \TT{char}',
-	Áï \TT{char}¸¦ °¡¸®Å°´Â pointer°¡ µË´Ï´Ù.
-	±×·¯³ª \TT{p2}ÀÇ declarator´Â \TT{p2} ÀÌ¿Ü¿¡ ´Ù¸¥ °ÍÀ» °¡Áö°í
-	ÀÖÁö ¾ÊÀ¸¹Ç·Î, (¿©·¯ºÐÀÌ ¿øÇÏ´Â ¹Ù°¡ ¾Æ´Ï°ÚÁö¸¸) °£´ÜÈ÷ 
-	\TT{char} typeÀÌ µË´Ï´Ù.  ÇÑ ¼±¾ð¿¡¼­ µÎ °³ÀÇ pointer¸¦ ¼±¾ðÇÏ·Á¸é,
-	´ÙÀ½°ú °°ÀÌ ÇØ¾ß ÇÕ´Ï´Ù:
+	ìœ„ì˜ ì„ ì–¸ì—ì„œ ìž˜ëª»ëœ ì ì€ ì—†ìŠµë‹ˆë‹¤ --- ì—¬ëŸ¬ë¶„ì´ ì›í•˜ëŠ” ìž‘ì—…ì„
+	í•´ ì£¼ì§€ ëª»í•œë‹¤ëŠ” ê²ƒì„ ì œì™¸í•˜ë©´ ë§ìž…ë‹ˆë‹¤.
+	Pointer ì„ ì–¸ì—ì„œ \TT{*}ëŠ” `base type'ì˜ ì¼ë¶€ë¶„ì´ ì•„ë‹™ë‹ˆë‹¤;
+	\TT{*}ëŠ” ì„ ì–¸í•  ì´ë¦„ìœ¼ë¡œ êµ¬ì„±ëœ \EM{declarator}ì˜ ì¼ë¶€ë¶„ìž…ë‹ˆë‹¤
+	(ì§ˆë¬¸ \ql{1.21} ì°¸ê³ ).  ì„ ì–¸ì„ ì“¸ ê²½ìš°ì— ê³µë°± ë¬¸ìžì˜ êµ¬ë¶„ì€ ì˜ë¯¸ê°€
+	ì—†ìŠµë‹ˆë‹¤.  ë”°ë¼ì„œ ì²«ë²ˆì§¸ declaratorëŠ” ``\TT{* p1}''ì´ë©°,
+	\TT{*}ë¥¼ í¬í•¨í•˜ê³  ìžˆê¸° ë•Œë¬¸ì—, \TT{p1}ì€ `a pointer to \TT{char}',
+	ì¦‰ \TT{char}ë¥¼ ê°€ë¦¬í‚¤ëŠ” pointerê°€ ë©ë‹ˆë‹¤.
+	ê·¸ëŸ¬ë‚˜ \TT{p2}ì˜ declaratorëŠ” \TT{p2} ì´ì™¸ì— ë‹¤ë¥¸ ê²ƒì„ ê°€ì§€ê³ 
+	ìžˆì§€ ì•Šìœ¼ë¯€ë¡œ, (ì—¬ëŸ¬ë¶„ì´ ì›í•˜ëŠ” ë°”ê°€ ì•„ë‹ˆê² ì§€ë§Œ) ê°„ë‹¨ížˆ 
+	\TT{char} typeì´ ë©ë‹ˆë‹¤.  í•œ ì„ ì–¸ì—ì„œ ë‘ ê°œì˜ pointerë¥¼ ì„ ì–¸í•˜ë ¤ë©´,
+	ë‹¤ìŒê³¼ ê°™ì´ í•´ì•¼ í•©ë‹ˆë‹¤:
 
 \begin{verbatim}
   char *p1, *p2;
 \end{verbatim}
 
-	\TT{*}°¡ declaratorÀÇ ÀÏºÎºÐÀÌ±â ¶§¹®¿¡, À§¿¡ ¾´ °ÍÃ³·³ °ø¹é ¹®ÀÚ¸¦
-	¾²´Â °ÍÀÌ ÁÁ½À´Ï´Ù; \TT{char*}¿Í °°ÀÌ ¾²´Â °ÍÀº ½Ç¼ö¸¦ ³»±â ½¬¿ì¸ç,
-	È¥µ¿À» °¡Á®¿Ã ¼ö ÀÖ½À´Ï´Ù.
+	\TT{*}ê°€ declaratorì˜ ì¼ë¶€ë¶„ì´ê¸° ë•Œë¬¸ì—, ìœ„ì— ì“´ ê²ƒì²˜ëŸ¼ ê³µë°± ë¬¸ìžë¥¼
+	ì“°ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤; \TT{char*}ì™€ ê°™ì´ ì“°ëŠ” ê²ƒì€ ì‹¤ìˆ˜ë¥¼ ë‚´ê¸° ì‰¬ìš°ë©°,
+	í˜¼ë™ì„ ê°€ì ¸ì˜¬ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 	\seealso{\ql{1.13}}
 \end{faq}
 
 \begin{faq}
 \Q{1.6} % 1.6 COMPLETE
-	Pointer¸¦ ¼±¾ðÇÏ°í ±× pointer°¡ ¾î¶² °ø°£À» ÇÒ´çÇÏ·Á°í ÇßÀ¸³ª,
-	Á¦´ë·Î µ¿ÀÛÇÏÁö ¾Ê½À´Ï´Ù.  ¾Æ·¡ ÄÚµå¿¡ ¾î¶² ¹®Á¦°¡ ÀÖ½À´Ï±î?
+	Pointerë¥¼ ì„ ì–¸í•˜ê³  ê·¸ pointerê°€ ì–´ë–¤ ê³µê°„ì„ í• ë‹¹í•˜ë ¤ê³  í–ˆìœ¼ë‚˜,
+	ì œëŒ€ë¡œ ë™ìž‘í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.  ì•„ëž˜ ì½”ë“œì— ì–´ë–¤ ë¬¸ì œê°€ ìžˆìŠµë‹ˆê¹Œ?
 \begin{verbatim}
   char *p;
   *p = malloc(10);
 \end{verbatim}
 
 \A
-	¿©·¯ºÐÀÌ ¼±¾ðÇÑ pointer´Â \TT{p}ÀÌÁö \TT{*p}°¡ ¾Æ´Õ´Ï´Ù.
-	Áú¹® \ql{4.2}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì—¬ëŸ¬ë¶„ì´ ì„ ì–¸í•œ pointerëŠ” \TT{p}ì´ì§€ \TT{*p}ê°€ ì•„ë‹™ë‹ˆë‹¤.
+	ì§ˆë¬¸ \ql{4.2}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 	
 \section{Declaration Style}	\label{sec:decstyle}
 % from 1.7
-º¯¼ö³ª ÇÔ¼ö¸¦ ¼±¾ðÇÏ´Â °ÍÀº ´Ü¼øÈ÷ ÄÄÆÄÀÏ·¯¸¦ ±â»Ú°Ô? ÇÏ±â À§ÇÑ °ÍÀÌ
-¾Æ´Õ´Ï´Ù; it also injects useful order into a programming project.
+ë³€ìˆ˜ë‚˜ í•¨ìˆ˜ë¥¼ ì„ ì–¸í•˜ëŠ” ê²ƒì€ ë‹¨ìˆœížˆ ì»´íŒŒì¼ëŸ¬ë¥¼ ê¸°ì˜ê²Œ? í•˜ê¸° ìœ„í•œ ê²ƒì´
+ì•„ë‹™ë‹ˆë‹¤; it also injects useful order into a programming project.
 When declarations are arranged appropriately within a project, mismatches
 and other difficulties can be more easily avoided, and the compiler
 can more accurately catch any error that do occur.
 
 \begin{faq}
 \Q{1.7} % 1.7 COMPLETE
-	Àü¿ª\trans{global} ÇÔ¼ö¿Í º¯¼ö¸¦ ¼±¾ð ¶Ç´Â Á¤ÀÇÇÏ´Â °¡Àå ÁÁÀº
-	¹æ¹ýÀÌ ¹«¾ùÀÏ±î¿ä?
+	ì „ì—­\trans{global} í•¨ìˆ˜ì™€ ë³€ìˆ˜ë¥¼ ì„ ì–¸ ë˜ëŠ” ì •ì˜í•˜ëŠ” ê°€ìž¥ ì¢‹ì€
+	ë°©ë²•ì´ ë¬´ì—‡ì¼ê¹Œìš”?
 
 \A 
-	¸ÕÀú ÇÑ ``global'' º¯¼ö´Â (¿©·¯ translation unit¿¡¼­) 
-	¿©·¯ °³ÀÇ ¼±¾ðÀ» °¡Áú ¼ö ÀÖÁö¸¸, ¹Ýµå½Ã ÇÏ³ªÀÇ Á¤ÀÇ¸¦ °¡Á®¾ß ÇÕ´Ï´Ù.
-	Global º¯¼ö¿¡¼­ Á¤ÀÇ´Â °ø°£À» ÇÒ´çÇÏ°í, ÇÊ¿äÇÏ´Ù¸é ÃÊ±â°ªÀ» ÁöÁ¤ÇÏ´Â
-	ÀÏÁ¾ÀÇ ¼±¾ðÀÔ´Ï´Ù.
-	ÇÔ¼ö¿¡¼­ ¼±¾ðÀº function body¸¦ Á¦°øÇÏ´Â ÀÏÁ¾ÀÇ ¼±¾ðÀÔ´Ï´Ù.
-	¾Æ·¡´Â ¼±¾ðÀÇ ¿¹ÀÔ´Ï´Ù:
+	ë¨¼ì € í•œ ``global'' ë³€ìˆ˜ëŠ” (ì—¬ëŸ¬ translation unitì—ì„œ) 
+	ì—¬ëŸ¬ ê°œì˜ ì„ ì–¸ì„ ê°€ì§ˆ ìˆ˜ ìžˆì§€ë§Œ, ë°˜ë“œì‹œ í•˜ë‚˜ì˜ ì •ì˜ë¥¼ ê°€ì ¸ì•¼ í•©ë‹ˆë‹¤.
+	Global ë³€ìˆ˜ì—ì„œ ì •ì˜ëŠ” ê³µê°„ì„ í• ë‹¹í•˜ê³ , í•„ìš”í•˜ë‹¤ë©´ ì´ˆê¸°ê°’ì„ ì§€ì •í•˜ëŠ”
+	ì¼ì¢…ì˜ ì„ ì–¸ìž…ë‹ˆë‹¤.
+	í•¨ìˆ˜ì—ì„œ ì„ ì–¸ì€ function bodyë¥¼ ì œê³µí•˜ëŠ” ì¼ì¢…ì˜ ì„ ì–¸ìž…ë‹ˆë‹¤.
+	ì•„ëž˜ëŠ” ì„ ì–¸ì˜ ì˜ˆìž…ë‹ˆë‹¤:
 
 \begin{verbatim}
   extern int i;
@@ -337,10 +337,10 @@ can more accurately catch any error that do occur.
   extern int f();
 \end{verbatim}
 
-	(\TT{extern} keyword´Â ÇÔ¼ö ¼±¾ð¿¡¼­ optionÀÔ´Ï´Ù; Áú¹® \ql{1.11}À»
-	Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
+	(\TT{extern} keywordëŠ” í•¨ìˆ˜ ì„ ì–¸ì—ì„œ optionìž…ë‹ˆë‹¤; ì§ˆë¬¸ \ql{1.11}ì„
+	ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
 
-	¾Æ·¡´Â Á¤ÀÇÀÇ ¿¹ÀÔ´Ï´Ù:
+	ì•„ëž˜ëŠ” ì •ì˜ì˜ ì˜ˆìž…ë‹ˆë‹¤:
 \begin{verbatim}
   int i = 0;
 
@@ -349,43 +349,43 @@ can more accurately catch any error that do occur.
     return 1;
   }
 \end{verbatim}
-	¿©·¯ ¼Ò½º ÆÄÀÏ¿¡¼­ º¯¼ö³ª ÇÔ¼ö¸¦ °øÀ¯ÇÒ ÇÊ¿ä°¡ ÀÖ´Ù¸é,
-	´ç¿¬È÷ ¿©·¯ºÐÀº ¸ðµç º¯¼ö¿Í ÇÔ¼ö¸¦ ÀÏ°üµÇ°Ô(consistent) ¸¸µé¾î¾ß
-	ÇÕ´Ï´Ù.  °¡Àå ÁÁÀº ¹æ¹ýÀº °¢ Á¤ÀÇ¸¦ °ü·ÃµÈ \verb+.c+ ÆÄÀÏ¿¡ ÀúÀåÇÏ°í,
-	external ¼±¾ðÀ» Çì´õ ÆÄÀÏ(``\verb+.h+'')¿¡ µÎ´Â °ÍÀÔ´Ï´Ù.  
-	±×¸®°í ¼±¾ðÀÌ 
-	ÇÊ¿äÇÑ °÷¿¡¼­´Â \verb+#include+¸¦ ½á¼­ Æ÷ÇÔ½ÃÅ°¸é µË´Ï´Ù.  Á¤ÀÇ¸¦ 
-	Æ÷ÇÔÇÏ´Â \verb+.c+ ÆÄÀÏ¿¡µµ °°Àº Çì´õ ÆÄÀÏÀ» Æ÷ÇÔ½ÃÄÑ¾ß
-	ÄÄÆÄÀÏ·¯°¡ ¼±¾ð°ú Á¤ÀÇ°¡ ÀÏÄ¡ÇÏ´ÂÁö °Ë»çÇØ ÁÝ´Ï´Ù.
+	ì—¬ëŸ¬ ì†ŒìŠ¤ íŒŒì¼ì—ì„œ ë³€ìˆ˜ë‚˜ í•¨ìˆ˜ë¥¼ ê³µìœ í•  í•„ìš”ê°€ ìžˆë‹¤ë©´,
+	ë‹¹ì—°ížˆ ì—¬ëŸ¬ë¶„ì€ ëª¨ë“  ë³€ìˆ˜ì™€ í•¨ìˆ˜ë¥¼ ì¼ê´€ë˜ê²Œ(consistent) ë§Œë“¤ì–´ì•¼
+	í•©ë‹ˆë‹¤.  ê°€ìž¥ ì¢‹ì€ ë°©ë²•ì€ ê° ì •ì˜ë¥¼ ê´€ë ¨ëœ \verb+.c+ íŒŒì¼ì— ì €ìž¥í•˜ê³ ,
+	external ì„ ì–¸ì„ í—¤ë” íŒŒì¼(``\verb+.h+'')ì— ë‘ëŠ” ê²ƒìž…ë‹ˆë‹¤.  
+	ê·¸ë¦¬ê³  ì„ ì–¸ì´ 
+	í•„ìš”í•œ ê³³ì—ì„œëŠ” \verb+#include+ë¥¼ ì¨ì„œ í¬í•¨ì‹œí‚¤ë©´ ë©ë‹ˆë‹¤.  ì •ì˜ë¥¼ 
+	í¬í•¨í•˜ëŠ” \verb+.c+ íŒŒì¼ì—ë„ ê°™ì€ í—¤ë” íŒŒì¼ì„ í¬í•¨ì‹œì¼œì•¼
+	ì»´íŒŒì¼ëŸ¬ê°€ ì„ ì–¸ê³¼ ì •ì˜ê°€ ì¼ì¹˜í•˜ëŠ”ì§€ ê²€ì‚¬í•´ ì¤ë‹ˆë‹¤.
 
-	ÀÌ ±ÔÄ¢Àº ¸Å¿ì portability°¡ ³ôÀº ¹æ¹ýÀÔ´Ï´Ù; 
-	ÀÌ´Â ANSI C Ç¥ÁØÀÇ ¿ä±¸¿¡µµ 
-	ºÎÇÕÇÏ¸ç, ANSI ÀÌÀüÀÇ ÄÄÆÄÀÏ·¯¿Í ¸µÄ¿¿¡¼­µµ Àß µ¿ÀÛÇÕ´Ï´Ù (UNIX
-	ÄÄÆÄÀÏ·¯¿Í ¸µÄ¿´Â ÃÖ´ë ÇÏ³ª°¡ ÃÊ±âÈ­µÈ´Ù´Â Á¶°Ç ¾Æ·¡¿¡ ¿©·¯ °³ÀÇ
-	¼±¾ðÀ»
-	°¡´ÉÄÉ ÇÏ´Â ``common model''À» Áö¿øÇÕ´Ï´Ù; ÀÌ´Â ANSI Ç¥ÁØ¿¡ ÀÇÇØ 
-	``common extension''À¸·Î ¾ð±ÞµÇ¾î ÀÖÁö¸¸, 
-	`pun\footnote{¹ßÀ½Àº °°À¸³ª ¶æÀÌ ´Ù¸¥ ¸»}'Àº ¾Æ´Õ´Ï´Ù.
-	¾î¶² ÀÌ»óÇÑ ½Ã½ºÅÛ¿¡¼­´Â ¿ÜºÎ ¼±¾ð°ú Á¤ÀÇ¸¦ ±¸º°ÇÏ±â À§ÇØ¼­ 
-	¹Ýµå½Ã ÃÊ±â°ªÀ» ÇÊ¿ä·Î ÇÏ±âµµ ÇÕ´Ï´Ù.)
+	ì´ ê·œì¹™ì€ ë§¤ìš° portabilityê°€ ë†’ì€ ë°©ë²•ìž…ë‹ˆë‹¤; 
+	ì´ëŠ” ANSI C í‘œì¤€ì˜ ìš”êµ¬ì—ë„ 
+	ë¶€í•©í•˜ë©°, ANSI ì´ì „ì˜ ì»´íŒŒì¼ëŸ¬ì™€ ë§ì»¤ì—ì„œë„ ìž˜ ë™ìž‘í•©ë‹ˆë‹¤ (UNIX
+	ì»´íŒŒì¼ëŸ¬ì™€ ë§ì»¤ëŠ” ìµœëŒ€ í•˜ë‚˜ê°€ ì´ˆê¸°í™”ëœë‹¤ëŠ” ì¡°ê±´ ì•„ëž˜ì— ì—¬ëŸ¬ ê°œì˜
+	ì„ ì–¸ì„
+	ê°€ëŠ¥ì¼€ í•˜ëŠ” ``common model''ì„ ì§€ì›í•©ë‹ˆë‹¤; ì´ëŠ” ANSI í‘œì¤€ì— ì˜í•´ 
+	``common extension''ìœ¼ë¡œ ì–¸ê¸‰ë˜ì–´ ìžˆì§€ë§Œ, 
+	`pun\footnote{ë°œìŒì€ ê°™ìœ¼ë‚˜ ëœ»ì´ ë‹¤ë¥¸ ë§}'ì€ ì•„ë‹™ë‹ˆë‹¤.
+	ì–´ë–¤ ì´ìƒí•œ ì‹œìŠ¤í…œì—ì„œëŠ” ì™¸ë¶€ ì„ ì–¸ê³¼ ì •ì˜ë¥¼ êµ¬ë³„í•˜ê¸° ìœ„í•´ì„œ 
+	ë°˜ë“œì‹œ ì´ˆê¸°ê°’ì„ í•„ìš”ë¡œ í•˜ê¸°ë„ í•©ë‹ˆë‹¤.)
 
-	ÇÑ Çì´õ ÆÄÀÏ¿¡ ÇÏ³ªÀÇ ¼±¾ð¸¸ ³ª¿Àµµ·Ï ÇÏ±â À§ÇØ ´ÙÀ½°ú °°Àº ÀüÃ³¸®±â
-	Æ®¸¯À» ¾µ ¼öµµ ÀÖ½À´Ï´Ù:
+	í•œ í—¤ë” íŒŒì¼ì— í•˜ë‚˜ì˜ ì„ ì–¸ë§Œ ë‚˜ì˜¤ë„ë¡ í•˜ê¸° ìœ„í•´ ë‹¤ìŒê³¼ ê°™ì€ ì „ì²˜ë¦¬ê¸°
+	íŠ¸ë¦­ì„ ì“¸ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤:
 
 \begin{verbatim}
   DEFINE(int, i);
 \end{verbatim}
 
-	±×¸®°í ¾î¶² ¸ÅÅ©·ÎÀÇ ¼³Á¤¿¡ µû¶ó ÀÌ ÁÙÀÌ ¼±¾ðÀÌ³ª Á¤ÀÇ°¡ µÇµµ·Ï ÇÒ ¼ö
-	ÀÖÁö¸¸ ÀÌ´Â ¹®Á¦¸¦ À¯¹ßÇÒ °¡´É¼ºÀÌ ¸¹À¸¹Ç·Î ÃßÃµÇÏÁö ¾Ê½À´Ï´Ù.
+	ê·¸ë¦¬ê³  ì–´ë–¤ ë§¤í¬ë¡œì˜ ì„¤ì •ì— ë”°ë¼ ì´ ì¤„ì´ ì„ ì–¸ì´ë‚˜ ì •ì˜ê°€ ë˜ë„ë¡ í•  ìˆ˜
+	ìžˆì§€ë§Œ ì´ëŠ” ë¬¸ì œë¥¼ ìœ ë°œí•  ê°€ëŠ¥ì„±ì´ ë§Žìœ¼ë¯€ë¡œ ì¶”ì²œí•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
-	ÄÄÆÄÀÏ·¯°¡ ¼±¾ðÀÌ ºÒÀÏÄ¡ÇÏ´ÂÁö °Ë»çÇÏ±â À§ÇØ¼­´Â ¹Ýµå½Ã Àü¿ª ¼±¾ðÀ»
-	Çì´õ ÆÄÀÏ¿¡ ³Ö´Â °ÍÀÌ Áß¿äÇÕ´Ï´Ù.  Æ¯È÷, external ÇÔ¼öÀÇ 
-	prototypeÀ» \verb+.c+ ÆÄÀÏ¿¡ ³ÖÁö ¾Êµµ·Ï ÇÏ±â ¹Ù¶ø´Ï´Ù.
-	ÀÌ´Â Á¤ÀÇ¿Í ÀÏÄ¡ÇÏ´Â Áö °Ë»çÇØ ÁÖÁöµµ ¾ÊÀ¸¸ç, ¸¸¾à Á¤ÀÇ¿Í ÀÏÄ¡ÇÏÁö
-	¾Ê´Â´Ù¸é ¿ÀÈ÷·Á ¾²Áö ¾Ê´Â °Íº¸´Ù ¸øÇÕ´Ï´Ù.
+	ì»´íŒŒì¼ëŸ¬ê°€ ì„ ì–¸ì´ ë¶ˆì¼ì¹˜í•˜ëŠ”ì§€ ê²€ì‚¬í•˜ê¸° ìœ„í•´ì„œëŠ” ë°˜ë“œì‹œ ì „ì—­ ì„ ì–¸ì„
+	í—¤ë” íŒŒì¼ì— ë„£ëŠ” ê²ƒì´ ì¤‘ìš”í•©ë‹ˆë‹¤.  íŠ¹ížˆ, external í•¨ìˆ˜ì˜ 
+	prototypeì„ \verb+.c+ íŒŒì¼ì— ë„£ì§€ ì•Šë„ë¡ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
+	ì´ëŠ” ì •ì˜ì™€ ì¼ì¹˜í•˜ëŠ” ì§€ ê²€ì‚¬í•´ ì£¼ì§€ë„ ì•Šìœ¼ë©°, ë§Œì•½ ì •ì˜ì™€ ì¼ì¹˜í•˜ì§€
+	ì•ŠëŠ”ë‹¤ë©´ ì˜¤ížˆë ¤ ì“°ì§€ ì•ŠëŠ” ê²ƒë³´ë‹¤ ëª»í•©ë‹ˆë‹¤.
 
-	Áú¹® \ql{10.6}°ú \ql{18.8}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{10.6}ê³¼ \ql{18.8}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
 \R
 	\cite{kr1} \S\ 4.5 \Page{76--7} \\
@@ -398,57 +398,57 @@ can more accurately catch any error that do occur.
 
 \begin{faq}
 \Q{1.8} % 1.8 COMPLETE
-	C ¾ð¾î¿¡¼­ Ãß»óÈ­µÈ data typeÀ» ¸¸µå´Â °¡Àå ÁÁÀº ¹æ¹ýÀÌ ¹«¾ùÀÏ±î¿ä?
+	C ì–¸ì–´ì—ì„œ ì¶”ìƒí™”ëœ data typeì„ ë§Œë“œëŠ” ê°€ìž¥ ì¢‹ì€ ë°©ë²•ì´ ë¬´ì—‡ì¼ê¹Œìš”?
 \A
-	Áú¹® \ql{2.4}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{2.4}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.9} % 1.9
-	``semiglobal'' º¯¼ö, Áï, ¸î ¼Ò½º ÆÄÀÏÀÇ ÇÔ¼öµéÀº º¼ ¼ö ÀÖÀ¸³ª,
-	´Ù¸¥ ¼Ò½º ÆÄÀÏ¿¡¼­´Â º¼ ¼ö ¾ø´Â ±×·¯ÇÑ `Àý¹Ý Á¤µµÀÇ' Àü¿ª º¯¼ö¸¦
-	¸¸µé ¼ö ÀÖÀ»±î¿ä?
+	``semiglobal'' ë³€ìˆ˜, ì¦‰, ëª‡ ì†ŒìŠ¤ íŒŒì¼ì˜ í•¨ìˆ˜ë“¤ì€ ë³¼ ìˆ˜ ìžˆìœ¼ë‚˜,
+	ë‹¤ë¥¸ ì†ŒìŠ¤ íŒŒì¼ì—ì„œëŠ” ë³¼ ìˆ˜ ì—†ëŠ” ê·¸ëŸ¬í•œ `ì ˆë°˜ ì •ë„ì˜' ì „ì—­ ë³€ìˆ˜ë¥¼
+	ë§Œë“¤ ìˆ˜ ìžˆì„ê¹Œìš”?
 
 
 \A
-	C ¾ð¾î¿¡¼­ ±×·± ÀÏÀº ÇÒ ¼ö ¾ø½À´Ï´Ù.
-	¸ðµç ÇÔ¼ö¸¦ °°Àº source ÆÄÀÏ¿¡ ³Ö´Â °ÍÀÌ ºÒÆíÇÏ°Å³ª ºÒ°¡´ÉÇÏ´Ù¸é,
-	¾Æ·¡ Áß ÇÑ°¡Áö ¹æ¹ýÀ» ¾²½Ã±â ¹Ù¶ø´Ï´Ù:
+	C ì–¸ì–´ì—ì„œ ê·¸ëŸ° ì¼ì€ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+	ëª¨ë“  í•¨ìˆ˜ë¥¼ ê°™ì€ source íŒŒì¼ì— ë„£ëŠ” ê²ƒì´ ë¶ˆíŽ¸í•˜ê±°ë‚˜ ë¶ˆê°€ëŠ¥í•˜ë‹¤ë©´,
+	ì•„ëž˜ ì¤‘ í•œê°€ì§€ ë°©ë²•ì„ ì“°ì‹œê¸° ë°”ëžë‹ˆë‹¤:
 
 % WORK FROM HERE..
         \begin{itemize}
-        \item ÇÑ ¶óÀÌºê·¯¸®³ª ÆÐÅ°ÁöÀÇ ¸ðµç ÇÔ¼ö¿Í º¯¼ö¿¡ Àû´çÇÑ prefix ÀÌ¸§À» 
-	  ºÙÀÌ°í, »ç¿ëÀÚ¿¡°Ô ÀÌ prefix¸¦ ¾²´Â ÀÌ¸§À» ¸¸µéÁö ¸»¶ó°í ±ÇÀåÇÕ´Ï´Ù.
-          (Áï, ÀÌ prefix·Î ½ÃÀÛÇÏ´Â ¸ðµç ÀÌ¸§Àº reservedµÈ privateÇÑ °ÍÀÌ¶ó°í
-          ¾Ë¸³´Ï´Ù.)
-        \item ÀÏ¹ÝÀûÀÎ ÄÚµå¿¡¼­ ¾²ÀÌÁö ¾Ê´Â, ¹ØÁÙ(`\verb+_+')·Î ½ÃÀÛÇÏ´Â
-          ÀÌ¸§À» »ç¿ëÇÕ´Ï´Ù. (Áú¹® \ql{1.29}¸¦ Âü°íÇØ¼­, »ç¿ëÀÚ¿Í ½Ã½ºÅÛ¿¡¼­
-          Á¦°øÇÏ´Â ÀÌ¸§µé°ú Ãæµ¹³ªÁö ¾Ê°Ô ÇÏ±â ¹Ù¶ø´Ï´Ù.)
+        \item í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë‚˜ íŒ¨í‚¤ì§€ì˜ ëª¨ë“  í•¨ìˆ˜ì™€ ë³€ìˆ˜ì— ì ë‹¹í•œ prefix ì´ë¦„ì„ 
+	  ë¶™ì´ê³ , ì‚¬ìš©ìžì—ê²Œ ì´ prefixë¥¼ ì“°ëŠ” ì´ë¦„ì„ ë§Œë“¤ì§€ ë§ë¼ê³  ê¶Œìž¥í•©ë‹ˆë‹¤.
+          (ì¦‰, ì´ prefixë¡œ ì‹œìž‘í•˜ëŠ” ëª¨ë“  ì´ë¦„ì€ reservedëœ privateí•œ ê²ƒì´ë¼ê³ 
+          ì•Œë¦½ë‹ˆë‹¤.)
+        \item ì¼ë°˜ì ì¸ ì½”ë“œì—ì„œ ì“°ì´ì§€ ì•ŠëŠ”, ë°‘ì¤„(`\verb+_+')ë¡œ ì‹œìž‘í•˜ëŠ”
+          ì´ë¦„ì„ ì‚¬ìš©í•©ë‹ˆë‹¤. (ì§ˆë¬¸ \ql{1.29}ë¥¼ ì°¸ê³ í•´ì„œ, ì‚¬ìš©ìžì™€ ì‹œìŠ¤í…œì—ì„œ
+          ì œê³µí•˜ëŠ” ì´ë¦„ë“¤ê³¼ ì¶©ëŒë‚˜ì§€ ì•Šê²Œ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
         \end{itemize}
 
-        \noindent ¾î¶², Æ¯º°ÇÑ linker¸¦ ½á¼­, ±âÁ¸ÀÇ ÀÌ¸§µéÀÇ scope¸¦ Á¦ÇÑÇØ¼­
-        Ãæµ¹À» ¹Ì¸® ¹æÁöÇÏ´Â ¹æ¹ýµµ ÀÖÀ» ¼ö ÀÖÁö¸¸, C ¾ð¾îÀÇ ¹üÀ§¸¦ ³Ñ¾î°¡´Â
-        ³»¿ëÀÌ¹Ç·Î ¿©±â¿¡¼­ ´Ù·çÁö ¾Ê½À´Ï´Ù.
+        \noindent ì–´ë–¤, íŠ¹ë³„í•œ linkerë¥¼ ì¨ì„œ, ê¸°ì¡´ì˜ ì´ë¦„ë“¤ì˜ scopeë¥¼ ì œí•œí•´ì„œ
+        ì¶©ëŒì„ ë¯¸ë¦¬ ë°©ì§€í•˜ëŠ” ë°©ë²•ë„ ìžˆì„ ìˆ˜ ìžˆì§€ë§Œ, C ì–¸ì–´ì˜ ë²”ìœ„ë¥¼ ë„˜ì–´ê°€ëŠ”
+        ë‚´ìš©ì´ë¯€ë¡œ ì—¬ê¸°ì—ì„œ ë‹¤ë£¨ì§€ ì•ŠìŠµë‹ˆë‹¤.
 \end{faq}
 
 \section{Storage Class}	\label{sec:storageclass}
 % from 1.10
-¿ì¸®´Â ¼±¾ðÀÇ µÎ °¡Áö ºÎºÐ, base type°ú declarator¸¦ ÀÌ¹Ì ´Ù·ç¾ú½À´Ï´Ù. 
-´ÙÀ½ ¸î Áú¹®¿¡¼­´Â storage class¿¡ ´ëÇÑ °ÍÀ» ´Ù·ì´Ï´Ù.  Storage class´Â
-¼±¾ðµÈ object³ª ÇÔ¼öÀÇ visibility¿Í lifetimeÀ» 
-(°¢°¢ ``scope''¿Í ``duration''ÀÌ¶ó°í ºÎ¸£±âµµ ÇÕ´Ï´Ù.) ´Ù·ì´Ï´Ù.
+ìš°ë¦¬ëŠ” ì„ ì–¸ì˜ ë‘ ê°€ì§€ ë¶€ë¶„, base typeê³¼ declaratorë¥¼ ì´ë¯¸ ë‹¤ë£¨ì—ˆìŠµë‹ˆë‹¤. 
+ë‹¤ìŒ ëª‡ ì§ˆë¬¸ì—ì„œëŠ” storage classì— ëŒ€í•œ ê²ƒì„ ë‹¤ë£¹ë‹ˆë‹¤.  Storage classëŠ”
+ì„ ì–¸ëœ objectë‚˜ í•¨ìˆ˜ì˜ visibilityì™€ lifetimeì„ 
+(ê°ê° ``scope''ì™€ ``duration''ì´ë¼ê³  ë¶€ë¥´ê¸°ë„ í•©ë‹ˆë‹¤.) ë‹¤ë£¹ë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.10} % 1.10 COMPLETE
-        \TT{static} ÇÔ¼ö³ª º¯¼ö¸¦ ¼±¾ðÇÒ ¶§, Ç×»ó \TT{static}ÀÌ¶ó°í ½á ÁÖ¾î¾ß
-        ÇÏ³ª¿ä?
+        \TT{static} í•¨ìˆ˜ë‚˜ ë³€ìˆ˜ë¥¼ ì„ ì–¸í•  ë•Œ, í•­ìƒ \TT{static}ì´ë¼ê³  ì¨ ì£¼ì–´ì•¼
+        í•˜ë‚˜ìš”?
 \A
-        ¾ð¾î Ç¥ÁØ¿¡¼­´Â Ç×»ó ½á ÁÙ °ÍÀ» ¿ä±¸ÇÏÁö´Â ¾Ê½À´Ï´Ù. (°¡Àå Áß¿äÇÑ 
-        °ÍÀº Ã¹ ¼±¾ð¿¡ \TT{static}À» ½á ÁÖ´Â °ÍÀÔ´Ï´Ù.) ÇÏÁö¸¸ ±ÔÄ¢ÀÌ Á¶±Ý
-        º¹ÀâÇÏ°Ô ¾ôÇôÀÖ°í, ÇÔ¼ö³Ä º¯¼ö³Ä¿¡ µû¶ó Á¶±Ý¾¿ ´Ù¸¨´Ï´Ù. (°Ô´Ù°¡ ÀÌ
-        ¹®Á¦¿¡ ÀÖ¾î¼­ ÇöÁ¸ÇÏ´Â ÄÚµåµµ ³Ê¹«³ªµµ ´Ù¾çÇÕ´Ï´Ù.)
-        µû¶ó¼­ °¡Àå ¾ÈÀüÇÑ ¹æ¹ýÀº, ¸ðµç Á¤ÀÇ¿Í ¼±¾ð¿¡¼­ Ç×»ó \TT{static}À»
-        ½á ÁÖ´Â °ÍÀÔ´Ï´Ù.
+        ì–¸ì–´ í‘œì¤€ì—ì„œëŠ” í•­ìƒ ì¨ ì¤„ ê²ƒì„ ìš”êµ¬í•˜ì§€ëŠ” ì•ŠìŠµë‹ˆë‹¤. (ê°€ìž¥ ì¤‘ìš”í•œ 
+        ê²ƒì€ ì²« ì„ ì–¸ì— \TT{static}ì„ ì¨ ì£¼ëŠ” ê²ƒìž…ë‹ˆë‹¤.) í•˜ì§€ë§Œ ê·œì¹™ì´ ì¡°ê¸ˆ
+        ë³µìž¡í•˜ê²Œ ì–½í˜€ìžˆê³ , í•¨ìˆ˜ëƒ ë³€ìˆ˜ëƒì— ë”°ë¼ ì¡°ê¸ˆì”© ë‹¤ë¦…ë‹ˆë‹¤. (ê²Œë‹¤ê°€ ì´
+        ë¬¸ì œì— ìžˆì–´ì„œ í˜„ì¡´í•˜ëŠ” ì½”ë“œë„ ë„ˆë¬´ë‚˜ë„ ë‹¤ì–‘í•©ë‹ˆë‹¤.)
+        ë”°ë¼ì„œ ê°€ìž¥ ì•ˆì „í•œ ë°©ë²•ì€, ëª¨ë“  ì •ì˜ì™€ ì„ ì–¸ì—ì„œ í•­ìƒ \TT{static}ì„
+        ì¨ ì£¼ëŠ” ê²ƒìž…ë‹ˆë‹¤.
 \R
         \cite{ansi} \S\ 3.1.2.2 \\
         \cite{c89} \S\ 6.1.2.2 \\
@@ -458,10 +458,10 @@ can more accurately catch any error that do occur.
 
 \begin{faq}
 \Q{1.11} % 1.11 
-	ÇÔ¼ö ¼±¾ð¿¡¼­ \TT{extern}ÀÌ ÀÇ¹ÌÇÏ´Â °Ô ¹«¾ùÀÎ°¡¿ä?
+	í•¨ìˆ˜ ì„ ì–¸ì—ì„œ \TT{extern}ì´ ì˜ë¯¸í•˜ëŠ” ê²Œ ë¬´ì—‡ì¸ê°€ìš”?
 \A 
-	ÀÌ ÇÔ¼öÀÇ Á¤ÀÇ°¡ ´Ù¸¥ ¼Ò½º ÆÄÀÏ¿¡ ÀÖÀ» ¼ö ÀÖ´Ù´Â °ÍÀ» ¾Ë·ÁÁÖ´Â
-	´Ü¼øÇÑ ½ºÅ¸ÀÏÀûÀÎ ¹®Á¦ÀÔ´Ï´Ù.  µû¶ó¼­ ´ÙÀ½ µÎ ÁÙÀÇ Â÷ÀÌ´Â ¾ø½À´Ï´Ù:
+	ì´ í•¨ìˆ˜ì˜ ì •ì˜ê°€ ë‹¤ë¥¸ ì†ŒìŠ¤ íŒŒì¼ì— ìžˆì„ ìˆ˜ ìžˆë‹¤ëŠ” ê²ƒì„ ì•Œë ¤ì£¼ëŠ”
+	ë‹¨ìˆœí•œ ìŠ¤íƒ€ì¼ì ì¸ ë¬¸ì œìž…ë‹ˆë‹¤.  ë”°ë¼ì„œ ë‹¤ìŒ ë‘ ì¤„ì˜ ì°¨ì´ëŠ” ì—†ìŠµë‹ˆë‹¤:
 
 \begin{verbatim}
   extern int f();
@@ -476,10 +476,10 @@ can more accurately catch any error that do occur.
 
 \begin{faq}
 \Q{1.12} % 1.12
-	\TT{auto} Å°¿öµå´Â ¾îµð¿¡ ¾²ÀÌ³ª¿ä?
+	\TT{auto} í‚¤ì›Œë“œëŠ” ì–´ë””ì— ì“°ì´ë‚˜ìš”?
 \A 
-	ÀüÇô ¾²ÀÌÁö ¾Ê½À´Ï´Ù.  ÀÌ´Â ¿À·¡µÈ(archaic) ¹®¹ý¿¡ ¾²ÀÌ´Â °ÍÀ¸·Î
-	ÇöÀç¿¡´Â ¾²ÀÌÁö ¾Ê½À´Ï´Ù.  Áú¹® \ql{20.37}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì „í˜€ ì“°ì´ì§€ ì•ŠìŠµë‹ˆë‹¤.  ì´ëŠ” ì˜¤ëž˜ëœ(archaic) ë¬¸ë²•ì— ì“°ì´ëŠ” ê²ƒìœ¼ë¡œ
+	í˜„ìž¬ì—ëŠ” ì“°ì´ì§€ ì•ŠìŠµë‹ˆë‹¤.  ì§ˆë¬¸ \ql{20.37}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
 \R
 	\cite{kr1} \S\ A8.1 \page{193} \\
@@ -489,32 +489,32 @@ can more accurately catch any error that do occur.
 
 \section{Typedefs}	\label{sec:typedef}
 % from 1.13
-\TT{typedef}°¡ ¹®¹ýÀûÀ¸·Î´Â storage classÀÌÁö¸¸, ÀÌ Å°¿öµå´Â 
-ÀÌ¸§ÀÌ ¾Ë·ÁÁÖµí, »õ·Î¿î type ÀÌ¸§À» Á¤ÀÇÇÏ´Â µ¥¿¡
-¾²ÀÔ´Ï´Ù.
+\TT{typedef}ê°€ ë¬¸ë²•ì ìœ¼ë¡œëŠ” storage classì´ì§€ë§Œ, ì´ í‚¤ì›Œë“œëŠ” 
+ì´ë¦„ì´ ì•Œë ¤ì£¼ë“¯, ìƒˆë¡œìš´ type ì´ë¦„ì„ ì •ì˜í•˜ëŠ” ë°ì—
+ì“°ìž…ë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.13} % 1.13 COMPLETE
-        »õ Å¸ÀÔÀ» ¸¸µé¶§, typedef¸¦ ¾²´Â °ÍÇÏ°í, ¸ÅÅ©·Î¸¦ ¾²´Â °ÍÇÏ°í ¹«½¼ 
-        Â÷ÀÌ°¡ ÀÖÁÒ?
+        ìƒˆ íƒ€ìž…ì„ ë§Œë“¤ë•Œ, typedefë¥¼ ì“°ëŠ” ê²ƒí•˜ê³ , ë§¤í¬ë¡œë¥¼ ì“°ëŠ” ê²ƒí•˜ê³  ë¬´ìŠ¨ 
+        ì°¨ì´ê°€ ìžˆì£ ?
 \A
-        ÀÏ¹ÝÀûÀ¸·Î, typedef¸¦ ¾²´Â °ÍÀÌ ´õ ÁÁ½À´Ï´Ù. ¿Ö³ÄÇÏ¸é Æ÷ÀÎÅÍ Å¸ÀÔÀ»
-        ¾µ ¶§ ±× Â÷ÀÌ°¡ µå·¯³³´Ï´Ù:
+        ì¼ë°˜ì ìœ¼ë¡œ, typedefë¥¼ ì“°ëŠ” ê²ƒì´ ë” ì¢‹ìŠµë‹ˆë‹¤. ì™œëƒí•˜ë©´ í¬ì¸í„° íƒ€ìž…ì„
+        ì“¸ ë•Œ ê·¸ ì°¨ì´ê°€ ë“œëŸ¬ë‚©ë‹ˆë‹¤:
 \begin{verbatim}
   typedef char *String_t;
   #define String_d char *
   String_t s1, s2;
   String_d s3, s4;
 \end{verbatim}
-        À§ÀÇ ¿¹¿¡¼­ º¸¸é, \TT{s1}, \TT{s2}, \TT{s3}´Â ¸ðµÎ \TT{char \*}
-        Å¸ÀÔÀÌÁö¸¸, \TT{s4}´Â \TT{char} Å¸ÀÔÀÔ´Ï´Ù. ¹°·Ð ÀÌ °á°ú´Â °³¹ßÀÚ°¡
-        ¿øÇÑ °ÍÀÌ ¾Æ´Õ´Ï´Ù.
+        ìœ„ì˜ ì˜ˆì—ì„œ ë³´ë©´, \TT{s1}, \TT{s2}, \TT{s3}ëŠ” ëª¨ë‘ \TT{char \*}
+        íƒ€ìž…ì´ì§€ë§Œ, \TT{s4}ëŠ” \TT{char} íƒ€ìž…ìž…ë‹ˆë‹¤. ë¬¼ë¡  ì´ ê²°ê³¼ëŠ” ê°œë°œìžê°€
+        ì›í•œ ê²ƒì´ ì•„ë‹™ë‹ˆë‹¤.
         (\seealso{\ql{1.5}})
 
-        ¸ÅÅ©·Î°¡ ÁÁÀº ÀÌÀ¯´Â, \verb+#ifdef+¸¦ ¾µ ¼ö ÀÖ±â ¶§¹®ÀÔ´Ï´Ù. 
-        (\seealso{\ql{10.15}}) ¹Ý¸é¿¡ typedef´Â ¶Ç ½ºÄÚÇÁ ±ÔÄ¢À» Àß 
-        µû¸¥´Ù´Â ÀåÁ¡ÀÌ ÀÖ½À´Ï´Ù. (Áï, ÇÔ¼ö³ª ºí·°ÀÇ ¾È¿¡¼­ ¼±¾ðµÇ¾î,
-        ±× ¾È¿¡¼­¸¸ ¿µÇâÀ» ÁÙ ¼ö ÀÖ½À´Ï´Ù.)
+        ë§¤í¬ë¡œê°€ ì¢‹ì€ ì´ìœ ëŠ”, \verb+#ifdef+ë¥¼ ì“¸ ìˆ˜ ìžˆê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤. 
+        (\seealso{\ql{10.15}}) ë°˜ë©´ì— typedefëŠ” ë˜ ìŠ¤ì½”í”„ ê·œì¹™ì„ ìž˜ 
+        ë”°ë¥¸ë‹¤ëŠ” ìž¥ì ì´ ìžˆìŠµë‹ˆë‹¤. (ì¦‰, í•¨ìˆ˜ë‚˜ ë¸”ëŸ­ì˜ ì•ˆì—ì„œ ì„ ì–¸ë˜ì–´,
+        ê·¸ ì•ˆì—ì„œë§Œ ì˜í–¥ì„ ì¤„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.)
 
         \seealso{\ql{1.17}, \ql{2.22}, \ql{11.11}, \ql{15.11}}
 \R
@@ -525,9 +525,9 @@ can more accurately catch any error that do occur.
 
 \begin{faq}
 \Q{1.14} % 1.14
-	Linked list Á¤ÀÇ°¡ ¾ÈµË´Ï´Ù.  ´ÙÀ½°ú °°ÀÌ Çß´Âµ¥ ÄÄÆÄÀÏ·¯´Â
-	°è¼Ó ¿¡·¯ ¸Þ½ÃÁö¸¸ Ãâ·ÂÇÕ´Ï´Ù.  C ¾ð¾î¿¡¼­ ±¸Á¶Ã¼´Â ÀÚ½Å¿¡ ´ëÇÑ
-	Æ÷ÀÎÅÍ¸¦ Æ÷ÇÔÇÒ ¼ö ¾ø´Â °ÍÀÎ°¡¿ä?
+	Linked list ì •ì˜ê°€ ì•ˆë©ë‹ˆë‹¤.  ë‹¤ìŒê³¼ ê°™ì´ í–ˆëŠ”ë° ì»´íŒŒì¼ëŸ¬ëŠ”
+	ê³„ì† ì—ëŸ¬ ë©”ì‹œì§€ë§Œ ì¶œë ¥í•©ë‹ˆë‹¤.  C ì–¸ì–´ì—ì„œ êµ¬ì¡°ì²´ëŠ” ìžì‹ ì— ëŒ€í•œ
+	í¬ì¸í„°ë¥¼ í¬í•¨í•  ìˆ˜ ì—†ëŠ” ê²ƒì¸ê°€ìš”?
 \begin{verbatim}
   typedef struct {
     char *item;
@@ -536,13 +536,13 @@ can more accurately catch any error that do occur.
 \end{verbatim}
 
 \A
-	C ¾ð¾î¿¡¼­ ±¸Á¶Ã¼´Â ÀÚ½Å¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ Æ÷ÇÔÇÒ ¼ö ÀÖ½À´Ï´Ù.
-	ÀÌ Áú¹®¿¡¼­ ¹®Á¦´Â \TT{NODEPTR}ÀÌ \TT{typedef} ÀÌ¸§ÀÌ°í, ÀÌ 
-	ÀÌ¸§À» »ç¿ëÇÑ ½ÃÁ¡¿¡¼­ ÀÌ ÀÌ¸§ÀÇ Á¤ÀÇ°¡ ³¡³ªÁö ¾Ê¾Ò´Ù´Â °ÍÀÔ´Ï´Ù.
-	ÀÌ ÄÚµå¸¦ °íÄ¡±â À§ÇØ¼­, ¸ÕÀú ±¸Á¶Ã¼¿¡ ÅÂ±×(tag, \TT{struct node})¸¦
-	¸¸µé°í ``\TT{next}'' ÇÊµå¸¦ ``\TT{struct node *}'' Å¸ÀÔÀ¸·Î 
-	¼±¾ðÇÕ´Ï´Ù.  ¶Ç´Â \TT{typedef} ¼±¾ð°ú ±¸Á¶Ã¼ Á¤ÀÇ¸¦ ºÐ¸®½ÃÄÑµµ
-	µË´Ï´Ù.  ´ÙÀ½ ÄÚµå°¡ ÇØ°á ¹æ¹ý Áß ÇÏ³ªÀÔ´Ï´Ù.
+	C ì–¸ì–´ì—ì„œ êµ¬ì¡°ì²´ëŠ” ìžì‹ ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ í¬í•¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+	ì´ ì§ˆë¬¸ì—ì„œ ë¬¸ì œëŠ” \TT{NODEPTR}ì´ \TT{typedef} ì´ë¦„ì´ê³ , ì´ 
+	ì´ë¦„ì„ ì‚¬ìš©í•œ ì‹œì ì—ì„œ ì´ ì´ë¦„ì˜ ì •ì˜ê°€ ëë‚˜ì§€ ì•Šì•˜ë‹¤ëŠ” ê²ƒìž…ë‹ˆë‹¤.
+	ì´ ì½”ë“œë¥¼ ê³ ì¹˜ê¸° ìœ„í•´ì„œ, ë¨¼ì € êµ¬ì¡°ì²´ì— íƒœê·¸(tag, \TT{struct node})ë¥¼
+	ë§Œë“¤ê³  ``\TT{next}'' í•„ë“œë¥¼ ``\TT{struct node *}'' íƒ€ìž…ìœ¼ë¡œ 
+	ì„ ì–¸í•©ë‹ˆë‹¤.  ë˜ëŠ” \TT{typedef} ì„ ì–¸ê³¼ êµ¬ì¡°ì²´ ì •ì˜ë¥¼ ë¶„ë¦¬ì‹œì¼œë„
+	ë©ë‹ˆë‹¤.  ë‹¤ìŒ ì½”ë“œê°€ í•´ê²° ë°©ë²• ì¤‘ í•˜ë‚˜ìž…ë‹ˆë‹¤.
 
 \begin{verbatim}
   struct node {
@@ -552,12 +552,12 @@ can more accurately catch any error that do occur.
   typedef struct node *NODEPTR;
 \end{verbatim}
 
-	ÀÌ ¹®Á¦¸¦ ÇØ°áÇÏ±â À§ÇØ Àû¾îµµ ¼¼ °¡ÁöÀÇ ´Ù¸¥ ¹æ¹ýÀÌ ÀÖ½À´Ï´Ù.
+	ì´ ë¬¸ì œë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´ ì ì–´ë„ ì„¸ ê°€ì§€ì˜ ë‹¤ë¥¸ ë°©ë²•ì´ ìžˆìŠµë‹ˆë‹¤.
 
-	¼­·Î¸¦ Æ÷ÇÔÇÏ´Â ÇÑ ½ÖÀÇ \TT{typedef}µÈ ±¸Á¶Ã¼¸¦ Á¤ÀÇÇÒ ¶§µµ ºñ½ÁÇÑ
-	¹®Á¦°¡ ¹ß»ýÇÒ ¼ö ÀÖÀ¸¸ç, À§¿Í °°Àº ¹æ½ÄÀ¸·Î ÇØ°áÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	ì„œë¡œë¥¼ í¬í•¨í•˜ëŠ” í•œ ìŒì˜ \TT{typedef}ëœ êµ¬ì¡°ì²´ë¥¼ ì •ì˜í•  ë•Œë„ ë¹„ìŠ·í•œ
+	ë¬¸ì œê°€ ë°œìƒí•  ìˆ˜ ìžˆìœ¼ë©°, ìœ„ì™€ ê°™ì€ ë°©ì‹ìœ¼ë¡œ í•´ê²°í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-	Áú¹® \ql{2.1}À» Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{2.1}ì„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 
 \R
 	\cite{kr1} \S\ 6.5 \page{101} \\
@@ -569,8 +569,8 @@ can more accurately catch any error that do occur.
 % TODO: Q 1.15
 \begin{faq}
 \Q{1.15} % 1.15
-        ¼­·Î ÂüÁ¶ÇÏ´Â ±¸Á¶Ã¼¸¦ ¸¸µé ¼ö ÀÖÀ»±î¿ä? ¾Æ·¡Ã³·³ ÄÚµå¸¦ 
-        ¸¸µé¾ú´Âµ¥ ÄÄÆÄÀÏ·¯°¡ \TT{BPTR}ÀÌ ¾ø´Ù°í ¿¡·¯¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+        ì„œë¡œ ì°¸ì¡°í•˜ëŠ” êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ ìˆ˜ ìžˆì„ê¹Œìš”? ì•„ëž˜ì²˜ëŸ¼ ì½”ë“œë¥¼ 
+        ë§Œë“¤ì—ˆëŠ”ë° ì»´íŒŒì¼ëŸ¬ê°€ \TT{BPTR}ì´ ì—†ë‹¤ê³  ì—ëŸ¬ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 \begin{verbatim}
   typedef struct {
     int afield;
@@ -583,9 +583,9 @@ can more accurately catch any error that do occur.
   } * BPTR;
 \end{verbatim}
 \A
-        Áú¹® \ql{1.14}Ã³·³, ÀÌ ¹®Á¦´Â ±¸Á¶Ã¼³ª Æ÷ÀÎÅÍ¿¡ ÀÖ´Â °ÍÀÌ ¾Æ´Ï¶ó, 
-        typedef¿¡ °üÇÑ °ÍÀÔ´Ï´Ù.
-        ¸ÕÀú, (typedef ¾øÀÌ) µÎ ±¸Á¶Ã¼ tag ÀÌ¸§À» ½á¼­ ´ÙÀ½°ú °°ÀÌ ¸¸µì´Ï´Ù:
+        ì§ˆë¬¸ \ql{1.14}ì²˜ëŸ¼, ì´ ë¬¸ì œëŠ” êµ¬ì¡°ì²´ë‚˜ í¬ì¸í„°ì— ìžˆëŠ” ê²ƒì´ ì•„ë‹ˆë¼, 
+        typedefì— ê´€í•œ ê²ƒìž…ë‹ˆë‹¤.
+        ë¨¼ì €, (typedef ì—†ì´) ë‘ êµ¬ì¡°ì²´ tag ì´ë¦„ì„ ì¨ì„œ ë‹¤ìŒê³¼ ê°™ì´ ë§Œë“­ë‹ˆë‹¤:
 \begin{verbatim}
   struct a {
     int afield;
@@ -597,23 +597,23 @@ can more accurately catch any error that do occur.
     struct a *apointer;
   };
 \end{verbatim}
-        ±×·¯¸é, ÄÄÆÄÀÏ·¯´Â, ¾ÆÁ÷ (ÀÚ¼¼È÷ ¸»ÇØ, ¾ÆÁ÷ `incomplete'ÇÑ ±¸Á¶Ã¼ÀÎ)
-        \TT{struct b}¿¡ ´ëÇØ¼­ Àß ¸ð¸£Áö¸¸ \TT{struct a} ¾È¿¡¼­ 
-        \TT{struct b} Å¸ÀÔÀ» °¡¸®Å°´Â \TT{struct b *bpointer}¸¦ ¾²´Â °ÍÀ»
-        Çã¶ôÇÕ´Ï´Ù. ¶§¶§·Î ´ÙÀ½°ú °°ÀÌ ¸ÕÀú ¼±¾ðÇØ ÁÖ´Â °ÍÀÌ ÇÊ¿äÇÕ´Ï´Ù:
+        ê·¸ëŸ¬ë©´, ì»´íŒŒì¼ëŸ¬ëŠ”, ì•„ì§ (ìžì„¸ížˆ ë§í•´, ì•„ì§ `incomplete'í•œ êµ¬ì¡°ì²´ì¸)
+        \TT{struct b}ì— ëŒ€í•´ì„œ ìž˜ ëª¨ë¥´ì§€ë§Œ \TT{struct a} ì•ˆì—ì„œ 
+        \TT{struct b} íƒ€ìž…ì„ ê°€ë¦¬í‚¤ëŠ” \TT{struct b *bpointer}ë¥¼ ì“°ëŠ” ê²ƒì„
+        í—ˆë½í•©ë‹ˆë‹¤. ë•Œë•Œë¡œ ë‹¤ìŒê³¼ ê°™ì´ ë¨¼ì € ì„ ì–¸í•´ ì£¼ëŠ” ê²ƒì´ í•„ìš”í•©ë‹ˆë‹¤:
 \begin{verbatim}
   struct b;
 \end{verbatim}
         This empty declaration masks the pair of structure declarations
         (if in an inner scope) from a different \TT{struct b} in an outer
-        scope. À§¿Í °°ÀÌ µÎ ±¸Á¶Ã¼¸¦ tag ÀÌ¸§°ú °°ÀÌ ¼±¾ðÇÑ ´ÙÀ½, ´ÙÀ½°ú 
-        °°ÀÌ µû·Î typedef¸¦ ¸¸µé ¼ö ÀÖ½À´Ï´Ù:
+        scope. ìœ„ì™€ ê°™ì´ ë‘ êµ¬ì¡°ì²´ë¥¼ tag ì´ë¦„ê³¼ ê°™ì´ ì„ ì–¸í•œ ë‹¤ìŒ, ë‹¤ìŒê³¼ 
+        ê°™ì´ ë”°ë¡œ typedefë¥¼ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   typedef struct a *APTR;
   typedef struct b *BPTR;
 \end{verbatim}
-        ¸â¹ö Æ÷ÀÎÅÍ¿¡ typedef ÀÌ¸§À» ¾²±â À§ÇØ, ´ÙÀ½°ú °°ÀÌ typedef ÀÌ¸§À» 
-        ¸ÕÀú ¼±¾ðÇÒ ¼öµµ ÀÖ½À´Ï´Ù:
+        ë©¤ë²„ í¬ì¸í„°ì— typedef ì´ë¦„ì„ ì“°ê¸° ìœ„í•´, ë‹¤ìŒê³¼ ê°™ì´ typedef ì´ë¦„ì„ 
+        ë¨¼ì € ì„ ì–¸í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   typedef struct a *APTR;
   typedef struct b *BPTR;
@@ -638,27 +638,27 @@ can more accurately catch any error that do occur.
 % TODO: Q 1.16
 \begin{faq}
 \Q{1.16} % 1.16 COMPLETE
-        ´ÙÀ½ µÎ ¼±¾ðÀº ¹«¾ùÀÌ ¼­·Î ´Ù¸¥°¡¿ä?
+        ë‹¤ìŒ ë‘ ì„ ì–¸ì€ ë¬´ì—‡ì´ ì„œë¡œ ë‹¤ë¥¸ê°€ìš”?
 \begin{verbatim}
   struct x1 { ... };
   typedef struct { ... };
 \end{verbatim}
 \A
-        Áú¹® \ql{2.1}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{2.1}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.17} % 1.17 COMPLETE
-        ``\TT{typedef int (*funcptr)();}''Àº ¹«½¼ ¶æÀÎ°¡¿ä?
+        ``\TT{typedef int (*funcptr)();}''ì€ ë¬´ìŠ¨ ëœ»ì¸ê°€ìš”?
 \A
-        typedef ÀÌ¸§ÀÎ \TT{funcptr}À» Á¤ÀÇÇÕ´Ï´Ù. \TT{funcptr}Àº
-        ¿©±â¿¡¼­, ÀÓÀÇÀÇ °¹¼öÀÇ ÀÎÀÚ¸¦ ¹Þ°í \TT{int}¸¦ ¸®ÅÏÇÏ´Â 
-        ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍÀÔ´Ï´Ù. ¿¹¸¦ µé¾î ´ÙÀ½°ú °°ÀÌ ÇÏ³ª ÀÌ»óÀÇ ÇÔ¼ö¿¡
-        ´ëÇÑ Æ÷ÀÎÅÍ¸¦ ¼±¾ðÇÒ ¼ö ÀÖ½À´Ï´Ù:
+        typedef ì´ë¦„ì¸ \TT{funcptr}ì„ ì •ì˜í•©ë‹ˆë‹¤. \TT{funcptr}ì€
+        ì—¬ê¸°ì—ì„œ, ìž„ì˜ì˜ ê°¯ìˆ˜ì˜ ì¸ìžë¥¼ ë°›ê³  \TT{int}ë¥¼ ë¦¬í„´í•˜ëŠ” 
+        í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°ìž…ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ë‹¤ìŒê³¼ ê°™ì´ í•˜ë‚˜ ì´ìƒì˜ í•¨ìˆ˜ì—
+        ëŒ€í•œ í¬ì¸í„°ë¥¼ ì„ ì–¸í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   funcptr pf1, pf2;
 \end{verbatim}
-        À§ ¼±¾ðÀº ¾Æ·¡¿Í ¿ÏÀüÈ÷ °°Àº ¶æÀÌÁö¸¸, Á» ´õ º¸±â ½±½À´Ï´Ù:
+        ìœ„ ì„ ì–¸ì€ ì•„ëž˜ì™€ ì™„ì „ížˆ ê°™ì€ ëœ»ì´ì§€ë§Œ, ì¢€ ë” ë³´ê¸° ì‰½ìŠµë‹ˆë‹¤:
 \begin{verbatim}
   int (*pf1)(), (*pf2)();
 \end{verbatim}
@@ -671,9 +671,9 @@ can more accurately catch any error that do occur.
 
 \section{The \TT{const} qualifier}	\label{sec:const}
 % from 1.18
-C ¾ð¾î ¼±¾ð¿¡¼­´Â type qualifier¶ó´Â °Ô ÀÖÀ¸¸ç, ÀÌ´Â ANSI C¿¡¼­
-»õ·Î Ãß°¡µÈ °ÍÀÔ´Ï´Ù.  Qualifier¿¡ °üÇÑ Áú¹®Àº Chapter~\ref{chap:standard}¿¡¼­
-´Ù·ì´Ï´Ù.
+C ì–¸ì–´ ì„ ì–¸ì—ì„œëŠ” type qualifierë¼ëŠ” ê²Œ ìžˆìœ¼ë©°, ì´ëŠ” ANSI Cì—ì„œ
+ìƒˆë¡œ ì¶”ê°€ëœ ê²ƒìž…ë‹ˆë‹¤.  Qualifierì— ê´€í•œ ì§ˆë¬¸ì€ Chapter~\ref{chap:standard}ì—ì„œ
+ë‹¤ë£¹ë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.18} % 1.18
@@ -685,57 +685,57 @@ C ¾ð¾î ¼±¾ð¿¡¼­´Â type qualifier¶ó´Â °Ô ÀÖÀ¸¸ç, ÀÌ´Â ANSI C¿¡¼­
         Why is \TT{p} turning out \TT{const} instead of the characters
         pointed to?
 \A
-        Áú¹® \ql{11.11}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{11.11}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.19} % 1.19 COMPLETE
-        ¾Æ·¡¿Í °°ÀÌ ¹è¿­À» ÃÊ±âÈ­ÇÏ´Âµ¥ ¿Ö \TT{const} °ªÀ» ¾µ ¼ö ¾ø´Â °ÍÀÎ°¡¿ä?
+        ì•„ëž˜ì™€ ê°™ì´ ë°°ì—´ì„ ì´ˆê¸°í™”í•˜ëŠ”ë° ì™œ \TT{const} ê°’ì„ ì“¸ ìˆ˜ ì—†ëŠ” ê²ƒì¸ê°€ìš”?
 \begin{verbatim}
   const int n = 5;
   int a[n];
 \end{verbatim}
 \A
-        Áú¹® \ql{11.8}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{11.8}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.20} % 1.20
-        \TT{const char *p}, \TT{char const *p}, \TT{char * const p}°¡
-        ¼­·Î ¾î¶»°Ô ´Ù¸¥°¡¿ä?
+        \TT{const char *p}, \TT{char const *p}, \TT{char * const p}ê°€
+        ì„œë¡œ ì–´ë–»ê²Œ ë‹¤ë¥¸ê°€ìš”?
 \A
-        Áú¹® \ql{11.9}, \ql{1.21}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{11.9}, \ql{1.21}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \section{Complex Declarations}	\label{sec:complexdec}
 % from 1.21
-C ¾ð¾îÀÇ ¼±¾ðÀº ¾öÃ»³ª°Ô º¹ÀâÇØÁú ¼ö ÀÖ½À´Ï´Ù.
-ÀÏ´Ü ÀÌ ¾ÏÈ£?¸¦ Ç®¾î³¾ ¹æ¹ýÀ» ¹è¿ì¸é, ¹°·Ð ÀÌ·± º¹ÀâÇÑ ¼±¾ðÀº °ÅÀÇ ¾²ÀÌÁö
-¾ÊÁö¸¸, ¾î¶² ¼±¾ðÀÌ ³ª¿À´õ¶óµµ µÎ·Á¿öÇÏÁö ¾Ê°Ô µË´Ï´Ù.
+C ì–¸ì–´ì˜ ì„ ì–¸ì€ ì—„ì²­ë‚˜ê²Œ ë³µìž¡í•´ì§ˆ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ì¼ë‹¨ ì´ ì•”í˜¸?ë¥¼ í’€ì–´ë‚¼ ë°©ë²•ì„ ë°°ìš°ë©´, ë¬¼ë¡  ì´ëŸ° ë³µìž¡í•œ ì„ ì–¸ì€ ê±°ì˜ ì“°ì´ì§€
+ì•Šì§€ë§Œ, ì–´ë–¤ ì„ ì–¸ì´ ë‚˜ì˜¤ë”ë¼ë„ ë‘ë ¤ì›Œí•˜ì§€ ì•Šê²Œ ë©ë‹ˆë‹¤.
 
-¿©·¯ºÐÀÌ ÇÁ·Î±×·¥À» \verb+*(*(*a[N])())()+¿Í °°Àº declarator·Î
-¾ÏÈ£È­ÇÏ·Á´Â Ãë¹Ì°¡ ¾ø´Ù¸é, Áú¹® \ql{1.21}ÀÇ µÎ¹øÂ°¿Í °°ÀÌ \TT{typedef}¸¦ ½á¼­
-°£´ÜÇÏ°Ô ¸¸µé ¼ö ÀÖ½À´Ï´Ù.
+ì—¬ëŸ¬ë¶„ì´ í”„ë¡œê·¸ëž¨ì„ \verb+*(*(*a[N])())()+ì™€ ê°™ì€ declaratorë¡œ
+ì•”í˜¸í™”í•˜ë ¤ëŠ” ì·¨ë¯¸ê°€ ì—†ë‹¤ë©´, ì§ˆë¬¸ \ql{1.21}ì˜ ë‘ë²ˆì§¸ì™€ ê°™ì´ \TT{typedef}ë¥¼ ì¨ì„œ
+ê°„ë‹¨í•˜ê²Œ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 
 \begin{faq}
 \Q{1.21} % 1.21
-	¹®ÀÚ¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÏ´Â ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÏ´Â
-	ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ N °³·Î ÀÌ·ç¾îÁø ¹è¿­(array)À» ¾î¶»°Ô ¼±¾ðÇÏÁÒ?
+	ë¬¸ìžë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ë¥¼ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ ë¦¬í„´í•˜ëŠ”
+	í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„° N ê°œë¡œ ì´ë£¨ì–´ì§„ ë°°ì—´(array)ì„ ì–´ë–»ê²Œ ì„ ì–¸í•˜ì£ ?
 
 \T
-	Âü°í·Î ¿ø¹®Àº ´ÙÀ½°ú °°½À´Ï´Ù:
+	ì°¸ê³ ë¡œ ì›ë¬¸ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 \begin{quote}
 	How do I declare an array of N pointers to functions returning
 	pointers to functions returning pointers to characters?
 \end{quote}
 
 \A
-	´ÙÀ½°ú °°ÀÌ ¼¼ °¡Áö·Î ´äÇÒ ¼ö ÀÖ½À´Ï´Ù:
+	ë‹¤ìŒê³¼ ê°™ì´ ì„¸ ê°€ì§€ë¡œ ë‹µí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 
 \begin{itemize}
 	\item \verb+char *(*(*a[N])())();+
-	\item \TT{typedef}¸¦ ½á¼­ Â÷·Ê´ë·Î ¸¸µé¾î °¡¸é µË´Ï´Ù:
+	\item \TT{typedef}ë¥¼ ì¨ì„œ ì°¨ë¡€ëŒ€ë¡œ ë§Œë“¤ì–´ ê°€ë©´ ë©ë‹ˆë‹¤:
 \begin{verbatim}
   typedef char *pc;      /* pointer to char */
   typedef pc fpc();      /* function returning pointer
@@ -746,8 +746,8 @@ C ¾ð¾îÀÇ ¼±¾ðÀº ¾öÃ»³ª°Ô º¹ÀâÇØÁú ¼ö ÀÖ½À´Ï´Ù.
   pfpfpc a[N];           /* array of...  */
 \end{verbatim}
 
-	\item \TT{cdecl} ÇÁ·Î±×·¥À» ¾²¸é ¿µ¾î¸¦ C ¾ð¾î·Î, ¶Ç´Â C ¾ð¾î¸¦ ¿µ¾î·Î
-	º¯È¯ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	\item \TT{cdecl} í”„ë¡œê·¸ëž¨ì„ ì“°ë©´ ì˜ì–´ë¥¼ C ì–¸ì–´ë¡œ, ë˜ëŠ” C ì–¸ì–´ë¥¼ ì˜ì–´ë¡œ
+	ë³€í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 \begin{verbatim}
   cdecl> declare a as array of pointer to function
@@ -756,17 +756,17 @@ C ¾ð¾îÀÇ ¼±¾ðÀº ¾öÃ»³ª°Ô º¹ÀâÇØÁú ¼ö ÀÖ½À´Ï´Ù.
   char *(*(*a[])())()
 \end{verbatim}
 
-	\noindent \TT{cdecl}Àº º¹ÀâÇÑ ¼±¾ðÀÌ³ª Ä³½ºÆÃ¿¡ ´ëÇØ¼­µµ ¸¹Àº µµ¿òÀ»
-	ÁÝ´Ï´Ù.  Áú¹® \ql{18.1}À» Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+	\noindent \TT{cdecl}ì€ ë³µìž¡í•œ ì„ ì–¸ì´ë‚˜ ìºìŠ¤íŒ…ì— ëŒ€í•´ì„œë„ ë§Žì€ ë„ì›€ì„
+	ì¤ë‹ˆë‹¤.  ì§ˆë¬¸ \ql{18.1}ì„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 \end{itemize}
 
-	C ¾ð¾î¸¦ ¼³¸íÇÏ´Â ÁÁÀº Ã¥ÀÌ¶ó¸é ÀÌ·¯ÇÑ º¹ÀâÇÑ ¼±¾ð¿¡ ´ëÇÑ ³»¿ëÀÌ 
-	ÀÖ±â ¸¶·ÃÀÌ´Ï ÀÌ ºÎºÐÀ» ²À ÀÐ¾îº¸½Ã±â ¹Ù¶ø´Ï´Ù.
+	C ì–¸ì–´ë¥¼ ì„¤ëª…í•˜ëŠ” ì¢‹ì€ ì±…ì´ë¼ë©´ ì´ëŸ¬í•œ ë³µìž¡í•œ ì„ ì–¸ì— ëŒ€í•œ ë‚´ìš©ì´ 
+	ìžˆê¸° ë§ˆë ¨ì´ë‹ˆ ì´ ë¶€ë¶„ì„ ê¼­ ì½ì–´ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 
-	À§ÀÇ ¿¹¿¡¼­ ¾²ÀÎ ÇÔ¼ö Æ÷ÀÎÅÍ\trans{pointer-to-function} ¼±¾ðÀº ÆÄ¶ó¸ÞÅÍ
-	Å¸ÀÔ¿¡ ´ëÇÑ Á¤º¸¸¦ Æ÷ÇÔÇÏÁö ¾Ê¾Ò½À´Ï´Ù.  ¸¸¾à ÆÄ¶ó¸ÞÅÍ°¡ º¹ÀâÇÑ 
-	ÇÔ¼ö¶ó¸é ÀüÃ¼ ¼±¾ðÀº ¸Å¿ì ÀÐ±â ¾î·Æ½À´Ï´Ù  
-	(ÃÖ½Å ¹öÀüÀÇ \TT{cdecl}Àº ÀÌ °æ¿ì¿¡µµ µµ¿òÀÌ µË´Ï´Ù.)
+	ìœ„ì˜ ì˜ˆì—ì„œ ì“°ì¸ í•¨ìˆ˜ í¬ì¸í„°\trans{pointer-to-function} ì„ ì–¸ì€ íŒŒë¼ë©”í„°
+	íƒ€ìž…ì— ëŒ€í•œ ì •ë³´ë¥¼ í¬í•¨í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.  ë§Œì•½ íŒŒë¼ë©”í„°ê°€ ë³µìž¡í•œ 
+	í•¨ìˆ˜ë¼ë©´ ì „ì²´ ì„ ì–¸ì€ ë§¤ìš° ì½ê¸° ì–´ë µìŠµë‹ˆë‹¤  
+	(ìµœì‹  ë²„ì „ì˜ \TT{cdecl}ì€ ì´ ê²½ìš°ì—ë„ ë„ì›€ì´ ë©ë‹ˆë‹¤.)
 
 \R 
 	\cite{kr2} \S\ 5.12 \page{122} \\
@@ -776,32 +776,32 @@ C ¾ð¾îÀÇ ¼±¾ðÀº ¾öÃ»³ª°Ô º¹ÀâÇØÁú ¼ö ÀÖ½À´Ï´Ù.
 
 \begin{faq}
 \Q{1.22} % 1.22
-	°°Àº Å¸ÀÔÀÇ ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÏ´Â ÇÔ¼ö¸¦ ¼±¾ðÇÒ ¼ö
-	ÀÖ³ª¿ä? Àú´Â »óÅÂ ¸Ó½Å\trans{state machine}À» ¸¸µé°í, °¢ ÇÔ¼ö°¡
-	ÇÏ³ªÀÇ »óÅÂ¸¦ ³ªÅ¸³»°Ô ÇÑ ´ÙÀ½, ÀÌ ÇÔ¼ö°¡ ´ÙÀ½ »óÅÂ¸¦ ³ªÅ¸³»´Â
-	ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÏ°Ô ÇÏ·Á°í ÇÕ´Ï´Ù.  ±×·¯³ª ÀÌ·± ÇÔ¼ö¸¦ ¼±¾ðÇÒ
-	¹æ¹ýÀ» Ã£Áö ¸øÇÏ°í ÀÖ½À´Ï´Ù.
-\A	Á÷Á¢ ÇÒ ¼ö´Â ¾ø½À´Ï´Ù.  ÇÑ°¡Áö ¹æ¹ýÀº ÇÔ¼ö°¡ ÀÏ¹ÝÀûÀÎ\trans{generic}
-	ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÏ°Ô ÇÑ ´ÙÀ½, ÀÌ¸¦ ¿øÇÏ´Â Å¸ÀÔÀ¸·Î Ä³½ºÆÃÇÏ´Â °Í°ú 
-	¶Ç ´Ù¸¥ ¹æ¹ýÀ¸·Ð ÇÔ¼ö°¡ ¾î¶² ±¸Á¶Ã¼¸¦ ¸®ÅÏÇÏ°Ô ÇÏ°í, ±× ±¸Á¶Ã¼¿¡
-	ÀÌ Å¸ÀÔÀÇ ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ ÀúÀåÇÏ´Â ¹æ½ÄÀ» ¾µ ¼ö ÀÖ½À´Ï´Ù.
+	ê°™ì€ íƒ€ìž…ì˜ í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜ë¥¼ ì„ ì–¸í•  ìˆ˜
+	ìžˆë‚˜ìš”? ì €ëŠ” ìƒíƒœ ë¨¸ì‹ \trans{state machine}ì„ ë§Œë“¤ê³ , ê° í•¨ìˆ˜ê°€
+	í•˜ë‚˜ì˜ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ê²Œ í•œ ë‹¤ìŒ, ì´ í•¨ìˆ˜ê°€ ë‹¤ìŒ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ëŠ”
+	í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ë¦¬í„´í•˜ê²Œ í•˜ë ¤ê³  í•©ë‹ˆë‹¤.  ê·¸ëŸ¬ë‚˜ ì´ëŸ° í•¨ìˆ˜ë¥¼ ì„ ì–¸í• 
+	ë°©ë²•ì„ ì°¾ì§€ ëª»í•˜ê³  ìžˆìŠµë‹ˆë‹¤.
+\A	ì§ì ‘ í•  ìˆ˜ëŠ” ì—†ìŠµë‹ˆë‹¤.  í•œê°€ì§€ ë°©ë²•ì€ í•¨ìˆ˜ê°€ ì¼ë°˜ì ì¸\trans{generic}
+	í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ë¦¬í„´í•˜ê²Œ í•œ ë‹¤ìŒ, ì´ë¥¼ ì›í•˜ëŠ” íƒ€ìž…ìœ¼ë¡œ ìºìŠ¤íŒ…í•˜ëŠ” ê²ƒê³¼ 
+	ë˜ ë‹¤ë¥¸ ë°©ë²•ìœ¼ë¡  í•¨ìˆ˜ê°€ ì–´ë–¤ êµ¬ì¡°ì²´ë¥¼ ë¦¬í„´í•˜ê²Œ í•˜ê³ , ê·¸ êµ¬ì¡°ì²´ì—
+	ì´ íƒ€ìž…ì˜ í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ ì €ìž¥í•˜ëŠ” ë°©ì‹ì„ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 \end{faq}
 
 \section{Array Sizes}	\label{sec:arraysize}
 % from 1.23
 \begin{faq}
 \Q{1.23} % 1.23
-        Áö¿ª º¯¼ö³ª ÆÄ¶ó¸ÞÅÍ·Î ¹è¿­À» ¼±¾ðÇÒ ¶§, ±× Å©±â¸¦ µû·Î ÀÎÀÚ·Î ¹Þ¾Æ¼­
-        ¼±¾ðÇÒ ¼ö ÀÖÀ»±î¿ä?
+        ì§€ì—­ ë³€ìˆ˜ë‚˜ íŒŒë¼ë©”í„°ë¡œ ë°°ì—´ì„ ì„ ì–¸í•  ë•Œ, ê·¸ í¬ê¸°ë¥¼ ë”°ë¡œ ì¸ìžë¡œ ë°›ì•„ì„œ
+        ì„ ì–¸í•  ìˆ˜ ìžˆì„ê¹Œìš”?
 \A
-        °£´ÜÈ÷ ¸»ÇØ, ºÒ°¡´ÉÇÕ´Ï´Ù. Áú¹® \ql{6.15}, \ql{6.19}¸¦ Âü°íÇÏ±â
-        ¹Ù¶ø´Ï´Ù.
+        ê°„ë‹¨ížˆ ë§í•´, ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤. ì§ˆë¬¸ \ql{6.15}, \ql{6.19}ë¥¼ ì°¸ê³ í•˜ê¸°
+        ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.24} % 1.24 COMPLETE
-        ´ÙÀ½°ú °°ÀÌ, ÇÑ ÆÄÀÏ¿¡ \TT{extern} ¹è¿­À» ¸¸µé°í, ´Ù¸¥ ÆÄÀÏÀÌ ±×
-        ¹è¿­À» ¾²·Á°í ÇÕ´Ï´Ù. \TT{file2.c}¿¡¼­ ¿Ö \TT{sizeof} ¿¬»êÀÌ ¾ÈµÇ³ª¿ä?
+        ë‹¤ìŒê³¼ ê°™ì´, í•œ íŒŒì¼ì— \TT{extern} ë°°ì—´ì„ ë§Œë“¤ê³ , ë‹¤ë¥¸ íŒŒì¼ì´ ê·¸
+        ë°°ì—´ì„ ì“°ë ¤ê³  í•©ë‹ˆë‹¤. \TT{file2.c}ì—ì„œ ì™œ \TT{sizeof} ì—°ì‚°ì´ ì•ˆë˜ë‚˜ìš”?
 \begin{verbatim}
 file1.c:
   int array[] = { 1, 2, 3 };
@@ -813,12 +813,12 @@ file2.c:
 \end{verbatim}
       
 \A
-        Å©±â°¡ ¾Ë·ÁÁöÁö ¾ÊÀº, \TT{extern} ¹è¿­ ¼±¾ðÀº `incomplete type'ÀÔ´Ï´Ù.
-        µû·¯¼­ \TT{sizeof}°¡ Á¦´ë·Î µ¿ÀÛÇÒ ¼ö ¾ø½À´Ï´Ù. ¿Ö³ÄÇÏ¸é, ÄÄÆÄÀÏÇÒ ¶§,
-        ´Ù¸¥ ÆÄÀÏ¿¡ Á¤ÀÇµÇ¾î ÀÖ´Â ¹è¿­ÀÇ Å©±â¸¦ ¾Ë ¼ö ¾ø±â ¶§¹®ÀÔ´Ï´Ù. ÀÌ ¶§,
-        »ç¿ëÀÚ´Â ´ÙÀ½°ú °°ÀÌ ¼¼ °¡Áö ¹æ¹ýÀ» ¾µ ¼ö ÀÖ½À´Ï´Ù:
+        í¬ê¸°ê°€ ì•Œë ¤ì§€ì§€ ì•Šì€, \TT{extern} ë°°ì—´ ì„ ì–¸ì€ `incomplete type'ìž…ë‹ˆë‹¤.
+        ë”°ëŸ¬ì„œ \TT{sizeof}ê°€ ì œëŒ€ë¡œ ë™ìž‘í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ì™œëƒí•˜ë©´, ì»´íŒŒì¼í•  ë•Œ,
+        ë‹¤ë¥¸ íŒŒì¼ì— ì •ì˜ë˜ì–´ ìžˆëŠ” ë°°ì—´ì˜ í¬ê¸°ë¥¼ ì•Œ ìˆ˜ ì—†ê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤. ì´ ë•Œ,
+        ì‚¬ìš©ìžëŠ” ë‹¤ìŒê³¼ ê°™ì´ ì„¸ ê°€ì§€ ë°©ë²•ì„ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 \begin{enumerate}
-        \item º¯¼ö ÇÏ³ª¸¦ µû·Î µÎ¾î¼­, ±× ¹è¿­ÀÇ Å©±â·Î ÃÊ±âÈ­ÇÑ ´ÙÀ½ ¾¹´Ï´Ù:
+        \item ë³€ìˆ˜ í•˜ë‚˜ë¥¼ ë”°ë¡œ ë‘ì–´ì„œ, ê·¸ ë°°ì—´ì˜ í¬ê¸°ë¡œ ì´ˆê¸°í™”í•œ ë‹¤ìŒ ì”ë‹ˆë‹¤:
 \begin{verbatim}
 file1.c:
   int array[] = { 1, 2, 3};
@@ -832,8 +832,8 @@ file2.c:
 \end{verbatim}
         \seealso{\ql{6.23}}
 
-        \item ¹è¿­ÀÇ Å©±â¸¦ ¸ÅÅ©·Î »ó¼ö·Î Á¤ÀÇÇØ µÎ°í ÀÌ¸¦ Á¤ÀÇ¿Í 
-          ¼±¾ð¿¡ ÇÔ²² »ç¿ëÇÕ´Ï´Ù:
+        \item ë°°ì—´ì˜ í¬ê¸°ë¥¼ ë§¤í¬ë¡œ ìƒìˆ˜ë¡œ ì •ì˜í•´ ë‘ê³  ì´ë¥¼ ì •ì˜ì™€ 
+          ì„ ì–¸ì— í•¨ê»˜ ì‚¬ìš©í•©ë‹ˆë‹¤:
 \begin{verbatim}
 file1.h:
   #define ARRAYSZ       3
@@ -848,10 +848,10 @@ file2.c:
   #include "file1.h"
   extern int array[ARRAYSZ];
 \end{verbatim}
-        \item ¹è¿­ÀÇ ¸¶Áö¸· ¿ä¼Ò °ªÀ¸·Î, ¾î¶² Æ¯Á¤ÇÑ °ªÀ» (sentinel
-          value, ÀÏ¹ÝÀûÀ¸·Î 0, -1, ¶Ç´Â \TT{NULL}) ½á¼­, (³ªÁß¿¡ ÇÊ¿äÇÏ¸é
-          ±× °ªÀÌ ³ª¿Ã¶§±îÁö ¼¼¾î¼­ ¹è¿­ÀÇ Å©±â¸¦ ¾Ë ¼ö ÀÖ°Ô) Æ¯º°È÷ Å©±â¿¡
-          ´ëÇÑ °ÍÀ» ÁöÁ¤ÇÏÁö ¾Êµµ·Ï ÇÕ´Ï´Ù.
+        \item ë°°ì—´ì˜ ë§ˆì§€ë§‰ ìš”ì†Œ ê°’ìœ¼ë¡œ, ì–´ë–¤ íŠ¹ì •í•œ ê°’ì„ (sentinel
+          value, ì¼ë°˜ì ìœ¼ë¡œ 0, -1, ë˜ëŠ” \TT{NULL}) ì¨ì„œ, (ë‚˜ì¤‘ì— í•„ìš”í•˜ë©´
+          ê·¸ ê°’ì´ ë‚˜ì˜¬ë•Œê¹Œì§€ ì„¸ì–´ì„œ ë°°ì—´ì˜ í¬ê¸°ë¥¼ ì•Œ ìˆ˜ ìžˆê²Œ) íŠ¹ë³„ížˆ í¬ê¸°ì—
+          ëŒ€í•œ ê²ƒì„ ì§€ì •í•˜ì§€ ì•Šë„ë¡ í•©ë‹ˆë‹¤.
 \begin{verbatim}
 file1.c:
   int array[] = { 1, 2, 3};
@@ -862,9 +862,9 @@ file2.c:
   extern int array[];
 \end{verbatim}
 \end{enumerate}
-        ¹°·Ð, ¹è¿­À» Á¤ÀÇÇÒ ¶§, ÃÊ±â°ªÀÌ ÀÌ¹Ì Á¤ÇØÁ® ÀÖ´À³Ä¿¡ µû¶ó 
-        ¼±ÅÃÀÌ ´Þ¶óÁú ¼ö ÀÖ½À´Ï´Ù.  ¸¸¾à¿¡ ÃÊ±â°ªÀÌ À§¿Í °°ÀÌ Á¤ÇØÁ® ÀÖ´Â
-        °æ¿ì¿¡´Â, µÎ¹øÂ° ¹æ½ÄÀº º°·Î ÁÁÁö ¾Ê½À´Ï´Ù.
+        ë¬¼ë¡ , ë°°ì—´ì„ ì •ì˜í•  ë•Œ, ì´ˆê¸°ê°’ì´ ì´ë¯¸ ì •í•´ì ¸ ìžˆëŠëƒì— ë”°ë¼ 
+        ì„ íƒì´ ë‹¬ë¼ì§ˆ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  ë§Œì•½ì— ì´ˆê¸°ê°’ì´ ìœ„ì™€ ê°™ì´ ì •í•´ì ¸ ìžˆëŠ”
+        ê²½ìš°ì—ëŠ”, ë‘ë²ˆì§¸ ë°©ì‹ì€ ë³„ë¡œ ì¢‹ì§€ ì•ŠìŠµë‹ˆë‹¤.
         \seealso{\ql{6.21}}
 \R
         \cite{hs} \S\ 7.5.2 \page{195}
@@ -876,27 +876,27 @@ how carefully constructed you thought they were. These questions uncover some
 of the reasons why. (Chapter~\ref{chap:sproblem} is a similar collection of 
 baffling run-time problems.)
 % from 1.25
-¶§¶§·Î ÄÄÆÄÀÏ·¯´Â ¿©·¯ºÐÀÌ ¾ó¸¶³ª ÁÖÀÇ±í°Ô ¼±¾ðÀ» ¸¸µé¾ú´ÂÁö¿¡ »ó°ü¾øÀÌ
-ºÒÆòÀ» ÇÏ±âµµ ÇÕ´Ï´Ù.  ÀÌ sectionÀÇ Áú¹®µéÀº ¿Ö ±×·±Áö ±× ÀÌÀ¯¸¦ ¼³¸íÇÕ´Ï´Ù
-(Chapter~\ref{chap:sproblem}¿¡¼­´Â ½ÇÇà ½Ã°£¿¡ ¹ß»ýÇÒ ¼ö ÀÖ´Â ÀÌ»óÇÑ ¹®Á¦µé¿¡
-´ëÇØ ¼³¸íÇÕ´Ï´Ù.)
+ë•Œë•Œë¡œ ì»´íŒŒì¼ëŸ¬ëŠ” ì—¬ëŸ¬ë¶„ì´ ì–¼ë§ˆë‚˜ ì£¼ì˜ê¹Šê²Œ ì„ ì–¸ì„ ë§Œë“¤ì—ˆëŠ”ì§€ì— ìƒê´€ì—†ì´
+ë¶ˆí‰ì„ í•˜ê¸°ë„ í•©ë‹ˆë‹¤.  ì´ sectionì˜ ì§ˆë¬¸ë“¤ì€ ì™œ ê·¸ëŸ°ì§€ ê·¸ ì´ìœ ë¥¼ ì„¤ëª…í•©ë‹ˆë‹¤
+(Chapter~\ref{chap:sproblem}ì—ì„œëŠ” ì‹¤í–‰ ì‹œê°„ì— ë°œìƒí•  ìˆ˜ ìžˆëŠ” ì´ìƒí•œ ë¬¸ì œë“¤ì—
+ëŒ€í•´ ì„¤ëª…í•©ë‹ˆë‹¤.)
 
 \begin{faq}
 \Q{1.25} % 1.25
-	Á¦ ÄÄÆÄÀÏ·¯´Â ÇÔ¼ö°¡ Áßº¹µÇ¾î Á¤ÀÇµÇ¾î ÀÖ´Ù°í ¿¡·¯ ¸Þ½ÃÁö¸¦
-	Ãâ·ÂÇÏÁö¸¸ Àú´Â ÇÑ¹ø¸¸ Á¤ÀÇÇß°í, ÇÑ ¹ø¸¸ È£ÃâÇß½À´Ï´Ù.  ¹«¾ùÀÌ
-	Àß¸øµÇ¾ú´ÂÁö ¸ð¸£°Ú±º¿ä.
+	ì œ ì»´íŒŒì¼ëŸ¬ëŠ” í•¨ìˆ˜ê°€ ì¤‘ë³µë˜ì–´ ì •ì˜ë˜ì–´ ìžˆë‹¤ê³  ì—ëŸ¬ ë©”ì‹œì§€ë¥¼
+	ì¶œë ¥í•˜ì§€ë§Œ ì €ëŠ” í•œë²ˆë§Œ ì •ì˜í–ˆê³ , í•œ ë²ˆë§Œ í˜¸ì¶œí–ˆìŠµë‹ˆë‹¤.  ë¬´ì—‡ì´
+	ìž˜ëª»ë˜ì—ˆëŠ”ì§€ ëª¨ë¥´ê² êµ°ìš”.
 
-\A	ÇÔ¼öÀÇ ¼±¾ðÀÌ, ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÒ ¶§±îÁö ³ªÅ¸³ªÁö ¾ÊÀ¸¸é, ÄÄÆÄÀÏ·¯´Â
-	ÀÌ ÇÔ¼ö°¡ \TT{int}¸¦ ¸®ÅÏÇÑ´Ù°í °¡Á¤ÇÕ´Ï´Ù.  ±× ´ÙÀ½ ³ªÁß¿¡ ½ÇÁ¦
-	¼±¾ðÀÌ³ª Á¤ÀÇ°¡ ³ª¿À°í, °¡Á¤°ú ÀÏÄ¡ÇÏÁö ¾ÊÀ» °æ¿ì ±×·¯ÇÑ ¿¡·¯°¡
-	¹ß»ýÇÕ´Ï´Ù.  Áï, \TT{int}°¡ ¾Æ´Ñ ´Ù¸¥ Å¸ÀÔÀ» ¸®ÅÏÇÏ´Â ÇÔ¼ö´Â È£ÃâÇÏ±â
-	Àü¿¡ ¹Ýµå½Ã ¼±¾ðÇØ¾ß ÇÕ´Ï´Ù.
+\A	í•¨ìˆ˜ì˜ ì„ ì–¸ì´, ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•  ë•Œê¹Œì§€ ë‚˜íƒ€ë‚˜ì§€ ì•Šìœ¼ë©´, ì»´íŒŒì¼ëŸ¬ëŠ”
+	ì´ í•¨ìˆ˜ê°€ \TT{int}ë¥¼ ë¦¬í„´í•œë‹¤ê³  ê°€ì •í•©ë‹ˆë‹¤.  ê·¸ ë‹¤ìŒ ë‚˜ì¤‘ì— ì‹¤ì œ
+	ì„ ì–¸ì´ë‚˜ ì •ì˜ê°€ ë‚˜ì˜¤ê³ , ê°€ì •ê³¼ ì¼ì¹˜í•˜ì§€ ì•Šì„ ê²½ìš° ê·¸ëŸ¬í•œ ì—ëŸ¬ê°€
+	ë°œìƒí•©ë‹ˆë‹¤.  ì¦‰, \TT{int}ê°€ ì•„ë‹Œ ë‹¤ë¥¸ íƒ€ìž…ì„ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜ëŠ” í˜¸ì¶œí•˜ê¸°
+	ì „ì— ë°˜ë“œì‹œ ì„ ì–¸í•´ì•¼ í•©ë‹ˆë‹¤.
 
-	¶Ç´Â ¾î¶² Çì´õ ÆÄÀÏ¿¡ ¼±¾ðµÇ¾î ÀÖ´Â ÇÔ¼ö ÀÌ¸§À» (Á¤¸»·Î) Áßº¹ÇØ¼­ ´Ù¸¥
-	ÇÔ¼ö·Î ¸¸µé¾úÀ» °æ¿ì¿¡ ÀÌ ¹®Á¦°¡ ¹ß»ýÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	ë˜ëŠ” ì–´ë–¤ í—¤ë” íŒŒì¼ì— ì„ ì–¸ë˜ì–´ ìžˆëŠ” í•¨ìˆ˜ ì´ë¦„ì„ (ì •ë§ë¡œ) ì¤‘ë³µí•´ì„œ ë‹¤ë¥¸
+	í•¨ìˆ˜ë¡œ ë§Œë“¤ì—ˆì„ ê²½ìš°ì— ì´ ë¬¸ì œê°€ ë°œìƒí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-	Áú¹® \ql{11.3}°ú Áú¹® \ql{15.1}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{11.3}ê³¼ ì§ˆë¬¸ \ql{15.1}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
 \R
 	\cite{kr1} \S\ 4.2 \page{70} \\
@@ -907,129 +907,129 @@ baffling run-time problems.)
 
 \begin{faq}
 \Q{1.25b}
-	\TT{main()}À» ¼±¾ðÇÏ´Â Á¤È®ÇÑ ¹æ¹ýÀÌ ±Ã±ÝÇÕ´Ï´Ù.
-        \TT{void main()}À¸·Î ÇØµµ ÁÁÀº°¡¿ä?
+	\TT{main()}ì„ ì„ ì–¸í•˜ëŠ” ì •í™•í•œ ë°©ë²•ì´ ê¶ê¸ˆí•©ë‹ˆë‹¤.
+        \TT{void main()}ìœ¼ë¡œ í•´ë„ ì¢‹ì€ê°€ìš”?
 \A
-	Áú¹® \ql{11.12a}¿Í \ql{11.15}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.  
-        (¾îÂ·µç \TT{void main()}Àº Æ²¸° ¼±¾ðÀÔ´Ï´Ù.)
+	ì§ˆë¬¸ \ql{11.12a}ì™€ \ql{11.15}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.  
+        (ì–´ì¨Œë“  \TT{void main()}ì€ í‹€ë¦° ì„ ì–¸ìž…ë‹ˆë‹¤.)
 \end{faq}
 
 \begin{faq}
 \Q{1.26} % 1.26 COMPLETE
-        Á¦°¡ º¸±â¿¡´Â Á¦´ë·Î µÇ¾î ÀÖ´Âµ¥, ÄÄÆÄÀÏ·¯°¡ ÇÔ¼ö prototypeÀÌ ¼­·Î
-        ´Ù¸£´Ù°í °æ°íÇÕ´Ï´Ù. ¿Ö ±×·²±î¿ä?
+        ì œê°€ ë³´ê¸°ì—ëŠ” ì œëŒ€ë¡œ ë˜ì–´ ìžˆëŠ”ë°, ì»´íŒŒì¼ëŸ¬ê°€ í•¨ìˆ˜ prototypeì´ ì„œë¡œ
+        ë‹¤ë¥´ë‹¤ê³  ê²½ê³ í•©ë‹ˆë‹¤. ì™œ ê·¸ëŸ´ê¹Œìš”?
 \A
-        Áú¹® \ql{11.3}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{11.3}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.27} % 1.27 COMPLETE
-        ÆÄÀÏ °¡Àå Ã¹ ºÎºÐ¿¡¼­ ÀÌ»óÇÑ ¹®¹ý ¿¡·¯°¡ ¹ß»ýÇÕ´Ï´Ù. ¿Ö ±×·²±î¿ä?
+        íŒŒì¼ ê°€ìž¥ ì²« ë¶€ë¶„ì—ì„œ ì´ìƒí•œ ë¬¸ë²• ì—ëŸ¬ê°€ ë°œìƒí•©ë‹ˆë‹¤. ì™œ ê·¸ëŸ´ê¹Œìš”?
 \A
-        Áú¹® \ql{10.9}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{10.9}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.28} % 1.28 COMPLETE
-        ´ÙÀ½°ú °°ÀÌ, Å« ¹è¿­À» ¸¸µé¾ú´Âµ¥, ÄÄÆÄÀÏ·¯°¡ ¿¡·¯¸¦ ³À´Ï´Ù.
-        ¿Ö ±×·²±î¿ä?
+        ë‹¤ìŒê³¼ ê°™ì´, í° ë°°ì—´ì„ ë§Œë“¤ì—ˆëŠ”ë°, ì»´íŒŒì¼ëŸ¬ê°€ ì—ëŸ¬ë¥¼ ëƒ…ë‹ˆë‹¤.
+        ì™œ ê·¸ëŸ´ê¹Œìš”?
 \begin{verbatim}
   double array[256][256];
 \end{verbatim}
 \A
-        Áú¹® \ql{19.23}, \ql{7.16}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{19.23}, \ql{7.16}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \section{Namespace}	\label{sec:namespace}
 % from 1.29
-ÀÌ¸§À» Áþ´Â °ÍÀÌ ¾î·Á¿ö º¸ÀÌÁö ¾ÊÀ» Áö ¸ô¶óµµ, »ç½Ç ¸Å¿ì ¾î·Á¿î ¹®Á¦ÀÔ´Ï´Ù.
-¹°·Ð ÇÔ¼ö³ª º¯¼öÀÇ ÀÌ¸§À» Áþ´Â °ÍÀÌ Ã¥ÀÌ³ª °Ç¹°, ¾Æ±âµéÀÇ ÀÌ¸§À» Áþ´Â °Íº¸´Ù´Â
-½±½À´Ï´Ù --- ¿©·¯ºÐÀº ¸¹Àº »ç¶÷µéÀÌ ¿©·¯ºÐ ÄÚµåÀÇ ÀÌ¸§µéÀ» ½È¾îÇÒ Áö ¸ð¸¥´Ù°í
-°í¹ÎÇÒ ÇÊ¿ä´Â ¾ø½À´Ï´Ù --- Àû¾îµµ °°Àº ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ´ÂÁö¸¸
-Á¶»çÇÏ¸é µË´Ï´Ù.
+ì´ë¦„ì„ ì§“ëŠ” ê²ƒì´ ì–´ë ¤ì›Œ ë³´ì´ì§€ ì•Šì„ ì§€ ëª°ë¼ë„, ì‚¬ì‹¤ ë§¤ìš° ì–´ë ¤ìš´ ë¬¸ì œìž…ë‹ˆë‹¤.
+ë¬¼ë¡  í•¨ìˆ˜ë‚˜ ë³€ìˆ˜ì˜ ì´ë¦„ì„ ì§“ëŠ” ê²ƒì´ ì±…ì´ë‚˜ ê±´ë¬¼, ì•„ê¸°ë“¤ì˜ ì´ë¦„ì„ ì§“ëŠ” ê²ƒë³´ë‹¤ëŠ”
+ì‰½ìŠµë‹ˆë‹¤ --- ì—¬ëŸ¬ë¶„ì€ ë§Žì€ ì‚¬ëžŒë“¤ì´ ì—¬ëŸ¬ë¶„ ì½”ë“œì˜ ì´ë¦„ë“¤ì„ ì‹«ì–´í•  ì§€ ëª¨ë¥¸ë‹¤ê³ 
+ê³ ë¯¼í•  í•„ìš”ëŠ” ì—†ìŠµë‹ˆë‹¤ --- ì ì–´ë„ ê°™ì€ ì´ë¦„ì´ ì´ë¯¸ ì“°ì´ê³  ìžˆëŠ”ì§€ë§Œ
+ì¡°ì‚¬í•˜ë©´ ë©ë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.29} % 1.29
-        ¾î¶² ÀÌ¸§ÀÌ ÀÌ¹Ì ¿¹¾àµÇ¾î ÀÖ°í(reserved), 
-        ¾î¶² ÀÌ¸§À» ¾ÈÀüÇÏ°Ô ¾µ ¼ö ÀÖ´ÂÁö
-        ¾Ë ¼ö ÀÖ´Â ¹æ¹ýÀÌ ÀÖÀ»±î¿ä?
+        ì–´ë–¤ ì´ë¦„ì´ ì´ë¯¸ ì˜ˆì•½ë˜ì–´ ìžˆê³ (reserved), 
+        ì–´ë–¤ ì´ë¦„ì„ ì•ˆì „í•˜ê²Œ ì“¸ ìˆ˜ ìžˆëŠ”ì§€
+        ì•Œ ìˆ˜ ìžˆëŠ” ë°©ë²•ì´ ìžˆì„ê¹Œìš”?
 \A
-	Namespace management´Â Ç×»ó Å« ÀÌ½´°¡ µË´Ï´Ù. ÀÌ ¹®Á¦´Â
-        --- Ç×»ó È®½ÇÇÏ°Ô ¹®Á¦¸¦ Á¤ÀÇÇÏ´Â °ÍÀº ºÒ°¡´ÉÇÏÁö¸¸ ---
-        ¿©·¯ºÐÀÌ ¼±ÅÃÇÑ ÀÌ¸§ÀÌ ½Ã½ºÅÛÀÌ ¾²°í ÀÖ´Â ÀÌ¸§°ú Ãæµ¹³ªÁö ¾Ê°Ô
-        ÇØ¼­ ``multiply defined''¶ó´Â ¿¡·¯°¡ ¹ß»ýÇÏÁö ¾Ê°Ô ÇÏ°Å³ª,
-        (Á» ´õ ³ª»Û »óÈ²ÀÌ¶ó ÇÒ ¼ö ÀÖ´Â) Ãæµ¹ÀÌ ³ª¼­, ±âÁ¸ ½Ã½ºÅÛ¿¡¼­
-        Á¤ÀÇÇÑ ³»¿ëÀ» ¹Ù²Ù¾î ¾û¸ÁÀÌ µÉ ¼ö ÀÖ´Â »óÈ²À» ¹æÁöÇÏÀÚ´Â ÃëÁöÀÔ´Ï´Ù.
-        ¶ÇÇÑ, Áö±ÝÀº Ãæµ¹ÀÌ ³ªÁö ¾ÊÁö¸¸, ³ªÁß¿¡ °³¹ßµÉ, ½Ã½ºÅÛ ¶óÀÌºê·¯¸®°¡
-        Á¦°øÇÏ´Â ÀÌ¸§°ú Ãæµ¹³ªÁö ¾Ê´Â´Ù´Â ¾î¶² º¸ÁõÀÌ ÇÊ¿äÇÒ °æ¿ìµµ
-        ÀÖ½À´Ï´Ù.\footnote{ÀÌ·¯ÇÑ ¿°·Á´Â, public symbol »Ó¸¸ ¾Æ´Ï¶ó,
-          ½Ã½ºÅÛÀÌ ³»ºÎÀûÀ¸·Î »ç¿ëÇÏ´Â internal, private symbol¿¡µµ
-          ÇØ´çÇÕ´Ï´Ù.}
-        (½ÇÁ¦·Î, »õ ÄÄÆÄÀÏ·¯¿¡¼­ ÀçÄÄÆÄÀÏÇßÀ» °æ¿ì¿¡ namespace¿Í ´Ù¸¥
-        ¹®Á¦µé ¶§¹®¿¡ build ½ÇÆÐÇÏ´Â °æ¿ì°¡ ¸¹½À´Ï´Ù.)
-        ±×·¡¼­, ANSI/ISO C Ç¥ÁØÀº »ç¿ëÀÚ¿Í ½Ã½ºÅÛ »çÀÌÀÇ µ¶¸³µÈ
-        namespace¿¡ ´ëÇÑ Á¤ÀÇ¿¡ ½Å°æÀ» ¸¹ÀÌ ¾²°í ÀÖ½À´Ï´Ù.
+	Namespace managementëŠ” í•­ìƒ í° ì´ìŠˆê°€ ë©ë‹ˆë‹¤. ì´ ë¬¸ì œëŠ”
+        --- í•­ìƒ í™•ì‹¤í•˜ê²Œ ë¬¸ì œë¥¼ ì •ì˜í•˜ëŠ” ê²ƒì€ ë¶ˆê°€ëŠ¥í•˜ì§€ë§Œ ---
+        ì—¬ëŸ¬ë¶„ì´ ì„ íƒí•œ ì´ë¦„ì´ ì‹œìŠ¤í…œì´ ì“°ê³  ìžˆëŠ” ì´ë¦„ê³¼ ì¶©ëŒë‚˜ì§€ ì•Šê²Œ
+        í•´ì„œ ``multiply defined''ë¼ëŠ” ì—ëŸ¬ê°€ ë°œìƒí•˜ì§€ ì•Šê²Œ í•˜ê±°ë‚˜,
+        (ì¢€ ë” ë‚˜ìœ ìƒí™©ì´ë¼ í•  ìˆ˜ ìžˆëŠ”) ì¶©ëŒì´ ë‚˜ì„œ, ê¸°ì¡´ ì‹œìŠ¤í…œì—ì„œ
+        ì •ì˜í•œ ë‚´ìš©ì„ ë°”ê¾¸ì–´ ì—‰ë§ì´ ë  ìˆ˜ ìžˆëŠ” ìƒí™©ì„ ë°©ì§€í•˜ìžëŠ” ì·¨ì§€ìž…ë‹ˆë‹¤.
+        ë˜í•œ, ì§€ê¸ˆì€ ì¶©ëŒì´ ë‚˜ì§€ ì•Šì§€ë§Œ, ë‚˜ì¤‘ì— ê°œë°œë , ì‹œìŠ¤í…œ ë¼ì´ë¸ŒëŸ¬ë¦¬ê°€
+        ì œê³µí•˜ëŠ” ì´ë¦„ê³¼ ì¶©ëŒë‚˜ì§€ ì•ŠëŠ”ë‹¤ëŠ” ì–´ë–¤ ë³´ì¦ì´ í•„ìš”í•  ê²½ìš°ë„
+        ìžˆìŠµë‹ˆë‹¤.\footnote{ì´ëŸ¬í•œ ì—¼ë ¤ëŠ”, public symbol ë¿ë§Œ ì•„ë‹ˆë¼,
+          ì‹œìŠ¤í…œì´ ë‚´ë¶€ì ìœ¼ë¡œ ì‚¬ìš©í•˜ëŠ” internal, private symbolì—ë„
+          í•´ë‹¹í•©ë‹ˆë‹¤.}
+        (ì‹¤ì œë¡œ, ìƒˆ ì»´íŒŒì¼ëŸ¬ì—ì„œ ìž¬ì»´íŒŒì¼í–ˆì„ ê²½ìš°ì— namespaceì™€ ë‹¤ë¥¸
+        ë¬¸ì œë“¤ ë•Œë¬¸ì— build ì‹¤íŒ¨í•˜ëŠ” ê²½ìš°ê°€ ë§ŽìŠµë‹ˆë‹¤.)
+        ê·¸ëž˜ì„œ, ANSI/ISO C í‘œì¤€ì€ ì‚¬ìš©ìžì™€ ì‹œìŠ¤í…œ ì‚¬ì´ì˜ ë…ë¦½ëœ
+        namespaceì— ëŒ€í•œ ì •ì˜ì— ì‹ ê²½ì„ ë§Žì´ ì“°ê³  ìžˆìŠµë‹ˆë‹¤.
 
-        ANSI ±ÔÄ¢¿¡ µû¶ó, ¿ì¸®´Â ¾î¶² identifier°¡ ¿¹¾à(reserved)µÇ¾î
-        ÀÖ´ÂÁö ¾Ë ¼ö ÀÖ½À´Ï´Ù. ¸ÕÀú, ¿ì¸®´Â identifier¿¡ ´ëÇÑ Æ¯Â¡¿¡ ´ëÇØ
-        ¾Ë¾Æ¾ß ÇÕ´Ï´Ù: ÀÌ Æ¯Â¡¿¡´Â scope, namespace, linkage°¡ ÀÖ½À´Ï´Ù.
-
-        \begin{itemize}
-          \item C ¾ð¾î´Â ³× °³ÀÇ scope°¡ ÀÖ½À´Ï´Ù. (Scope´Â idenitiferÀÇ ¼±¾ðÀÌ
-            ¾î¶² ¿µ¿ª¿¡¼­ ¿µÇâÀ» ¹ÌÄ¡´Â°¡¸¦ ³ªÅ¸³À´Ï´Ù.):
-            function, file, block, ±×¸®°í prototypeÀ¸·Î ±¸ºÐÇÕ´Ï´Ù.
-            (¸¶Áö¸· prototype scope´Â ÇÔ¼ö prototype ¼±¾ð¿¡¼­ ÆÄ¶ó¸ÞÅÍ
-            ¸®½ºÆ® ¾È¿¡¼­ Àû¿ëµÇ´Â °ÍÀÔ´Ï´Ù. Áú¹® \ql{11.5}¸¦ Âü°íÇÏ±â
-            ¹Ù¶ø´Ï´Ù.)
-
-          \item C ¾ð¾î´Â ³× °³ÀÇ namespace°¡ ÀÖ½À´Ï´Ù: (\TT{goto}¿¡¼­
-            ´ë»óÀ» ÁöÁ¤ÇÒ ¶§ ¾²ÀÌ´Â) label, (structure, union, enumeration¿¡¼­
-            ¾²ÀÌ¸ç, ÀÌµéÀº ÀÌ·Ð»ó ÃæºÐÈ÷ °¢°¢ ´Ù¸¥ namespace¸¦ °¡Áú ¼ö
-            ÀÖÁö¸¸, »ç½Ç ÇÏ³ªÀÇ namespace¸¦ °¡Áö´Â) tag, (°¢°¢ structure,
-            union¸¶´Ù µ¶¸³ÀûÀÎ) structure/union member, ±×¸®°í
-            ÀÌ ¿ÜÀÇ ´Ù¸¥ µ¥¿¡¼­ ¾²ÀÌ´Â º¸ÅëÀÇ identifier, Áï ``ordinary
-            identifier''¸¦ (¿¹¸¦ µé¾î ÇÔ¼ö, º¯¼ö, typedef
-            ÀÌ¸§, enumeration constant µî) À§ÇÑ namespace. ¶Ç, Ç¥ÁØ¿¡
-            ``namespace''¶ó°í ÁöÁ¤µÇ¾î ÀÖÁö´Â ¾ÊÁö¸¸, preprocessor macro¸¦
-            À§ÇÑ ÀÌ¸§µéÀÇ ÁýÇÕ(A set of names)ÀÌ ÀÖ½À´Ï´Ù; ÀÌ °ÍÀº ÄÄÆÄÀÏ·¯¿¡°Ô
-            Àü´ÞµÇ±â Àü, preprocessor¿¡ ÀÇÇØ ´Ù Ã³¸®µÇ±â ¶§¹®¿¡, ÄÄÆÄÀÏ·¯
-            ¿¡°Ô´Â ³× °³ÀÇ namespace°¡ ÁÖ¾îÁý´Ï´Ù.
-
-          \item Ç¥ÁØÀº ¼¼ °³ÀÇ ``linkage''¸¦ Á¤ÀÇÇÕ´Ï´Ù: external, internal,
-            ±×¸®°í noneÀÌ ÀÖ½À´Ï´Ù. (ÀÌ ¹®Á¦ÀÇ ´äº¯À» À§ÇØ ¸»ÇÏ¸é) External
-            linkage¿¡ ÇØ´çÇÏ´Â °ÍÀº (¸ðµç source file¿¡ °ÉÃÄ) global, 
-            non-static º¯¼ö¿Í ÇÔ¼öÀÔ´Ï´Ù. Internal linkage¿¡ ÇØ´çÇÏ´Â °ÍÀº
-            file scope¸¦ °¡Áö´Â static ÇÔ¼ö¿Í º¯¼öÀÔ´Ï´Ù. ±×¸®°í none,
-            Áï ``no linkage''¿¡ ÇØ´çÇÏ´Â °ÍÀº, enumeration constant³ª
-            typedef ÀÌ¸§ÀÔ´Ï´Ù.
-        \end{itemize}
-
-        \cite{ansi} \S\ 4.1.2.1 (\cite{c89} \S\ 7.1.3)¿¡ µû¸£¸é ´ÙÀ½°ú °°Àº
-        ±ÔÄ¢ÀÌ ÀÖ½À´Ï´Ù:
+        ANSI ê·œì¹™ì— ë”°ë¼, ìš°ë¦¬ëŠ” ì–´ë–¤ identifierê°€ ì˜ˆì•½(reserved)ë˜ì–´
+        ìžˆëŠ”ì§€ ì•Œ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë¨¼ì €, ìš°ë¦¬ëŠ” identifierì— ëŒ€í•œ íŠ¹ì§•ì— ëŒ€í•´
+        ì•Œì•„ì•¼ í•©ë‹ˆë‹¤: ì´ íŠ¹ì§•ì—ëŠ” scope, namespace, linkageê°€ ìžˆìŠµë‹ˆë‹¤.
 
         \begin{itemize}
-          \item[Rule 1] ¹ØÁÙ ¹®ÀÚ·Î ½ÃÀÛÇÏ°í, µÎ ¹øÂ° ¹®ÀÚ°¡ ¹ØÁÙÀÌ°Å³ª
-            ´ë¹®ÀÚÀÎ ¸ðµç ÀÌ¸§Àº (¸ðµç scope¿Í ¸ðµç namespace¿¡¼­) Ç×»ó
-            reserved »óÅÂÀÔ´Ï´Ù.
-          \item[Rule 2] ¹ØÁÙ·Î ½ÃÀÛÇÏ´Â ¸ðµç ÀÌ¸§Àº file scope¿¡¼­
-            ordinary identifier(Áï, ÇÔ¼ö, º¯¼ö, typedef, enumeration constant
-            µî)¸¦ À§ÇØ reserveµÇ¾î ÀÖ½À´Ï´Ù.
-          \item[Rule 3] ¾î¶² Ç¥ÁØ Çì´õ ÆÄÀÏÀ» Æ÷ÇÔÇßÀ» ¶§, ±× Çì´õ ÆÄÀÏ¿¡¼­
-            Á¦°øÇÏ´Â ¸ðµç ¸ÅÅ©·Î ÀÌ¸§Àº reserveµÇ¾î ÀÖ½À´Ï´Ù.
-          \item[Rule 4] (ÇÔ¼ö ÀÌ¸§Ã³·³) External linkage¸¦ °¡Áö´Â ¸ðµç
-            Ç¥ÁØ ¶óÀÌºê·¯¸® identifierµéÀº external linkage¸¦ À§ÇÑ
-            identifier·Î reserveµÇ¾î ÀÖ½À´Ï´Ù.
-          \item[Rule 5] Ç¥ÁØ Çì´õ ÆÄÀÏ¿¡ Á¤ÀÇµÇ¾î ÀÖ´Â, file scope¸¦
-            °¡Áö´Â typedef¿Í tag ÀÌ¸§Àº, ±× Çì´õ ÆÄÀÏÀ» Æ÷ÇÔ½ÃÄ×À» °æ¿ì,
-            (°°Àº namespace¸¦ Áö´Ï´Â) file scope¿¡¼­ ¸ðµÎ reserveµÇ¾î ÀÖ½À´Ï´Ù. 
-            (Ç¥ÁØÀº ½ÇÁ¦·Î ``each identifier with file scope,''¶ó°í ¸»ÇÏÁö¸¸,
-            ³×¹øÂ° ±ÔÄ¢¿¡ Àû¿ëµÇÁö ¾Ê´Â ÀÌ¸§Àº typedef¿Í tag ÀÌ¸§¹Û¿¡ ¾ø½À´Ï´Ù.)
+          \item C ì–¸ì–´ëŠ” ë„¤ ê°œì˜ scopeê°€ ìžˆìŠµë‹ˆë‹¤. (ScopeëŠ” idenitiferì˜ ì„ ì–¸ì´
+            ì–´ë–¤ ì˜ì—­ì—ì„œ ì˜í–¥ì„ ë¯¸ì¹˜ëŠ”ê°€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.):
+            function, file, block, ê·¸ë¦¬ê³  prototypeìœ¼ë¡œ êµ¬ë¶„í•©ë‹ˆë‹¤.
+            (ë§ˆì§€ë§‰ prototype scopeëŠ” í•¨ìˆ˜ prototype ì„ ì–¸ì—ì„œ íŒŒë¼ë©”í„°
+            ë¦¬ìŠ¤íŠ¸ ì•ˆì—ì„œ ì ìš©ë˜ëŠ” ê²ƒìž…ë‹ˆë‹¤. ì§ˆë¬¸ \ql{11.5}ë¥¼ ì°¸ê³ í•˜ê¸°
+            ë°”ëžë‹ˆë‹¤.)
+
+          \item C ì–¸ì–´ëŠ” ë„¤ ê°œì˜ namespaceê°€ ìžˆìŠµë‹ˆë‹¤: (\TT{goto}ì—ì„œ
+            ëŒ€ìƒì„ ì§€ì •í•  ë•Œ ì“°ì´ëŠ”) label, (structure, union, enumerationì—ì„œ
+            ì“°ì´ë©°, ì´ë“¤ì€ ì´ë¡ ìƒ ì¶©ë¶„ížˆ ê°ê° ë‹¤ë¥¸ namespaceë¥¼ ê°€ì§ˆ ìˆ˜
+            ìžˆì§€ë§Œ, ì‚¬ì‹¤ í•˜ë‚˜ì˜ namespaceë¥¼ ê°€ì§€ëŠ”) tag, (ê°ê° structure,
+            unionë§ˆë‹¤ ë…ë¦½ì ì¸) structure/union member, ê·¸ë¦¬ê³ 
+            ì´ ì™¸ì˜ ë‹¤ë¥¸ ë°ì—ì„œ ì“°ì´ëŠ” ë³´í†µì˜ identifier, ì¦‰ ``ordinary
+            identifier''ë¥¼ (ì˜ˆë¥¼ ë“¤ì–´ í•¨ìˆ˜, ë³€ìˆ˜, typedef
+            ì´ë¦„, enumeration constant ë“±) ìœ„í•œ namespace. ë˜, í‘œì¤€ì—
+            ``namespace''ë¼ê³  ì§€ì •ë˜ì–´ ìžˆì§€ëŠ” ì•Šì§€ë§Œ, preprocessor macroë¥¼
+            ìœ„í•œ ì´ë¦„ë“¤ì˜ ì§‘í•©(A set of names)ì´ ìžˆìŠµë‹ˆë‹¤; ì´ ê²ƒì€ ì»´íŒŒì¼ëŸ¬ì—ê²Œ
+            ì „ë‹¬ë˜ê¸° ì „, preprocessorì— ì˜í•´ ë‹¤ ì²˜ë¦¬ë˜ê¸° ë•Œë¬¸ì—, ì»´íŒŒì¼ëŸ¬
+            ì—ê²ŒëŠ” ë„¤ ê°œì˜ namespaceê°€ ì£¼ì–´ì§‘ë‹ˆë‹¤.
+
+          \item í‘œì¤€ì€ ì„¸ ê°œì˜ ``linkage''ë¥¼ ì •ì˜í•©ë‹ˆë‹¤: external, internal,
+            ê·¸ë¦¬ê³  noneì´ ìžˆìŠµë‹ˆë‹¤. (ì´ ë¬¸ì œì˜ ë‹µë³€ì„ ìœ„í•´ ë§í•˜ë©´) External
+            linkageì— í•´ë‹¹í•˜ëŠ” ê²ƒì€ (ëª¨ë“  source fileì— ê±¸ì³) global, 
+            non-static ë³€ìˆ˜ì™€ í•¨ìˆ˜ìž…ë‹ˆë‹¤. Internal linkageì— í•´ë‹¹í•˜ëŠ” ê²ƒì€
+            file scopeë¥¼ ê°€ì§€ëŠ” static í•¨ìˆ˜ì™€ ë³€ìˆ˜ìž…ë‹ˆë‹¤. ê·¸ë¦¬ê³  none,
+            ì¦‰ ``no linkage''ì— í•´ë‹¹í•˜ëŠ” ê²ƒì€, enumeration constantë‚˜
+            typedef ì´ë¦„ìž…ë‹ˆë‹¤.
         \end{itemize}
 
-        °Ô´Ù°¡, ¿©·¯ ¸ÅÅ©·Î ÀÌ¸§°ú Ç¥ÁØ ¶óÀÌºê·¯¸® identifier°¡ ¹Ì·¡
-        Ç¥ÁØÀ» À§ÇØ ¿¹¾àµÇ¾î ÀÖ±â ¶§¹®¿¡, ±ÔÄ¢ 3, 4¸¦ ´õ º¹ÀâÇÏ°Ô ¸¸µì´Ï´Ù.
-        Áï, ¾î¶² ÆÐÅÏÀ» °¡Áö´Â ÀÌ¸§µéÀÌ ¹Ì·¡¿¡ ³ª¿Ã Ç¥ÁØ¿¡ ¾²ÀÏ ¼ö ÀÖÀ¸¸ç,
-        ÀÌ ÆÐÅÏÀº ¾Æ·¡ Ç¥¿¡ ³ª¿Í ÀÖ½À´Ï´Ù:
+        \cite{ansi} \S\ 4.1.2.1 (\cite{c89} \S\ 7.1.3)ì— ë”°ë¥´ë©´ ë‹¤ìŒê³¼ ê°™ì€
+        ê·œì¹™ì´ ìžˆìŠµë‹ˆë‹¤:
+
+        \begin{itemize}
+          \item[Rule 1] ë°‘ì¤„ ë¬¸ìžë¡œ ì‹œìž‘í•˜ê³ , ë‘ ë²ˆì§¸ ë¬¸ìžê°€ ë°‘ì¤„ì´ê±°ë‚˜
+            ëŒ€ë¬¸ìžì¸ ëª¨ë“  ì´ë¦„ì€ (ëª¨ë“  scopeì™€ ëª¨ë“  namespaceì—ì„œ) í•­ìƒ
+            reserved ìƒíƒœìž…ë‹ˆë‹¤.
+          \item[Rule 2] ë°‘ì¤„ë¡œ ì‹œìž‘í•˜ëŠ” ëª¨ë“  ì´ë¦„ì€ file scopeì—ì„œ
+            ordinary identifier(ì¦‰, í•¨ìˆ˜, ë³€ìˆ˜, typedef, enumeration constant
+            ë“±)ë¥¼ ìœ„í•´ reserveë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+          \item[Rule 3] ì–´ë–¤ í‘œì¤€ í—¤ë” íŒŒì¼ì„ í¬í•¨í–ˆì„ ë•Œ, ê·¸ í—¤ë” íŒŒì¼ì—ì„œ
+            ì œê³µí•˜ëŠ” ëª¨ë“  ë§¤í¬ë¡œ ì´ë¦„ì€ reserveë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+          \item[Rule 4] (í•¨ìˆ˜ ì´ë¦„ì²˜ëŸ¼) External linkageë¥¼ ê°€ì§€ëŠ” ëª¨ë“ 
+            í‘œì¤€ ë¼ì´ë¸ŒëŸ¬ë¦¬ identifierë“¤ì€ external linkageë¥¼ ìœ„í•œ
+            identifierë¡œ reserveë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+          \item[Rule 5] í‘œì¤€ í—¤ë” íŒŒì¼ì— ì •ì˜ë˜ì–´ ìžˆëŠ”, file scopeë¥¼
+            ê°€ì§€ëŠ” typedefì™€ tag ì´ë¦„ì€, ê·¸ í—¤ë” íŒŒì¼ì„ í¬í•¨ì‹œì¼°ì„ ê²½ìš°,
+            (ê°™ì€ namespaceë¥¼ ì§€ë‹ˆëŠ”) file scopeì—ì„œ ëª¨ë‘ reserveë˜ì–´ ìžˆìŠµë‹ˆë‹¤. 
+            (í‘œì¤€ì€ ì‹¤ì œë¡œ ``each identifier with file scope,''ë¼ê³  ë§í•˜ì§€ë§Œ,
+            ë„¤ë²ˆì§¸ ê·œì¹™ì— ì ìš©ë˜ì§€ ì•ŠëŠ” ì´ë¦„ì€ typedefì™€ tag ì´ë¦„ë°–ì— ì—†ìŠµë‹ˆë‹¤.)
+        \end{itemize}
+
+        ê²Œë‹¤ê°€, ì—¬ëŸ¬ ë§¤í¬ë¡œ ì´ë¦„ê³¼ í‘œì¤€ ë¼ì´ë¸ŒëŸ¬ë¦¬ identifierê°€ ë¯¸ëž˜
+        í‘œì¤€ì„ ìœ„í•´ ì˜ˆì•½ë˜ì–´ ìžˆê¸° ë•Œë¬¸ì—, ê·œì¹™ 3, 4ë¥¼ ë” ë³µìž¡í•˜ê²Œ ë§Œë“­ë‹ˆë‹¤.
+        ì¦‰, ì–´ë–¤ íŒ¨í„´ì„ ê°€ì§€ëŠ” ì´ë¦„ë“¤ì´ ë¯¸ëž˜ì— ë‚˜ì˜¬ í‘œì¤€ì— ì“°ì¼ ìˆ˜ ìžˆìœ¼ë©°,
+        ì´ íŒ¨í„´ì€ ì•„ëž˜ í‘œì— ë‚˜ì™€ ìžˆìŠµë‹ˆë‹¤:
 
         \begin{tabular}{lp{7cm}} \hline
           \BF{Header}	& \BF{Future directions patterns} \\ \hline
@@ -1048,61 +1048,61 @@ baffling run-time problems.)
                                   \verb+wcs[a-z]*+ (functions) \\ \hline
         \end{tabular}
 
-        ¿©±â¿¡¼­ \TT{[A-Z]}´Â ``¾Æ¹« ´ë¹®ÀÚ''¸¦ ¶æÇÏ¸ç, \TT{[a-z]}´Â
-        ``¾Æ¹« ¼Ò¹®ÀÚ''¸¦ ¶æÇÏ¸ç, \TT{[0-9]}´Â ``¾Æ¹« ¼ýÀÚ''¸¦ ¶æÇÕ´Ï´Ù.
-        \TT{*}´Â ``¾Æ¹«°ÍÀÌ³ª ´Ù''¸¦ ¶æÇÕ´Ï´Ù. ¿¹¸¦ µé¾î, ¿©·¯ºÐÀÌ
-        \verb+<stdlib.h>+¸¦ Æ÷ÇÔ½ÃÄ×´Ù¸é, \TT{str}·Î ½ÃÀÛÇÏ°í, ±× ´ÙÀ½
-        ±ÛÀÚ°¡ ¼Ò¹®ÀÚ·Î ÀÌ·ç¾îÁø ¸ðµç external identifier´Â ¿¹¾àµÇ¾î ÀÖ½À´Ï´Ù.
+        ì—¬ê¸°ì—ì„œ \TT{[A-Z]}ëŠ” ``ì•„ë¬´ ëŒ€ë¬¸ìž''ë¥¼ ëœ»í•˜ë©°, \TT{[a-z]}ëŠ”
+        ``ì•„ë¬´ ì†Œë¬¸ìž''ë¥¼ ëœ»í•˜ë©°, \TT{[0-9]}ëŠ” ``ì•„ë¬´ ìˆ«ìž''ë¥¼ ëœ»í•©ë‹ˆë‹¤.
+        \TT{*}ëŠ” ``ì•„ë¬´ê²ƒì´ë‚˜ ë‹¤''ë¥¼ ëœ»í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, ì—¬ëŸ¬ë¶„ì´
+        \verb+<stdlib.h>+ë¥¼ í¬í•¨ì‹œì¼°ë‹¤ë©´, \TT{str}ë¡œ ì‹œìž‘í•˜ê³ , ê·¸ ë‹¤ìŒ
+        ê¸€ìžê°€ ì†Œë¬¸ìžë¡œ ì´ë£¨ì–´ì§„ ëª¨ë“  external identifierëŠ” ì˜ˆì•½ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
 
-        ÀÌ ´Ù¼¸°³ÀÇ ±ÔÄ¢ÀÌ ¾î·Æ´Ù¸é, ´ÙÀ½ advice¸¦ µû¸£¸é µË´Ï´Ù:
+        ì´ ë‹¤ì„¯ê°œì˜ ê·œì¹™ì´ ì–´ë µë‹¤ë©´, ë‹¤ìŒ adviceë¥¼ ë”°ë¥´ë©´ ë©ë‹ˆë‹¤:
 
         \begin{itemize}
-          \item[1, 2] ¹ØÁÙ·Î ½ÃÀÛÇÏ´Â ÀÌ¸§À» ¾²Áö ¸»±â ¹Ù¶ø´Ï´Ù.
-          \item[3] (À§ Ç¥¿¡ ³ª¿Â ¸ðµç ÀÌ¸§À» Æ÷ÇÔÇØ¼­) Ç¥ÁØ ¸ÅÅ©·Î¿Í
-            °°Àº ÀÌ¸§À» ¾²Áö ¸»±â ¹Ù¶ø´Ï´Ù.
-          \item[4] Ç¥ÁØ ¶óÀÌºê·¯¸®¿¡ ÀÖ´Â ¸ðµç º¯¼ö ¹× ÇÔ¼ö ÀÌ¸§°ú,
-            À§ Ç¥¿¡ ³ª¿Â ÀÌ¸§À» ¾²Áö ¸»±â ¹Ù¶ø´Ï´Ù. (¾ö¹ÐÇÏ°Ô ¸»ÇØ¼­, ÀÌ¸§
-            ºñ±³´Â Ã¹ ¿©¼¸ ±ÛÀÚ¸¸ °¡Áö°í ÀÌ·ç¾î Áý´Ï´Ù. Áú¹® \ql{11.27} Âü°í)
-          \item[5] Ç¥ÁØ¿¡¼­ Á¦°øÇÏ´Â typedef³ª tag ÀÌ¸§À» »õ·Î Á¤ÀÇÇÏ´Â
-            ÀÌ¸§¿¡ ¾²Áö ¸»±â ¹Ù¶ø´Ï´Ù.
+          \item[1, 2] ë°‘ì¤„ë¡œ ì‹œìž‘í•˜ëŠ” ì´ë¦„ì„ ì“°ì§€ ë§ê¸° ë°”ëžë‹ˆë‹¤.
+          \item[3] (ìœ„ í‘œì— ë‚˜ì˜¨ ëª¨ë“  ì´ë¦„ì„ í¬í•¨í•´ì„œ) í‘œì¤€ ë§¤í¬ë¡œì™€
+            ê°™ì€ ì´ë¦„ì„ ì“°ì§€ ë§ê¸° ë°”ëžë‹ˆë‹¤.
+          \item[4] í‘œì¤€ ë¼ì´ë¸ŒëŸ¬ë¦¬ì— ìžˆëŠ” ëª¨ë“  ë³€ìˆ˜ ë° í•¨ìˆ˜ ì´ë¦„ê³¼,
+            ìœ„ í‘œì— ë‚˜ì˜¨ ì´ë¦„ì„ ì“°ì§€ ë§ê¸° ë°”ëžë‹ˆë‹¤. (ì—„ë°€í•˜ê²Œ ë§í•´ì„œ, ì´ë¦„
+            ë¹„êµëŠ” ì²« ì—¬ì„¯ ê¸€ìžë§Œ ê°€ì§€ê³  ì´ë£¨ì–´ ì§‘ë‹ˆë‹¤. ì§ˆë¬¸ \ql{11.27} ì°¸ê³ )
+          \item[5] í‘œì¤€ì—ì„œ ì œê³µí•˜ëŠ” typedefë‚˜ tag ì´ë¦„ì„ ìƒˆë¡œ ì •ì˜í•˜ëŠ”
+            ì´ë¦„ì— ì“°ì§€ ë§ê¸° ë°”ëžë‹ˆë‹¤.
         \end{itemize}
 
-        »ç½Ç À§ advice´Â ³Ê¹« °í¾ÐÀûÀÔ´Ï´Ù. ¿øÇÑ´Ù¸é ´ÙÀ½ ¿¹¿Ü »çÇ×À»
-        ±â¾ïÇÏ±â ¹Ù¶ø´Ï´Ù:
+        ì‚¬ì‹¤ ìœ„ adviceëŠ” ë„ˆë¬´ ê³ ì••ì ìž…ë‹ˆë‹¤. ì›í•œë‹¤ë©´ ë‹¤ìŒ ì˜ˆì™¸ ì‚¬í•­ì„
+        ê¸°ì–µí•˜ê¸° ë°”ëžë‹ˆë‹¤:
 
         \begin{itemize}
-        \item[1, 2] ¹ØÁÙ·Î ½ÃÀÛÇÏ°í, µÎ ¹øÂ° ¹®ÀÚ°¡ ¼ýÀÚ³ª ¼Ò¹®ÀÚÀÎ ÀÌ¸§À»,
-          label ¶Ç´Â structure/union ÀÌ¸§¿¡ ¾µ ¼ö ÀÖ½À´Ï´Ù. ¶Ç function,
-          block, prototype scope¿¡¼­ ¾µ ¼ö ÀÖ½À´Ï´Ù.
-        \item[3] ¾î¶² ¸ÅÅ©·Î¸¦ Á¤ÀÇÇÏ´Â Ç¥ÁØ Çì´õ ÆÄÀÏÀ» Æ÷ÇÔ½ÃÅ°Áö ¾Ê´Â´Ù¸é,
-          ±× (¸ÅÅ©·Î) ÀÌ¸§À» ¾µ ¼ö ÀÖ½À´Ï´Ù.
-        \item[4] Ç¥ÁØ ¶óÀÌºê·¯¸® ÇÔ¼ö ÀÌ¸§À», static ¶Ç´Â local º¯¼ö¿¡
-          ¾µ ¼ö ÀÖ½À´Ï´Ù. (Á¤È®È÷ ¸»ÇØ¼­, internal ¶Ç´Â no linkage¸¦ °¡Áö´Â
-          ÀÌ¸§À¸·Î ¾µ ¼ö ÀÖ½À´Ï´Ù.)
-        \item[5] ¾î¶² typedef³ª tag ÀÌ¸§À» Á¤ÀÇÇÏ´Â Ç¥ÁØ Çì´õ ÆÄÀÏÀ» Æ÷ÇÔ½ÃÅ°Áö
-          ¾Ê¾Ò´Ù¸é, ±× ÀÌ¸§À» ¾µ ¼ö ÀÖ½À´Ï´Ù.
+        \item[1, 2] ë°‘ì¤„ë¡œ ì‹œìž‘í•˜ê³ , ë‘ ë²ˆì§¸ ë¬¸ìžê°€ ìˆ«ìžë‚˜ ì†Œë¬¸ìžì¸ ì´ë¦„ì„,
+          label ë˜ëŠ” structure/union ì´ë¦„ì— ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë˜ function,
+          block, prototype scopeì—ì„œ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+        \item[3] ì–´ë–¤ ë§¤í¬ë¡œë¥¼ ì •ì˜í•˜ëŠ” í‘œì¤€ í—¤ë” íŒŒì¼ì„ í¬í•¨ì‹œí‚¤ì§€ ì•ŠëŠ”ë‹¤ë©´,
+          ê·¸ (ë§¤í¬ë¡œ) ì´ë¦„ì„ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+        \item[4] í‘œì¤€ ë¼ì´ë¸ŒëŸ¬ë¦¬ í•¨ìˆ˜ ì´ë¦„ì„, static ë˜ëŠ” local ë³€ìˆ˜ì—
+          ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. (ì •í™•ížˆ ë§í•´ì„œ, internal ë˜ëŠ” no linkageë¥¼ ê°€ì§€ëŠ”
+          ì´ë¦„ìœ¼ë¡œ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.)
+        \item[5] ì–´ë–¤ typedefë‚˜ tag ì´ë¦„ì„ ì •ì˜í•˜ëŠ” í‘œì¤€ í—¤ë” íŒŒì¼ì„ í¬í•¨ì‹œí‚¤ì§€
+          ì•Šì•˜ë‹¤ë©´, ê·¸ ì´ë¦„ì„ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
         \end{itemize}
         
-        \noindent ±×·¯³ª, À§ ¿¹¿Ü »çÇ×À» ¾²±â Àü¿¡, ¸î °³´Â À§ÇèÇÒ ¼ö ÀÖ´Ù´Â
-        °ÍÀ» ²À ±â¾ïÇÏ±â ¹Ù¶ø´Ï´Ù. (Æ¯È÷, ¼¼¹øÂ°¿Í ´Ù¼¸¹øÂ° ¿¹¿Ü »çÇ×Àº Á¶½ÉÇØ¾ß
-        ÇÕ´Ï´Ù. ¼¼¹øÂ°¿Í ´Ù¼¸¹øÂ°¿¡ ÇØ´çÇÏ´Â ÀÌ¸§À» ¾´ ÈÄ, °ü·ÃµÈ Çì´õ ÆÄÀÏÀ»
-        ³ªÁß¿¡ Æ÷ÇÔ½ÃÅ°´Â µîÀÇ ½Ç¼ö°¡ ¿ì·ÁµË´Ï´Ù.) ±×¸®°í ¿¹¿Ü 1, 2´Â
-        ÀÌ¸¥¹Ù ½Ã½ºÅÛ°ú »ç¿ëÀÚ namespace »çÀÌÀÇ ¹«ÀÎµµ(no man's land)¿¡
-        ÇØ´çÇÏ´Â namespace¸¦ ´Ù·ç°í ÀÖ½À´Ï´Ù.
+        \noindent ê·¸ëŸ¬ë‚˜, ìœ„ ì˜ˆì™¸ ì‚¬í•­ì„ ì“°ê¸° ì „ì—, ëª‡ ê°œëŠ” ìœ„í—˜í•  ìˆ˜ ìžˆë‹¤ëŠ”
+        ê²ƒì„ ê¼­ ê¸°ì–µí•˜ê¸° ë°”ëžë‹ˆë‹¤. (íŠ¹ížˆ, ì„¸ë²ˆì§¸ì™€ ë‹¤ì„¯ë²ˆì§¸ ì˜ˆì™¸ ì‚¬í•­ì€ ì¡°ì‹¬í•´ì•¼
+        í•©ë‹ˆë‹¤. ì„¸ë²ˆì§¸ì™€ ë‹¤ì„¯ë²ˆì§¸ì— í•´ë‹¹í•˜ëŠ” ì´ë¦„ì„ ì“´ í›„, ê´€ë ¨ëœ í—¤ë” íŒŒì¼ì„
+        ë‚˜ì¤‘ì— í¬í•¨ì‹œí‚¤ëŠ” ë“±ì˜ ì‹¤ìˆ˜ê°€ ìš°ë ¤ë©ë‹ˆë‹¤.) ê·¸ë¦¬ê³  ì˜ˆì™¸ 1, 2ëŠ”
+        ì´ë¥¸ë°” ì‹œìŠ¤í…œê³¼ ì‚¬ìš©ìž namespace ì‚¬ì´ì˜ ë¬´ì¸ë„(no man's land)ì—
+        í•´ë‹¹í•˜ëŠ” namespaceë¥¼ ë‹¤ë£¨ê³  ìžˆìŠµë‹ˆë‹¤.
 
-        ÀÌ·¯ÇÑ ¿¹¿Ü »çÇ×À» Á¦°øÇÏ´Â ÀÌÀ¯´Â, ¿©·¯ add-in ¶óÀÌºê·¯¸® Á¦ÀÛÀÚ°¡,
-        ÀÚ½Å¸¸ÀÇ internal, hidden identifier¸¦ ¼±¾ðÇÒ ¼ö ÀÖ°Ô ÇÏ±â À§ÇØ¼­
-        ÀÔ´Ï´Ù. Áï, À§ ¿¹¿Ü »çÇ×¿¡ ÇØ´çÇÏ´Â identifier¸¦ ½èÀ» °æ¿ì, ½Ã½ºÅÛÀÌ
-        Á¦°øÇÏ´Â identifier¿Í Ãæµ¹ÇÒ °¡´É¼ºÀº ¾ø½À´Ï´Ù. ±×·¯³ª third-party°¡
-        Á¦°øÇÏ´Â libraryÀÇ identifier¿Í Ãæµ¹ÇÒ °¡´É¼ºÀº ¿©ÀüÈ÷ Á¸ÀçÇÕ´Ï´Ù.
-        (¶Ç, ÀÌ·¯ÇÑ ¶óÀÌºê·¯¸® Á¦ÀÛÀÚ¶ó¸é, ÇÊ¿äÇÒ °æ¿ì¿¡ ½Ã½ºÅÛÀÌ ¾µ ¼ö ÀÖ´Â
-        identifier¸¦ ¾²´Â °Íµµ ±¦Âú½À´Ï´Ù. ´Ü ¸Å¿ì ÁÖÀÇÇØ¾ß ÇÕ´Ï´Ù.)
+        ì´ëŸ¬í•œ ì˜ˆì™¸ ì‚¬í•­ì„ ì œê³µí•˜ëŠ” ì´ìœ ëŠ”, ì—¬ëŸ¬ add-in ë¼ì´ë¸ŒëŸ¬ë¦¬ ì œìž‘ìžê°€,
+        ìžì‹ ë§Œì˜ internal, hidden identifierë¥¼ ì„ ì–¸í•  ìˆ˜ ìžˆê²Œ í•˜ê¸° ìœ„í•´ì„œ
+        ìž…ë‹ˆë‹¤. ì¦‰, ìœ„ ì˜ˆì™¸ ì‚¬í•­ì— í•´ë‹¹í•˜ëŠ” identifierë¥¼ ì¼ì„ ê²½ìš°, ì‹œìŠ¤í…œì´
+        ì œê³µí•˜ëŠ” identifierì™€ ì¶©ëŒí•  ê°€ëŠ¥ì„±ì€ ì—†ìŠµë‹ˆë‹¤. ê·¸ëŸ¬ë‚˜ third-partyê°€
+        ì œê³µí•˜ëŠ” libraryì˜ identifierì™€ ì¶©ëŒí•  ê°€ëŠ¥ì„±ì€ ì—¬ì „ížˆ ì¡´ìž¬í•©ë‹ˆë‹¤.
+        (ë˜, ì´ëŸ¬í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì œìž‘ìžë¼ë©´, í•„ìš”í•  ê²½ìš°ì— ì‹œìŠ¤í…œì´ ì“¸ ìˆ˜ ìžˆëŠ”
+        identifierë¥¼ ì“°ëŠ” ê²ƒë„ ê´œì°®ìŠµë‹ˆë‹¤. ë‹¨ ë§¤ìš° ì£¼ì˜í•´ì•¼ í•©ë‹ˆë‹¤.)
 
-        ÀÏ¹ÝÀûÀ¸·Î, ³×¹øÂ° ¿¹¿Ü »çÇ×À» ½á¼­, ÇÔ¼ö ÆÄ¶ó¸ÞÅÍ³ª local º¯¼ö ÀÌ¸§¿¡
-        Ç¥ÁØ ¶óÀÌºê·¯¸® ÇÔ¼ö ÀÌ¸§ÀÌ³ª, ¾Õ Ç¥¿¡ ³ª¿Â ``future directions'' ÆÐÅÏ¿¡
-        ÇØ´çÇÏ´Â ÀÌ¸§À» ¾²´Â °ÍÀº ±¦Âú½À´Ï´Ù. ¿¹¸¦ µé¾î, ``\TT{string}''Àº
-        ÆÄ¶ó¸ÞÅÍ ÀÌ¸§ÀÌ³ª local º¯¼ö ÀÌ¸§À¸·Î ÈçÈ÷ ¾²ÀÌ´Â --- ±×¸®°í ÇÕ¹ýÀûÀÎ 
-        --- ÀÌ¸§ÀÔ´Ï´Ù.
+        ì¼ë°˜ì ìœ¼ë¡œ, ë„¤ë²ˆì§¸ ì˜ˆì™¸ ì‚¬í•­ì„ ì¨ì„œ, í•¨ìˆ˜ íŒŒë¼ë©”í„°ë‚˜ local ë³€ìˆ˜ ì´ë¦„ì—
+        í‘œì¤€ ë¼ì´ë¸ŒëŸ¬ë¦¬ í•¨ìˆ˜ ì´ë¦„ì´ë‚˜, ì•ž í‘œì— ë‚˜ì˜¨ ``future directions'' íŒ¨í„´ì—
+        í•´ë‹¹í•˜ëŠ” ì´ë¦„ì„ ì“°ëŠ” ê²ƒì€ ê´œì°®ìŠµë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, ``\TT{string}''ì€
+        íŒŒë¼ë©”í„° ì´ë¦„ì´ë‚˜ local ë³€ìˆ˜ ì´ë¦„ìœ¼ë¡œ í”ížˆ ì“°ì´ëŠ” --- ê·¸ë¦¬ê³  í•©ë²•ì ì¸ 
+        --- ì´ë¦„ìž…ë‹ˆë‹¤.
 \R
 	\cite{ansi} \S\ 3.1.2.1, \S\ 3.1.2.2, \S\ 3.1.2.3, 
                     \S\ 4.1.2.1, \S\ 4.13 \\
@@ -1113,41 +1113,41 @@ baffling run-time problems.)
                   \S\ 4.2.4 \Page{69--70}, \S\ 4.2.7 \page{78}, 
                   \S\ 10.1 \page{284}
 \T
-	ÇöÀç C Ç¥ÁØÀº À§¿¡¼­ ¸»ÇÑ °ÍÃ³·³ ¿©¼¸ ±ÛÀÚ Á¦ÇÑÀ» ¾²Áö ¾Ê½À´Ï´Ù.
-        ÀÚ¼¼ÇÑ °ÍÀº Áú¹® \ql{11.27}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	í˜„ìž¬ C í‘œì¤€ì€ ìœ„ì—ì„œ ë§í•œ ê²ƒì²˜ëŸ¼ ì—¬ì„¯ ê¸€ìž ì œí•œì„ ì“°ì§€ ì•ŠìŠµë‹ˆë‹¤.
+        ìžì„¸í•œ ê²ƒì€ ì§ˆë¬¸ \ql{11.27}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \section{Initialization}	\label{sec:init}
 % from 1.30
-º¯¼öÀÇ ¼±¾ðÀº, ¹°·Ð ±× º¯¼ö¿¡ ´ëÇÑ ÃÊ±â°ªÀ» Æ÷ÇÔÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¸¸¾à ÃÊ±â°ªÀ» ÁÖÁö ¾ÊÀ¸¸é, ±âº»ÀûÀÎ ÃÊ±âÈ­(default initialization)°¡
-¼öÇàµÉ ¼ö ÀÖ½À´Ï´Ù.
+ë³€ìˆ˜ì˜ ì„ ì–¸ì€, ë¬¼ë¡  ê·¸ ë³€ìˆ˜ì— ëŒ€í•œ ì´ˆê¸°ê°’ì„ í¬í•¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ë§Œì•½ ì´ˆê¸°ê°’ì„ ì£¼ì§€ ì•Šìœ¼ë©´, ê¸°ë³¸ì ì¸ ì´ˆê¸°í™”(default initialization)ê°€
+ìˆ˜í–‰ë  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 \begin{faq}
 \Q{1.30} % 1.30
-	ÃÊ±âÈ­µÇÁö ¾ÊÀº º¯¼öÀÇ °ªÀ» ¹Ì¸® ¿¹»óÇÒ ¼ö ÀÖ½À´Ï±î?
-	Àü¿ª º¯¼ö´Â ÃÊ±âÈ­µÇÁö ¾ÊÀº °æ¿ì 0À» °¡Áø´Ù°í ÇÏ´Âµ¥,
-	ÀÌ°ÍÀ» ³Î Æ÷ÀÎÅÍ³ª ½Ç¼ö 0.0À¸·Î ÇØ¼®ÇØµµ ±¦ÂúÀº°¡¿ä?
+	ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ë³€ìˆ˜ì˜ ê°’ì„ ë¯¸ë¦¬ ì˜ˆìƒí•  ìˆ˜ ìžˆìŠµë‹ˆê¹Œ?
+	ì „ì—­ ë³€ìˆ˜ëŠ” ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ ê²½ìš° 0ì„ ê°€ì§„ë‹¤ê³  í•˜ëŠ”ë°,
+	ì´ê²ƒì„ ë„ í¬ì¸í„°ë‚˜ ì‹¤ìˆ˜ 0.0ìœ¼ë¡œ í•´ì„í•´ë„ ê´œì°®ì€ê°€ìš”?
 
 \A
-	``static'' ¼Ó¼ºÀ» °¡Áø ÃÊ±âÈ­µÇÁö ¾ÊÀº (Àü¿ª º¯¼öÀÌ°Å³ª
-	\TT{static}À¸·Î ¼±¾ðµÈ º¯¼ö) º¯¼ö´Â 0ÀÇ °ªÀ» °¡Áý´Ï´Ù.
-	Áï ÇÁ·Î±×·¡¸Ó°¡ ``\verb+= 0+''À¸·Î ½á ÁØ °Í°ú ¶È°°´Ù´Â
-	¸»ÀÔ´Ï´Ù.  µû¶ó¼­ ³Î Æ÷ÀÎÅÍÀÏ °æ¿ì¿¡µµ ¿Ã¹Ù¸¥ °ªÀ»
-	°¡Áý´Ï´Ù (Chapter~\ref{chap:nullptr} Âü°í).
-        ¸¶Âù°¡Áö·Î ½Ç¼öÀÏ °æ¿ì 0.0À¸·Î ÇØ¼®µË´Ï´Ù.
+	``static'' ì†ì„±ì„ ê°€ì§„ ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ (ì „ì—­ ë³€ìˆ˜ì´ê±°ë‚˜
+	\TT{static}ìœ¼ë¡œ ì„ ì–¸ëœ ë³€ìˆ˜) ë³€ìˆ˜ëŠ” 0ì˜ ê°’ì„ ê°€ì§‘ë‹ˆë‹¤.
+	ì¦‰ í”„ë¡œê·¸ëž˜ë¨¸ê°€ ``\verb+= 0+''ìœ¼ë¡œ ì¨ ì¤€ ê²ƒê³¼ ë˜‘ê°™ë‹¤ëŠ”
+	ë§ìž…ë‹ˆë‹¤.  ë”°ë¼ì„œ ë„ í¬ì¸í„°ì¼ ê²½ìš°ì—ë„ ì˜¬ë°”ë¥¸ ê°’ì„
+	ê°€ì§‘ë‹ˆë‹¤ (Chapter~\ref{chap:nullptr} ì°¸ê³ ).
+        ë§ˆì°¬ê°€ì§€ë¡œ ì‹¤ìˆ˜ì¼ ê²½ìš° 0.0ìœ¼ë¡œ í•´ì„ë©ë‹ˆë‹¤.
 
-	``automatic'' ¼Ó¼ºÀ» °¡Áø (\TT{static}À¸·Î ¼±¾ðµÇÁö ¾ÊÀº
-	Áö¿ª º¯¼ö) º¯¼ö´Â ÃÊ±âÈ­µÇÁö ¾ÊÀ» °æ¿ì ¾²·¹±â °ªÀ»
-	°¡Áý´Ï´Ù.  (ÀÌ °æ¿ì¿¡ ¾²·¹±â °ªÀÌ ¹«¾ùÀÎÁö´Â ¾Æ¹«µµ ¸ð¸£¸ç,
-	¾µ ÀÌÀ¯°¡ ¾ø½À´Ï´Ù.)
+	``automatic'' ì†ì„±ì„ ê°€ì§„ (\TT{static}ìœ¼ë¡œ ì„ ì–¸ë˜ì§€ ì•Šì€
+	ì§€ì—­ ë³€ìˆ˜) ë³€ìˆ˜ëŠ” ì´ˆê¸°í™”ë˜ì§€ ì•Šì„ ê²½ìš° ì“°ë ˆê¸° ê°’ì„
+	ê°€ì§‘ë‹ˆë‹¤.  (ì´ ê²½ìš°ì— ì“°ë ˆê¸° ê°’ì´ ë¬´ì—‡ì¸ì§€ëŠ” ì•„ë¬´ë„ ëª¨ë¥´ë©°,
+	ì“¸ ì´ìœ ê°€ ì—†ìŠµë‹ˆë‹¤.)
 
-	\TT{malloc()}ÀÌ³ª \TT{realloc()}À¸·Î, µ¿ÀûÀ¸·Î ÇÒ´çµÈ ¸Þ¸ð¸®µµ
-	Ã³À½¿¡ ¾²·¹±â °ªÀ» °¡Áý´Ï´Ù.  µû¶ó¼­ ÇÁ·Î±×·¥¿¡¼­
-	Àû´çÈ÷ ÃÊ±âÈ­½ÃÄÑ ÁÖ¾î¾ß ÇÕ´Ï´Ù.  \TT{calloc()}À¸·Î ÇÒ´ç¹ÞÀº
-	¸Þ¸ð¸®´Â ºñÆ® ´ÜÀ§·Î 0À» °¡Áö°Ô µÇÁö¸¸, ÀÌ °ÍÀÌ
-	Æ÷ÀÎÅÍ³ª ½Ç¼ö Å¸ÀÔ¿¡¼­ 0À» ÀÇ¹ÌÇÑ´Ù°í ¸»ÇÒ ¼ö´Â ¾ø½À´Ï´Ù
-	(Áú¹® \ql{7.31}°ú Chapter~\ref{chap:nullptr} Âü°í).
+	\TT{malloc()}ì´ë‚˜ \TT{realloc()}ìœ¼ë¡œ, ë™ì ìœ¼ë¡œ í• ë‹¹ëœ ë©”ëª¨ë¦¬ë„
+	ì²˜ìŒì— ì“°ë ˆê¸° ê°’ì„ ê°€ì§‘ë‹ˆë‹¤.  ë”°ë¼ì„œ í”„ë¡œê·¸ëž¨ì—ì„œ
+	ì ë‹¹ížˆ ì´ˆê¸°í™”ì‹œì¼œ ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤.  \TT{calloc()}ìœ¼ë¡œ í• ë‹¹ë°›ì€
+	ë©”ëª¨ë¦¬ëŠ” ë¹„íŠ¸ ë‹¨ìœ„ë¡œ 0ì„ ê°€ì§€ê²Œ ë˜ì§€ë§Œ, ì´ ê²ƒì´
+	í¬ì¸í„°ë‚˜ ì‹¤ìˆ˜ íƒ€ìž…ì—ì„œ 0ì„ ì˜ë¯¸í•œë‹¤ê³  ë§í•  ìˆ˜ëŠ” ì—†ìŠµë‹ˆë‹¤
+	(ì§ˆë¬¸ \ql{7.31}ê³¼ Chapter~\ref{chap:nullptr} ì°¸ê³ ).
 
 \R
 	\cite{kr1} \S\ 4.9 \Page{82--4} \\
@@ -1160,7 +1160,7 @@ baffling run-time problems.)
 
 \begin{faq}
 \Q{1.31} % 1.31
-	ÀÌ ÄÚµå´Â ¾î¶² Ã¥¿¡¼­ ³ª¿Â °ÍÀÎµ¥ ÄÄÆÄÀÏµÇÁö ¾Ê½À´Ï´Ù.
+	ì´ ì½”ë“œëŠ” ì–´ë–¤ ì±…ì—ì„œ ë‚˜ì˜¨ ê²ƒì¸ë° ì»´íŒŒì¼ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 \begin{verbatim}
   int f()
@@ -1170,40 +1170,40 @@ baffling run-time problems.)
 \end{verbatim}
 
 \A
-	¾Æ¸¶µµ ¾²°í ÀÖ´Â ÄÄÆÄÀÏ·¯°¡ ANSI ÀÌÀüÀÇ ÄÄÆÄÀÏ·¯ÀÏ °ÍÀÌ¶ó°í
-	ÃßÃøµË´Ï´Ù.  ANSI ÀÌÀüÀÇ ÄÄÆÄÀÏ·¯´Â ``automatic aggregates''
-	(¿¹¸¦ µé¾î,
-	\TT{static}ÀÌ ¾Æ´Ñ Áö¿ª ¹è¿­, ±¸Á¶Ã¼, \TT{union})ÀÇ
-	ÃÊ±âÈ­¸¦ Áö¿øÇÏÁö ¾Ê½À´Ï´Ù.
+	ì•„ë§ˆë„ ì“°ê³  ìžˆëŠ” ì»´íŒŒì¼ëŸ¬ê°€ ANSI ì´ì „ì˜ ì»´íŒŒì¼ëŸ¬ì¼ ê²ƒì´ë¼ê³ 
+	ì¶”ì¸¡ë©ë‹ˆë‹¤.  ANSI ì´ì „ì˜ ì»´íŒŒì¼ëŸ¬ëŠ” ``automatic aggregates''
+	(ì˜ˆë¥¼ ë“¤ì–´,
+	\TT{static}ì´ ì•„ë‹Œ ì§€ì—­ ë°°ì—´, êµ¬ì¡°ì²´, \TT{union})ì˜
+	ì´ˆê¸°í™”ë¥¼ ì§€ì›í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
-	(±×¸®°í º¯¼ö \TT{a}°¡ ¾î¶»°Ô ¾²ÀÏ Áö¿¡ µû¶ó
-	´Ù¸£°ÚÁö¸¸, ÀÌ º¯¼ö¸¦ Àü¿ª (global) ¶Ç´Â staticÀ¸·Î, ¶Ç´Â
-	Æ÷ÀÎÅÍ·Î ¹Ù²Ù¾î¼­ ÇØ°áÇÒ ¼ö ÀÖÀ¸¸ç, ¶Ç´Â \TT{strcpy()} µîÀ» ½á¼­ 
-	´ëÀÔ½ÃÄÑÁÖ´Â ¹æ¹ýµµ ÀÖ½À´Ï´Ù.) 
+	(ê·¸ë¦¬ê³  ë³€ìˆ˜ \TT{a}ê°€ ì–´ë–»ê²Œ ì“°ì¼ ì§€ì— ë”°ë¼
+	ë‹¤ë¥´ê² ì§€ë§Œ, ì´ ë³€ìˆ˜ë¥¼ ì „ì—­ (global) ë˜ëŠ” staticìœ¼ë¡œ, ë˜ëŠ”
+	í¬ì¸í„°ë¡œ ë°”ê¾¸ì–´ì„œ í•´ê²°í•  ìˆ˜ ìžˆìœ¼ë©°, ë˜ëŠ” \TT{strcpy()} ë“±ì„ ì¨ì„œ 
+	ëŒ€ìž…ì‹œì¼œì£¼ëŠ” ë°©ë²•ë„ ìžˆìŠµë‹ˆë‹¤.) 
 
-	Áú¹® \ql{11.29}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{11.29}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.31b} % 1.31b
-	ÀÌ ÃÊ±âÈ­¿¡¼­ Àß¸øµÈ °ÍÀÌ ¹«¾ùÀÎ°¡¿ä?
+	ì´ ì´ˆê¸°í™”ì—ì„œ ìž˜ëª»ëœ ê²ƒì´ ë¬´ì—‡ì¸ê°€ìš”?
 
 \begin{verbatim}
   char *p = malloc(10);
 \end{verbatim}
 
-	\noindent Á¦ ÄÄÆÄÀÏ·¯´Â ``invalid initializer''¶ó´Â ¿¡·¯ ¸Þ½ÃÁö¸¦
-	Ãâ·ÂÇÕ´Ï´Ù.
+	\noindent ì œ ì»´íŒŒì¼ëŸ¬ëŠ” ``invalid initializer''ë¼ëŠ” ì—ëŸ¬ ë©”ì‹œì§€ë¥¼
+	ì¶œë ¥í•©ë‹ˆë‹¤.
 
 \A
-	¾Æ¸¶ À§ÀÇ ¼±¾ðÀÌ Á¤Àû(static)ÀÌ°Å³ª Àü¿ª(non-local) º¯¼öÀÏ °ÍÀÔ´Ï´Ù.
-	ÃÊ±âÈ­¿¡¼­ ÇÔ¼ö È£ÃâÀ» ¾²´Â °ÍÀº ÀÚµ¿(automatic)
-	º¯¼ö\footnote{Áï, staticÀÌ ¾Æ´Ñ º¯¼ö¸¦ ÀÇ¹ÌÇÔ.}¿¡¼­¸¸ °¡´ÉÇÕ´Ï´Ù.
+	ì•„ë§ˆ ìœ„ì˜ ì„ ì–¸ì´ ì •ì (static)ì´ê±°ë‚˜ ì „ì—­(non-local) ë³€ìˆ˜ì¼ ê²ƒìž…ë‹ˆë‹¤.
+	ì´ˆê¸°í™”ì—ì„œ í•¨ìˆ˜ í˜¸ì¶œì„ ì“°ëŠ” ê²ƒì€ ìžë™(automatic)
+	ë³€ìˆ˜\footnote{ì¦‰, staticì´ ì•„ë‹Œ ë³€ìˆ˜ë¥¼ ì˜ë¯¸í•¨.}ì—ì„œë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.32} % 1.32
-	´ÙÀ½ µÎ ¼±¾ð¿¡ Â÷ÀÌÁ¡ÀÌ ÀÖ³ª¿ä?
+	ë‹¤ìŒ ë‘ ì„ ì–¸ì— ì°¨ì´ì ì´ ìžˆë‚˜ìš”?
 
 \begin{verbatim}
   char a[] = "string literal";
@@ -1211,21 +1211,21 @@ baffling run-time problems.)
 \end{verbatim}
 
 \A
-	¹®ÀÚ¿­Àº Å©°Ô µÎ °¡Áö ¹æ¹ýÀ¸·Î ¾²ÀÏ ¼ö ÀÖ½À´Ï´Ù.  ÇÏ³ª´Â ¹è¿­ÀÇ
-	ÃÊ±â°ª (À§¿¡¼­´Â \TT{char a[]}¿¡ ÇØ´ç)À¸·Î ¾²ÀÌ´Â °ÍÀÔ´Ï´Ù.  ÀÌ´Â
-	¹è¿­ÀÇ °¢ ¿ä¼ÒµéÀÎ ¹®ÀÚµé¿¡ ´ëÀÔµÇ´Â ÃÊ±â°ªÀ» ³ªÅ¸³À´Ï´Ù.  ÀÌ °æ¿ì°¡
-	¾Æ´Ï¶ó¸é ¹®ÀÚ¿­ÀÌ ÀÌ¸§ÀÌ ¾ø´Â Á¤Àû(static)ÀÎ ¹è¿­¿¡ ÀúÀåµÇ°í ---
-	´ë°³ ÀÌ ¹è¿­Àº ÀÐ±â Àü¿ëÀÇ ¼Ó¼ºÀ» °¡Áý´Ï´Ù  --- ¼ö½Ä(expression)¿¡¼­
-	¾²ÀÏ ¶§¿¡´Â ÀÌ ¹è¿­ÀÇ Ã¹ ¿ä¼Ò¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ·Î¼­ ¾²ÀÌ°Ô µË´Ï´Ù.  
-	µû¶ó¼­ À§ÀÇ ¼±¾ð Áß µÎ¹øÂ° °ÍÀº ½ÇÁ¦ ¹®ÀÚ¿­ÀÌ ÀÐ±âÀü¿ë ¹è¿­¿¡ ÀúÀåµÇ±â
-	¶§¹®¿¡ Æ÷ÀÎÅÍ \TT{p}¸¦ °¡Áö°í ¹®ÀÚ¿­À» ¼öÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
+	ë¬¸ìžì—´ì€ í¬ê²Œ ë‘ ê°€ì§€ ë°©ë²•ìœ¼ë¡œ ì“°ì¼ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  í•˜ë‚˜ëŠ” ë°°ì—´ì˜
+	ì´ˆê¸°ê°’ (ìœ„ì—ì„œëŠ” \TT{char a[]}ì— í•´ë‹¹)ìœ¼ë¡œ ì“°ì´ëŠ” ê²ƒìž…ë‹ˆë‹¤.  ì´ëŠ”
+	ë°°ì—´ì˜ ê° ìš”ì†Œë“¤ì¸ ë¬¸ìžë“¤ì— ëŒ€ìž…ë˜ëŠ” ì´ˆê¸°ê°’ì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.  ì´ ê²½ìš°ê°€
+	ì•„ë‹ˆë¼ë©´ ë¬¸ìžì—´ì´ ì´ë¦„ì´ ì—†ëŠ” ì •ì (static)ì¸ ë°°ì—´ì— ì €ìž¥ë˜ê³  ---
+	ëŒ€ê°œ ì´ ë°°ì—´ì€ ì½ê¸° ì „ìš©ì˜ ì†ì„±ì„ ê°€ì§‘ë‹ˆë‹¤  --- ìˆ˜ì‹(expression)ì—ì„œ
+	ì“°ì¼ ë•Œì—ëŠ” ì´ ë°°ì—´ì˜ ì²« ìš”ì†Œë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ë¡œì„œ ì“°ì´ê²Œ ë©ë‹ˆë‹¤.  
+	ë”°ë¼ì„œ ìœ„ì˜ ì„ ì–¸ ì¤‘ ë‘ë²ˆì§¸ ê²ƒì€ ì‹¤ì œ ë¬¸ìžì—´ì´ ì½ê¸°ì „ìš© ë°°ì—´ì— ì €ìž¥ë˜ê¸°
+	ë•Œë¬¸ì— í¬ì¸í„° \TT{p}ë¥¼ ê°€ì§€ê³  ë¬¸ìžì—´ì„ ìˆ˜ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 
-	(¿À·¡µÈ C ¾ð¾î ÄÚµåÀÇ °æ¿ì, \TT{p}¿Í °°Àº Æ÷ÀÎÅÍ·Î ¹®ÀÚ¿­ÀÇ ³»¿ëÀ»
-	º¯°æÇÏ·Á°í ½ÃµµÇÏ´Â °æ¿ìµµ ÀÖ½À´Ï´Ù.  ÀÌ·¯ÇÑ °æ¿ì¸¦ ÇØ°áÇÏ±â À§ÇØ
-	¾î¶² ÄÄÆÄÀÏ·¯´Â ¹®ÀÚ¿­À» ¾²±â °¡´ÉÇÑ ¸Þ¸ð¸®¿¡ ÀúÀåÇÏµµ·Ï ÇÏ´Â ¿É¼ÇÀ»
-	°¡Áö°í ÀÖ½À´Ï´Ù.)
+	(ì˜¤ëž˜ëœ C ì–¸ì–´ ì½”ë“œì˜ ê²½ìš°, \TT{p}ì™€ ê°™ì€ í¬ì¸í„°ë¡œ ë¬¸ìžì—´ì˜ ë‚´ìš©ì„
+	ë³€ê²½í•˜ë ¤ê³  ì‹œë„í•˜ëŠ” ê²½ìš°ë„ ìžˆìŠµë‹ˆë‹¤.  ì´ëŸ¬í•œ ê²½ìš°ë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´
+	ì–´ë–¤ ì»´íŒŒì¼ëŸ¬ëŠ” ë¬¸ìžì—´ì„ ì“°ê¸° ê°€ëŠ¥í•œ ë©”ëª¨ë¦¬ì— ì €ìž¥í•˜ë„ë¡ í•˜ëŠ” ì˜µì…˜ì„
+	ê°€ì§€ê³  ìžˆìŠµë‹ˆë‹¤.)
 
-	Áú¹® \ql{1.31}, \ql{6.1}, \ql{6.2}, \ql{6.8}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{1.31}, \ql{6.1}, \ql{6.2}, \ql{6.8}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 
 \R	
 	\cite{kr2} \S\ 5.5 \page{104} \\
@@ -1236,55 +1236,55 @@ baffling run-time problems.)
 
 \begin{faq}
 \Q{1.33} % 1.33 COMPLETE
-        \verb+char a[3] = "abc";+°¡ ¸Â´Â Ç¥ÇöÀÎ°¡¿ä?
+        \verb+char a[3] = "abc";+ê°€ ë§žëŠ” í‘œí˜„ì¸ê°€ìš”?
 \A
-        ¸Â½À´Ï´Ù. Áú¹® \ql{11.22}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+        ë§žìŠµë‹ˆë‹¤. ì§ˆë¬¸ \ql{11.22}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.34} % 1.34
-	ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ ¼±¾ðÇÏ´Â ¹®¹ýÀº ¾Ë°Ú´Âµ¥, ÃÊ±âÈ­½ÃÅ°´Â ¹æ¹ýÀ»
-	¸ð¸£°Ú½À´Ï´Ù.
+	í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ì„ ì–¸í•˜ëŠ” ë¬¸ë²•ì€ ì•Œê² ëŠ”ë°, ì´ˆê¸°í™”ì‹œí‚¤ëŠ” ë°©ë²•ì„
+	ëª¨ë¥´ê² ìŠµë‹ˆë‹¤.
 \A
-	´ÙÀ½°ú °°ÀÌ ÇÏ¸é µË´Ï´Ù:
+	ë‹¤ìŒê³¼ ê°™ì´ í•˜ë©´ ë©ë‹ˆë‹¤:
 
 \begin{verbatim}
   extern int func();
   int (*fp)() = func;
 \end{verbatim}
 
-	\noindent À§¿Í °°ÀÌ ÇÔ¼ö ÀÌ¸§ÀÌ ¼ö½Ä¿¡¼­ ¾²ÀÎ °æ¿ì, ÀÌ ÀÌ¸§Àº ---
-	ÀÌ ÇÔ¼öÀÇ ½ÃÀÛ ÁÖ¼Ò¸¦ ³ªÅ¸³»´Â --- Æ÷ÀÎÅÍ·Î º¯°æ(decay)µË´Ï´Ù.
-	¹è¿­ ÀÌ¸§ÀÌ ´Üµ¶À¸·Î ¾²ÀÌ´Â °æ¿ì¿Í ºñ½ÁÇÕ´Ï´Ù.
+	\noindent ìœ„ì™€ ê°™ì´ í•¨ìˆ˜ ì´ë¦„ì´ ìˆ˜ì‹ì—ì„œ ì“°ì¸ ê²½ìš°, ì´ ì´ë¦„ì€ ---
+	ì´ í•¨ìˆ˜ì˜ ì‹œìž‘ ì£¼ì†Œë¥¼ ë‚˜íƒ€ë‚´ëŠ” --- í¬ì¸í„°ë¡œ ë³€ê²½(decay)ë©ë‹ˆë‹¤.
+	ë°°ì—´ ì´ë¦„ì´ ë‹¨ë…ìœ¼ë¡œ ì“°ì´ëŠ” ê²½ìš°ì™€ ë¹„ìŠ·í•©ë‹ˆë‹¤.
 
-	ÀÏ¹ÝÀûÀ¸·Î ¸í¹éÈ÷ ÇÔ¼öÀÇ ¼±¾ðÀ» ¹Ì¸® Àû¾îÁÖ°Ô µË´Ï´Ù.  ¿Ö³ÄÇÏ¸é ÀÌ
-	°æ¿ì,
-	ÀÚµ¿À¸·Î ¿ÜºÎ ÇÔ¼ö ¼±¾ð\footnote{implicit external function
-	declaration}À»
-	¸¸µé¾îÁÖÁö ¾Ê±â ¶§¹®ÀÔ´Ï´Ù (¿Ö³ÄÇÏ¸é ÃÊ±âÈ­¿¡¼­ ¾²ÀÌ´Â ÇÔ¼ö ÀÌ¸§Àº
-	ÇÔ¼ö È£ÃâÀÌ ¾Æ´Ï±â ¶§¹®ÀÔ´Ï´Ù).  
+	ì¼ë°˜ì ìœ¼ë¡œ ëª…ë°±ížˆ í•¨ìˆ˜ì˜ ì„ ì–¸ì„ ë¯¸ë¦¬ ì ì–´ì£¼ê²Œ ë©ë‹ˆë‹¤.  ì™œëƒí•˜ë©´ ì´
+	ê²½ìš°,
+	ìžë™ìœ¼ë¡œ ì™¸ë¶€ í•¨ìˆ˜ ì„ ì–¸\footnote{implicit external function
+	declaration}ì„
+	ë§Œë“¤ì–´ì£¼ì§€ ì•Šê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤ (ì™œëƒí•˜ë©´ ì´ˆê¸°í™”ì—ì„œ ì“°ì´ëŠ” í•¨ìˆ˜ ì´ë¦„ì€
+	í•¨ìˆ˜ í˜¸ì¶œì´ ì•„ë‹ˆê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤).  
 
-	Áú¹® \ql{1.25}¿Í \ql{4.12}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{1.25}ì™€ \ql{4.12}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.35} % 1.35 COMPLETE
-        \TT{union}À» ÃÊ±âÈ­ÇÒ ¼ö ÀÖ³ª¿ä?
+        \TT{union}ì„ ì´ˆê¸°í™”í•  ìˆ˜ ìžˆë‚˜ìš”?
 \A
-        Áú¹® \ql{2.20}À» º¸±â ¹Ù¶ø´Ï´Ù.
+        ì§ˆë¬¸ \ql{2.20}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{1.A}
-	±¸Á¶Ã¼ ¸â¹ö¸¦ ÃÊ±âÈ­ÇÏ·Á´Âµ¥ ``Initializer element not computable at
-        load time''¶ó´Â ¿¡·¯°¡ ¹ß»ýÇÕ´Ï´Ù.
+	êµ¬ì¡°ì²´ ë©¤ë²„ë¥¼ ì´ˆê¸°í™”í•˜ë ¤ëŠ”ë° ``Initializer element not computable at
+        load time''ë¼ëŠ” ì—ëŸ¬ê°€ ë°œìƒí•©ë‹ˆë‹¤.
 \A
-	Áú¹® \ql{11.J}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{11.J}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

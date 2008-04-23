@@ -2,55 +2,55 @@
 \chapter{Linux Specific Q\&A}	\label{chap:linux}
 % Chapter 22: linux
 
-ÀÌ chapter¿¡¼­´Â Linux °ü·Ã Áú¹®/´äº¯ ±×¸®°í ¿©·¯ ÆÁµéÀ» ´Ù·ì´Ï´Ù. 
-¿©±â¿¡¼­´Â Ç¥ÁØ C ¾ð¾î ÀÌ¿ÜÀÇ °Íµµ ´Ù·ç¸ç,
-¿ø ``C Programming FAQs''¿Í´Â ÀüÇô »ó°ü¾øÀÌ ¿ªÀÚ°¡ ¸¸µç °ÍÀÓÀ» ¹Ì¸® ¹àÈü´Ï´Ù.
+ì´ chapterì—ì„œëŠ” Linux ê´€ë ¨ ì§ˆë¬¸/ë‹µë³€ ê·¸ë¦¬ê³  ì—¬ëŸ¬ íŒë“¤ì„ ë‹¤ë£¹ë‹ˆë‹¤. 
+ì—¬ê¸°ì—ì„œëŠ” í‘œì¤€ C ì–¸ì–´ ì´ì™¸ì˜ ê²ƒë„ ë‹¤ë£¨ë©°,
+ì› ``C Programming FAQs''ì™€ëŠ” ì „í˜€ ìƒê´€ì—†ì´ ì—­ìžê°€ ë§Œë“  ê²ƒìž„ì„ ë¯¸ë¦¬ ë°íž™ë‹ˆë‹¤.
 
-¾Æ¿ï·¯ ÀÌ chapter¿¡ µ¡ºÙÀÌ°í ½ÍÀº °ÍÀÌ ÀÖÀ¸¸é ¿ªÀÚ¿¡°Ô ¾Ë·Á ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù. 
-¿ªÀÚÀÇ ¿¬¶ôÃ³´Â ¼­¹®¿¡ ³ª¿Í ÀÖ½À´Ï´Ù.
+ì•„ìš¸ëŸ¬ ì´ chapterì— ë§ë¶™ì´ê³  ì‹¶ì€ ê²ƒì´ ìžˆìœ¼ë©´ ì—­ìžì—ê²Œ ì•Œë ¤ ì£¼ì‹œê¸° ë°”ëžë‹ˆë‹¤. 
+ì—­ìžì˜ ì—°ë½ì²˜ëŠ” ì„œë¬¸ì— ë‚˜ì™€ ìžˆìŠµë‹ˆë‹¤.
 
 \section{Memory Debugging}	\label{sec:lmemdebug}
-Linux¿¡¼­´Â ¸Þ¸ð¸® °ü·Ã ¿¡·¯¸¦ Àâ´Â ¹æ¹ý¿¡ °üÇÑ ³»¿ëÀÔ´Ï´Ù.
+Linuxì—ì„œëŠ” ë©”ëª¨ë¦¬ ê´€ë ¨ ì—ëŸ¬ë¥¼ ìž¡ëŠ” ë°©ë²•ì— ê´€í•œ ë‚´ìš©ìž…ë‹ˆë‹¤.
 
 \begin{faq}
-\q Linux¿¡¼­ ¸Þ¸ð¸® °ü·Ã ¹ö±×¸¦ ½±°Ô Àâ´Â ¹ýÀÌ ÀÖÀ»±î¿ä?
+\q Linuxì—ì„œ ë©”ëª¨ë¦¬ ê´€ë ¨ ë²„ê·¸ë¥¼ ì‰½ê²Œ ìž¡ëŠ” ë²•ì´ ìžˆì„ê¹Œìš”?
 
-\A ¿©·¯°¡Áö ¸Þ¸ð¸® µð¹ö±ë Àü¿ë Åøµé¸¦ ¾²¸é µË´Ï´Ù. ¿ªÀÚ°¡ ÁÖ·Î ¾²´Â ÅøµéÀº ´ÙÀ½°ú °°½À´Ï´Ù:
+\A ì—¬ëŸ¬ê°€ì§€ ë©”ëª¨ë¦¬ ë””ë²„ê¹… ì „ìš© íˆ´ë“¤ë¥¼ ì“°ë©´ ë©ë‹ˆë‹¤. ì—­ìžê°€ ì£¼ë¡œ ì“°ëŠ” íˆ´ë“¤ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 
 \begin{center}
 \begin{tabular}{r|p{12cm}} \hline
-ÀÌ¸§    & ¼³¸í  \\ \hline
-mtrace  & GNU C ¶óÀÌºê·¯¸®(glibc)¿¡ Æ÷ÇÔµÇ¾î ÀÖ´Â ±â´ÉÀÌ¸ç, 
-        µû·Î ¼³Ä¡ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù. ±âÃÊÀûÀÎ ¸Þ¸ð¸® ´©¼ö(leak)¸¦ ÀâÀ» ¼ö ÀÖ½À´Ï´Ù. \\
-efence  & ``Electric Fence''°¡ º»¸íÀÌ¸ç, ¸Þ¸ð¸® °æ°è¸¦ ¹þ¾î³ª´Â Àß¸øµÈ read/write¸¦
-        ½±°Ô ÀâÀ» ¼ö ÀÖµµ·Ï µµ¿ÍÁÝ´Ï´Ù. ¼Ò½º¸¦ ÄÄÆÄÀÏÇÒ ¶§ Á¦°øÇÏ´Â ¶óÀÌºê·¯¸®¸¦ °°ÀÌ
-        ¸µÅ©½ÃÄÑ¼­ ¾¹´Ï´Ù. \\
-valgrind        & À§ µÎ ±â´ÉÀ» ¸ðµÎ Æ÷ÇÔÇÑ °­·ÂÇÑ ÅøÀÌ¸ç, µû·Î ¼Ò½º¸¦ ´Ù½Ã ÄÄÆÄÀÏÇÒ ÇÊ¿ä°¡
-        ¾ø½À´Ï´Ù. ´Ù¸¸ x86 ½Ã½ºÅÛ¿¡¼­¸¸ µ¿ÀÛÇÏ´Â ÅøÀÔ´Ï´Ù.  \\ \hline
+ì´ë¦„    & ì„¤ëª…  \\ \hline
+mtrace  & GNU C ë¼ì´ë¸ŒëŸ¬ë¦¬(glibc)ì— í¬í•¨ë˜ì–´ ìžˆëŠ” ê¸°ëŠ¥ì´ë©°, 
+        ë”°ë¡œ ì„¤ì¹˜í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤. ê¸°ì´ˆì ì¸ ë©”ëª¨ë¦¬ ëˆ„ìˆ˜(leak)ë¥¼ ìž¡ì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. \\
+efence  & ``Electric Fence''ê°€ ë³¸ëª…ì´ë©°, ë©”ëª¨ë¦¬ ê²½ê³„ë¥¼ ë²—ì–´ë‚˜ëŠ” ìž˜ëª»ëœ read/writeë¥¼
+        ì‰½ê²Œ ìž¡ì„ ìˆ˜ ìžˆë„ë¡ ë„ì™€ì¤ë‹ˆë‹¤. ì†ŒìŠ¤ë¥¼ ì»´íŒŒì¼í•  ë•Œ ì œê³µí•˜ëŠ” ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ê°™ì´
+        ë§í¬ì‹œì¼œì„œ ì”ë‹ˆë‹¤. \\
+valgrind        & ìœ„ ë‘ ê¸°ëŠ¥ì„ ëª¨ë‘ í¬í•¨í•œ ê°•ë ¥í•œ íˆ´ì´ë©°, ë”°ë¡œ ì†ŒìŠ¤ë¥¼ ë‹¤ì‹œ ì»´íŒŒì¼í•  í•„ìš”ê°€
+        ì—†ìŠµë‹ˆë‹¤. ë‹¤ë§Œ x86 ì‹œìŠ¤í…œì—ì„œë§Œ ë™ìž‘í•˜ëŠ” íˆ´ìž…ë‹ˆë‹¤.  \\ \hline
 \end{tabular}
 \end{center}
 
-°¢ Åø¿¡ ´ëÇÑ »ç¿ë¹ýÀº XX¸¦ Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
+ê° íˆ´ì— ëŒ€í•œ ì‚¬ìš©ë²•ì€ XXë¥¼ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
-\section{efence ¾²´Â¹ý}
-ÀÚ½ÅÀÌ ¼±¾ðÇÑ ¹è¿­ÀÇ ¹üÀ§ ¹ÛÀÇ ¸Þ¸ð¸®¿¡ read/write¸¦ ÇÏ°Å³ª, ÃÊ±âÈ­µÇÁö ¾ÊÀº Æ÷ÀÎÅÍ°¡
-°¡¸®Å°´Â ¸Þ¸ð¸®¸¦ read/writeÇÏ·Á ÇÏ¸é (C ¾ð¾î Á¤ÀÇ¿¡ µû¸£¸é `undefined behavior'°¡
-ÀÏ¾î³ª¹Ç·Î) ÇÁ·Î±×·¥ÀÌ ºñÁ¤»óÀûÀ¸·Î µ¿ÀÛÇÒ ¼ö ÀÖ½À´Ï´Ù.  °æÇè»óÀ¸·Î ÀÌ·± °æ¿ì Å©°Ô ´ÙÀ½°ú °°Àº
-Çö»óÀÌ ÀÏ¾î³¯ ¼ö ÀÖ½À´Ï´Ù:
+\section{efence ì“°ëŠ”ë²•}
+ìžì‹ ì´ ì„ ì–¸í•œ ë°°ì—´ì˜ ë²”ìœ„ ë°–ì˜ ë©”ëª¨ë¦¬ì— read/writeë¥¼ í•˜ê±°ë‚˜, ì´ˆê¸°í™”ë˜ì§€ ì•Šì€ í¬ì¸í„°ê°€
+ê°€ë¦¬í‚¤ëŠ” ë©”ëª¨ë¦¬ë¥¼ read/writeí•˜ë ¤ í•˜ë©´ (C ì–¸ì–´ ì •ì˜ì— ë”°ë¥´ë©´ `undefined behavior'ê°€
+ì¼ì–´ë‚˜ë¯€ë¡œ) í”„ë¡œê·¸ëž¨ì´ ë¹„ì •ìƒì ìœ¼ë¡œ ë™ìž‘í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  ê²½í—˜ìƒìœ¼ë¡œ ì´ëŸ° ê²½ìš° í¬ê²Œ ë‹¤ìŒê³¼ ê°™ì€
+í˜„ìƒì´ ì¼ì–´ë‚  ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 
 \begin{enumerate}
-\item ¾Æ¹« ¹®Á¦¾øÀÌ µ¿ÀÛÇÑ´Ù.
-\item Á¤»óÀûÀ¸·Î µ¿ÀÛÇÏÁö¸¸ ÇÁ·Î±×·¥ÀÌ ³¡³¯ ¶§ segmentation fault°¡ ÀÏ¾î³­´Ù.
-\item Á¤»óÀûÀ¸·Î µ¿ÀÛÇÏÁö¸¸ Æ¯Á¤ Á¶°ÇÀÌ ¸¸Á·µÇ¸é segmentation fault°¡ ÀÏ¾î³­´Ù.
-\item ÀüÃ¼ÀûÀ¸·Î ÇÁ·Î±×·¥ µ¿ÀÛÀÌ ÀÌ»óÇÏ´Ù.
-\item ÇÁ·Î±×·¥ÀÌ Á¦¸Ú´ë·Î µ¿ÀÛÇÏ±â ¶§¹®¿¡ °á°ú¸¦ ¿¹ÃøÇÏ±â ¾î·Æ´Ù.
+\item ì•„ë¬´ ë¬¸ì œì—†ì´ ë™ìž‘í•œë‹¤.
+\item ì •ìƒì ìœ¼ë¡œ ë™ìž‘í•˜ì§€ë§Œ í”„ë¡œê·¸ëž¨ì´ ëë‚  ë•Œ segmentation faultê°€ ì¼ì–´ë‚œë‹¤.
+\item ì •ìƒì ìœ¼ë¡œ ë™ìž‘í•˜ì§€ë§Œ íŠ¹ì • ì¡°ê±´ì´ ë§Œì¡±ë˜ë©´ segmentation faultê°€ ì¼ì–´ë‚œë‹¤.
+\item ì „ì²´ì ìœ¼ë¡œ í”„ë¡œê·¸ëž¨ ë™ìž‘ì´ ì´ìƒí•˜ë‹¤.
+\item í”„ë¡œê·¸ëž¨ì´ ì œë©‹ëŒ€ë¡œ ë™ìž‘í•˜ê¸° ë•Œë¬¸ì— ê²°ê³¼ë¥¼ ì˜ˆì¸¡í•˜ê¸° ì–´ë µë‹¤.
 \end{enumerate}
 
-Æ¯Á¤ Á¶°ÇÀÌ ¸¸Á·µÉ ¶§, segmentation fault\footnote{ÇÁ·Î±×·¥ÀÌ ºñÁ¤»óÀûÀ¸·Î ³¡³ª´Â ¿¡·¯,
-½Ã½ºÅÛ¿¡ µû¶ó¼­ bus error, general protection fault(GPF), ÀÀ¿ë ÇÁ·Î±×·¥ ¿À·ù µîÀ¸·Î
-³ªÅ¸³¯ ¼ö ÀÖ´Ù.}°¡ ÀÏ¾î³ª¸é ¿ÀÈ÷·Á ¹®Á¦¸¦ ÀÏÀ¸Å°´Â ÄÚµå¸¦ Ã£±â ½±½À´Ï´Ù. GDB¿Í °°Àº debugger¸¦
-½ÇÇàÇØ¼­ backtrace·Î call stackÀ» ÃßÀûÇØº¸¸é ¹Ù·Î ±× À§Ä¡¸¦ ¾Ë ¼ö ÀÖ±â ¶§¹®ÀÔ´Ï´Ù:
+íŠ¹ì • ì¡°ê±´ì´ ë§Œì¡±ë  ë•Œ, segmentation fault\footnote{í”„ë¡œê·¸ëž¨ì´ ë¹„ì •ìƒì ìœ¼ë¡œ ëë‚˜ëŠ” ì—ëŸ¬,
+ì‹œìŠ¤í…œì— ë”°ë¼ì„œ bus error, general protection fault(GPF), ì‘ìš© í”„ë¡œê·¸ëž¨ ì˜¤ë¥˜ ë“±ìœ¼ë¡œ
+ë‚˜íƒ€ë‚  ìˆ˜ ìžˆë‹¤.}ê°€ ì¼ì–´ë‚˜ë©´ ì˜¤ížˆë ¤ ë¬¸ì œë¥¼ ì¼ìœ¼í‚¤ëŠ” ì½”ë“œë¥¼ ì°¾ê¸° ì‰½ìŠµë‹ˆë‹¤. GDBì™€ ê°™ì€ debuggerë¥¼
+ì‹¤í–‰í•´ì„œ backtraceë¡œ call stackì„ ì¶”ì í•´ë³´ë©´ ë°”ë¡œ ê·¸ ìœ„ì¹˜ë¥¼ ì•Œ ìˆ˜ ìžˆê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤:
 
 \begin{verbatim}
 $ ./demo
@@ -75,23 +75,23 @@ Program received signal SIGSEGV, Segmentation fault.
 (gdb) _
 \end{verbatim}
 
-Áï, À§ÀÇ Ãâ·Â °á°ú¸¦ º¸½Ã¸é, ÇÔ¼ö \verb+tree_add_child_tail()+ÀÌ¸ç, 
-\verb+tree.h+ÀÇ 166¹øÂ° ÁÙ¿¡¼­ segmentation fault°¡ ÀÏ¾î³­ °ÍÀ» ¾Ë ¼ö ÀÖ½À´Ï´Ù.
+ì¦‰, ìœ„ì˜ ì¶œë ¥ ê²°ê³¼ë¥¼ ë³´ì‹œë©´, í•¨ìˆ˜ \verb+tree_add_child_tail()+ì´ë©°, 
+\verb+tree.h+ì˜ 166ë²ˆì§¸ ì¤„ì—ì„œ segmentation faultê°€ ì¼ì–´ë‚œ ê²ƒì„ ì•Œ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-±×·¯³ª ÀÌ »óÈ²Àº ¸Å¿ì ¿îÀÌ ÁÁ¾Ò´Ù°í ¸»ÇÒ ¼ö ÀÖ½À´Ï´Ù. ÀÌ·± ½ÄÀÇ ¿¡·¯´Â ¿¡·¯°¡ ¹ß»ýÇÑ °÷À» ¾Ë¸é
-¹Ù·Î ±× ÄÚµå¸¦ °íÃÄ¼­ ¾ÆÁÖ ½±°Ô ¹®Á¦¸¦ ÇØ°áÇÒ ¼ö ÀÖÁö¸¸, ¹®Á¦´Â ¾îµð¿¡¼­ ¿¡·¯°¡ ¹ß»ýÇÑ Áö Ã£±â°¡
-Èûµç °æ¿ì°¡ ´ëºÎºÐÀÔ´Ï´Ù.
+ê·¸ëŸ¬ë‚˜ ì´ ìƒí™©ì€ ë§¤ìš° ìš´ì´ ì¢‹ì•˜ë‹¤ê³  ë§í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì´ëŸ° ì‹ì˜ ì—ëŸ¬ëŠ” ì—ëŸ¬ê°€ ë°œìƒí•œ ê³³ì„ ì•Œë©´
+ë°”ë¡œ ê·¸ ì½”ë“œë¥¼ ê³ ì³ì„œ ì•„ì£¼ ì‰½ê²Œ ë¬¸ì œë¥¼ í•´ê²°í•  ìˆ˜ ìžˆì§€ë§Œ, ë¬¸ì œëŠ” ì–´ë””ì—ì„œ ì—ëŸ¬ê°€ ë°œìƒí•œ ì§€ ì°¾ê¸°ê°€
+íž˜ë“  ê²½ìš°ê°€ ëŒ€ë¶€ë¶„ìž…ë‹ˆë‹¤.
 
 
-Electric Fence¸¦ ¾²´Â ¹æ¹ýÀº ¾î·ÆÁö ¾Ê½À´Ï´Ù. ´Ü¼øÈ÷ ÄÄÆÄÀÏÇÒ ¶§ `efence' ¶óÀÌºê·¯¸®¿Í
-ÇÔ²² ¸µÅ©ÇÏ¸é µË´Ï´Ù.
+Electric Fenceë¥¼ ì“°ëŠ” ë°©ë²•ì€ ì–´ë µì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¨ìˆœížˆ ì»´íŒŒì¼í•  ë•Œ `efence' ë¼ì´ë¸ŒëŸ¬ë¦¬ì™€
+í•¨ê»˜ ë§í¬í•˜ë©´ ë©ë‹ˆë‹¤.
 
-\section{mtrace »ç¿ë¹ý}
-mtrace´Â Åø ÀÌ¸§ÀÌ ¾Æ´Ï°í, ÇÔ¼ö ÀÌ¸§ÀÔ´Ï´Ù.
+\section{mtrace ì‚¬ìš©ë²•}
+mtraceëŠ” íˆ´ ì´ë¦„ì´ ì•„ë‹ˆê³ , í•¨ìˆ˜ ì´ë¦„ìž…ë‹ˆë‹¤.
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

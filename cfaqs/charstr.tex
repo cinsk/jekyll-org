@@ -22,40 +22,40 @@ string handling.
 
 \begin{faq}
 \Q{8.1} % 8.1 COMPLETE
-	¿Ö ´ÙÀ½ ÄÚµå´Â ½ÇÇàÀÌ ¾ÈµÇ´Â °ÍÀÏ±î¿ä?
+	ì™œ ë‹¤ìŒ ì½”ë“œëŠ” ì‹¤í–‰ì´ ì•ˆë˜ëŠ” ê²ƒì¼ê¹Œìš”?
 \begin{verbatim}
   strcat(string, '!');
 \end{verbatim}
 \A	
-	¹®ÀÚ¿­°ú ¹®ÀÚ´Â Å« Â÷ÀÌ°¡ ÀÖ½À´Ï´Ù.  \TT{strcat()} ÇÔ¼ö´Â ¹®ÀÚ¿­À»
-	ÀÌ¾îÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
+	ë¬¸ìžì—´ê³¼ ë¬¸ìžëŠ” í° ì°¨ì´ê°€ ìžˆìŠµë‹ˆë‹¤.  \TT{strcat()} í•¨ìˆ˜ëŠ” ë¬¸ìžì—´ì„
+	ì´ì–´ì£¼ëŠ” í•¨ìˆ˜ìž…ë‹ˆë‹¤.
         
-        \verb+'!'+¿Í °°Àº ¹®ÀÚ »ó¼ö(character constant)´Â ÇÑ ¹®ÀÚ¸¦ ³ªÅ¸³À´Ï´Ù.
-        ¹®ÀÚ¿­(string literal)Àº ½Öµû¿ÈÇ¥·Î µÑ·¯½Ñ, ´ë°³ ¿©·¯ ±ÛÀÚÀÇ ¹®ÀÚ·Î
-        ±¸¼ºµË´Ï´Ù. \verb+"!"+¿Í °°Àº ¹®ÀÚ¿­Àº ÇÏ³ªÀÇ ¹®ÀÚ¸¦ ³ªÅ¸³»´Â °ÍÃ³·³
-        º¸ÀÌÁö¸¸, ½ÇÁ¦·Î \verb+!+ ¹®ÀÚ¿Í, ¹®ÀÚ¿­ ³¡À» ³ªÅ¸³»´Â \verb+\0+, µÎ
-        °³ÀÇ ¹®ÀÚ·Î ±¸¼ºµË´Ï´Ù.
+        \verb+'!'+ì™€ ê°™ì€ ë¬¸ìž ìƒìˆ˜(character constant)ëŠ” í•œ ë¬¸ìžë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
+        ë¬¸ìžì—´(string literal)ì€ ìŒë”°ì˜´í‘œë¡œ ë‘˜ëŸ¬ì‹¼, ëŒ€ê°œ ì—¬ëŸ¬ ê¸€ìžì˜ ë¬¸ìžë¡œ
+        êµ¬ì„±ë©ë‹ˆë‹¤. \verb+"!"+ì™€ ê°™ì€ ë¬¸ìžì—´ì€ í•˜ë‚˜ì˜ ë¬¸ìžë¥¼ ë‚˜íƒ€ë‚´ëŠ” ê²ƒì²˜ëŸ¼
+        ë³´ì´ì§€ë§Œ, ì‹¤ì œë¡œ \verb+!+ ë¬¸ìžì™€, ë¬¸ìžì—´ ëì„ ë‚˜íƒ€ë‚´ëŠ” \verb+\0+, ë‘
+        ê°œì˜ ë¬¸ìžë¡œ êµ¬ì„±ë©ë‹ˆë‹¤.
 
-	C ¾ð¾î¿¡¼­ ¹®ÀÚ´Â ¹®ÀÚ ÁýÇÕ(character set)¿¡¼­ ±× ¹®ÀÚ°¡ ³ªÅ¸³»´Â
-	ÀÛÀº Á¤¼ö °ªÀ¸·Î Ç¥ÇöµË´Ï´Ù (Áú¹® \ql{8.6}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù).
-	¹®ÀÚ¿­Àº ¹®ÀÚµéÀÇ ¹è¿­·Î¼­ Ç¥ÇöµË´Ï´Ù; ¹®ÀÚ¿­À» ´Ù·ê ¶§¿¡´Â
-	º¸Åë ¹®ÀÚ ¹è¿­ÀÇ Ã¹ ¿ä¼Ò¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ¸¦ ½á¼­ ÇÕ´Ï´Ù.
-% ´ÙÀ½ ¹®Àå ¹ø¿ª,
+	C ì–¸ì–´ì—ì„œ ë¬¸ìžëŠ” ë¬¸ìž ì§‘í•©(character set)ì—ì„œ ê·¸ ë¬¸ìžê°€ ë‚˜íƒ€ë‚´ëŠ”
+	ìž‘ì€ ì •ìˆ˜ ê°’ìœ¼ë¡œ í‘œí˜„ë©ë‹ˆë‹¤ (ì§ˆë¬¸ \ql{8.6}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤).
+	ë¬¸ìžì—´ì€ ë¬¸ìžë“¤ì˜ ë°°ì—´ë¡œì„œ í‘œí˜„ë©ë‹ˆë‹¤; ë¬¸ìžì—´ì„ ë‹¤ë£° ë•Œì—ëŠ”
+	ë³´í†µ ë¬¸ìž ë°°ì—´ì˜ ì²« ìš”ì†Œë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ë¥¼ ì¨ì„œ í•©ë‹ˆë‹¤.
+% ë‹¤ìŒ ë¬¸ìž¥ ë²ˆì—­,
         It is never correct to use one when the other is expected.
-	¹®ÀÚ¿­¿¡ \verb+!+¸¦ ÀÌ¾î ºÙÀÌ·Á¸é ´ÙÀ½°ú °°ÀÌ ÇØ¾ß ÇÕ´Ï´Ù.
+	ë¬¸ìžì—´ì— \verb+!+ë¥¼ ì´ì–´ ë¶™ì´ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì´ í•´ì•¼ í•©ë‹ˆë‹¤.
 \begin{verbatim}
   strcat(string, "!");
 \end{verbatim}
 
-	Áú¹® \ql{1.32}, \ql{7.2}, \ql{16.6}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{1.32}, \ql{7.2}, \ql{16.6}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \R
 	\cite{ctp} \S\ 1.5 \Page{9--10}
 \end{faq}
 
 \begin{faq}
 \Q{8.2} % 8.2 COMPLETE
-	¹®ÀÚ¿­ÀÌ ¾î¶² Æ¯Á¤ÇÑ °ª°ú °°ÀºÁö °Ë»çÇÏ·Á°í ÇÕ´Ï´Ù.  ´ÙÀ½°ú °°ÀÌ
-	ÄÚµå¸¦ ¸¸µé¾ú´Âµ¥ ¿Ö µ¿ÀÛÇÏÁö ¾ÊÀ»±î¿ä?
+	ë¬¸ìžì—´ì´ ì–´ë–¤ íŠ¹ì •í•œ ê°’ê³¼ ê°™ì€ì§€ ê²€ì‚¬í•˜ë ¤ê³  í•©ë‹ˆë‹¤.  ë‹¤ìŒê³¼ ê°™ì´
+	ì½”ë“œë¥¼ ë§Œë“¤ì—ˆëŠ”ë° ì™œ ë™ìž‘í•˜ì§€ ì•Šì„ê¹Œìš”?
 \begin{verbatim}
   char *string;
   ...
@@ -65,18 +65,18 @@ string handling.
   }
 \end{verbatim}
 \A
-	C ¾ð¾î´Â ¹®ÀÚ¿­À» ¹®ÀÚÀÇ ¹è¿­·Î Ã³¸®ÇÕ´Ï´Ù.  ±×¸®°í C ¾ð¾î¿¡¼­´Â
-	¹è¿­ ÀüÃ¼¿¡ ´ëÇØ ¾î¶² ¿¬»êÀ» (´ëÀÔ, ºñ±³ µî) Á÷Á¢ ÇÒ ¼ö ÀÖ´Â
-	¹æ¹ýÀº ¾ø½À´Ï´Ù.  À§ÀÇ ÄÚµå¿¡¼­ \verb+==+ ¿¬»êÀº
-	ÇÇ¿¬»êÀÚÀÎ Æ÷ÀÎÅÍÀÇ °ªÀ» ºñ±³ÇÕ´Ï´Ù --- Áï º¯¼ö \TT{string}ÀÇ
-	Æ÷ÀÎÅÍ °ª°ú ¹®ÀÚ¿­ \verb+"value"+¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ °ªÀ» 
-        ºñ±³ÇÕ´Ï´Ù ---
-	µû¶ó¼­ µÎ °³ÀÇ Æ÷ÀÎÅÍ°¡ °°Àº °÷À» °¡¸®Å°´ÂÁö¸¦ ºñ±³ÇÕ´Ï´Ù.
-	´ë°³ÀÇ °æ¿ì ÀÌ °ªÀÌ °°°Ô µÉ °æ¿ì´Â °ÅÀÇ ¾øÀ¸¹Ç·Î, ÀÌ ºñ±³´Â
-	°ÅÀÇ Ç×»ó °°Áö ¾Ê´Ù°í ³ª¿É´Ï´Ù.
+	C ì–¸ì–´ëŠ” ë¬¸ìžì—´ì„ ë¬¸ìžì˜ ë°°ì—´ë¡œ ì²˜ë¦¬í•©ë‹ˆë‹¤.  ê·¸ë¦¬ê³  C ì–¸ì–´ì—ì„œëŠ”
+	ë°°ì—´ ì „ì²´ì— ëŒ€í•´ ì–´ë–¤ ì—°ì‚°ì„ (ëŒ€ìž…, ë¹„êµ ë“±) ì§ì ‘ í•  ìˆ˜ ìžˆëŠ”
+	ë°©ë²•ì€ ì—†ìŠµë‹ˆë‹¤.  ìœ„ì˜ ì½”ë“œì—ì„œ \verb+==+ ì—°ì‚°ì€
+	í”¼ì—°ì‚°ìžì¸ í¬ì¸í„°ì˜ ê°’ì„ ë¹„êµí•©ë‹ˆë‹¤ --- ì¦‰ ë³€ìˆ˜ \TT{string}ì˜
+	í¬ì¸í„° ê°’ê³¼ ë¬¸ìžì—´ \verb+"value"+ë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„° ê°’ì„ 
+        ë¹„êµí•©ë‹ˆë‹¤ ---
+	ë”°ë¼ì„œ ë‘ ê°œì˜ í¬ì¸í„°ê°€ ê°™ì€ ê³³ì„ ê°€ë¦¬í‚¤ëŠ”ì§€ë¥¼ ë¹„êµí•©ë‹ˆë‹¤.
+	ëŒ€ê°œì˜ ê²½ìš° ì´ ê°’ì´ ê°™ê²Œ ë  ê²½ìš°ëŠ” ê±°ì˜ ì—†ìœ¼ë¯€ë¡œ, ì´ ë¹„êµëŠ”
+	ê±°ì˜ í•­ìƒ ê°™ì§€ ì•Šë‹¤ê³  ë‚˜ì˜µë‹ˆë‹¤.
 
-	µÎ ¹®ÀÚ¿­À» ºñ±³ÇÏ´Â ¹æ¹ýÀ¸·Î ¶óÀÌºê·¯¸® ÇÔ¼öÀÎ \TT{strcmp()}¸¦ ¾²´Â
-	°ÍÀÌ °¡Àå ÁÁ½À´Ï´Ù:
+	ë‘ ë¬¸ìžì—´ì„ ë¹„êµí•˜ëŠ” ë°©ë²•ìœ¼ë¡œ ë¼ì´ë¸ŒëŸ¬ë¦¬ í•¨ìˆ˜ì¸ \TT{strcmp()}ë¥¼ ì“°ëŠ”
+	ê²ƒì´ ê°€ìž¥ ì¢‹ìŠµë‹ˆë‹¤:
 
 \begin{verbatim}
   if (strcmp(string, "value") == 0) {
@@ -88,64 +88,64 @@ string handling.
 
 \begin{faq}
 \Q{8.3} % 8.3 COMPLETE
-	´ÙÀ½°ú °°ÀÌ ÇÒ ¼ö ÀÖ´Ù¸é:
+	ë‹¤ìŒê³¼ ê°™ì´ í•  ìˆ˜ ìžˆë‹¤ë©´:
 \begin{verbatim}
   char a[] = "Hello, world!";
 \end{verbatim}
-	\noindent ¿Ö ÀÌ·¸°Ô´Â ÇÒ ¼ö ¾øÀ»±î¿ä?
+	\noindent ì™œ ì´ë ‡ê²ŒëŠ” í•  ìˆ˜ ì—†ì„ê¹Œìš”?
 \begin{verbatim}
   char a[14];
   a = "Hello, world!";
 \end{verbatim}
-\A	¹®ÀÚ¿­Àº ¹è¿­ÀÔ´Ï´Ù.  ±×¸®°í ¹è¿­¿¡´Â Á÷Á¢ ´ëÀÔ ¿¬»êÀ» ¾µ ¼ö
-	¾ø½À´Ï´Ù.  \TT{strcpy()} ÇÔ¼ö¸¦ ¾²±â ¹Ù¶ø´Ï´Ù:
+\A	ë¬¸ìžì—´ì€ ë°°ì—´ìž…ë‹ˆë‹¤.  ê·¸ë¦¬ê³  ë°°ì—´ì—ëŠ” ì§ì ‘ ëŒ€ìž… ì—°ì‚°ì„ ì“¸ ìˆ˜
+	ì—†ìŠµë‹ˆë‹¤.  \TT{strcpy()} í•¨ìˆ˜ë¥¼ ì“°ê¸° ë°”ëžë‹ˆë‹¤:
 \begin{verbatim}
   strcpy(a, "Hello, world!");
 \end{verbatim}
-	Áú¹® \ql{1.32}, \ql{4.2}, \ql{6.5}, \ql{7.2}¸¦ Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{1.32}, \ql{4.2}, \ql{6.5}, \ql{7.2}ë¥¼ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{8.4} % 8.4 COMPLETE
-	¿Ö \TT{strcat}ÀÌ µ¿ÀÛÇÏÁö ¾ÊÀ»±î¿ä? ¾Æ·¡ ÄÚµåÃ³·³ Çß´Âµ¥, Àß
-        ¾ÈµË´Ï´Ù:
+	ì™œ \TT{strcat}ì´ ë™ìž‘í•˜ì§€ ì•Šì„ê¹Œìš”? ì•„ëž˜ ì½”ë“œì²˜ëŸ¼ í–ˆëŠ”ë°, ìž˜
+        ì•ˆë©ë‹ˆë‹¤:
 \begin{verbatim}
   char *s1 = "Hello, ";
   char *s2 = "world!";
   char *s3 = strcat(s1, s2);
 \end{verbatim}
 \A
-	Áú¹® \ql{7.2}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{7.2}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{8.5} % 8.5 COMPLETE
-	¾Æ·¡ µÎ ÃÊ±âÈ­ ¹®ÀåÀÇ Â÷ÀÌ°¡ ÀÖ³ª¿ä?
+	ì•„ëž˜ ë‘ ì´ˆê¸°í™” ë¬¸ìž¥ì˜ ì°¨ì´ê°€ ìžˆë‚˜ìš”?
 \begin{verbatim}
   char a[] = "string literal";
   char *p = "string literal";
 \end{verbatim}
-	\noindent Á¦ ÇÁ·Î±×·¥¿¡¼­ \TT{p[i]}¿¡ ¾î¶² °ªÀ» ´ëÀÔÇÏ·Á ÇÏ¸é
-        ÇÁ·Î±×·¥ÀÌ ºñÁ¤»óÀûÀ¸·Î ³¡³ª¹ö¸³´Ï´Ù.
+	\noindent ì œ í”„ë¡œê·¸ëž¨ì—ì„œ \TT{p[i]}ì— ì–´ë–¤ ê°’ì„ ëŒ€ìž…í•˜ë ¤ í•˜ë©´
+        í”„ë¡œê·¸ëž¨ì´ ë¹„ì •ìƒì ìœ¼ë¡œ ëë‚˜ë²„ë¦½ë‹ˆë‹¤.
 \A
-	Áú¹® \ql{1.32}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{1.32}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{8.6} % 8.6 COMPLETE
-	¹®ÀÚ¿¡ ÇØ´çÇÏ´Â ¼öÄ¡ (ASCII ¶Ç´Â ´Ù¸¥ ¹®ÀÚ set code)) °ªÀ»
-        ¾î¶»°Ô ¾òÀ» ¼ö ÀÖÁÒ?
-	¶Ç ±× ¹Ý´ë·Î ¼öÄ¡ °ª¿¡¼­ ±× °ª¿¡ ÇØ´çÇÏ´Â ¹®ÀÚ¸¦ ¾î¶»°Ô ¾òÀ» ¼ö ÀÖÁÒ?
+	ë¬¸ìžì— í•´ë‹¹í•˜ëŠ” ìˆ˜ì¹˜ (ASCII ë˜ëŠ” ë‹¤ë¥¸ ë¬¸ìž set code)) ê°’ì„
+        ì–´ë–»ê²Œ ì–»ì„ ìˆ˜ ìžˆì£ ?
+	ë˜ ê·¸ ë°˜ëŒ€ë¡œ ìˆ˜ì¹˜ ê°’ì—ì„œ ê·¸ ê°’ì— í•´ë‹¹í•˜ëŠ” ë¬¸ìžë¥¼ ì–´ë–»ê²Œ ì–»ì„ ìˆ˜ ìžˆì£ ?
 
 \A
-	C ¾ð¾î¿¡¼­ ¹®ÀÚ´Â (ÄÄÇ»ÅÍÀÇ ¹®ÀÚ ¼ÂÀÇ) ¹®ÀÚ ÄÚµå ¹øÈ£·Î ÀÛÀº
-	Á¤¼ö·Î¼­ Ç¥ÇöµË´Ï´Ù.  µû¶ó¼­ Áú¹®ÇÑ °Í°ú °°Àº º¯È¯ÀÌ ÇÊ¿ä¾ø½À´Ï´Ù;
-	Áï ¹®ÀÚ¸¦ °¡Áö°í ÀÖ´Ù¸é, ±× ÀÚÃ¼°¡ °ªÀÌ µË´Ï´Ù. ¿¹¸¦ µé¾î, ´ÙÀ½ ÄÚµå´Â:
+	C ì–¸ì–´ì—ì„œ ë¬¸ìžëŠ” (ì»´í“¨í„°ì˜ ë¬¸ìž ì…‹ì˜) ë¬¸ìž ì½”ë“œ ë²ˆí˜¸ë¡œ ìž‘ì€
+	ì •ìˆ˜ë¡œì„œ í‘œí˜„ë©ë‹ˆë‹¤.  ë”°ë¼ì„œ ì§ˆë¬¸í•œ ê²ƒê³¼ ê°™ì€ ë³€í™˜ì´ í•„ìš”ì—†ìŠµë‹ˆë‹¤;
+	ì¦‰ ë¬¸ìžë¥¼ ê°€ì§€ê³  ìžˆë‹¤ë©´, ê·¸ ìžì²´ê°€ ê°’ì´ ë©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, ë‹¤ìŒ ì½”ë“œëŠ”:
 \begin{verbatim}
   int c1 = 'A', c2 = 65;
   printf("%c %d %c %d\n", c1, c1, c2, c2);
 \end{verbatim}
-	ASCII¸¦ ¾²´Â ½Ã½ºÅÛ¿¡¼­, ´ÙÀ½°ú °°Àº Ãâ·ÂÀ» ¸¸µé¾î ³À´Ï´Ù:
+	ASCIIë¥¼ ì“°ëŠ” ì‹œìŠ¤í…œì—ì„œ, ë‹¤ìŒê³¼ ê°™ì€ ì¶œë ¥ì„ ë§Œë“¤ì–´ ëƒ…ë‹ˆë‹¤:
 \begin{verbatim}
   A 65 A 65
 \end{verbatim}
@@ -154,41 +154,41 @@ string handling.
 
 \begin{faq}
 \Q{8.7} % 8.7 COMPLETE
-	C ¾ð¾î¿¡¼­, ´Ù¸¥ ¾ð¾î¿¡¼­ Á¦°øÇÏ´Â °ÍÃ³·³, ¹®ÀÚ¿­ÀÇ ÀÏºÎ¸¦ »Ì¾Æ³»´Â,
-        ``substr''¿Í °°Àº ±â´ÉÀÌ ÀÖ³ª¿ä?
+	C ì–¸ì–´ì—ì„œ, ë‹¤ë¥¸ ì–¸ì–´ì—ì„œ ì œê³µí•˜ëŠ” ê²ƒì²˜ëŸ¼, ë¬¸ìžì—´ì˜ ì¼ë¶€ë¥¼ ë½‘ì•„ë‚´ëŠ”,
+        ``substr''ì™€ ê°™ì€ ê¸°ëŠ¥ì´ ìžˆë‚˜ìš”?
 \A
-	Áú¹® \ql{13.3}¸¦ º¸±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{13.3}ë¥¼ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{8.8} % 8.8 COMPLETE
-	»ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ¹®ÀÚ¿­À» ÀÐ¾î¼­ ¹è¿­¿¡ ÀúÀåÇÑ ´ÙÀ½, ³ªÁß¿¡ Ãâ·ÂÇÏ·Á°í
-        ÇÕ´Ï´Ù. »ç¿ëÀÚ°¡ \verb+\n+¿Í °°Àº ¹®ÀÚ¸¦ ÀÔ·ÂÇÑ °æ¿ì, ¿Ö Á¦´ë·Î
-        Ã³¸®µÇÁö ¾ÊÀ»±î¿ä?
+	ì‚¬ìš©ìžê°€ ìž…ë ¥í•œ ë¬¸ìžì—´ì„ ì½ì–´ì„œ ë°°ì—´ì— ì €ìž¥í•œ ë‹¤ìŒ, ë‚˜ì¤‘ì— ì¶œë ¥í•˜ë ¤ê³ 
+        í•©ë‹ˆë‹¤. ì‚¬ìš©ìžê°€ \verb+\n+ì™€ ê°™ì€ ë¬¸ìžë¥¼ ìž…ë ¥í•œ ê²½ìš°, ì™œ ì œëŒ€ë¡œ
+        ì²˜ë¦¬ë˜ì§€ ì•Šì„ê¹Œìš”?
 \A
-	\verb+\n+¿Í °°Àº ¹®ÀÚ ½ÃÄö½º(character sequence)µéÀº ÄÄÆÄÀÏÇÒ ¶§
-        ÇØ¼®µË´Ï´Ù. ¹®ÀÚ »ó¼ö³ª ¹®ÀÚ¿­¿¡ ¹é½½·¡½Ã°¡ ³ª¿À°í ¹Ù·Î µÚ¿¡ 
-        \verb+n+ÀÌ ³ª¿À¸é, ÇÑ ±ÛÀÚ, newline ¹®ÀÚ·Î ÇØ¼®µË´Ï´Ù. 
-        (´Ù¸¥ character escape sequenceµµ ºñ½ÁÇÑ ¹æ¹ýÀ¸·Î Ã³¸®µË´Ï´Ù.)
-        »ç¿ëÀÚ³ª ÆÄÀÏ¿¡¼­ ¹®ÀÚ¿­À» ÀÐÀ» ¶§´Â ÀÌ¿Í °°Àº ÇØ¼®ÀÌ Àû¿ëµÇÁö ¾Ê½À´Ï´Ù:
-        Áï, ¹é½½·¡½Ã´Â ´Ù¸¥ ¹®ÀÚ¿Í ÀüÇô ´Ù¸¦°Ô ¾øÀÌ Ãë±ÞµÇ¸ç, ÇÏ³ªÀÇ ¹®ÀÚ·Î
-        °£ÁÖµË´Ï´Ù. (run-time I/O°¡ ÀÏ¾î³¯ ¶§, newline ¹®ÀÚ¸¦ À§ÇØ ¾î¶²
-        ¹ø¿ª ÀÛ¾÷ÀÌ ÀÌ·ïÁú ¼ö ÀÖÁö¸¸, ÀÌ °ÍÀº ÀüÇô ´Ù¸¥ ¹®Á¦ÀÔ´Ï´Ù. Áú¹®
-        \ql{12.40}À» º¸±â ¹Ù¶ø´Ï´Ù.) \seealso{\ql{12.6}}
+	\verb+\n+ì™€ ê°™ì€ ë¬¸ìž ì‹œí€€ìŠ¤(character sequence)ë“¤ì€ ì»´íŒŒì¼í•  ë•Œ
+        í•´ì„ë©ë‹ˆë‹¤. ë¬¸ìž ìƒìˆ˜ë‚˜ ë¬¸ìžì—´ì— ë°±ìŠ¬ëž˜ì‹œê°€ ë‚˜ì˜¤ê³  ë°”ë¡œ ë’¤ì— 
+        \verb+n+ì´ ë‚˜ì˜¤ë©´, í•œ ê¸€ìž, newline ë¬¸ìžë¡œ í•´ì„ë©ë‹ˆë‹¤. 
+        (ë‹¤ë¥¸ character escape sequenceë„ ë¹„ìŠ·í•œ ë°©ë²•ìœ¼ë¡œ ì²˜ë¦¬ë©ë‹ˆë‹¤.)
+        ì‚¬ìš©ìžë‚˜ íŒŒì¼ì—ì„œ ë¬¸ìžì—´ì„ ì½ì„ ë•ŒëŠ” ì´ì™€ ê°™ì€ í•´ì„ì´ ì ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤:
+        ì¦‰, ë°±ìŠ¬ëž˜ì‹œëŠ” ë‹¤ë¥¸ ë¬¸ìžì™€ ì „í˜€ ë‹¤ë¥¼ê²Œ ì—†ì´ ì·¨ê¸‰ë˜ë©°, í•˜ë‚˜ì˜ ë¬¸ìžë¡œ
+        ê°„ì£¼ë©ë‹ˆë‹¤. (run-time I/Oê°€ ì¼ì–´ë‚  ë•Œ, newline ë¬¸ìžë¥¼ ìœ„í•´ ì–´ë–¤
+        ë²ˆì—­ ìž‘ì—…ì´ ì´ë¤„ì§ˆ ìˆ˜ ìžˆì§€ë§Œ, ì´ ê²ƒì€ ì „í˜€ ë‹¤ë¥¸ ë¬¸ì œìž…ë‹ˆë‹¤. ì§ˆë¬¸
+        \ql{12.40}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.) \seealso{\ql{12.6}}
 \end{faq}
 
 \begin{faq}
 \Q{8.9} % 8.9 COMPLETE
-	Á¦ ÄÄÆÄÀÏ·¯¿¡ ¹ö±×°¡ ÀÖ½À´Ï´Ù.  \verb+sizeof('a')+ÀÇ
-        °ªÀÌ \verb+sizeof(char)+ÀÎ 1·Î ³ª¿ÀÁö ¾Ê°í, 2°¡ ³ª¿É´Ï´Ù.
+	ì œ ì»´íŒŒì¼ëŸ¬ì— ë²„ê·¸ê°€ ìžˆìŠµë‹ˆë‹¤.  \verb+sizeof('a')+ì˜
+        ê°’ì´ \verb+sizeof(char)+ì¸ 1ë¡œ ë‚˜ì˜¤ì§€ ì•Šê³ , 2ê°€ ë‚˜ì˜µë‹ˆë‹¤.
 \A
-	³î¶ø°Ôµµ, C ¾ð¾î¿¡¼­ ¹®ÀÚ »ó¼ö(character constant)ÀÇ
-        Å¸ÀÔÀº \TT{int}ÀÔ´Ï´Ù.
-	µû¶ó¼­ \verb+sizeof('a')+´Â \verb+sizeof(int)+¿Í °°½À´Ï´Ù.
-        (C++¿¡¼­´Â Á¶±Ý ´Ù¸¨´Ï´Ù.) \seealso{\ql{7.8}}
+	ë†€ëžê²Œë„, C ì–¸ì–´ì—ì„œ ë¬¸ìž ìƒìˆ˜(character constant)ì˜
+        íƒ€ìž…ì€ \TT{int}ìž…ë‹ˆë‹¤.
+	ë”°ë¼ì„œ \verb+sizeof('a')+ëŠ” \verb+sizeof(int)+ì™€ ê°™ìŠµë‹ˆë‹¤.
+        (C++ì—ì„œëŠ” ì¡°ê¸ˆ ë‹¤ë¦…ë‹ˆë‹¤.) \seealso{\ql{7.8}}
 \T
-	Âü°í·Î C++¿¡¼­ ¹®ÀÚ »ó¼öÀÇ Å¸ÀÔÀº \TT{char}ÀÔ´Ï´Ù. Áï,
-        \verb+sizeof('a')+´Â \verb+sizeof(char)+¿Í °°½À´Ï´Ù.
+	ì°¸ê³ ë¡œ C++ì—ì„œ ë¬¸ìž ìƒìˆ˜ì˜ íƒ€ìž…ì€ \TT{char}ìž…ë‹ˆë‹¤. ì¦‰,
+        \verb+sizeof('a')+ëŠ” \verb+sizeof(char)+ì™€ ê°™ìŠµë‹ˆë‹¤.
 \R
 	\cite{ansi} \S\ 3.1.3.4 \\
 	\cite{c89} \S\ 6.1.3.4 \\
@@ -200,28 +200,28 @@ string handling.
 	I'm starting to think about multinational character sets. Should I
         worry about the implication of making \TT{sizeof(char)} be 2 so that
         16-bit character sets can be represented?
-%	¿©·¯ ¾ð¾î¸¦ Ã³¸®ÇÒ ¼ö ÀÖ´Â ¹®ÀÚ ¼¼Æ®(multinational character set)¸¦
-%        »ý°¢ÇÏ°í ÀÖ½À´Ï´Ù. 16-bit ¹®ÀÚ ¼¼Æ®¸¦ Áö¿øÇÏ±â À§ÇØ, 
-%        \verb+sizeof(char)+°¡ 2°¡ µÇ´Â °ÍÀ» ±â´ëÇÒ ¼ö ÀÖÀ»±î¿ä?
-% TODO: ¸Â°Ô ¹ø¿ªÇÑ °Ç°¡?
+%	ì—¬ëŸ¬ ì–¸ì–´ë¥¼ ì²˜ë¦¬í•  ìˆ˜ ìžˆëŠ” ë¬¸ìž ì„¸íŠ¸(multinational character set)ë¥¼
+%        ìƒê°í•˜ê³  ìžˆìŠµë‹ˆë‹¤. 16-bit ë¬¸ìž ì„¸íŠ¸ë¥¼ ì§€ì›í•˜ê¸° ìœ„í•´, 
+%        \verb+sizeof(char)+ê°€ 2ê°€ ë˜ëŠ” ê²ƒì„ ê¸°ëŒ€í•  ìˆ˜ ìžˆì„ê¹Œìš”?
+% TODO: ë§žê²Œ ë²ˆì—­í•œ ê±´ê°€?
 \A
-	¸¸¾à \TT{char}°¡ 16 bit°¡ µÈ´Ù°í ÇØµµ, \TT{sizeof(char)}´Â ¿©ÀüÈ÷
-        1ÀÌ µË´Ï´Ù. ´ë½Å \verb+<limits.h>+¿¡ Á¤ÀÇµÈ, \verb+CHAR_BIT+ÀÌ
-        16ÀÌ µË´Ï´Ù. ÀÌ °æ¿ì¿¡´Â ÇÑ, 8-bit ¿ÀºêÁ§Æ®¸¦ ¼±¾ðÇÏ´Â °ÍÀº (¶Ç,
-        \TT{malloc}À¸·Î ÇÒ´çÇÏ´Â °Íµµ) ºÒ°¡´ÉÇÕ´Ï´Ù.
+	ë§Œì•½ \TT{char}ê°€ 16 bitê°€ ëœë‹¤ê³  í•´ë„, \TT{sizeof(char)}ëŠ” ì—¬ì „ížˆ
+        1ì´ ë©ë‹ˆë‹¤. ëŒ€ì‹  \verb+<limits.h>+ì— ì •ì˜ëœ, \verb+CHAR_BIT+ì´
+        16ì´ ë©ë‹ˆë‹¤. ì´ ê²½ìš°ì—ëŠ” í•œ, 8-bit ì˜¤ë¸Œì íŠ¸ë¥¼ ì„ ì–¸í•˜ëŠ” ê²ƒì€ (ë˜,
+        \TT{malloc}ìœ¼ë¡œ í• ë‹¹í•˜ëŠ” ê²ƒë„) ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.
 
-        ÀüÅëÀûÀ¸·Î, ÇÑ ¹ÙÀÌÆ®°¡ ²À 8 bitÀÏ ÇÊ¿ä´Â ¾ø½À´Ï´Ù. ´ÜÁö, ÇÑ ±ÛÀÚ¸¦
-        ÀúÀåÇÏ±â¿¡ ÃæºÐÇÑ, ÀÛÀº Å©±âÀÇ ¸Þ¸ð¸® °ø°£ÀÌ¸é µË´Ï´Ù. C Ç¥ÁØ¿¡¼­µµ
-        ÀÌ ¹æ½ÄÀ» µû¸£¸ç, µû¶ó¼­ \TT{malloc}ÀÌ³ª \TT{sizeof}¿¡¼­ ¾²ÀÌ´Â
-        ¹ÙÀÌÆ®°¡ 8 bit ÀÌ»óÀÏ ¼öµµ ÀÖ½À´Ï´Ù.\footnote{Àü¹® ¿ë¾î·Î, 8 bit·Î
-          Ç¥ÇöµÇ´Â ¹ÙÀÌÆ®¸¦ ``octet''ÀÌ¶ó°í ÇÕ´Ï´Ù.} (´ë½Å Ç¥ÁØ¿¡¼­, ¹ÙÀÌÆ®°¡
-        8 bit ÀÌ»óµÇ¾î¾ß ÇÑ´Ù°í Á¤ÇØ ³õ¾Ò½À´Ï´Ù.)
+        ì „í†µì ìœ¼ë¡œ, í•œ ë°”ì´íŠ¸ê°€ ê¼­ 8 bitì¼ í•„ìš”ëŠ” ì—†ìŠµë‹ˆë‹¤. ë‹¨ì§€, í•œ ê¸€ìžë¥¼
+        ì €ìž¥í•˜ê¸°ì— ì¶©ë¶„í•œ, ìž‘ì€ í¬ê¸°ì˜ ë©”ëª¨ë¦¬ ê³µê°„ì´ë©´ ë©ë‹ˆë‹¤. C í‘œì¤€ì—ì„œë„
+        ì´ ë°©ì‹ì„ ë”°ë¥´ë©°, ë”°ë¼ì„œ \TT{malloc}ì´ë‚˜ \TT{sizeof}ì—ì„œ ì“°ì´ëŠ”
+        ë°”ì´íŠ¸ê°€ 8 bit ì´ìƒì¼ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.\footnote{ì „ë¬¸ ìš©ì–´ë¡œ, 8 bitë¡œ
+          í‘œí˜„ë˜ëŠ” ë°”ì´íŠ¸ë¥¼ ``octet''ì´ë¼ê³  í•©ë‹ˆë‹¤.} (ëŒ€ì‹  í‘œì¤€ì—ì„œ, ë°”ì´íŠ¸ê°€
+        8 bit ì´ìƒë˜ì–´ì•¼ í•œë‹¤ê³  ì •í•´ ë†“ì•˜ìŠµë‹ˆë‹¤.)
 
-        Multinational character setÀ» Ã³¸®ÇÏ±â À§ÇØ¼­´Â \TT{char} ÀÌ»óÀÇ
-        ¾î¶² Å¸ÀÔÀÌ ÇÊ¿äÇÏ°í, ANSI/ISO C Ç¥ÁØ¿¡¼­´Â ÀÌ¸¦ À§ÇØ, ´õ Å« ¹üÀ§¸¦
-        Æ÷ÇÔÇÒ ¼ö ÀÖ´Ù´Â ¶æÀÇ ``wide'' ¹®ÀÚ Å¸ÀÔÀÎ, \verb+wchar_t+¸¦
-        Á¦°øÇÕ´Ï´Ù. ¶ÇÇÑ ÀÌ Å¸ÀÔÀ¸·Î Ã³¸®ÇÏ´Â wide ¹®ÀÚ »ó¼ö, wide ¹®ÀÚ¿­,
-        ¶Ç wide ¹®ÀÚ ¹× ¹®ÀÚ¿­À» Ã³¸®ÇÒ ¼ö ÀÖ´Â ÇÔ¼öµéÀ» Á¦°øÇÕ´Ï´Ù.
+        Multinational character setì„ ì²˜ë¦¬í•˜ê¸° ìœ„í•´ì„œëŠ” \TT{char} ì´ìƒì˜
+        ì–´ë–¤ íƒ€ìž…ì´ í•„ìš”í•˜ê³ , ANSI/ISO C í‘œì¤€ì—ì„œëŠ” ì´ë¥¼ ìœ„í•´, ë” í° ë²”ìœ„ë¥¼
+        í¬í•¨í•  ìˆ˜ ìžˆë‹¤ëŠ” ëœ»ì˜ ``wide'' ë¬¸ìž íƒ€ìž…ì¸, \verb+wchar_t+ë¥¼
+        ì œê³µí•©ë‹ˆë‹¤. ë˜í•œ ì´ íƒ€ìž…ìœ¼ë¡œ ì²˜ë¦¬í•˜ëŠ” wide ë¬¸ìž ìƒìˆ˜, wide ë¬¸ìžì—´,
+        ë˜ wide ë¬¸ìž ë° ë¬¸ìžì—´ì„ ì²˜ë¦¬í•  ìˆ˜ ìžˆëŠ” í•¨ìˆ˜ë“¤ì„ ì œê³µí•©ë‹ˆë‹¤.
 
         \seealso{\ql{7.8}}
 \R
@@ -236,7 +236,7 @@ string handling.
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

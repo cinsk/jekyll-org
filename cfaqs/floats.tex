@@ -6,33 +6,33 @@
 <pre>$Id$</pre>
 \end{rawhtml}
 
-Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
-°Ô´Ù°¡ C ¾ð¾î´Â ¿ø·¡ floating point¸¦ ÁÖ·Î ¾µ ¸ñÀûÀÌ ¾Æ´Ï¾ú±â ¶§¹®¿¡ ´õ¿í
-¹®Á¦°¡ µË´Ï´Ù.
+Floating point(ì‹¤ìˆ˜) ê³„ì‚°ì€ ë•Œë•Œë¡œ ë¬¸ì œê°€ ë˜ë©°, ì‹ ë¹„ìŠ¤ëŸ½ê²Œ ë³´ì´ê¸°ë„ í•©ë‹ˆë‹¤.
+ê²Œë‹¤ê°€ C ì–¸ì–´ëŠ” ì›ëž˜ floating pointë¥¼ ì£¼ë¡œ ì“¸ ëª©ì ì´ ì•„ë‹ˆì—ˆê¸° ë•Œë¬¸ì— ë”ìš±
+ë¬¸ì œê°€ ë©ë‹ˆë‹¤.
 
 
 \begin{faq}
 \Q{14.1}
-	\TT{float} Å¸ÀÔÀÇ º¯¼ö¿¡ 3.1À» ³Ö°í \TT{printf}·Î Ãâ·ÂÇØº¸´Ï
-	3.09999999°¡ ³ª¿É´Ï´Ù.  ¿Ö ±×·²±î¿ä?
+	\TT{float} íƒ€ìž…ì˜ ë³€ìˆ˜ì— 3.1ì„ ë„£ê³  \TT{printf}ë¡œ ì¶œë ¥í•´ë³´ë‹ˆ
+	3.09999999ê°€ ë‚˜ì˜µë‹ˆë‹¤.  ì™œ ê·¸ëŸ´ê¹Œìš”?
 \A
-	´ëºÎºÐÀÇ ÄÄÇ»ÅÍ´Â ½Ç¼ö¸¦ Ç¥ÇöÇÒ ¶§, ³»ºÎÀûÀ¸·Î 2 Áø¼ö·Î ±â·ÏÇÕ´Ï´Ù.
-	2 Áø¼ö¿¡¼­´Â 0.1Àº ¹«¸®¼ö·Î (0.0001100110011\ldots)
-	Ç¥ÇöµË´Ï´Ù.  µû¶ó¼­ 3.1°ú °°Àº ¼ö´Â (10 Áø¼ö·Î º¼ ¶§¿¡´Â À¯¸®¼öÀÌÁö¸¸)
-	2 Áø¼ö¿¡¼­´Â À¯ÇÑÇÑ ¼öÄ¡·Î Ç¥ÇöµÉ ¼ö ¾ø½À´Ï´Ù.  ¿©·¯ºÐÀÇ ½Ã½ºÅÛ¿¡¼­
-	10 Áø¼ö¸¦ 2 Áø¼ö·Î º¯È¯ÇÏ´Â ·çÆ¾ÀÌ ¾î¶»°Ô ÀÛ¼ºµÇ¾ú´À³Ä¿¡ µû¶ó
-	´Ù¸£°ÚÁö¸¸, (Æ¯È÷ Á¤¹Ðµµ°¡ ³·Àº \TT{float}À» ¾µ °æ¿ì) ´ëÀÔÇÑ ¼öÄ¡¿Í
-	Ãâ·Â °á°ú°¡ ¾à°£ ´Ù¸¦ ¼ö ÀÖ½À´Ï´Ù.  \seealso{\ql{14.6}}
+	ëŒ€ë¶€ë¶„ì˜ ì»´í“¨í„°ëŠ” ì‹¤ìˆ˜ë¥¼ í‘œí˜„í•  ë•Œ, ë‚´ë¶€ì ìœ¼ë¡œ 2 ì§„ìˆ˜ë¡œ ê¸°ë¡í•©ë‹ˆë‹¤.
+	2 ì§„ìˆ˜ì—ì„œëŠ” 0.1ì€ ë¬´ë¦¬ìˆ˜ë¡œ (0.0001100110011\ldots)
+	í‘œí˜„ë©ë‹ˆë‹¤.  ë”°ë¼ì„œ 3.1ê³¼ ê°™ì€ ìˆ˜ëŠ” (10 ì§„ìˆ˜ë¡œ ë³¼ ë•Œì—ëŠ” ìœ ë¦¬ìˆ˜ì´ì§€ë§Œ)
+	2 ì§„ìˆ˜ì—ì„œëŠ” ìœ í•œí•œ ìˆ˜ì¹˜ë¡œ í‘œí˜„ë  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.  ì—¬ëŸ¬ë¶„ì˜ ì‹œìŠ¤í…œì—ì„œ
+	10 ì§„ìˆ˜ë¥¼ 2 ì§„ìˆ˜ë¡œ ë³€í™˜í•˜ëŠ” ë£¨í‹´ì´ ì–´ë–»ê²Œ ìž‘ì„±ë˜ì—ˆëŠëƒì— ë”°ë¼
+	ë‹¤ë¥´ê² ì§€ë§Œ, (íŠ¹ížˆ ì •ë°€ë„ê°€ ë‚®ì€ \TT{float}ì„ ì“¸ ê²½ìš°) ëŒ€ìž…í•œ ìˆ˜ì¹˜ì™€
+	ì¶œë ¥ ê²°ê³¼ê°€ ì•½ê°„ ë‹¤ë¥¼ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  \seealso{\ql{14.6}}
 \end{faq}
 
 \begin{faq}
 \Q{14.2}
-	Á¦°ö±ÙÀ» (square root) ±¸ÇÏ·Á ÇÏ´Âµ¥, ÀÌ»óÇÑ °ª¸¸ ³ª¿É´Ï´Ù.
+	ì œê³±ê·¼ì„ (square root) êµ¬í•˜ë ¤ í•˜ëŠ”ë°, ì´ìƒí•œ ê°’ë§Œ ë‚˜ì˜µë‹ˆë‹¤.
 \A
-	¸ÕÀú \verb+<math.h>+¸¦ Æ÷ÇÔ½ÃÄ×´ÂÁö °Ë»çÇØ º¸°í, ÇÔ¼öµéÀÌ
-	\TT{double}À» ¸®ÅÏÇÏµµ·Ï ¼±¾ðµÇ¾ú´ÂÁö Ã¼Å©ÇØº¸±â ¹Ù¶ø´Ï´Ù.
-	(\TT{atof()} ÇÔ¼ö´Â \verb+<stdlib.h>+¿¡ ¼±¾ðµÇ¾î ÀÖÀ½À» ÁÖÀÇÇÏ±â
-	¹Ù¶ø´Ï´Ù.) \seealso{\ql{14.3}}
+	ë¨¼ì € \verb+<math.h>+ë¥¼ í¬í•¨ì‹œì¼°ëŠ”ì§€ ê²€ì‚¬í•´ ë³´ê³ , í•¨ìˆ˜ë“¤ì´
+	\TT{double}ì„ ë¦¬í„´í•˜ë„ë¡ ì„ ì–¸ë˜ì—ˆëŠ”ì§€ ì²´í¬í•´ë³´ê¸° ë°”ëžë‹ˆë‹¤.
+	(\TT{atof()} í•¨ìˆ˜ëŠ” \verb+<stdlib.h>+ì— ì„ ì–¸ë˜ì–´ ìžˆìŒì„ ì£¼ì˜í•˜ê¸°
+	ë°”ëžë‹ˆë‹¤.) \seealso{\ql{14.3}}
 
 \R
 	\cite{ctp} \S\ 4.5 \Page{65--6}
@@ -40,42 +40,42 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.3}
-	»ï°¢ ÇÔ¼ö¸¦ ¾²·Á°í ÇÏ´Âµ¥ \verb+<math.h>+¸¦ Æ÷ÇÔ½ÃÄ×´Âµ¥µµ
-	ÄÄÆÄÀÏ·¯´Â ``undefined: sin''ÀÌ¶ó´Â ÄÄÆÄÀÏ ¿¡·¯¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+	ì‚¼ê° í•¨ìˆ˜ë¥¼ ì“°ë ¤ê³  í•˜ëŠ”ë° \verb+<math.h>+ë¥¼ í¬í•¨ì‹œì¼°ëŠ”ë°ë„
+	ì»´íŒŒì¼ëŸ¬ëŠ” ``undefined: sin''ì´ë¼ëŠ” ì»´íŒŒì¼ ì—ëŸ¬ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 \A
-	¼öÇÐ ¶óÀÌºê·¯¸®¸¦ Æ÷ÇÔ½ÃÄ×´ÂÁö Ã¼Å©ÇÏ±â ¹Ù¶ø´Ï´Ù.
-	¿¹¸¦ µé¾î UNIX ½Ã½ºÅÛ¿¡¼­´Â `-lm' ¿É¼ÇÀ» ÄÄÆÄÀÏÇÒ ¶§ ¸¶Áö¸· ÀÎÀÚ·Î
-	ÁÖ¾î¾ß ÇÕ´Ï´Ù.  \seealso{\ql{13.25}, \ql{13.26}, \ql{14.2}}
+	ìˆ˜í•™ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ í¬í•¨ì‹œì¼°ëŠ”ì§€ ì²´í¬í•˜ê¸° ë°”ëžë‹ˆë‹¤.
+	ì˜ˆë¥¼ ë“¤ì–´ UNIX ì‹œìŠ¤í…œì—ì„œëŠ” `-lm' ì˜µì…˜ì„ ì»´íŒŒì¼í•  ë•Œ ë§ˆì§€ë§‰ ì¸ìžë¡œ
+	ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤.  \seealso{\ql{13.25}, \ql{13.26}, \ql{14.2}}
 \end{faq}
 
 \begin{faq}
 \Q{14.4}
-	Á¦°¡ ¸¸µç ½Ç¼ö °è»ê ·çÆ¾Àº ¸Å¿ì ÀÌ»óÇÑ °á°ú¸¦ Ãâ·ÂÇÏ°í, ¶Ç
-	ÄÄÇ»ÅÍ°¡ ´Ù¸£¸é ´Ù¸¥ °á°ú°¡ ³ª¿É´Ï´Ù.
+	ì œê°€ ë§Œë“  ì‹¤ìˆ˜ ê³„ì‚° ë£¨í‹´ì€ ë§¤ìš° ì´ìƒí•œ ê²°ê³¼ë¥¼ ì¶œë ¥í•˜ê³ , ë˜
+	ì»´í“¨í„°ê°€ ë‹¤ë¥´ë©´ ë‹¤ë¥¸ ê²°ê³¼ê°€ ë‚˜ì˜µë‹ˆë‹¤.
 \A
-	¸ÕÀú Áú¹® \ql{14.2}¸¦ ÀÐ¾îº¸±â ¹Ù¶ø´Ï´Ù.
+	ë¨¼ì € ì§ˆë¬¸ \ql{14.2}ë¥¼ ì½ì–´ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 
-	¹®Á¦°¡ °£´ÜÇÏÁö ¾Ê°ÚÁö¸¸, µðÁöÅÐ ÄÄÇ»ÅÍ¿¡¼­ ½Ç¼ö Ã³¸®´Â
-	Á¤È®ÇÏÁö ¾ÊÀ» ¼öµµ ÀÖ´Ù´Â °ÍÀ» ¾Ë¾ÆµÎ¼Å¾ß ÇÕ´Ï´Ù.
-	¾ð´õÇÃ·Î¿ì(underflow)°¡ ÀÏ¾î³¯ ¼öµµ ÀÖÀ¸¸ç, ¿ÀÂ÷°¡ Á¡Á¡ ´©ÀûµÉ
-	¼öµµ ÀÖ½À´Ï´Ù.
+	ë¬¸ì œê°€ ê°„ë‹¨í•˜ì§€ ì•Šê² ì§€ë§Œ, ë””ì§€í„¸ ì»´í“¨í„°ì—ì„œ ì‹¤ìˆ˜ ì²˜ë¦¬ëŠ”
+	ì •í™•í•˜ì§€ ì•Šì„ ìˆ˜ë„ ìžˆë‹¤ëŠ” ê²ƒì„ ì•Œì•„ë‘ì…”ì•¼ í•©ë‹ˆë‹¤.
+	ì–¸ë”í”Œë¡œìš°(underflow)ê°€ ì¼ì–´ë‚  ìˆ˜ë„ ìžˆìœ¼ë©°, ì˜¤ì°¨ê°€ ì ì  ëˆ„ì ë 
+	ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
 
-	µû¶ó¼­ ½Ç¼ö ¿¬»êÀÌ Á¤È®ÇÏÁö ¾Ê´Ù´Â °ÍÀ» ±â¾ïÇÏ±â ¹Ù¶ó¸ç,
-	°°Àº ÀÌÀ¯·Î µÎ ½Ç¼ö°¡ °°ÀºÁö ºñ±³ÇÏ´Â °ÍÀº ÁÁÁö ¾Ê½À´Ï´Ù.
-	(Don't throw haphazard ``fuzz factors'' in, either; Áú¹® \ql{14.5}¸¦
-	Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
-% TODO: À§ ¹®Àå ¹ø¿ª
+	ë”°ë¼ì„œ ì‹¤ìˆ˜ ì—°ì‚°ì´ ì •í™•í•˜ì§€ ì•Šë‹¤ëŠ” ê²ƒì„ ê¸°ì–µí•˜ê¸° ë°”ë¼ë©°,
+	ê°™ì€ ì´ìœ ë¡œ ë‘ ì‹¤ìˆ˜ê°€ ê°™ì€ì§€ ë¹„êµí•˜ëŠ” ê²ƒì€ ì¢‹ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	(Don't throw haphazard ``fuzz factors'' in, either; ì§ˆë¬¸ \ql{14.5}ë¥¼
+	ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
+% TODO: ìœ„ ë¬¸ìž¥ ë²ˆì—­
 
-	ÀÌ·± ¹®Á¦´Â ²À C ¾ð¾î¿¡¸¸ ±¹ÇÑµÈ °ÍÀÌ ¾Æ´Ï°í, ¸ðµç ÇÁ·Î±×·¡¹Ö
-	¾ð¾î¿¡¼­ ¹ß»ýÇÒ ¼ö ÀÖ½À´Ï´Ù.  ½Ç¼ö¿¡ ´ëÇÑ ¾î¶² ºÎºÐµéÀº ´ë°³
-	``ÇÁ·Î¼¼¼­°¡ ¾î¶»°Ô Ã³¸®ÇÏ´À³Ä''¿¡ µû¶ó ´Ù¸¨´Ï´Ù
-	(\seealso{\ql{11.34}}), ±×·¸Áö ¾Ê´Â °æ¿ì¶ó¸é ÀûÀýÇÑ ±â´ÉÀ» ¼öÇàÇÒ ¼ö ÀÖ°Ô
-	ÇÏ±â À§ÇØ ´ñ°¡°¡ Å« ¿¡¹Ä·¹ÀÌ¼ÇÀ» »ç¿ëÇÕ´Ï´Ù.
+	ì´ëŸ° ë¬¸ì œëŠ” ê¼­ C ì–¸ì–´ì—ë§Œ êµ­í•œëœ ê²ƒì´ ì•„ë‹ˆê³ , ëª¨ë“  í”„ë¡œê·¸ëž˜ë°
+	ì–¸ì–´ì—ì„œ ë°œìƒí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  ì‹¤ìˆ˜ì— ëŒ€í•œ ì–´ë–¤ ë¶€ë¶„ë“¤ì€ ëŒ€ê°œ
+	``í”„ë¡œì„¸ì„œê°€ ì–´ë–»ê²Œ ì²˜ë¦¬í•˜ëŠëƒ''ì— ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤
+	(\seealso{\ql{11.34}}), ê·¸ë ‡ì§€ ì•ŠëŠ” ê²½ìš°ë¼ë©´ ì ì ˆí•œ ê¸°ëŠ¥ì„ ìˆ˜í–‰í•  ìˆ˜ ìžˆê²Œ
+	í•˜ê¸° ìœ„í•´ ëŒ“ê°€ê°€ í° ì—ë®¬ë ˆì´ì…˜ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
 
-	¾ÈÅ¸±õ°Ôµµ ÀÌ ¹®¼­´Â ÀÌ·± ½Ç¼ö ¿¬»ê¿¡ ´ëÇÑ ´ÜÁ¡ÀÌ³ª ÇØ°áÃ¥À» À§ÇÑ
-	°ÍÀÌ ¾Æ´Õ´Ï´Ù.  ÁÁÀº ¼öÄ¡ ÇÁ·Î±×·¡¹Ö¿¡ (numerical programming) ´ëÇÑ
-	Ã¥µéÀÌ ¿©·¯ºÐÀ» µµ¿ÍÁÙ °Ì´Ï´Ù.  ¾Æ·¡ Âü°í ¹®Çå¿¡ ³ª¿Â Ã¥µéÀ»
-	º¸½Ã¸é ÁÁ½À´Ï´Ù.
+	ì•ˆíƒ€ê¹ê²Œë„ ì´ ë¬¸ì„œëŠ” ì´ëŸ° ì‹¤ìˆ˜ ì—°ì‚°ì— ëŒ€í•œ ë‹¨ì ì´ë‚˜ í•´ê²°ì±…ì„ ìœ„í•œ
+	ê²ƒì´ ì•„ë‹™ë‹ˆë‹¤.  ì¢‹ì€ ìˆ˜ì¹˜ í”„ë¡œê·¸ëž˜ë°ì— (numerical programming) ëŒ€í•œ
+	ì±…ë“¤ì´ ì—¬ëŸ¬ë¶„ì„ ë„ì™€ì¤„ ê²ë‹ˆë‹¤.  ì•„ëž˜ ì°¸ê³  ë¬¸í—Œì— ë‚˜ì˜¨ ì±…ë“¤ì„
+	ë³´ì‹œë©´ ì¢‹ìŠµë‹ˆë‹¤.
 
 \R
 	\cite{elemprog} \S\ 6 \Page{115--8} \\
@@ -85,11 +85,11 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.5}
-	±×·³ ``¾ÆÁÖ °¡±î¿î'' µÎ ½Ç¼ö¸¦ ºñ±³ÇÏ´Â ¹æ¹ýÀÌ ÀÖÀ»±î¿ä?
+	ê·¸ëŸ¼ ``ì•„ì£¼ ê°€ê¹Œìš´'' ë‘ ì‹¤ìˆ˜ë¥¼ ë¹„êµí•˜ëŠ” ë°©ë²•ì´ ìžˆì„ê¹Œìš”?
 \A
-	½Ç¼öÀÇ Àý´ë°ªÀÌ Á¤ÀÇ¿¡ ÀÇÇÏ¸é `magnitude'¿¡ µû¶ó ´Þ¶óÁú ¼ö ÀÖÀ¸¹Ç·Î,
-	µÎ ½Ç¼ö¸¦ ºñ±³ÇÏ·Á¸é ´ÙÀ½°ú °°ÀÌ, ¿ÀÂ÷°¡ »ó´ëÀûÀ¸·Î ¹«½ÃÇÒ ¼ö ÀÖ´Â
-	ÀÛÀº °ªÀÎÁö¸¦ °Ë»çÇÏ´Â °ÍÀÌ ÁÁ½À´Ï´Ù.  Áï ´ÙÀ½°ú °°ÀÌ ÇÒ °ÍÀÌ ¾Æ´Ï¶ó:
+	ì‹¤ìˆ˜ì˜ ì ˆëŒ€ê°’ì´ ì •ì˜ì— ì˜í•˜ë©´ `magnitude'ì— ë”°ë¼ ë‹¬ë¼ì§ˆ ìˆ˜ ìžˆìœ¼ë¯€ë¡œ,
+	ë‘ ì‹¤ìˆ˜ë¥¼ ë¹„êµí•˜ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì´, ì˜¤ì°¨ê°€ ìƒëŒ€ì ìœ¼ë¡œ ë¬´ì‹œí•  ìˆ˜ ìžˆëŠ”
+	ìž‘ì€ ê°’ì¸ì§€ë¥¼ ê²€ì‚¬í•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.  ì¦‰ ë‹¤ìŒê³¼ ê°™ì´ í•  ê²ƒì´ ì•„ë‹ˆë¼:
 
 \begin{verbatim}
   double a, b;
@@ -97,7 +97,7 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
   if (a == b)	/* WRONG */
 \end{verbatim}
 
-	\noindent ÀÌ·¸°Ô ÇÕ´Ï´Ù:
+	\noindent ì´ë ‡ê²Œ í•©ë‹ˆë‹¤:
 
 \begin{verbatim}
   #include <math.h>
@@ -105,10 +105,10 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
   if (fabs(a - b) <= epsilon * fabs(a))
 \end{verbatim}
 	... TODO ...
-%	\noindent (`\TT{a}'ÀÌ 0ÀÌ ¾Æ´Ñ ÇÑ) epsilon¿¡ °¡±î¿î ¼öÄ¡¸¦ ¾²´Â
-%	°ÍÀÌ ÁÁ½À´Ï´Ù.
+%	\noindent (`\TT{a}'ì´ 0ì´ ì•„ë‹Œ í•œ) epsilonì— ê°€ê¹Œìš´ ìˆ˜ì¹˜ë¥¼ ì“°ëŠ”
+%	ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.
 
-% TODO: ¿ø¼­ ³»¿ë Ã¤¿ö³Ö±â
+% TODO: ì›ì„œ ë‚´ìš© ì±„ì›Œë„£ê¸°
 
 \R
 	\cite{knuth} \S\ 4.2.2 \Page{217--8}
@@ -116,14 +116,14 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.6}
-	¼öÄ¡¸¦ ¹Ý¿Ã¸²ÇÏ´Â (round) ¹æ¹ýÀ» ¾Ë·ÁÁÖ¼¼¿ä.
+	ìˆ˜ì¹˜ë¥¼ ë°˜ì˜¬ë¦¼í•˜ëŠ” (round) ë°©ë²•ì„ ì•Œë ¤ì£¼ì„¸ìš”.
 \A
-	°¡Àå °£´ÜÇÏ°í Á÷°üÀûÀÎ ¹æ¹ýÀº ´ÙÀ½°ú °°Àº ÄÚµå¸¦ ¾²´Â °ÍÀÔ´Ï´Ù:
+	ê°€ìž¥ ê°„ë‹¨í•˜ê³  ì§ê´€ì ì¸ ë°©ë²•ì€ ë‹¤ìŒê³¼ ê°™ì€ ì½”ë“œë¥¼ ì“°ëŠ” ê²ƒìž…ë‹ˆë‹¤:
 \begin{verbatim}
   (int)(x + 0.5)
 \end{verbatim}
-	\noindent ´Ü, ÀÌ ±â¹ýÀº À½¼ö¿¡´Â ¾µ ¼ö ¾ø½À´Ï´Ù.  À½¼ö¿¡´Â
-	´ÙÀ½°ú °°Àº ÄÚµå¸¦ ½á¾ß ÇÒ °ÍÀÔ´Ï´Ù:
+	\noindent ë‹¨, ì´ ê¸°ë²•ì€ ìŒìˆ˜ì—ëŠ” ì“¸ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.  ìŒìˆ˜ì—ëŠ”
+	ë‹¤ìŒê³¼ ê°™ì€ ì½”ë“œë¥¼ ì¨ì•¼ í•  ê²ƒìž…ë‹ˆë‹¤:
 \begin{verbatim}
   (int)(x < 0 ? x - 0.5 : x + 0.5)
 \end{verbatim}
@@ -131,13 +131,13 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.7}
-	¿Ö C ¾ð¾î¿¡´Â Áö¼ö¸¦ (exponentiation) °è»êÇÏ´Â ¿¬»êÀÚ°¡ ¾øÀ»±î¿ä?
+	ì™œ C ì–¸ì–´ì—ëŠ” ì§€ìˆ˜ë¥¼ (exponentiation) ê³„ì‚°í•˜ëŠ” ì—°ì‚°ìžê°€ ì—†ì„ê¹Œìš”?
 \A
-	´ëºÎºÐ ÇÁ·Î¼¼¼­¿¡´Â Áö¼ö¸¦ °è»êÇÏ´Â ¸í·É(instruction)ÀÌ ¾ø±â
-	¶§¹®ÀÔ´Ï´Ù.  ´ë½Å C ¾ð¾î´Â \TT{pow()}¶ó´Â ÇÔ¼ö¸¦ Á¦°øÇÕ´Ï´Ù.
-	ÀÌ ÇÔ¼ö´Â \verb+<math.h>+¿¡ ¼±¾ðµÇ¾î ÀÖ½À´Ï´Ù.
-	Å©±â°¡ ÀÛ°í 0º¸´Ù Å« Á¤¼ö¸¦ °öÇÏ´Â °ÍÀÌ ÀÌ ÇÔ¼ö¸¦ ¾²´Â °Íº¸´Ù
-	´õ È¿°úÀûÀÏ ¼öµµ ÀÖ½À´Ï´Ù.
+	ëŒ€ë¶€ë¶„ í”„ë¡œì„¸ì„œì—ëŠ” ì§€ìˆ˜ë¥¼ ê³„ì‚°í•˜ëŠ” ëª…ë ¹(instruction)ì´ ì—†ê¸°
+	ë•Œë¬¸ìž…ë‹ˆë‹¤.  ëŒ€ì‹  C ì–¸ì–´ëŠ” \TT{pow()}ë¼ëŠ” í•¨ìˆ˜ë¥¼ ì œê³µí•©ë‹ˆë‹¤.
+	ì´ í•¨ìˆ˜ëŠ” \verb+<math.h>+ì— ì„ ì–¸ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+	í¬ê¸°ê°€ ìž‘ê³  0ë³´ë‹¤ í° ì •ìˆ˜ë¥¼ ê³±í•˜ëŠ” ê²ƒì´ ì´ í•¨ìˆ˜ë¥¼ ì“°ëŠ” ê²ƒë³´ë‹¤
+	ë” íš¨ê³¼ì ì¼ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
 
 \R
 	\cite{c89} \S\ 7.5.5.1 \\
@@ -146,41 +146,41 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.8}
-	Á¦ ½Ã½ºÅÛÀÇ \verb+<math.h>+¿¡´Â ¸ÅÅ©·Î \verb+M_PI+°¡ Á¤ÀÇµÇ¾î
-	ÀÖÁö ¾Ê½À´Ï´Ù.
+	ì œ ì‹œìŠ¤í…œì˜ \verb+<math.h>+ì—ëŠ” ë§¤í¬ë¡œ \verb+M_PI+ê°€ ì •ì˜ë˜ì–´
+	ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤.
 \A
-	ÀÌ ¸ÅÅ©·Î »ó¼ö´Â (ÀÌ ¸ÅÅ©·ÎÀÇ °ªÀº piÀÌ¸ç, Á¤¹Ðµµ´Â °¢ ½Ã½ºÅÛ¿¡
-	µû¶ó ´Ù¸¨´Ï´Ù) Ç¥ÁØÀÌ ¾Æ´Õ´Ï´Ù.
-	`pi' °ªÀÌ ÇÊ¿äÇÏ´Ù¸é, ¿©·¯ºÐÀÌ Á÷Á¢ Á¤ÀÇÇÏ°Å³ª \verb+4 * atan(1.0)+À¸·Î
-	°è»êÇØ¾ß ÇÕ´Ï´Ù.
+	ì´ ë§¤í¬ë¡œ ìƒìˆ˜ëŠ” (ì´ ë§¤í¬ë¡œì˜ ê°’ì€ piì´ë©°, ì •ë°€ë„ëŠ” ê° ì‹œìŠ¤í…œì—
+	ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤) í‘œì¤€ì´ ì•„ë‹™ë‹ˆë‹¤.
+	`pi' ê°’ì´ í•„ìš”í•˜ë‹¤ë©´, ì—¬ëŸ¬ë¶„ì´ ì§ì ‘ ì •ì˜í•˜ê±°ë‚˜ \verb+4 * atan(1.0)+ìœ¼ë¡œ
+	ê³„ì‚°í•´ì•¼ í•©ë‹ˆë‹¤.
 \R
 	\cite{pcs} \S\ 13 \page{237}
 \end{faq}
 
 \begin{faq}
 \Q{14.9}
-	IEEE NaN°ú °°Àº Æ¯¼öÇÑ °ªÀ» °Ë»çÇÏ·Á¸é ¾î¶»°Ô ÇÏ¸é µÇÁÒ?
+	IEEE NaNê³¼ ê°™ì€ íŠ¹ìˆ˜í•œ ê°’ì„ ê²€ì‚¬í•˜ë ¤ë©´ ì–´ë–»ê²Œ í•˜ë©´ ë˜ì£ ?
 \A
-	°íÇ°ÁúÀÇ IEEE ½Ç¼ö ±¸Çö ¹æ¹ýÀ» Á¦°øÇÏ´Â ´ëºÎºÐÀÇ ½Ã½ºÅÛ¿¡¼­´Â
-	(¹Ì¸® Á¤ÀÇµÈ »ó¼ö¿Í \TT{isnan()}°ú °°Àº ÇÔ¼ö¸¦ Á¦°øÇÏ¸ç, ÀÌµéÀº
-	Ç¥ÁØÀÌ ¾Æ´Õ´Ï´Ù.  ¶Ç \verb+<math.h>+³ª \verb+<ieee.h>+, \verb+<nan.h>+¿¡
-	¼±¾ðµÇ¾î ÀÖÀ» ¼ö ÀÖ½À´Ï´Ù.) ÀÌ·± °ªµéÀ» ´Ù·ç±â À§ÇÑ ÇÔ¼öµéÀ» Á¦°øÇÕ´Ï´Ù.
-	±×¸®°í ÀÌ·± ±â´ÉµéÀ» Áö±Ý Ç¥ÁØÈ­ÇÏ·Á°í ÇÏ°í ÀÖ´ä´Ï´Ù.
-	NaNÀ» °Ë»çÇÏ´Â °¡Àå °ÅÄ¥°í(crude) °£´ÜÇÑ ¹æ¹ýÀº ´ÙÀ½°ú °°½À´Ï´Ù.
+	ê³ í’ˆì§ˆì˜ IEEE ì‹¤ìˆ˜ êµ¬í˜„ ë°©ë²•ì„ ì œê³µí•˜ëŠ” ëŒ€ë¶€ë¶„ì˜ ì‹œìŠ¤í…œì—ì„œëŠ”
+	(ë¯¸ë¦¬ ì •ì˜ëœ ìƒìˆ˜ì™€ \TT{isnan()}ê³¼ ê°™ì€ í•¨ìˆ˜ë¥¼ ì œê³µí•˜ë©°, ì´ë“¤ì€
+	í‘œì¤€ì´ ì•„ë‹™ë‹ˆë‹¤.  ë˜ \verb+<math.h>+ë‚˜ \verb+<ieee.h>+, \verb+<nan.h>+ì—
+	ì„ ì–¸ë˜ì–´ ìžˆì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.) ì´ëŸ° ê°’ë“¤ì„ ë‹¤ë£¨ê¸° ìœ„í•œ í•¨ìˆ˜ë“¤ì„ ì œê³µí•©ë‹ˆë‹¤.
+	ê·¸ë¦¬ê³  ì´ëŸ° ê¸°ëŠ¥ë“¤ì„ ì§€ê¸ˆ í‘œì¤€í™”í•˜ë ¤ê³  í•˜ê³  ìžˆë‹µë‹ˆë‹¤.
+	NaNì„ ê²€ì‚¬í•˜ëŠ” ê°€ìž¥ ê±°ì¹ ê³ (crude) ê°„ë‹¨í•œ ë°©ë²•ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
 
 \begin{verbatim}
   #define isnan(x)	((x) != (x))
 \end{verbatim}
-	IEEE¸¦ »ý°¢ÇÏÁö ¾ÊÀº ÄÄÆÄÀÏ·¯´Â ÀÌ·± Å×½ºÆ®¸¦ ÃÖÀûÈ­ ´Ü°è¿¡¼­
-	¾ø¾Ö¹ö¸± ¼öµµ ÀÖ½À´Ï´Ù\footnote{although non-IEEE-aware compilers
+	IEEEë¥¼ ìƒê°í•˜ì§€ ì•Šì€ ì»´íŒŒì¼ëŸ¬ëŠ” ì´ëŸ° í…ŒìŠ¤íŠ¸ë¥¼ ìµœì í™” ë‹¨ê³„ì—ì„œ
+	ì—†ì• ë²„ë¦´ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤\footnote{although non-IEEE-aware compilers
 	may optimize the test away}.
 
-	\cite{c9x}´Â \TT{isnan()}, \TT{fpclassify()} µî°ú ´Ù¸¥ Á¾·ù ÇÔ¼öµéÀ»
-	Á¦°øÇÕ´Ï´Ù.
+	\cite{c9x}ëŠ” \TT{isnan()}, \TT{fpclassify()} ë“±ê³¼ ë‹¤ë¥¸ ì¢…ë¥˜ í•¨ìˆ˜ë“¤ì„
+	ì œê³µí•©ë‹ˆë‹¤.
 
-	¶Ç ÇÏ³ªÀÇ ¹æ¹ýÀº ÀÌ ½Ç¼ö¸¦ \TT{sprintf()}¿Í °°Àº ·çÆ¾À» ½á¼­ Æ÷¸ËÈ­½ÃÄÑ
-	º¸´Â °ÍÀÔ´Ï´Ù.  ¸¹Àº ½Ã½ºÅÛÀÌ ÀÌ·± °æ¿ì ``NaN''ÀÌ³ª ``Inf''¿Í °°Àº
-	¹®ÀÚ¿­À» ¸¸µé¾î ÁÙ °Ì´Ï´Ù.
+	ë˜ í•˜ë‚˜ì˜ ë°©ë²•ì€ ì´ ì‹¤ìˆ˜ë¥¼ \TT{sprintf()}ì™€ ê°™ì€ ë£¨í‹´ì„ ì¨ì„œ í¬ë§·í™”ì‹œì¼œ
+	ë³´ëŠ” ê²ƒìž…ë‹ˆë‹¤.  ë§Žì€ ì‹œìŠ¤í…œì´ ì´ëŸ° ê²½ìš° ``NaN''ì´ë‚˜ ``Inf''ì™€ ê°™ì€
+	ë¬¸ìžì—´ì„ ë§Œë“¤ì–´ ì¤„ ê²ë‹ˆë‹¤.
 
 	\seealso{\ql{19.39}}
 \R
@@ -190,12 +190,12 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.11}
-	º¹¼Ò¼ö\footnote{complex number}¸¦ C ¾ð¾î¿¡¼­ ±¸ÇöÇÏ·Á¸é
-	¾î¶² ¹æ¹ýÀÌ Á¦ÀÏ ÁÁÀ»±î¿ä?
+	ë³µì†Œìˆ˜\footnote{complex number}ë¥¼ C ì–¸ì–´ì—ì„œ êµ¬í˜„í•˜ë ¤ë©´
+	ì–´ë–¤ ë°©ë²•ì´ ì œì¼ ì¢‹ì„ê¹Œìš”?
 \A
-	°¡Àå ½¬¿î ¹æ¹ýÀº °£´ÜÇÑ ±¸Á¶Ã¼¸¦ ¸¸µé°í ÀÌ ±¸Á¶Ã¼¿¡ ´ëÇØ ¿¬»êÇÒ ¼ö
-	ÀÖ´Â ÇÔ¼ö¸¦ ¸¸µå´Â °ÍÀÔ´Ï´Ù.  \cite{c9x}´Â `\TT{complex}'¶ó´Â Ç¥ÁØ µ¥ÀÌÅÍ
-	Å¸ÀÔÀ» Áö¿øÇÏ·Á ÇÕ´Ï´Ù.  \seealso{\ql{2.7}, \ql{2.10}, \ql{14.12}}
+	ê°€ìž¥ ì‰¬ìš´ ë°©ë²•ì€ ê°„ë‹¨í•œ êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ê³  ì´ êµ¬ì¡°ì²´ì— ëŒ€í•´ ì—°ì‚°í•  ìˆ˜
+	ìžˆëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“œëŠ” ê²ƒìž…ë‹ˆë‹¤.  \cite{c9x}ëŠ” `\TT{complex}'ë¼ëŠ” í‘œì¤€ ë°ì´í„°
+	íƒ€ìž…ì„ ì§€ì›í•˜ë ¤ í•©ë‹ˆë‹¤.  \seealso{\ql{2.7}, \ql{2.10}, \ql{14.12}}
 \R
 	\cite{c9x} \S\ 6.1.2.5, \S\ 7.8
 \end{faq}
@@ -216,27 +216,27 @@ Floating point(½Ç¼ö) °è»êÀº ¶§¶§·Î ¹®Á¦°¡ µÇ¸ç, ½Åºñ½º·´°Ô º¸ÀÌ±âµµ ÇÕ´Ï´Ù.
 
 \begin{faq}
 \Q{14.13}
-	Turbo C¸¦ »ç¿ëÇÏ°í ÀÖ½À´Ï´Ù.  ±×·±µ¥ ÇÁ·Î±×·¥À» ½ÇÇàÇÏ¸é
-	``floating point format not linked''¶ó´Â ¸Þ½ÃÁö¸¦ Ãâ·ÂÇÏ°í
-	Á¾·áÇØ¹ö¸³´Ï´Ù.
+	Turbo Cë¥¼ ì‚¬ìš©í•˜ê³  ìžˆìŠµë‹ˆë‹¤.  ê·¸ëŸ°ë° í”„ë¡œê·¸ëž¨ì„ ì‹¤í–‰í•˜ë©´
+	``floating point format not linked''ë¼ëŠ” ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•˜ê³ 
+	ì¢…ë£Œí•´ë²„ë¦½ë‹ˆë‹¤.
 \A
-	Borland»çÀÇ ÄÄÆÄÀÏ·¯¸¦ Æ÷ÇÔÇÑ (Ritchie¾¾ÀÇ ¿À¸®Áö³Î PDP-11 ÄÄÆÄÀÏ·¯µµ)
-	±Ô¸ð°¡ ÀÛÀº ½Ã½ºÅÛÀÇ ¾î¶² ÄÄÆÄÀÏ·¯µéÀº ½Ç¼ö Ã³¸® ºÎºÐÀÌ ÇÊ¿ä¾ø´Ù°í
-	ÆÇ´ÜµÇ¸é ½Ç¼ö Ã³¸® ·çÆ¾À» Æ÷ÇÔ½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	Æ¯È÷ ½Ç¼ö¸¦ Ã³¸®ÇÏÁö ¾Ê´Â (Áï \TT{\%f}, \TT{\%e}¸¦
-	¾²Áö ¾Ê´Â) \TT{printf()}³ª \TT{scanf()}´Â ¸¹Àº °ø°£À» ÁÙÀÏ ¼ö ÀÖ½À´Ï´Ù.
-	¾Æ¸¶µµ ¿©·¯ºÐÀÇ ÄÄÆÄÀÏ·¯¿¡¼­´Â ½Ç¼ö Ã³¸® ºÎºÐÀÌ ÇÊ¿ä¾ø´Ù°í »ý°¢µÇ¾î
-	ºüÁø °Í °°½À´Ï´Ù.  ÀÌ·² ¶§¿¡´Â °£´ÜÇÑ dummy callÀ» »ç¿ëÇÏ¸é µË´Ï´Ù.
-	Áï, \TT{sqrt()}¿Í °°Àº ÇÔ¼ö¸¦ ÇÑ ¹ø ºÒ·¯ÁÖ¸é, ½Ç¼ö Ã³¸® ·çÆ¾ÀÌ
-	Æ÷ÇÔµÉ °ÍÀÔ´Ï´Ù.  (ÀÚ¼¼ÇÑ °ÍÀº \TT{comp.os.msdos.programmer}ÀÇ
-	FAQ¸¦ ÀÐ¾î º¸½Ã±â ¹Ù¶ø´Ï´Ù.)
+	Borlandì‚¬ì˜ ì»´íŒŒì¼ëŸ¬ë¥¼ í¬í•¨í•œ (Ritchieì”¨ì˜ ì˜¤ë¦¬ì§€ë„ PDP-11 ì»´íŒŒì¼ëŸ¬ë„)
+	ê·œëª¨ê°€ ìž‘ì€ ì‹œìŠ¤í…œì˜ ì–´ë–¤ ì»´íŒŒì¼ëŸ¬ë“¤ì€ ì‹¤ìˆ˜ ì²˜ë¦¬ ë¶€ë¶„ì´ í•„ìš”ì—†ë‹¤ê³ 
+	íŒë‹¨ë˜ë©´ ì‹¤ìˆ˜ ì²˜ë¦¬ ë£¨í‹´ì„ í¬í•¨ì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	íŠ¹ížˆ ì‹¤ìˆ˜ë¥¼ ì²˜ë¦¬í•˜ì§€ ì•ŠëŠ” (ì¦‰ \TT{\%f}, \TT{\%e}ë¥¼
+	ì“°ì§€ ì•ŠëŠ”) \TT{printf()}ë‚˜ \TT{scanf()}ëŠ” ë§Žì€ ê³µê°„ì„ ì¤„ì¼ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+	ì•„ë§ˆë„ ì—¬ëŸ¬ë¶„ì˜ ì»´íŒŒì¼ëŸ¬ì—ì„œëŠ” ì‹¤ìˆ˜ ì²˜ë¦¬ ë¶€ë¶„ì´ í•„ìš”ì—†ë‹¤ê³  ìƒê°ë˜ì–´
+	ë¹ ì§„ ê²ƒ ê°™ìŠµë‹ˆë‹¤.  ì´ëŸ´ ë•Œì—ëŠ” ê°„ë‹¨í•œ dummy callì„ ì‚¬ìš©í•˜ë©´ ë©ë‹ˆë‹¤.
+	ì¦‰, \TT{sqrt()}ì™€ ê°™ì€ í•¨ìˆ˜ë¥¼ í•œ ë²ˆ ë¶ˆëŸ¬ì£¼ë©´, ì‹¤ìˆ˜ ì²˜ë¦¬ ë£¨í‹´ì´
+	í¬í•¨ë  ê²ƒìž…ë‹ˆë‹¤.  (ìžì„¸í•œ ê²ƒì€ \TT{comp.os.msdos.programmer}ì˜
+	FAQë¥¼ ì½ì–´ ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤.)
 \R
 	\cite{hs5} \S\ 6.2.5 \page{40}, 
 \end{faq}
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

@@ -1,10 +1,27 @@
 % $Id$
 \documentclass[10pt,a4paper,draft]{report}
+%\usepackage{fancyheadings}
+
+\usepackage[nonfrench,finemath]{kotex}
+\usepackage[default]{dhucs-interword}
+\usehangulfontspec{ut}
+\usepackage[hangul]{dhucs-setspace}
+\usepackage{dhucs-gremph}
+\usepackage{dhucs-cmap}
+
+% Note that if \ifpdf ... \fi statement was on the top-level (in other words,
+% outside of \newcommand), latex2html couldn't generate question link (in
+% other words, \ql command).
+\usepackage{ifpdf}
+\newcommand{\myDRIVER}{\ifpdf pdftex\else dvipdfm\fi}
+\usepackage[\myDRIVER,unicode,bookmarks]{hyperref}
+
+% If below packages are declared before above \usepackage declarations, an
+% error related to hyperref package occurrs. Don't know which one is the
+% fault.
 \usepackage{html}
 \usepackage{graphicx}
 \usepackage{epic}
-\usepackage{hfont}
-%\usepackage{fancyheadings}
 
 \externallabels{.}{labels.pl}
 
@@ -65,7 +82,7 @@
 
 \newcommand{\ql}[1]{\externalref{#1}#1}
 
-\newcommand{\seealso}[1]{µ¡ºÙ¿© Áú¹® #1µµ Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù\@.}
+\newcommand{\seealso}[1]{ë§ë¶™ì—¬ ì§ˆë¬¸ #1ë„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤\@.}
 
 \newcommand{\TT}[1]{\texttt{#1}}
 
@@ -89,7 +106,7 @@
 
 
 \title{C Programming FAQs}
-\author{¹ø¿ª ¹× ¼öÁ¤: ½Å¼º±¹ (Seong-Kook Shin)}
+\author{ë²ˆì—­ ë° ìˆ˜ì •: ì‹ ì„±êµ­ (Seong-Kook Shin)}
 \date{\today}
 
 
@@ -101,7 +118,7 @@
 
 \begin{document}
 
-\gtfamily
+% \gtfamily
 
 \begin{rawhtml}
 <pre>$Id$</pre>
@@ -117,7 +134,7 @@
 
 \vspace{2cm}
 
-\BF{¸ğµç C ÇÁ·Î±×·¡¸Óµé¿¡°Ô ÀÌ Ã¥À» ¹ÙÄ¨´Ï´Ù.}
+\BF{ëª¨ë“  C í”„ë¡œê·¸ë˜ë¨¸ë“¤ì—ê²Œ ì´ ì±…ì„ ë°”ì¹©ë‹ˆë‹¤.}
 \end{center}
 
 \newpage
@@ -223,7 +240,7 @@
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

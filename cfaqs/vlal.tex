@@ -6,28 +6,28 @@
 <pre>$Id$</pre>
 \end{rawhtml}
 
-³Î¸® ¾Ë·ÁÁöÁö´Â ¾Ê¾ÒÁö¸¸, C ¾ð¾î´Â ÇÔ¼ö°¡ °¡º¯ ÀÎÀÚ¸¦ (Áï ÀÎÀÚÀÇ °¹¼ö°¡ 
-Á¤ÇØÁöÁö ¾ÊÀº) ¹ÞÀ» ¼ö ÀÖ´Â ±â´ÉÀ» Á¦°øÇÕ´Ï´Ù.
-Variable-length argument list(°¡º¯ ÀÎÀÚ ¸®½ºÆ®)´Â, µå¹°±â´Â ÇÏÁö¸¸,
-\TT{printf}¿Í °°Àº ÇÔ¼öµé¿¡°Ô´Â ²À ÇÊ¿äÇÑ °ÍÀÔ´Ï´Ù.
-(variable-length argument list´Â ANSI C Ç¥ÁØ¿¡¼­ °ø½ÄÀûÀ¸·Î Áö¿øÇÏÁö¸¸,
-ANSI C Ç¥ÁØ ÀÌÀü¿¡´Â ¾ö°ÝÈ÷ ¸»ÇØ¼­ Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.)
+ë„ë¦¬ ì•Œë ¤ì§€ì§€ëŠ” ì•Šì•˜ì§€ë§Œ, C ì–¸ì–´ëŠ” í•¨ìˆ˜ê°€ ê°€ë³€ ì¸ìžë¥¼ (ì¦‰ ì¸ìžì˜ ê°¯ìˆ˜ê°€ 
+ì •í•´ì§€ì§€ ì•Šì€) ë°›ì„ ìˆ˜ ìžˆëŠ” ê¸°ëŠ¥ì„ ì œê³µí•©ë‹ˆë‹¤.
+Variable-length argument list(ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸)ëŠ”, ë“œë¬¼ê¸°ëŠ” í•˜ì§€ë§Œ,
+\TT{printf}ì™€ ê°™ì€ í•¨ìˆ˜ë“¤ì—ê²ŒëŠ” ê¼­ í•„ìš”í•œ ê²ƒìž…ë‹ˆë‹¤.
+(variable-length argument listëŠ” ANSI C í‘œì¤€ì—ì„œ ê³µì‹ì ìœ¼ë¡œ ì§€ì›í•˜ì§€ë§Œ,
+ANSI C í‘œì¤€ ì´ì „ì—ëŠ” ì—„ê²©ížˆ ë§í•´ì„œ ì •ì˜ë˜ì–´ ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤.)
 
-Variable-length argument list¸¦ Ã³¸®ÇÏ´Â ¹æ¹ýÀº »ó´çÈ÷ ±â¹¦ÇÏ±â±îÁö ÇÕ´Ï´Ù.
-Á¤½ÄÀ¸·Î varaible-length argument list´Â fixed part(°íÁ¤µÈ ºÎºÐ)¿Í 
-variable-length part(°¡º¯ ±æÀÌ)ÀÇ
-µÎ ºÎºÐÀ¸·Î ³ª´©¾îÁ® ÀÖ½À´Ï´Ù.  ¿ì¸®´Â ``variable-length argument listÀÇ
-variable-length part''¶ó´Â °úÀåµÈ ¿ë¾î¸¦ ¾²°í ÀÖ´Ù´Â »ç½ÇÀ» ¹ß°ßÇßÁö¸¸,
-¾îÂ¿ ¼ö ¾ø½À´Ï´Ù (È¤½Ã ¿©·¯ºÐÀÌ ``variadic''ÀÌ³ª ``varargs''¶ó´Â ¿ë¾î°¡
-¾²ÀÌ´Â °ÍÀ» º¸½Å ÀûÀÌ ÀÖÀ»Áöµµ ¸ð¸£°Ú½À´Ï´Ù: µÎ °¡Áö ¿ë¾î ¸ðµÎ
-``having a variable number of arguments.\footnote{Á¤ÇØÁöÁö ¾ÊÀº °¹¼öÀÇ ÀÎÀÚ¸¦
-°¡Áö´Â}''À» ¶æÇÕ´Ï´Ù.  µû¶ó¼­ ``vararg function'' ¶Ç´Â ``varargs argument''¶ó°í
-¸»ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.)
+Variable-length argument listë¥¼ ì²˜ë¦¬í•˜ëŠ” ë°©ë²•ì€ ìƒë‹¹ížˆ ê¸°ë¬˜í•˜ê¸°ê¹Œì§€ í•©ë‹ˆë‹¤.
+ì •ì‹ìœ¼ë¡œ varaible-length argument listëŠ” fixed part(ê³ ì •ëœ ë¶€ë¶„)ì™€ 
+variable-length part(ê°€ë³€ ê¸¸ì´)ì˜
+ë‘ ë¶€ë¶„ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì ¸ ìžˆìŠµë‹ˆë‹¤.  ìš°ë¦¬ëŠ” ``variable-length argument listì˜
+variable-length part''ë¼ëŠ” ê³¼ìž¥ëœ ìš©ì–´ë¥¼ ì“°ê³  ìžˆë‹¤ëŠ” ì‚¬ì‹¤ì„ ë°œê²¬í–ˆì§€ë§Œ,
+ì–´ì©” ìˆ˜ ì—†ìŠµë‹ˆë‹¤ (í˜¹ì‹œ ì—¬ëŸ¬ë¶„ì´ ``variadic''ì´ë‚˜ ``varargs''ë¼ëŠ” ìš©ì–´ê°€
+ì“°ì´ëŠ” ê²ƒì„ ë³´ì‹  ì ì´ ìžˆì„ì§€ë„ ëª¨ë¥´ê² ìŠµë‹ˆë‹¤: ë‘ ê°€ì§€ ìš©ì–´ ëª¨ë‘
+``having a variable number of arguments.\footnote{ì •í•´ì§€ì§€ ì•Šì€ ê°¯ìˆ˜ì˜ ì¸ìžë¥¼
+ê°€ì§€ëŠ”}''ì„ ëœ»í•©ë‹ˆë‹¤.  ë”°ë¼ì„œ ``vararg function'' ë˜ëŠ” ``varargs argument''ë¼ê³ 
+ë§í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.)
 
-Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
-¸ÕÀú \TT{va\_list} Å¸ÀÔÀÇ Æ¯º°ÇÑ pointer typeÀ» ½á¼­ ¼±¾ðÇÏ°í, ±× ´ÙÀ½
-\TT{va\_start}¸¦ ºÒ·¯¼­ ÃÊ±âÈ­ÇÕ´Ï´Ù.
-% TODO: errta Âü°íÇÒ °Í.. variable argument list·Î °íÃÄ¾ß ÇÒ °Í °°Àºµ¥..
+Variable-length argument listë¥¼ ì“°ëŠ” ë°©ë²•ì€ í¬ê²Œ ì„¸ ë‹¨ê³„ë¡œ ì´ë£¨ì–´ ì§‘ë‹ˆë‹¤.
+ë¨¼ì € \TT{va\_list} íƒ€ìž…ì˜ íŠ¹ë³„í•œ pointer typeì„ ì¨ì„œ ì„ ì–¸í•˜ê³ , ê·¸ ë‹¤ìŒ
+\TT{va\_start}ë¥¼ ë¶ˆëŸ¬ì„œ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
+% TODO: errta ì°¸ê³ í•  ê²ƒ.. variable argument listë¡œ ê³ ì³ì•¼ í•  ê²ƒ ê°™ì€ë°..
 % initialized to point to (the beginning of the argument list) by calling 
 % va_start
 
@@ -35,20 +35,20 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.1}
-	\TT{printf()}¸¦ ºÎ¸£±â Àü¿¡ \verb+#include <stdio.h>+¸¦ ¾²¶ó°í
-	ÇÏ´õ±º¿ä.  ²À ±×·² ÇÊ¿ä°¡ ÀÖÀ»±î¿ä?
+	\TT{printf()}ë¥¼ ë¶€ë¥´ê¸° ì „ì— \verb+#include <stdio.h>+ë¥¼ ì“°ë¼ê³ 
+	í•˜ë”êµ°ìš”.  ê¼­ ê·¸ëŸ´ í•„ìš”ê°€ ìžˆì„ê¹Œìš”?
 \A
-	ÀûÀýÇÑ ÇÁ·ÎÅäÅ¸ÀÔ(prototype)À» ÇöÀç ¿µ¿ª(scope) ¾È¿¡ Æ÷ÇÔ½ÃÅ°±â
-	À§ÇØ¼­ ÀÔ´Ï´Ù.
+	ì ì ˆí•œ í”„ë¡œí† íƒ€ìž…(prototype)ì„ í˜„ìž¬ ì˜ì—­(scope) ì•ˆì— í¬í•¨ì‹œí‚¤ê¸°
+	ìœ„í•´ì„œ ìž…ë‹ˆë‹¤.
 
-	¾î¶² ÄÄÆÄÀÏ·¯¿¡¼­´Â °¡º¯ ÀÎÀÚ ¸®½ºÆ®¸¦ ¾²´Â ÇÔ¼ö¿¡´Â ÀÏ¹Ý ¹æ½Ä°ú´Â
-	´Ù¸¥ È£Ãâ ¼ø¼­(calling sequence)¸¦ »ç¿ëÇÕ´Ï´Ù.
-% TODO: ´ÙÀ½ ¹®Àå ¹ø¿ª.
+	ì–´ë–¤ ì»´íŒŒì¼ëŸ¬ì—ì„œëŠ” ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ì“°ëŠ” í•¨ìˆ˜ì—ëŠ” ì¼ë°˜ ë°©ì‹ê³¼ëŠ”
+	ë‹¤ë¥¸ í˜¸ì¶œ ìˆœì„œ(calling sequence)ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+% TODO: ë‹¤ìŒ ë¬¸ìž¥ ë²ˆì—­.
 	(It might do so if calls using variable-length argument lists were
 	less efficient than those using fixed-length.)
-	±×·¯¹Ç·Î ÇÔ¼öÀÇ ÇÁ·ÎÅäÅ¸ÀÔÀÌ (Áï ``\verb+...+''¸¦ Æ÷ÇÔÇÑ ¼±¾ð)
-	¿µ¿ª ¾È¿¡ ÀÖ¾î¾ß ÄÄÆÄÀÏ·¯°¡ °¡º¯ ÀÎÀÚ ¸®½ºÆ® Ã³¸® ¸ÞÄ¿´ÏÁòÀ»
-	»ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+	ê·¸ëŸ¬ë¯€ë¡œ í•¨ìˆ˜ì˜ í”„ë¡œí† íƒ€ìž…ì´ (ì¦‰ ``\verb+...+''ë¥¼ í¬í•¨í•œ ì„ ì–¸)
+	ì˜ì—­ ì•ˆì— ìžˆì–´ì•¼ ì»´íŒŒì¼ëŸ¬ê°€ ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ ì²˜ë¦¬ ë©”ì»¤ë‹ˆì¦˜ì„
+	ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 \R
 	\cite{ansi} \S\ 3.3.2.2, \S\ 4.1.6 \\
@@ -59,18 +59,18 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.2}
-	\TT{printf()}¿¡¼­ \verb+%f+°¡ \TT{float}°ú \TT{double} ÀÎÀÚ ¸ðµÎ¿¡
-	¾²ÀÏ ¼ö ÀÖ´Â ÀÌÀ¯´Â ¹«¾ùÀÎ°¡¿ä?
+	\TT{printf()}ì—ì„œ \verb+%f+ê°€ \TT{float}ê³¼ \TT{double} ì¸ìž ëª¨ë‘ì—
+	ì“°ì¼ ìˆ˜ ìžˆëŠ” ì´ìœ ëŠ” ë¬´ì—‡ì¸ê°€ìš”?
 \A
-	°¡º¯ ÀÎÀÚ ¸®½ºÆ®¿¡¼­ °¡º¯ ÀÎÀÚ ºÎºÐ¿¡´Â ``default argument promotion''
-	ÀÌ Àû¿ëµË´Ï´Ù: Áï, \TT{char}¿Í \TT{short int} Å¸ÀÔÀº \TT{int}·Î
-	º¯°æµÇ¸ç(promotion), \TT{float} Å¸ÀÔÀº \TT{double} Å¸ÀÔÀ¸·Î
-	º¯°æµË´Ï´Ù.  (ÀÌ °ÍÀº ÇÔ¼öÀÇ ÇÁ·ÎÅäÅ¸ÀÔÀÌ ¾ø°Å³ª ±¸ ¹æ½Ä(old style)À¸·Î
-	¼±¾ðµÈ ÇÔ¼ö¿¡¼­ ÀÏ¾î³ª´Â `promotion'°ú °°Àº °ÍÀÔ´Ï´Ù; Áú¹®
-	\ql{11.3}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.) ±×·¯¹Ç·Î
-	\TT{printf}ÀÇ \verb+%f+ Æ÷¸ËÀº Ç×»ó \TT{double} Å¸ÀÔ¸¸ ¹Þ¾ÆµéÀÌ´Â ¼ÀÀÌ
-	µË´Ï´Ù.	(ºñ½ÁÇÑ ÀÌÀ¯¿¡¼­ \verb+%c+, \verb+%hd+ Æ÷¸ËÀº Ç×»ó \TT{int}¸¸À»
-	¹Þ¾Æ µéÀÌ°Ô µË´Ï´Ù.) \seealso{\ql{12.9}, \ql{12.13}}
+	ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ì—ì„œ ê°€ë³€ ì¸ìž ë¶€ë¶„ì—ëŠ” ``default argument promotion''
+	ì´ ì ìš©ë©ë‹ˆë‹¤: ì¦‰, \TT{char}ì™€ \TT{short int} íƒ€ìž…ì€ \TT{int}ë¡œ
+	ë³€ê²½ë˜ë©°(promotion), \TT{float} íƒ€ìž…ì€ \TT{double} íƒ€ìž…ìœ¼ë¡œ
+	ë³€ê²½ë©ë‹ˆë‹¤.  (ì´ ê²ƒì€ í•¨ìˆ˜ì˜ í”„ë¡œí† íƒ€ìž…ì´ ì—†ê±°ë‚˜ êµ¬ ë°©ì‹(old style)ìœ¼ë¡œ
+	ì„ ì–¸ëœ í•¨ìˆ˜ì—ì„œ ì¼ì–´ë‚˜ëŠ” `promotion'ê³¼ ê°™ì€ ê²ƒìž…ë‹ˆë‹¤; ì§ˆë¬¸
+	\ql{11.3}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.) ê·¸ëŸ¬ë¯€ë¡œ
+	\TT{printf}ì˜ \verb+%f+ í¬ë§·ì€ í•­ìƒ \TT{double} íƒ€ìž…ë§Œ ë°›ì•„ë“¤ì´ëŠ” ì…ˆì´
+	ë©ë‹ˆë‹¤.	(ë¹„ìŠ·í•œ ì´ìœ ì—ì„œ \verb+%c+, \verb+%hd+ í¬ë§·ì€ í•­ìƒ \TT{int}ë§Œì„
+	ë°›ì•„ ë“¤ì´ê²Œ ë©ë‹ˆë‹¤.) \seealso{\ql{12.9}, \ql{12.13}}
 \R
 	\cite{ansi} \S\ 3.3.2.2 \\
 	\cite{c89} \S\ 6.3.2.2 \\
@@ -79,45 +79,45 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.3}
-	\TT{n}ÀÌ \TT{long int}ÀÏ °æ¿ì, ´ÙÀ½ ÄÚµå¿¡¼­ ¹®Á¦°¡ ¹ß»ýÇÕ´Ï´Ù:
+	\TT{n}ì´ \TT{long int}ì¼ ê²½ìš°, ë‹¤ìŒ ì½”ë“œì—ì„œ ë¬¸ì œê°€ ë°œìƒí•©ë‹ˆë‹¤:
 \begin{verbatim}
   printf("%d", n);
 \end{verbatim}
-	\noindent ±×·¸Áö¸¸ ANSI ÇÔ¼ö ÇÁ·ÎÅäÅ¸ÀÔÀ» Á¦°øÇßÀ¸´Ï, ÀÚµ¿À¸·Î
-	Çü º¯È¯ÀÌ Àû¿ëµÉ °Å¶ó°í »ý°¢ÇÕ´Ï´Ù.  ¹«¾ùÀÌ Àß¸øµÇ¾ú³ª¿ä?
+	\noindent ê·¸ë ‡ì§€ë§Œ ANSI í•¨ìˆ˜ í”„ë¡œí† íƒ€ìž…ì„ ì œê³µí–ˆìœ¼ë‹ˆ, ìžë™ìœ¼ë¡œ
+	í˜• ë³€í™˜ì´ ì ìš©ë  ê±°ë¼ê³  ìƒê°í•©ë‹ˆë‹¤.  ë¬´ì—‡ì´ ìž˜ëª»ë˜ì—ˆë‚˜ìš”?
 \A
-	ÇÔ¼ö°¡ °¡º¯ÀÎÀÚ¸¦ ¹Þ´Â´Ù¸é, ÇÁ·ÎÅäÅ¸ÀÔÀÌ ÀÖ´õ¶óµµ, °¡º¯ ÀÎÀÚ¿¡ ´ëÇØ¼­´Â
-	¾î¶°ÇÑ Á¤º¸µµ ¾ËÁö ¸øÇÏ¸ç, ¶ÇÇÑ ¾Ë ¼öµµ ¾ø½À´Ï´Ù. µû¶ó¼­, ÀÏ¹ÝÀûÀ¸·Î,
-        °¡º¯ ÀÎÀÚ ¸®½ºÆ®¿¡¼­ °¡º¯ ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ºÎºÐÀº ±×·¯ÇÑ
-        º¸È£¸¦ (type conversion) ¹ÞÁö ¸øÇÕ´Ï´Ù.
-	ÄÄÆÄÀÏ·¯´Â °¡º¯ÀÎÀÚ¿¡ ´ëÇØ¼­´Â implicit type conversionÀ»
-        ¼öÇàÇÏÁö ¾ÊÀ¸¸ç, typeÀÌ ¼­·Î ¸ÂÁö ¾Ê´Â °æ¿ì °æ°í ÇØ ÁÙ ¼ö ÀÖ½À´Ï´Ù.
-        µû¶ó¼­ ÇÁ·Î±×·¡¸Ó´Â °¡º¯ ÀÎÀÚ·Î µé¾î°£ ÀÎÀÚ°¡
-	¿¹»óÇÏ´Â Å¸ÀÔ°ú °°ÀºÁö È®ÀÎÇØ¾ß ÇÏ¸ç, ´Ù¸¦ °æ¿ì¿¡´Â ¹Ýµå½Ã
-        Ä³½ºÆÃÀ» (explicit cast) ÇØ ÁÖ¾î¾ß ÇÕ´Ï´Ù:
+	í•¨ìˆ˜ê°€ ê°€ë³€ì¸ìžë¥¼ ë°›ëŠ”ë‹¤ë©´, í”„ë¡œí† íƒ€ìž…ì´ ìžˆë”ë¼ë„, ê°€ë³€ ì¸ìžì— ëŒ€í•´ì„œëŠ”
+	ì–´ë– í•œ ì •ë³´ë„ ì•Œì§€ ëª»í•˜ë©°, ë˜í•œ ì•Œ ìˆ˜ë„ ì—†ìŠµë‹ˆë‹¤. ë”°ë¼ì„œ, ì¼ë°˜ì ìœ¼ë¡œ,
+        ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ì—ì„œ ê°€ë³€ ì¸ìžì— í•´ë‹¹í•˜ëŠ” ë¶€ë¶„ì€ ê·¸ëŸ¬í•œ
+        ë³´í˜¸ë¥¼ (type conversion) ë°›ì§€ ëª»í•©ë‹ˆë‹¤.
+	ì»´íŒŒì¼ëŸ¬ëŠ” ê°€ë³€ì¸ìžì— ëŒ€í•´ì„œëŠ” implicit type conversionì„
+        ìˆ˜í–‰í•˜ì§€ ì•Šìœ¼ë©°, typeì´ ì„œë¡œ ë§žì§€ ì•ŠëŠ” ê²½ìš° ê²½ê³  í•´ ì¤„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+        ë”°ë¼ì„œ í”„ë¡œê·¸ëž˜ë¨¸ëŠ” ê°€ë³€ ì¸ìžë¡œ ë“¤ì–´ê°„ ì¸ìžê°€
+	ì˜ˆìƒí•˜ëŠ” íƒ€ìž…ê³¼ ê°™ì€ì§€ í™•ì¸í•´ì•¼ í•˜ë©°, ë‹¤ë¥¼ ê²½ìš°ì—ëŠ” ë°˜ë“œì‹œ
+        ìºìŠ¤íŒ…ì„ (explicit cast) í•´ ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤:
 
-	¾î¶² ÄÄÆÄÀÏ·¯µé°ú (gcc Æ÷ÇÔ), ¾î¶² \TT{lint} ÇÁ·Î±×·¥Àº,
-        format stringÀÌ ¹®ÀÚ¿­ »ó¼ö(string literal)ÀÎ °æ¿ì¿¡ ÇÑÇØ¼­,
-        \TT{printf}¿Í °°Àº ÇÔ¼öµé¿¡ Àü´ÞµÈ °¡º¯ ÀÎÀÚ°¡ Á¤¸»·Î ¿Ã¹Ù¸¥ Å¸ÀÔÀ¸·Î
-        Àü´ÞµÇ¾ú´ÂÁö °Ë»çÇØ ÁÖ±âµµ ÇÕ´Ï´Ù.
+	ì–´ë–¤ ì»´íŒŒì¼ëŸ¬ë“¤ê³¼ (gcc í¬í•¨), ì–´ë–¤ \TT{lint} í”„ë¡œê·¸ëž¨ì€,
+        format stringì´ ë¬¸ìžì—´ ìƒìˆ˜(string literal)ì¸ ê²½ìš°ì— í•œí•´ì„œ,
+        \TT{printf}ì™€ ê°™ì€ í•¨ìˆ˜ë“¤ì— ì „ë‹¬ëœ ê°€ë³€ ì¸ìžê°€ ì •ë§ë¡œ ì˜¬ë°”ë¥¸ íƒ€ìž…ìœ¼ë¡œ
+        ì „ë‹¬ë˜ì—ˆëŠ”ì§€ ê²€ì‚¬í•´ ì£¼ê¸°ë„ í•©ë‹ˆë‹¤.
 
 	\seealso{\ql{5.2}, \ql{11.3}, \ql{12.9}, \ql{15.2}}
 \T
-	\TT{gcc}ÀÇ °æ¿ì, function attribute¶õ °ÍÀ¸·Î \TT{printf} ¶Ç´Â
-        \TT{scanf}¿Í °°Àº ÇÔ¼öÀÇ °¡º¯ ÀÎÀÚ ºÎºÐÀ» °Ë»çÇØ ÁÙ ¼ö ÀÖ½À´Ï´Ù.
-        ÀÚ¼¼ÇÑ °ÍÀº \TT{gcc} ¸Å´º¾óÀ» Âü°í ¹Ù¶ø´Ï´Ù.
+	\TT{gcc}ì˜ ê²½ìš°, function attributeëž€ ê²ƒìœ¼ë¡œ \TT{printf} ë˜ëŠ”
+        \TT{scanf}ì™€ ê°™ì€ í•¨ìˆ˜ì˜ ê°€ë³€ ì¸ìž ë¶€ë¶„ì„ ê²€ì‚¬í•´ ì¤„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+        ìžì„¸í•œ ê²ƒì€ \TT{gcc} ë§¤ë‰´ì–¼ì„ ì°¸ê³  ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \section{Implementing Varargs Functions}
 
 \begin{faq}
 \Q{15.4}
-	°¡º¯ ÀÎÀÚ¸¦ ¹Þ´Â ÇÔ¼ö¸¦ ¾î¶»°Ô ¸¸µé ¼ö ÀÖÀ»±î¿ä?
+	ê°€ë³€ ì¸ìžë¥¼ ë°›ëŠ” í•¨ìˆ˜ë¥¼ ì–´ë–»ê²Œ ë§Œë“¤ ìˆ˜ ìžˆì„ê¹Œìš”?
 \A
-	\verb+<stdarg.h>+ Çì´õ ÆÄÀÏ¿¡ ÀÖ´Â ±â´ÉÀ» »ç¿ëÇÕ´Ï´Ù.
+	\verb+<stdarg.h>+ í—¤ë” íŒŒì¼ì— ìžˆëŠ” ê¸°ëŠ¥ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
 
-	¾Æ·¡ÀÇ ÇÔ¼ö´Â ÁÖ¾îÁø ¿©·¯ °³ÀÇ ¹®ÀÚ¿­À» ºÙ¿©¼­ \TT{malloc()}À¸·Î ÇÒ´çÇÑ
-	¸Þ¸ð¸®¿¡ ÀúÀåÇØ¼­ ¸®ÅÏÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù:
+	ì•„ëž˜ì˜ í•¨ìˆ˜ëŠ” ì£¼ì–´ì§„ ì—¬ëŸ¬ ê°œì˜ ë¬¸ìžì—´ì„ ë¶™ì—¬ì„œ \TT{malloc()}ìœ¼ë¡œ í• ë‹¹í•œ
+	ë©”ëª¨ë¦¬ì— ì €ìž¥í•´ì„œ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜ìž…ë‹ˆë‹¤:
 
 \begin{verbatim}
   #include <stdlib.h>     /* for malloc, NULL, size_t */
@@ -160,27 +160,27 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
     return retbuf;
   }
 \end{verbatim}
-	\noindent (ÀÎÀÚ ¸®½ºÆ®¸¦ Ã³À½ºÎÅÍ ´Ù½Ã °Ë»öÇÒ ¶§¿¡´Â À§¿¡¼­Ã³·³ 
-        \verb+va_start+¸¦ ´Ù½Ã ºÒ·¯ ÁÖ¾î¾ß ÇÕ´Ï´Ù. ¶ÇÇÑ \verb+va_end+°¡
-        ½ÇÁ¦·Î ÇÏ´Â ÀÏÀÌ ¾øÀ» ¼ö´Â ÀÖÁö¸¸, ÀÌ½Ä¼ºÀ» À§ÇØ¼­ ¹Ýµå½Ã ºÒ·¯ÁÖ¾î¾ß ÇÕ´Ï´Ù.)
+	\noindent (ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ì²˜ìŒë¶€í„° ë‹¤ì‹œ ê²€ìƒ‰í•  ë•Œì—ëŠ” ìœ„ì—ì„œì²˜ëŸ¼ 
+        \verb+va_start+ë¥¼ ë‹¤ì‹œ ë¶ˆëŸ¬ ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤. ë˜í•œ \verb+va_end+ê°€
+        ì‹¤ì œë¡œ í•˜ëŠ” ì¼ì´ ì—†ì„ ìˆ˜ëŠ” ìžˆì§€ë§Œ, ì´ì‹ì„±ì„ ìœ„í•´ì„œ ë°˜ë“œì‹œ ë¶ˆëŸ¬ì£¼ì–´ì•¼ í•©ë‹ˆë‹¤.)
 
 
-\noindent »ç¿ë¹ýÀº ´ÙÀ½°ú °°½À´Ï´Ù:
+\noindent ì‚¬ìš©ë²•ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 \begin{verbatim}
   char *str = vstrcat("Hello, ", "world!", (char *)NULL);
 \end{verbatim}
-	\noindent ¸¶Áö¸· ÀÎÀÚ¸¦ Ä³½ºÆÃÇÑ °ÍÀ» ²À ÁÖÀÇ±í°Ô º¸½Ã±â ¹Ù¶ø´Ï´Ù;
-	Áú¹® \ql{5.2}, \ql{15.3}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.  (¶ÇÇÑ ÀÌ ÇÔ¼ö¸¦ ºÎ¸¥ ÇÔ¼ö´Â
-	ÀÌ ÇÔ¼ö°¡ ¸®ÅÏÇÑ ¹®ÀÚ¿­À» \TT{free}½ÃÄÑ ÁÖ¾î¾ß ÇÒ Ã¥ÀÓÀÌ ÀÖ½À´Ï´Ù.)
+	\noindent ë§ˆì§€ë§‰ ì¸ìžë¥¼ ìºìŠ¤íŒ…í•œ ê²ƒì„ ê¼­ ì£¼ì˜ê¹Šê²Œ ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤;
+	ì§ˆë¬¸ \ql{5.2}, \ql{15.3}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.  (ë˜í•œ ì´ í•¨ìˆ˜ë¥¼ ë¶€ë¥¸ í•¨ìˆ˜ëŠ”
+	ì´ í•¨ìˆ˜ê°€ ë¦¬í„´í•œ ë¬¸ìžì—´ì„ \TT{free}ì‹œì¼œ ì£¼ì–´ì•¼ í•  ì±…ìž„ì´ ìžˆìŠµë‹ˆë‹¤.)
 
-        À§ÀÇ ¿¹´Â ¸ðµç °¡º¯ ÀÎÀÚÀÇ Å¸ÀÔÀÌ \TT{char *}ÀÔ´Ï´Ù. ÀÌÁ¦, °¡º¯ ÀÎÀÚÀÇ °¹¼ö¿Í
-        Å¸ÀÔÀÌ Á¤ÇØÁöÁö ¾Ê´Â ÇÔ¼ö¸¦ ¸¸µé¾î º¸°Ú½À´Ï´Ù; ÀÌ ÇÔ¼ö´Â ¾ÆÁÖ °£´ÜÇÑ ±â´É¸¸
-        Áö¿øÇÏ´Â \TT{printf}ÀÔ´Ï´Ù. Æ¯È÷ \verb+va_arg()+¿¡¼­ ¿øÇÏ´Â Å¸ÀÔÀ» ¹Ì¸®
-        ÁöÁ¤ÇÑ ºÎºÐ¿¡ ´ëÇØ ÁÖÀÇ±í°Ô º¸½Ã±â ¹Ù¶ø´Ï´Ù.
+        ìœ„ì˜ ì˜ˆëŠ” ëª¨ë“  ê°€ë³€ ì¸ìžì˜ íƒ€ìž…ì´ \TT{char *}ìž…ë‹ˆë‹¤. ì´ì œ, ê°€ë³€ ì¸ìžì˜ ê°¯ìˆ˜ì™€
+        íƒ€ìž…ì´ ì •í•´ì§€ì§€ ì•ŠëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ ë³´ê² ìŠµë‹ˆë‹¤; ì´ í•¨ìˆ˜ëŠ” ì•„ì£¼ ê°„ë‹¨í•œ ê¸°ëŠ¥ë§Œ
+        ì§€ì›í•˜ëŠ” \TT{printf}ìž…ë‹ˆë‹¤. íŠ¹ížˆ \verb+va_arg()+ì—ì„œ ì›í•˜ëŠ” íƒ€ìž…ì„ ë¯¸ë¦¬
+        ì§€ì •í•œ ë¶€ë¶„ì— ëŒ€í•´ ì£¼ì˜ê¹Šê²Œ ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤.
 
-        (¾Æ·¡ \TT{miniprintf} ÇÔ¼ö´Â Áú¹® \ql{20.10}¿¡¼­ ¾´ \TT{baseconv}¸¦
-        ¾¹´Ï´Ù. ¶ÇÇÑ ÀÌ °ÍÀº \verb+INT_MIN+°ú °°Àº, °¡Àå ÀÛÀº Á¤¼ö °ªÀ» ¿Ã¹Ù¸£°Ô
-        Ãâ·ÂÇÏ±â¿¡ Àû´çÇÏÁö ¾Ê½À´Ï´Ù.)
+        (ì•„ëž˜ \TT{miniprintf} í•¨ìˆ˜ëŠ” ì§ˆë¬¸ \ql{20.10}ì—ì„œ ì“´ \TT{baseconv}ë¥¼
+        ì”ë‹ˆë‹¤. ë˜í•œ ì´ ê²ƒì€ \verb+INT_MIN+ê³¼ ê°™ì€, ê°€ìž¥ ìž‘ì€ ì •ìˆ˜ ê°’ì„ ì˜¬ë°”ë¥´ê²Œ
+        ì¶œë ¥í•˜ê¸°ì— ì ë‹¹í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.)
 
 \begin{verbatim}
   #include <stdio.h>
@@ -208,7 +208,7 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
       switch (*++p) {
       case 'c':
         i = va_arg(argp, int);
-        /* not va_arg(argp, char); Áú¹® 15.10 Âü°í */
+        /* not va_arg(argp, char); ì§ˆë¬¸ 15.10 ì°¸ê³  */
         putchar(i);
         break;
 
@@ -264,17 +264,17 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.5}
-	\TT{printf()}¿Í °°ÀÌ Æ÷¸Ë ¹®ÀÚ¿­À» ¹Þ¾Æµé¿© Ã³¸®ÇÏ´Â ÇÔ¼ö¸¦
-	¸¸µé¾î ±× Ã³¸®¸¦ \TT{printf()}¿¡°Ô ¸Ã±â°í ½Í½À´Ï´Ù.
+	\TT{printf()}ì™€ ê°™ì´ í¬ë§· ë¬¸ìžì—´ì„ ë°›ì•„ë“¤ì—¬ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ë¥¼
+	ë§Œë“¤ì–´ ê·¸ ì²˜ë¦¬ë¥¼ \TT{printf()}ì—ê²Œ ë§¡ê¸°ê³  ì‹¶ìŠµë‹ˆë‹¤.
 \A
-	\TT{vprintf()}, \TT{vfprintf()}, \TT{vsprintf()} ÇÔ¼ö¸¦ ¾²¸é
-	µË´Ï´Ù. ÀÌ ÇÔ¼öµéÀº, °¢°¢ \TT{printf()}, \TT{fprintf()}, \TT{sprintf()}°ú
-        °°Àº ÀÏÀ» ÇÏ¸ç, ´ÜÁö ¸¶Áö¸· ÀÎÀÚ°¡ °¡º¯ ÀÎÀÚÀÎ ´ë½Å \verb+va_list+ Å¸ÀÔ¿¡
-        ´ëÇÑ Æ÷ÀÎÅÍ¸¦ ¹Þ½À´Ï´Ù.
+	\TT{vprintf()}, \TT{vfprintf()}, \TT{vsprintf()} í•¨ìˆ˜ë¥¼ ì“°ë©´
+	ë©ë‹ˆë‹¤. ì´ í•¨ìˆ˜ë“¤ì€, ê°ê° \TT{printf()}, \TT{fprintf()}, \TT{sprintf()}ê³¼
+        ê°™ì€ ì¼ì„ í•˜ë©°, ë‹¨ì§€ ë§ˆì§€ë§‰ ì¸ìžê°€ ê°€ë³€ ì¸ìžì¸ ëŒ€ì‹  \verb+va_list+ íƒ€ìž…ì—
+        ëŒ€í•œ í¬ì¸í„°ë¥¼ ë°›ìŠµë‹ˆë‹¤.
         
-        ¿¹¸¦ µé¾î, ¾Æ·¡ÀÇ \TT{error()} ÇÔ¼ö´Â ¿¡·¯ ¸Þ½ÃÁö¸¦ ¹Þ¾Æµé¿©
-	±× ¸Þ½ÃÁö ¾Õ¿¡ ``error: ''¸¦ µ¡ºÙÀÌ°í newlineÀ» ºÙ¿©¼­ Ãâ·ÂÇØÁÖ´Â
-	ÇÔ¼öÀÔ´Ï´Ù:
+        ì˜ˆë¥¼ ë“¤ì–´, ì•„ëž˜ì˜ \TT{error()} í•¨ìˆ˜ëŠ” ì—ëŸ¬ ë©”ì‹œì§€ë¥¼ ë°›ì•„ë“¤ì—¬
+	ê·¸ ë©”ì‹œì§€ ì•žì— ``error: ''ë¥¼ ë§ë¶™ì´ê³  newlineì„ ë¶™ì—¬ì„œ ì¶œë ¥í•´ì£¼ëŠ”
+	í•¨ìˆ˜ìž…ë‹ˆë‹¤:
 \begin{verbatim}
   #include <stdio.h>
   #include <stdarg.h>
@@ -300,30 +300,30 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.6}
-	\TT{scanf()}¿Í °°Àº ±â´ÉÀ» ÇÏ´Â ÇÔ¼ö¸¦ ¸¸µé°í ½Í½À´Ï´Ù.
+	\TT{scanf()}ì™€ ê°™ì€ ê¸°ëŠ¥ì„ í•˜ëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“¤ê³  ì‹¶ìŠµë‹ˆë‹¤.
 \A
-	\cite{c9x}´Â \TT{vscanf()}¿Í \TT{vfscanf()}, \TT{vsscanf()}¸¦
-	Áö¿øÇÒ °ÍÀÔ´Ï´Ù.  (¹°·Ð ´çÀå ÇÏ±â À§ÇØ¼­´Â ¿©·¯ºÐ ½º½º·Î°¡
-	±×·¯ÇÑ ÇÔ¼ö¸¦ ¸¸µé¾î¾ß ÇÕ´Ï´Ù.)
+	\cite{c9x}ëŠ” \TT{vscanf()}ì™€ \TT{vfscanf()}, \TT{vsscanf()}ë¥¼
+	ì§€ì›í•  ê²ƒìž…ë‹ˆë‹¤.  (ë¬¼ë¡  ë‹¹ìž¥ í•˜ê¸° ìœ„í•´ì„œëŠ” ì—¬ëŸ¬ë¶„ ìŠ¤ìŠ¤ë¡œê°€
+	ê·¸ëŸ¬í•œ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ì•¼ í•©ë‹ˆë‹¤.)
 \R
 	\cite{c9x} \S\ 7.3.6.12--14
 \T
-	C99 Ç¥ÁØÀº \TT{vscanf()}, \TT{vfscanf()}, \TT{vsscanf()}¸¦
-        Áö¿øÇÕ´Ï´Ù. µû¶ó¼­ Áú¹® \ql{15.5}¿Í °°Àº ¹æ¹ýÀ¸·Î ¸¸µé¸é µË´Ï´Ù.
+	C99 í‘œì¤€ì€ \TT{vscanf()}, \TT{vfscanf()}, \TT{vsscanf()}ë¥¼
+        ì§€ì›í•©ë‹ˆë‹¤. ë”°ë¼ì„œ ì§ˆë¬¸ \ql{15.5}ì™€ ê°™ì€ ë°©ë²•ìœ¼ë¡œ ë§Œë“¤ë©´ ë©ë‹ˆë‹¤.
 \R
 	\cite{hs5} \S\ 15.12 \page{401}
         \cite{c99} \S\ 7.19.1, \S\ 7.19.6.9, \S\ 7.19.6.11, \S\ 7.19.6.14
-% TODO: reference Ãß°¡.
+% TODO: reference ì¶”ê°€.
 \end{faq}
 
 \begin{faq}
 \Q{15.7}
-	ANSI ÀÌÀüÀÇ ÄÄÆÄÀÏ·¯¸¦ »ç¿ëÇÏ°í ÀÖ½À´Ï´Ù.  \verb+<stdarg.h>+°¡ ¾ø´Âµ¥
-	¾î¶»°Ô ÇÏÁÒ?
+	ANSI ì´ì „ì˜ ì»´íŒŒì¼ëŸ¬ë¥¼ ì‚¬ìš©í•˜ê³  ìžˆìŠµë‹ˆë‹¤.  \verb+<stdarg.h>+ê°€ ì—†ëŠ”ë°
+	ì–´ë–»ê²Œ í•˜ì£ ?
 \A
-	\verb+<stdarg.h>+¿¡ ÇØ´çÇÏ´Â ¿À·¡µÈ Çì´õÆÄÀÏÀÎ \verb+<varargs.h>+¸¦
-	¾²¸é µË´Ï´Ù. ¿¹¸¦ µé¾î, Áú¹® \ql{15.4}¿¡¼­ ¸¸µç \TT{vstrcat}À»,
-        \verb+<varargs.h>+¸¦ ¾²µµ·Ï °íÄ¡¸é ´ÙÀ½°ú °°½À´Ï´Ù:
+	\verb+<stdarg.h>+ì— í•´ë‹¹í•˜ëŠ” ì˜¤ëž˜ëœ í—¤ë”íŒŒì¼ì¸ \verb+<varargs.h>+ë¥¼
+	ì“°ë©´ ë©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, ì§ˆë¬¸ \ql{15.4}ì—ì„œ ë§Œë“  \TT{vstrcat}ì„,
+        \verb+<varargs.h>+ë¥¼ ì“°ë„ë¡ ê³ ì¹˜ë©´ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤:
 \begin{verbatim}
   #include <stdio.h>
   #include <varargs.h>
@@ -363,14 +363,14 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
     return retbuf;
   }
 \end{verbatim}
-	\noindent (\verb+va_dcl+µÚ¿¡ ¼¼¹ÌÄÝ·Ð(`;')ÀÌ ¾ø´Â °Í¿¡ ÁÖÀÇÇÏ±â ¹Ù¶ø´Ï´Ù.
-	±×¸®°í, ÀÌ °æ¿ì, Ã¹¹øÂ° ÀÎÀÚ¿¡ ´ëÇÑ Æ¯º°ÇÑ Ã³¸®°¡ ÇÊ¿ä¾ø½À´Ï´Ù.) ¶Ç,
-        \verb+<string.h>+À» Æ÷ÇÔ½ÃÅ°´Â ´ë½Å, Á÷Á¢ ¹®ÀÚ¿­ Ã³¸® °ü·Ã ÇÔ¼öµéÀ»
-        ¼±¾ðÇØ ÁÖ¾î¾ß ÇÒ Áöµµ ¸ð¸¨´Ï´Ù.
+	\noindent (\verb+va_dcl+ë’¤ì— ì„¸ë¯¸ì½œë¡ (`;')ì´ ì—†ëŠ” ê²ƒì— ì£¼ì˜í•˜ê¸° ë°”ëžë‹ˆë‹¤.
+	ê·¸ë¦¬ê³ , ì´ ê²½ìš°, ì²«ë²ˆì§¸ ì¸ìžì— ëŒ€í•œ íŠ¹ë³„í•œ ì²˜ë¦¬ê°€ í•„ìš”ì—†ìŠµë‹ˆë‹¤.) ë˜,
+        \verb+<string.h>+ì„ í¬í•¨ì‹œí‚¤ëŠ” ëŒ€ì‹ , ì§ì ‘ ë¬¸ìžì—´ ì²˜ë¦¬ ê´€ë ¨ í•¨ìˆ˜ë“¤ì„
+        ì„ ì–¸í•´ ì£¼ì–´ì•¼ í•  ì§€ë„ ëª¨ë¦…ë‹ˆë‹¤.
 
-        ¸¸¾à, ½Ã½ºÅÛÀÌ \TT{vfprintf}¸¦ Á¦°øÇÏ¸ç, \verb+<stdarg.h>+¸¦ Á¦°øÇÏÁö
-        ¾ÊÀ» °æ¿ì, ¾Æ·¡¿¡ (Áú¹® \ql{15.5}¿¡¼­ ¾´) \verb+<varargs.h>+¸¦ ¾´
-        \TT{error} ÇÔ¼ö¸¦ º¸ÀÔ´Ï´Ù:
+        ë§Œì•½, ì‹œìŠ¤í…œì´ \TT{vfprintf}ë¥¼ ì œê³µí•˜ë©°, \verb+<stdarg.h>+ë¥¼ ì œê³µí•˜ì§€
+        ì•Šì„ ê²½ìš°, ì•„ëž˜ì— (ì§ˆë¬¸ \ql{15.5}ì—ì„œ ì“´) \verb+<varargs.h>+ë¥¼ ì“´
+        \TT{error} í•¨ìˆ˜ë¥¼ ë³´ìž…ë‹ˆë‹¤:
 \begin{verbatim}
   #include <stdio.h>
   #include <varargs.h>
@@ -388,9 +388,9 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
     fprintf(stderr, "\n");
   }
 \end{verbatim}
-	\noindent (\verb+<stdarg.h>+¿¡¼­¿Í´Â ´Þ¸®, \verb+<varargs.h>+¿¡¼­´Â
-        ¸ðµç ÀÎÀÚ°¡ °¡º¯ÀÎÀÚÀÔ´Ï´Ù. µû¶ó¼­ \TT{fmt} ÀÎÀÚµµ, \verb+va_arg+¸¦ ½á¼­
-        ¾ò¾î¾ß ÇÕ´Ï´Ù.)
+	\noindent (\verb+<stdarg.h>+ì—ì„œì™€ëŠ” ë‹¬ë¦¬, \verb+<varargs.h>+ì—ì„œëŠ”
+        ëª¨ë“  ì¸ìžê°€ ê°€ë³€ì¸ìžìž…ë‹ˆë‹¤. ë”°ë¼ì„œ \TT{fmt} ì¸ìžë„, \verb+va_arg+ë¥¼ ì¨ì„œ
+        ì–»ì–´ì•¼ í•©ë‹ˆë‹¤.)
 \R
 	\cite{hs} \S\ 11.4 \Page{296--9} \\
 	\cite{ctp} \S\ A.2 \Page{134--139} \\
@@ -400,44 +400,44 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 \section{Extracting Variable-Length Arguments}
 \begin{faq}
 \Q{15.8}
-	ÇÔ¼ö¿¡ ¸î °³ÀÇ ÀÎÀÚ°¡ Àü´ÞµÇ¾ú´ÂÁö¸¦ Á¤È®È÷ ¾Ë ¼ö ÀÖ´Â ¹æ¹ýÀÌ
-	ÀÖ³ª¿ä?
+	í•¨ìˆ˜ì— ëª‡ ê°œì˜ ì¸ìžê°€ ì „ë‹¬ë˜ì—ˆëŠ”ì§€ë¥¼ ì •í™•ížˆ ì•Œ ìˆ˜ ìžˆëŠ” ë°©ë²•ì´
+	ìžˆë‚˜ìš”?
 \A
-	È£È¯¼ºÀÖ´Â ¹æ¹ýÀº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.  ¾î¶² ¿À·¡µÈ ½Ã½ºÅÛ¿¡¼­´Â
-	ºñÇ¥ÁØ ÇÔ¼öÀÎ \TT{nargs()}¸¦ Á¦°øÇÏ±âµµ ÇÕ´Ï´Ù.  ±×·¯³ª
-	ÀÌ ÇÔ¼ö´Â ÀÎÀÚÀÇ °¹¼ö¸¦ ¸®ÅÏÇÏ´Â °Ô ¾Æ´Ï¶ó Àü´ÞµÈ word °¹¼ö¸¦
-	¸®ÅÏÇÕ´Ï´Ù. (±¸Á¶Ã¼³ª \TT{long int}, ½Ç¼ö´Â ¿©·¯ °³ÀÇ
-	word·Î ÀÌ·ç¾îÁ® ÀÖ´Â °æ¿ì°¡ ´ëºÎºÐÀÔ´Ï´Ù.)
+	í˜¸í™˜ì„±ìžˆëŠ” ë°©ë²•ì€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.  ì–´ë–¤ ì˜¤ëž˜ëœ ì‹œìŠ¤í…œì—ì„œëŠ”
+	ë¹„í‘œì¤€ í•¨ìˆ˜ì¸ \TT{nargs()}ë¥¼ ì œê³µí•˜ê¸°ë„ í•©ë‹ˆë‹¤.  ê·¸ëŸ¬ë‚˜
+	ì´ í•¨ìˆ˜ëŠ” ì¸ìžì˜ ê°¯ìˆ˜ë¥¼ ë¦¬í„´í•˜ëŠ” ê²Œ ì•„ë‹ˆë¼ ì „ë‹¬ëœ word ê°¯ìˆ˜ë¥¼
+	ë¦¬í„´í•©ë‹ˆë‹¤. (êµ¬ì¡°ì²´ë‚˜ \TT{long int}, ì‹¤ìˆ˜ëŠ” ì—¬ëŸ¬ ê°œì˜
+	wordë¡œ ì´ë£¨ì–´ì ¸ ìžˆëŠ” ê²½ìš°ê°€ ëŒ€ë¶€ë¶„ìž…ë‹ˆë‹¤.)
 
-	°¡º¯ ÀÎÀÚ¸¦ ¹Þ¾Æ Ã³¸®ÇÏ´Â ÇÔ¼ö´Â ±× ÀÚÃ¼¸¸À¸·Î ÀÎÀÚÀÇ °¹¼ö¸¦
-	ÆÄ¾ÇÇÒ ¼ö ÀÖ¾î¾ß ÇÕ´Ï´Ù.  \TT{printf} °è¿­ÀÇ ÇÔ¼öµéÀº Æ÷¸Ë ¹®ÀÚ¿­¿¡¼­
-	(\TT{\%d}¿Í °°Àº) Æ÷¸Ë specifier¸¦ º¸°í ±× °¹¼ö¸¦ ÆÄ¾ÇÇÕ´Ï´Ù.
-	(±×·¸±â ¶§¹®¿¡ \TT{printf()}¿¡ Àü´ÞµÈ ÀÎÀÚÀÇ °¹¼ö°¡ Æ÷¸Ë ¹®ÀÚ¿­°ú
-	¸ÂÁö ¾ÊÀ» °æ¿ì¿¡ ¿À·ù¸¦ ÀÏÀ¸Åµ´Ï´Ù.)
-	¶Ç ´Ù¸¥ ¹æ¹ýÀ¸·Î, °¡º¯ ÀÎÀÚ°¡ ¸ðµÎ °°Àº Å¸ÀÔÀÏ °æ¿ì, ¸¶Áö¸· ÀÎÀÚ¸¦
-	(0, -1, ¶Ç´Â ÀûÀýÇÑ ³Î Æ÷ÀÎÅÍ¿Í °°Àº) ¾î¶² Æ¯Á¤ÇÑ °ªÀ¸·Î
-	¼³Á¤ÇØ¼­ ÀÎÀÚÀÇ °¹¼ö¸¦ ÆÄ¾ÇÇÕ´Ï´Ù (Áú¹® \ql{5.2}, \ql{15.4}¿¡¼­
-	\TT{execl()}°ú \TT{vstrcat()} ÇÔ¼öÀÇ »ç¿ë¹ýÀ» Âü°íÇÏ½Ã±â ¹Ù¶ø´Ï´Ù).
-	¸¶Áö¸·À¸·Î, ÀÎÀÚÀÇ °¹¼ö¸¦ ¹Ì¸® ÆÄ¾ÇÇÒ ¼ö ÀÖ´Ù¸é, ÀüÃ¼ ÀÎÀÚÀÇ °¹¼ö¸¦
-	ÀÎÀÚ·Î Àü´ÞÇÏ´Â °Íµµ ÁÁÀº ¹æ¹ýÀÔ´Ï´Ù.  (although it's usually a
+	ê°€ë³€ ì¸ìžë¥¼ ë°›ì•„ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ëŠ” ê·¸ ìžì²´ë§Œìœ¼ë¡œ ì¸ìžì˜ ê°¯ìˆ˜ë¥¼
+	íŒŒì•…í•  ìˆ˜ ìžˆì–´ì•¼ í•©ë‹ˆë‹¤.  \TT{printf} ê³„ì—´ì˜ í•¨ìˆ˜ë“¤ì€ í¬ë§· ë¬¸ìžì—´ì—ì„œ
+	(\TT{\%d}ì™€ ê°™ì€) í¬ë§· specifierë¥¼ ë³´ê³  ê·¸ ê°¯ìˆ˜ë¥¼ íŒŒì•…í•©ë‹ˆë‹¤.
+	(ê·¸ë ‡ê¸° ë•Œë¬¸ì— \TT{printf()}ì— ì „ë‹¬ëœ ì¸ìžì˜ ê°¯ìˆ˜ê°€ í¬ë§· ë¬¸ìžì—´ê³¼
+	ë§žì§€ ì•Šì„ ê²½ìš°ì— ì˜¤ë¥˜ë¥¼ ì¼ìœ¼í‚µë‹ˆë‹¤.)
+	ë˜ ë‹¤ë¥¸ ë°©ë²•ìœ¼ë¡œ, ê°€ë³€ ì¸ìžê°€ ëª¨ë‘ ê°™ì€ íƒ€ìž…ì¼ ê²½ìš°, ë§ˆì§€ë§‰ ì¸ìžë¥¼
+	(0, -1, ë˜ëŠ” ì ì ˆí•œ ë„ í¬ì¸í„°ì™€ ê°™ì€) ì–´ë–¤ íŠ¹ì •í•œ ê°’ìœ¼ë¡œ
+	ì„¤ì •í•´ì„œ ì¸ìžì˜ ê°¯ìˆ˜ë¥¼ íŒŒì•…í•©ë‹ˆë‹¤ (ì§ˆë¬¸ \ql{5.2}, \ql{15.4}ì—ì„œ
+	\TT{execl()}ê³¼ \TT{vstrcat()} í•¨ìˆ˜ì˜ ì‚¬ìš©ë²•ì„ ì°¸ê³ í•˜ì‹œê¸° ë°”ëžë‹ˆë‹¤).
+	ë§ˆì§€ë§‰ìœ¼ë¡œ, ì¸ìžì˜ ê°¯ìˆ˜ë¥¼ ë¯¸ë¦¬ íŒŒì•…í•  ìˆ˜ ìžˆë‹¤ë©´, ì „ì²´ ì¸ìžì˜ ê°¯ìˆ˜ë¥¼
+	ì¸ìžë¡œ ì „ë‹¬í•˜ëŠ” ê²ƒë„ ì¢‹ì€ ë°©ë²•ìž…ë‹ˆë‹¤.  (although it's usually a
 	nuisance for the caller to supply).
-% TODO: À§ ¸¶Áö¸· ¹®Àå ¹ø¿ª.
+% TODO: ìœ„ ë§ˆì§€ë§‰ ë¬¸ìž¥ ë²ˆì—­.
 \R
 	\cite{pcs} \S\ 11 \Page{167--8}
 \end{faq}
 
 \begin{faq}
 \Q{15.9}
-	Á¦ ÄÄÆÄÀÏ·¯´Â ´ÙÀ½°ú °°Àº ÇÔ¼ö¸¦ Á¤ÀÇÇÏ¸é ¿¡·¯¸¦ ³À´Ï´Ù.
+	ì œ ì»´íŒŒì¼ëŸ¬ëŠ” ë‹¤ìŒê³¼ ê°™ì€ í•¨ìˆ˜ë¥¼ ì •ì˜í•˜ë©´ ì—ëŸ¬ë¥¼ ëƒ…ë‹ˆë‹¤.
 \begin{verbatim}
   int f(...)
   {
   }
 \end{verbatim}
 \A
-	Ç¥ÁØ C¿¡¼­´Â \verb+va_start()+¸¦ ¾²·Á¸é Àû¾îµµ ÇÏ³ªÀÇ °íÁ¤µÈ ÀÎÀÚ°¡
-	ÀÖ¾î¾ß ÇÑ´Ù°í ¸»ÇÏ°í ÀÖ½À´Ï´Ù. (¾îÂ·µç, °¡º¯ ÀÎÀÚÀÇ °¹¼ö ¶Ç´Â Å¸ÀÔÀ» ¾Ë·Á¸é,
-        ÇÏ³ª ÀÌ»óÀÇ ÀÎÀÚ°¡ ÇÊ¿äÇÕ´Ï´Ù.) \seealso{\ql{15.10}}
+	í‘œì¤€ Cì—ì„œëŠ” \verb+va_start()+ë¥¼ ì“°ë ¤ë©´ ì ì–´ë„ í•˜ë‚˜ì˜ ê³ ì •ëœ ì¸ìžê°€
+	ìžˆì–´ì•¼ í•œë‹¤ê³  ë§í•˜ê³  ìžˆìŠµë‹ˆë‹¤. (ì–´ì¨Œë“ , ê°€ë³€ ì¸ìžì˜ ê°¯ìˆ˜ ë˜ëŠ” íƒ€ìž…ì„ ì•Œë ¤ë©´,
+        í•˜ë‚˜ ì´ìƒì˜ ì¸ìžê°€ í•„ìš”í•©ë‹ˆë‹¤.) \seealso{\ql{15.10}}
 \R
 	\cite{ansi} \S\ 3.5.4, \S\ 3.5.4.3, \S\ 4.8.1.1 \\
 	\cite{c89} \S\ 6.5.4, \S\ 6.5.4.3, \S\ 7.8.1.1 \\
@@ -446,21 +446,21 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.10}
-	°¡º¯ ÀÎÀÚ¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö¿¡¼­ \TT{float} ÀÎÀÚ¸¦ Ã³¸®ÇÏÁö ¸øÇÕ´Ï´Ù.
-	¿Ö \verb+va_arg(argp, float)+À» ¾²¸é µ¿ÀÛÇÏÁö ¾ÊÀ»±î¿ä?
+	ê°€ë³€ ì¸ìžë¥¼ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ì—ì„œ \TT{float} ì¸ìžë¥¼ ì²˜ë¦¬í•˜ì§€ ëª»í•©ë‹ˆë‹¤.
+	ì™œ \verb+va_arg(argp, float)+ì„ ì“°ë©´ ë™ìž‘í•˜ì§€ ì•Šì„ê¹Œìš”?
 
 \A
-	°¡º¯ ÀÎÀÚ ¸®½ºÆ®¿¡¼­ °¡º¯ ÀÎÀÚ ºÎºÐÀº Ç×»ó ``default argument
-	promotion''ÀÌ Àû¿ëµË´Ï´Ù: Áï \TT{float} Å¸ÀÔÀÇ ÀÎÀÚµéÀº Ç×»ó
-	\TT{double}·Î º¯È¯µÇ¸ç, \TT{char}³ª \TT{short int}ÀÇ °æ¿ì
-	Ç×»ó \TT{int}·Î º¯È¯µË´Ï´Ù.  
+	ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ì—ì„œ ê°€ë³€ ì¸ìž ë¶€ë¶„ì€ í•­ìƒ ``default argument
+	promotion''ì´ ì ìš©ë©ë‹ˆë‹¤: ì¦‰ \TT{float} íƒ€ìž…ì˜ ì¸ìžë“¤ì€ í•­ìƒ
+	\TT{double}ë¡œ ë³€í™˜ë˜ë©°, \TT{char}ë‚˜ \TT{short int}ì˜ ê²½ìš°
+	í•­ìƒ \TT{int}ë¡œ ë³€í™˜ë©ë‹ˆë‹¤.  
 
-        \noindent µû¶ó¼­, \verb+va_arg(argp, float)+Àº
-	Àß¸øµÈ ÄÚµåÀÌ¸ç, ´ë½Å \verb+va_arg(argp,+\ \TT{double)}À»
-        ½á¾ß ÇÕ´Ï´Ù.
-	ºñ½ÁÇÑ ÀÌÀ¯·Î \TT{char}, \TT{short}, \TT{int}¸¦ ¹Þ±â À§ÇØ¼­´Â
-	\verb+va_arg(argp, int)+¸¦ ½á¾ß ÇÕ´Ï´Ù.
-	% TODO: ¾Æ·¡ ¹®Àå ¹ø¿ª -- ÇÊ¿ä ¾øÀ» °Í °°´Ù´Â »ý°¢..
+        \noindent ë”°ë¼ì„œ, \verb+va_arg(argp, float)+ì€
+	ìž˜ëª»ëœ ì½”ë“œì´ë©°, ëŒ€ì‹  \verb+va_arg(argp,+\ \TT{double)}ì„
+        ì¨ì•¼ í•©ë‹ˆë‹¤.
+	ë¹„ìŠ·í•œ ì´ìœ ë¡œ \TT{char}, \TT{short}, \TT{int}ë¥¼ ë°›ê¸° ìœ„í•´ì„œëŠ”
+	\verb+va_arg(argp, int)+ë¥¼ ì¨ì•¼ í•©ë‹ˆë‹¤.
+	% TODO: ì•„ëž˜ ë¬¸ìž¥ ë²ˆì—­ -- í•„ìš” ì—†ì„ ê²ƒ ê°™ë‹¤ëŠ” ìƒê°..
 	% (For analogous reasons, the last "fixed" argument, as handed to
 	% \verb+va_start()+, should not be widenable, either.)  
 	\seealso{\ql{11.3}, \ql{15.2}}
@@ -472,47 +472,47 @@ Variable-length argument list¸¦ ¾²´Â ¹æ¹ýÀº Å©°Ô ¼¼ ´Ü°è·Î ÀÌ·ç¾î Áý´Ï´Ù.
 
 \begin{faq}
 \Q{15.11}
-	ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ \verb+va_arg()+·Î ¾òÀ»·Á°í ÇÏ´Âµ¥, Àß ¾ÈµË´Ï´Ù.
+	í•¨ìˆ˜ í¬ì¸í„°ë¥¼ \verb+va_arg()+ë¡œ ì–»ì„ë ¤ê³  í•˜ëŠ”ë°, ìž˜ ì•ˆë©ë‹ˆë‹¤.
 \A
-	\TT{typedef}¸¦ ½á¼­ ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ »õ Å¸ÀÔÀ¸·Î ¸¸µé°í ÇØ º¸±â ¹Ù¶ø´Ï´Ù.
+	\TT{typedef}ë¥¼ ì¨ì„œ í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ìƒˆ íƒ€ìž…ìœ¼ë¡œ ë§Œë“¤ê³  í•´ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 
-	\verb+va_arg()+¿Í °°Àº ¸ÅÅ©·Î´Â ÇÔ¼ö Æ÷ÀÎÅÍ¿Í °°Àº º¹ÀâÇÑ Å¸ÀÔÀ»
-	»ç¿ëÇÒ ¶§, °ï¶õÀ» °Þ±âµµ ÇÕ´Ï´Ù (be stymied). ÀÌ ¹®Á¦¸¦ ÀÌÇØÇÏ±â À§ÇØ,
-        ¾Æ·¡¿¡ °£´ÜÇÑ \verb+va_arg()+ ±¸Çö ¿¹¸¦ º¸ÀÔ´Ï´Ù:
+	\verb+va_arg()+ì™€ ê°™ì€ ë§¤í¬ë¡œëŠ” í•¨ìˆ˜ í¬ì¸í„°ì™€ ê°™ì€ ë³µìž¡í•œ íƒ€ìž…ì„
+	ì‚¬ìš©í•  ë•Œ, ê³¤ëž€ì„ ê²ªê¸°ë„ í•©ë‹ˆë‹¤ (be stymied). ì´ ë¬¸ì œë¥¼ ì´í•´í•˜ê¸° ìœ„í•´,
+        ì•„ëž˜ì— ê°„ë‹¨í•œ \verb+va_arg()+ êµ¬í˜„ ì˜ˆë¥¼ ë³´ìž…ë‹ˆë‹¤:
 \begin{verbatim}
   #define va_arg(argp, type) \
     (*(type *)(((argp) += sizeof(type)) - sizeof(type)))
 \end{verbatim}
-	\noindent À§¿¡¼­, \TT{argp}´Â (Áï, \verb+va_list+ Å¸ÀÔ) 
-        \TT{char *}ÀÔ´Ï´Ù. ÀÌ ¶§, ¸¸¾à ´ÙÀ½°ú °°ÀÌ ºÒ·¶´Ù¸é:
+	\noindent ìœ„ì—ì„œ, \TT{argp}ëŠ” (ì¦‰, \verb+va_list+ íƒ€ìž…) 
+        \TT{char *}ìž…ë‹ˆë‹¤. ì´ ë•Œ, ë§Œì•½ ë‹¤ìŒê³¼ ê°™ì´ ë¶ˆë €ë‹¤ë©´:
 \begin{verbatim}
   va_arg(argp, int (*)())
 \end{verbatim}
-	\noindent \verb+va_arg+´Â ´ÙÀ½°ú °°ÀÌ È®ÀåµË´Ï´Ù:
+	\noindent \verb+va_arg+ëŠ” ë‹¤ìŒê³¼ ê°™ì´ í™•ìž¥ë©ë‹ˆë‹¤:
 \begin{verbatim}
   (*(int (*)() *)(((argp) += sizeof(int (*)())) -
       sizeof(int (*)())))
 \end{verbatim}
-	\noindent À§ °á°ú¸¦ ÀÚ¼¼È÷ º¸¸é ¾Ë°ÚÁö¸¸, syntax errorÀÔ´Ï´Ù. (Ã¹¹øÂ°
-        \TT{(int (*)() *)}·Î Ä³½ºÆ®ÇÏ´Â °ÍÀº ÀÇ¹Ì°¡ ¾ø½À´Ï´Ù.)\footnote{ÀÌ È®ÀåÀÌ
-          ¿Ã¹Ù¸£·Á¸é ´ÙÀ½°ú °°¾Æ¾ß ÇÕ´Ï´Ù:\\
+	\noindent ìœ„ ê²°ê³¼ë¥¼ ìžì„¸ížˆ ë³´ë©´ ì•Œê² ì§€ë§Œ, syntax errorìž…ë‹ˆë‹¤. (ì²«ë²ˆì§¸
+        \TT{(int (*)() *)}ë¡œ ìºìŠ¤íŠ¸í•˜ëŠ” ê²ƒì€ ì˜ë¯¸ê°€ ì—†ìŠµë‹ˆë‹¤.)\footnote{ì´ í™•ìž¥ì´
+          ì˜¬ë°”ë¥´ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì•„ì•¼ í•©ë‹ˆë‹¤:\\
         \TT{(*(int (**)())(((argp) += sizeof(int (*)())) - sizeof(int (*)())))}}
           
-	¸¸¾à, ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ ´Ù¸¥ ÀÌ¸§À¸·Î \TT{typedef}Çß´Ù¸é ¸ðµç ¹®Á¦°¡ ÇØ°áµË´Ï´Ù.
-        ÁÖ¾îÁø ÇÔ¼ö Æ÷ÀÎÅÍ¸¦ ´ÙÀ½°ú °°ÀÌ \TT{typedef}¸¦ ¸¸µé¾ú´Ù¸é:
+	ë§Œì•½, í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ \TT{typedef}í–ˆë‹¤ë©´ ëª¨ë“  ë¬¸ì œê°€ í•´ê²°ë©ë‹ˆë‹¤.
+        ì£¼ì–´ì§„ í•¨ìˆ˜ í¬ì¸í„°ë¥¼ ë‹¤ìŒê³¼ ê°™ì´ \TT{typedef}ë¥¼ ë§Œë“¤ì—ˆë‹¤ë©´:
 \begin{verbatim}
   typedef int (*funcptr)();
 \end{verbatim}
-	\noindent ±×¸®°í ¾Æ·¡¿Í °°ÀÌ ºÒ·¶´Ù¸é:
+	\noindent ê·¸ë¦¬ê³  ì•„ëž˜ì™€ ê°™ì´ ë¶ˆë €ë‹¤ë©´:
 \begin{verbatim}
   va_arg(argp, funcptr)
 \end{verbatim}
-	\noindent ´ÙÀ½°ú °°ÀÌ È®ÀåµË´Ï´Ù:
+	\noindent ë‹¤ìŒê³¼ ê°™ì´ í™•ìž¥ë©ë‹ˆë‹¤:
 \begin{verbatim}
   (*(funcptr *)(((argp) += sizeof(funcptr)) -
       sizeof(funcptr)))
 \end{verbatim}
-	\noindent ÀÌ °æ¿ì, Á¤»óÀûÀ¸·Î µ¿ÀÛÇÕ´Ï´Ù.
+	\noindent ì´ ê²½ìš°, ì •ìƒì ìœ¼ë¡œ ë™ìž‘í•©ë‹ˆë‹¤.
 
 	\seealso{\ql{1.13}, \ql{1.17} \ql{1.21}}
 \R
@@ -533,14 +533,14 @@ at run time, you can't do so portably.
 
 \begin{faq}
 \Q{15.12}
-	°¡º¯ ÀÎÀÚ¸¦ ¹Þ¾Æ¼­ ´Ù½Ã °¡º¯ ÀÎÀÚ¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö¿¡ ³Ñ°Ü ÁÙ ¼ö ÀÖÀ»±î¿ä?
+	ê°€ë³€ ì¸ìžë¥¼ ë°›ì•„ì„œ ë‹¤ì‹œ ê°€ë³€ ì¸ìžë¥¼ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ì— ë„˜ê²¨ ì¤„ ìˆ˜ ìžˆì„ê¹Œìš”?
 \A
-	ÀÏ¹ÝÀûÀ¸·Î, ºÒ°¡´ÉÇÕ´Ï´Ù.  ÀÌ»óÀûÀ¸·Î, ÀÌ °æ¿ì, \verb+va_list+¸¦
-        ¹Þ´Â ÇÔ¼ö¸¦ ¸¸µé¾î¾ß ÇÕ´Ï´Ù.
+	ì¼ë°˜ì ìœ¼ë¡œ, ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.  ì´ìƒì ìœ¼ë¡œ, ì´ ê²½ìš°, \verb+va_list+ë¥¼
+        ë°›ëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“¤ì–´ì•¼ í•©ë‹ˆë‹¤.
 
-        ¿¹¸¦ µé¾î, Ä¡¸íÀûÀÎ(fatal) ¿¡·¯ ¸Þ½ÃÁö¸¦ Ãâ·ÂÇÏ°í ÇÁ·Î±×·¥À» ³¡³»´Â ÇÔ¼öÀÎ
-        \TT{faterror}¸¦ ¸¸µç´Ù°í °¡Á¤ÇØ º¾½Ã´Ù. ¿©·¯ºÐÀº Áú¹® \ql{15.5}¿¡¼­ ¾´
-        \TT{error} ÇÔ¼ö¸¦ ¾²±æ ¿øÇÑ´Ù°í ÇÕ½Ã´Ù:
+        ì˜ˆë¥¼ ë“¤ì–´, ì¹˜ëª…ì ì¸(fatal) ì—ëŸ¬ ë©”ì‹œì§€ë¥¼ ì¶œë ¥í•˜ê³  í”„ë¡œê·¸ëž¨ì„ ëë‚´ëŠ” í•¨ìˆ˜ì¸
+        \TT{faterror}ë¥¼ ë§Œë“ ë‹¤ê³  ê°€ì •í•´ ë´…ì‹œë‹¤. ì—¬ëŸ¬ë¶„ì€ ì§ˆë¬¸ \ql{15.5}ì—ì„œ ì“´
+        \TT{error} í•¨ìˆ˜ë¥¼ ì“°ê¸¸ ì›í•œë‹¤ê³  í•©ì‹œë‹¤:
 \begin{verbatim}
   void faterror(char *fmt, ...)
   {
@@ -548,14 +548,14 @@ at run time, you can't do so portably.
     exit(EXIT_FAILURE);
   }
 \end{verbatim}
-	\noindent À§¿¡¼­ º¸¸é ¾Ë°ÚÁö¸¸, \TT{faterror}°¡ ¹ÞÀº °¡º¯ ÀÎÀÚ¸¦
-        \TT{error}¿¡ Àü´ÞÇÒ ¹æ¹ýÀÌ ¾ø½À´Ï´Ù.
+	\noindent ìœ„ì—ì„œ ë³´ë©´ ì•Œê² ì§€ë§Œ, \TT{faterror}ê°€ ë°›ì€ ê°€ë³€ ì¸ìžë¥¼
+        \TT{error}ì— ì „ë‹¬í•  ë°©ë²•ì´ ì—†ìŠµë‹ˆë‹¤.
 
-        ÀÌ ¹®Á¦¸¦ Ã³¸®ÇÏ±â À§ÇØ¼­, Ã¹Â°, \TT{error} ÇÔ¼ö¸¦ ºÐÇØÇØ¼­ °¡º¯ ÀÎÀÚ ´ë½Å
-        ÇÏ³ªÀÇ \verb+va_list+¸¦ ¹Þ´Â \TT{verror} ÇÔ¼ö¸¦ ¸¸µì´Ï´Ù.
-        (º°·Î ¾î·ÆÁö ¾Ê½À´Ï´Ù. ¿Ö³ÄÇÏ¸é \TT{verror}ÀÇ ´ëºÎºÐÀº \TT{error}¿Í °°À¸¸ç,
-        ÀÏ´Ü \TT{verror}¸¦ ¸¸µé°í ³ª¸é, \TT{error} ÇÔ¼ö´Â \TT{verror}¸¦ ½á¼­
-        ¾ÆÁÖ ½±°Ô ¸¸µé ¼ö ÀÖ½À´Ï´Ù.)
+        ì´ ë¬¸ì œë¥¼ ì²˜ë¦¬í•˜ê¸° ìœ„í•´ì„œ, ì²«ì§¸, \TT{error} í•¨ìˆ˜ë¥¼ ë¶„í•´í•´ì„œ ê°€ë³€ ì¸ìž ëŒ€ì‹ 
+        í•˜ë‚˜ì˜ \verb+va_list+ë¥¼ ë°›ëŠ” \TT{verror} í•¨ìˆ˜ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+        (ë³„ë¡œ ì–´ë µì§€ ì•ŠìŠµë‹ˆë‹¤. ì™œëƒí•˜ë©´ \TT{verror}ì˜ ëŒ€ë¶€ë¶„ì€ \TT{error}ì™€ ê°™ìœ¼ë©°,
+        ì¼ë‹¨ \TT{verror}ë¥¼ ë§Œë“¤ê³  ë‚˜ë©´, \TT{error} í•¨ìˆ˜ëŠ” \TT{verror}ë¥¼ ì¨ì„œ
+        ì•„ì£¼ ì‰½ê²Œ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.)
 \begin{verbatim}
   #include <stdio.h>
   #include <stdarg.h>
@@ -575,8 +575,8 @@ at run time, you can't do so portably.
     va_end(argp);
   }
 \end{verbatim}
-	\noindent À§¿Í °°ÀÌ ¸¸µé¾úÀ¸¸é, ÀÌÁ¦ \TT{faterror}¸¦ ´ÙÀ½°ú °°ÀÌ
-        ¸¸µé ¼ö ÀÖ½À´Ï´Ù:
+	\noindent ìœ„ì™€ ê°™ì´ ë§Œë“¤ì—ˆìœ¼ë©´, ì´ì œ \TT{faterror}ë¥¼ ë‹¤ìŒê³¼ ê°™ì´
+        ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   void faterror(char *fmt, ...)
   {
@@ -587,21 +587,21 @@ at run time, you can't do so portably.
     exit(EXIT_FAILURE);
   }
 \end{verbatim}
-	ÀÚ¼¼È÷ º¸¸é \TT{error}¿Í \TT{verror}ÀÇ °ü°è´Â \TT{print}¿Í \TT{vprintf}ÀÇ
-        °ü°è¿Í °°½À´Ï´Ù. Chris Torek¾¾°¡ Á¦¾ÈÇÑ °Í¿¡ µû¸£¸é, ¿©·¯ºÐÀÌ °¡º¯ ÀÎÀÚ¸¦
-        Ã³¸®ÇÏ´Â ÇÔ¼ö¸¦ ¸¸µé¶§¸¶´Ù, µÎ °¡Áö ¹öÀüÀ» Á¦°øÇÏ´Â °ÍÀÌ ÁÁ½À´Ï´Ù: ÇÏ³ª´Â
-        (\TT{verror}¿Í °°ÀÌ) \verb+va_list+¸¦ ¹Þ¾Æ¼­ Ã³¸®ÇÏ´Â ÇÔ¼ö¿Í,
-        (\TT{error}¿Í °°ÀÌ) ¾Õ ÇÔ¼öÀÇ °£´ÜÇÑ wrapper ¿ªÇÒÀ» ÇÏ´Â ÇÔ¼ö, µÎ °¡ÁöÀÔ´Ï´Ù.
-        ÀÌ ¹æ½ÄÀÇ ÇÑ°¡Áö ´ÜÁ¡Àº, \TT{verror}¿Í °°Àº ÇÔ¼ö´Â °¡º¯ ÀÎÀÚ¸¦ ´Ü ÇÑ¹ø¾¿¸¸
-        scanÇÒ ¼ö ÀÖ´Ù´Â °ÍÀÔ´Ï´Ù; \verb+va_start+¸¦ ´Ù½Ã ºÎ¸¦ ¹æ¹ýÀº ¾ø½À´Ï´Ù.
+	ìžì„¸ížˆ ë³´ë©´ \TT{error}ì™€ \TT{verror}ì˜ ê´€ê³„ëŠ” \TT{print}ì™€ \TT{vprintf}ì˜
+        ê´€ê³„ì™€ ê°™ìŠµë‹ˆë‹¤. Chris Torekì”¨ê°€ ì œì•ˆí•œ ê²ƒì— ë”°ë¥´ë©´, ì—¬ëŸ¬ë¶„ì´ ê°€ë³€ ì¸ìžë¥¼
+        ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ë¥¼ ë§Œë“¤ë•Œë§ˆë‹¤, ë‘ ê°€ì§€ ë²„ì „ì„ ì œê³µí•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤: í•˜ë‚˜ëŠ”
+        (\TT{verror}ì™€ ê°™ì´) \verb+va_list+ë¥¼ ë°›ì•„ì„œ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜ì™€,
+        (\TT{error}ì™€ ê°™ì´) ì•ž í•¨ìˆ˜ì˜ ê°„ë‹¨í•œ wrapper ì—­í• ì„ í•˜ëŠ” í•¨ìˆ˜, ë‘ ê°€ì§€ìž…ë‹ˆë‹¤.
+        ì´ ë°©ì‹ì˜ í•œê°€ì§€ ë‹¨ì ì€, \TT{verror}ì™€ ê°™ì€ í•¨ìˆ˜ëŠ” ê°€ë³€ ì¸ìžë¥¼ ë‹¨ í•œë²ˆì”©ë§Œ
+        scaní•  ìˆ˜ ìžˆë‹¤ëŠ” ê²ƒìž…ë‹ˆë‹¤; \verb+va_start+ë¥¼ ë‹¤ì‹œ ë¶€ë¥¼ ë°©ë²•ì€ ì—†ìŠµë‹ˆë‹¤.
 
-        ¸¸¾à, (\TT{faterror}¿Í °°Àº) °¡º¯ ÀÎÀÚ¸¦ ¹Þ¾Æ¼­ ÀÌ °ÍÀ» °¡º¯ ÀÎÀÚ¸¦ ¹Þ´Â ´Ù¸¥
-        ÇÔ¼ö¿¡ Àü´ÞÇÏ·Á°í ÇÏ´Âµ¥, (\TT{error}¿Í °°ÀÌ) \verb+va_list+¸¦ ¹Þ´Â 
-        Àú¼öÁØ ÇÔ¼ö¸¦ ´Ù½Ã ¸¸µé ¼ö ¾ø´Ù¸é, ÀÌ ¹®Á¦¸¦ ÇØ°áÇÏ±â À§ÇÑ portableÇÑ ¹æ¹ýÀº
-        Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. (ÀÌ ¹®Á¦¸¦ ½Ã½ºÅÛÀÇ ¾î¼Àºí¸® ¾ð¾î¸¦ ½á¼­ ÇØ°áÇÒ °¡´É¼ºÀº
-        ÀÖ½À´Ï´Ù. \seealso{\ql{15.13}})
+        ë§Œì•½, (\TT{faterror}ì™€ ê°™ì€) ê°€ë³€ ì¸ìžë¥¼ ë°›ì•„ì„œ ì´ ê²ƒì„ ê°€ë³€ ì¸ìžë¥¼ ë°›ëŠ” ë‹¤ë¥¸
+        í•¨ìˆ˜ì— ì „ë‹¬í•˜ë ¤ê³  í•˜ëŠ”ë°, (\TT{error}ì™€ ê°™ì´) \verb+va_list+ë¥¼ ë°›ëŠ” 
+        ì €ìˆ˜ì¤€ í•¨ìˆ˜ë¥¼ ë‹¤ì‹œ ë§Œë“¤ ìˆ˜ ì—†ë‹¤ë©´, ì´ ë¬¸ì œë¥¼ í•´ê²°í•˜ê¸° ìœ„í•œ portableí•œ ë°©ë²•ì€
+        ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. (ì´ ë¬¸ì œë¥¼ ì‹œìŠ¤í…œì˜ ì–´ì…ˆë¸”ë¦¬ ì–¸ì–´ë¥¼ ì¨ì„œ í•´ê²°í•  ê°€ëŠ¥ì„±ì€
+        ìžˆìŠµë‹ˆë‹¤. \seealso{\ql{15.13}})
 
-        ´ÙÀ½°ú °°Àº ¹æ¹ýÀº µ¿ÀÛÇÏÁö ¾Ê½À´Ï´Ù:
+        ë‹¤ìŒê³¼ ê°™ì€ ë°©ë²•ì€ ë™ìž‘í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤:
 \begin{verbatim}
   void faterror(char *fmt, ...)
   {
@@ -612,11 +612,11 @@ at run time, you can't do so portably.
     exit(EXIT_FAILURE);
   }
 \end{verbatim}
-	\noindent \verb+va_list+ ÀÚÃ¼´Â °¡º¯ ÀÎÀÚ ¸®½ºÆ®°¡ ¾Æ´Õ´Ï´Ù; ³»ºÎÀûÀ¸·Î
-        ÀÌ °ÍÀº °¡º¯ ÀÎÀÚ ¸®½ºÆ®¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍÀÔ´Ï´Ù. µû¶ó¼­ \verb+va_list+¸¦
-        ¹Þ´Â ÇÔ¼ö´Â °¡º¯ ÀÎÀÚ ¸®½ºÆ®¸¦ ¹Þ´Â ÇÔ¼ö°¡ ¾Æ´Ï¸ç, ±× ¿ªµµ ¼º¸³ÇÏÁö ¾Ê½À´Ï´Ù.
+	\noindent \verb+va_list+ ìžì²´ëŠ” ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ê°€ ì•„ë‹™ë‹ˆë‹¤; ë‚´ë¶€ì ìœ¼ë¡œ
+        ì´ ê²ƒì€ ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ìž…ë‹ˆë‹¤. ë”°ë¼ì„œ \verb+va_list+ë¥¼
+        ë°›ëŠ” í•¨ìˆ˜ëŠ” ê°€ë³€ ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ë°›ëŠ” í•¨ìˆ˜ê°€ ì•„ë‹ˆë©°, ê·¸ ì—­ë„ ì„±ë¦½í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
-% ¾Æ·¡ paragraph ¹ø¿ª
+% ì•„ëž˜ paragraph ë²ˆì—­
         Another kludge that is sometimes used and that sometimes works even
         though it is grossly nonportable is to use a lot of \TT{int} arguments,
         hoping that there are enough of them and that they can somehow pass
@@ -630,28 +630,28 @@ at run time, you can't do so portably.
     exit(EXIT_FAILURE);
   }
 \end{verbatim}
-	À§ ¿¹´Â, ÀÌ·± ½ÄÀ¸·Î ÇÏÁö ¸»¶ó´Â °ÍÀ» º¸¿©ÁÖ±â À§ÇØ ¸¸µç °ÍÀÔ´Ï´Ù.
-        ÀÌ ±Û¿¡¼­ ºÃ´Ù´Â ÀÌÀ¯·Î À§ ÄÚµå¸¦ ¾²·Á°í ÇÏÁö ¸»±â ¹Ù¶ø´Ï´Ù.
+	ìœ„ ì˜ˆëŠ”, ì´ëŸ° ì‹ìœ¼ë¡œ í•˜ì§€ ë§ë¼ëŠ” ê²ƒì„ ë³´ì—¬ì£¼ê¸° ìœ„í•´ ë§Œë“  ê²ƒìž…ë‹ˆë‹¤.
+        ì´ ê¸€ì—ì„œ ë´¤ë‹¤ëŠ” ì´ìœ ë¡œ ìœ„ ì½”ë“œë¥¼ ì“°ë ¤ê³  í•˜ì§€ ë§ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{15.13}
-	·±Å¸ÀÓ¿¡ ÀÎÀÚ ¸®½ºÆ®¸¦ ¸¸µé¾î¼­ ÇÔ¼ö¸¦ ºÎ¸¦ ¼ö ÀÖ´Â ¹æ¹ýÀº ¾øÀ»±î¿ä?
+	ëŸ°íƒ€ìž„ì— ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ë§Œë“¤ì–´ì„œ í•¨ìˆ˜ë¥¼ ë¶€ë¥¼ ìˆ˜ ìžˆëŠ” ë°©ë²•ì€ ì—†ì„ê¹Œìš”?
 \A
-	È£È¯¼ºÀÖ´Â ¹æ¹ýµµ ¾øÀ¸¸ç, ±×·± ÀÏÀ» ÇÒ ¼ö ÀÖ´Ù°í º¸ÀåÇÒ ¼öµµ ¾ø½À´Ï´Ù.
+	í˜¸í™˜ì„±ìžˆëŠ” ë°©ë²•ë„ ì—†ìœ¼ë©°, ê·¸ëŸ° ì¼ì„ í•  ìˆ˜ ìžˆë‹¤ê³  ë³´ìž¥í•  ìˆ˜ë„ ì—†ìŠµë‹ˆë‹¤.
 
-	½ÇÁ¦ ÀÎÀÚ ¸®½ºÆ®¸¦ Ã³¸®ÇÏ´Â ´ë½Å generic (\verb+void *+) Æ÷ÀÎÅÍÀÇ ¹è¿­À»
-	³Ñ°ÜÁÖ´Â ¹æ¹ýÀ» »ý°¢ÇÒ ¼ö ÀÖ½À´Ï´Ù. ±×¸®°í ºÒ·ÁÁø ÇÔ¼ö´Â (\TT{main()}ÀÌ
-        \TT{argv} ÀÎÀÚ¸¦ Ã³¸®ÇÏµíÀÌ) ÀÌ ¹è¿­ ¿ä¼Ò¸¦ ÇÏ³ª¾¿ Á¶»çÇØ¼­ ¿øÇÏ´Â
-        Á¤º¸¸¦ ¾òÀ» ¼ö ÀÖ½À´Ï´Ù. (¹°·Ð, ÀÌ ¹æ½ÄÀº ¿©·¯ºÐÀÌ ºÒ·ÁÁø ¸ðµç ÇÔ¼ö¸¦ Á÷Á¢
-        Á¦¾îÇÒ ¼ö ÀÖÀ» ¶§¿¡¸¸ ÀÇ¹Ì°¡ ÀÖ½À´Ï´Ù.) 
+	ì‹¤ì œ ì¸ìž ë¦¬ìŠ¤íŠ¸ë¥¼ ì²˜ë¦¬í•˜ëŠ” ëŒ€ì‹  generic (\verb+void *+) í¬ì¸í„°ì˜ ë°°ì—´ì„
+	ë„˜ê²¨ì£¼ëŠ” ë°©ë²•ì„ ìƒê°í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ê·¸ë¦¬ê³  ë¶ˆë ¤ì§„ í•¨ìˆ˜ëŠ” (\TT{main()}ì´
+        \TT{argv} ì¸ìžë¥¼ ì²˜ë¦¬í•˜ë“¯ì´) ì´ ë°°ì—´ ìš”ì†Œë¥¼ í•˜ë‚˜ì”© ì¡°ì‚¬í•´ì„œ ì›í•˜ëŠ”
+        ì •ë³´ë¥¼ ì–»ì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. (ë¬¼ë¡ , ì´ ë°©ì‹ì€ ì—¬ëŸ¬ë¶„ì´ ë¶ˆë ¤ì§„ ëª¨ë“  í•¨ìˆ˜ë¥¼ ì§ì ‘
+        ì œì–´í•  ìˆ˜ ìžˆì„ ë•Œì—ë§Œ ì˜ë¯¸ê°€ ìžˆìŠµë‹ˆë‹¤.) 
 
 	\seealso{\ql{19.36}}
 \end{faq}
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %

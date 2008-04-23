@@ -15,8 +15,7 @@ SRC=arrayptr.tex charstr.tex floats.tex nullptr.tex sproblem.tex style.tex \
 
 .PHONY=all rebuild clean upload
 
-all: cfaqs-ko.ps cfaqs-ko.ps.gz cfaqs-ko.ps.bz2 \
-	cfaqs-ko.pdf cfaqs-ko.pdf.gz cfaqs-ko.pdf.bz2 html
+all: cfaqs-ko.pdf cfaqs-ko.pdf.gz cfaqs-ko.pdf.bz2 html
 
 rebuild: clean all
 
@@ -47,9 +46,9 @@ html: cfaqs-ko.dvi latex2html.conf
 	$(LATEX2HTML) --init_file latex2html.conf cfaqs-ko
 
 clean: 
-	rm -f cfaqs-ko.ps.gz cfaqs-ko.ps.bz2
+	#rm -f cfaqs-ko.ps.gz cfaqs-ko.ps.bz2
 	rm -f cfaqs-ko.pdf.gz cfaqs-ko.pdf.bz2
-	rm -f cfaqs-ko.ps cfaqs-ko.pdf
+	rm -f cfaqs-ko.pdf
 	rm -f cfaqs-ko.dvi
 	rm -f cfaqs-ko.aux cfaqs-ko.log cfaqs-ko.toc
 	rm -rf html

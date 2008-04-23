@@ -6,7 +6,7 @@
 <pre>$Id$</pre>
 \end{rawhtml}
 
-% TODO: C99´Â ÀÌÁ¦ _BoolÀ» Áö¿øÇÔ. update ¹Ù¶÷.
+% TODO: C99ëŠ” ì´ì œ _Boolì„ ì§€ì›í•¨. update ë°”ëžŒ.
 C provides no formal, built-in Boolean type. Boolean values are just integers
 (though with greatly reduced range!), so they can be held in any integral type.
 C interprets a zero value as ``false'' and \EM{any} nonzero value as ``true.''
@@ -15,35 +15,35 @@ The relational and logical operators, such as \TT{==}, \TT{!=}, \verb+<+,
 1 is slightly more distinguished as a truth value than the other nonzero
 values (but see question \ql{9.2}).
 
-C ¾ð¾î´Â C99 Ç¥ÁØ ´ÙÀ½ºÎÅÍ ÀÌÁ¦ boolean Å¸ÀÔÀ» Áö¿øÇÏÁö¸¸, ¹®Á¦´Â boolean
-Å¸ÀÔÀÇ ÇÊ¿ä¼º¿¡ µû¶ó, Ç¥ÁØÀ¸·Î Á¦Á¤µÇ±â ÀÌÀüºÎÅÍ °³¹ßÀÚµéÀÌ ÀÓÀÇ·Î boolean
-Å¸ÀÔÀ» ¸¸µé¾î ½á ¿Ô´Ù´Â °ÍÀÔ´Ï´Ù. µû¶ó¼­, ±âÁ¸ ÇÁ·Î±×·¥µé°ú È£È¯¼ºÀ» À§ÇØ¼­,
-boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
-Áú¹® \ql{9.1}À» º¸±â ¹Ù¶ø´Ï´Ù.
+C ì–¸ì–´ëŠ” C99 í‘œì¤€ ë‹¤ìŒë¶€í„° ì´ì œ boolean íƒ€ìž…ì„ ì§€ì›í•˜ì§€ë§Œ, ë¬¸ì œëŠ” boolean
+íƒ€ìž…ì˜ í•„ìš”ì„±ì— ë”°ë¼, í‘œì¤€ìœ¼ë¡œ ì œì •ë˜ê¸° ì´ì „ë¶€í„° ê°œë°œìžë“¤ì´ ìž„ì˜ë¡œ boolean
+íƒ€ìž…ì„ ë§Œë“¤ì–´ ì¨ ì™”ë‹¤ëŠ” ê²ƒìž…ë‹ˆë‹¤. ë”°ë¼ì„œ, ê¸°ì¡´ í”„ë¡œê·¸ëž¨ë“¤ê³¼ í˜¸í™˜ì„±ì„ ìœ„í•´ì„œ,
+boolean íƒ€ìž…ì˜ ì´ë¦„ì€ (ì´ìƒí•˜ì§€ë§Œ) \verb+_Bool+ìž…ë‹ˆë‹¤. ì¢€ ë” ìžì„¸í•œ ê²ƒì€
+ì§ˆë¬¸ \ql{9.1}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 
 \begin{faq}
 \Q{9.1} % 9.1 COMPLETE
-	C ¾ð¾î¿¡¼­ ºÒ¸®¾ð(boolean) °ªÀ¸·Î ¾µ ¼ö ÀÖ´Â ±¦ÂúÀº Å¸ÀÔÀÌ ÀÖÀ»±î¿ä?
-	±×¸®°í ¿Ö ±×·± Å¸ÀÔÀÌ Ç¥ÁØÀ¸·Î ÁöÁ¤µÇ¾î ÀÖÁö ¾Ê´Â °ÅÁÒ?
-	Âü(true)°ú °ÅÁþ(false)À» ³ªÅ¸³»±â À§ÇØ \verb+#define+À¸·Î
-	Á¤ÀÇ¸¦ ÇÏ´Â °Ô ÁÁÀ»±î¿ä, ¾Æ´Ï¸é \TT{enum}À» ¾²´Â °ÍÀÌ ÁÁÀ»±î¿ä?
+	C ì–¸ì–´ì—ì„œ ë¶ˆë¦¬ì–¸(boolean) ê°’ìœ¼ë¡œ ì“¸ ìˆ˜ ìžˆëŠ” ê´œì°®ì€ íƒ€ìž…ì´ ìžˆì„ê¹Œìš”?
+	ê·¸ë¦¬ê³  ì™œ ê·¸ëŸ° íƒ€ìž…ì´ í‘œì¤€ìœ¼ë¡œ ì§€ì •ë˜ì–´ ìžˆì§€ ì•ŠëŠ” ê±°ì£ ?
+	ì°¸(true)ê³¼ ê±°ì§“(false)ì„ ë‚˜íƒ€ë‚´ê¸° ìœ„í•´ \verb+#define+ìœ¼ë¡œ
+	ì •ì˜ë¥¼ í•˜ëŠ” ê²Œ ì¢‹ì„ê¹Œìš”, ì•„ë‹ˆë©´ \TT{enum}ì„ ì“°ëŠ” ê²ƒì´ ì¢‹ì„ê¹Œìš”?
 
 \A
-	C ¾ð¾î´Â Ç¥ÁØÀ¸·Î Á¦°øÇÏ´Â ºÒ¸®¾ð(boolean) Å¸ÀÔÀÌ ¾ø½À´Ï´Ù.
-	¿Ö³ÄÇÏ¸é, ºÒ¸®¾ð Å¸ÀÔÀº Ç×»ó °ø°£/Ã³¸®½Ã°£ÀÇ `tradeoff' ¹®Á¦¸¦
-	°¡Áö±â ¶§¹®ÀÔ´Ï´Ù.  µû¶ó¼­ ÀÌ´Â ÇÁ·Î±×·¡¸Ó°¡ ¾Ë¾Æ¼­ °áÁ¤ÇÏµµ·Ï
-	ÇØ ³õÀº °ÍÀÔ´Ï´Ù.  (\TT{int}¸¦ ¾²¸é Ã³¸®°¡ ºü¸¦ ¼ö ÀÖ°í,
-	\TT{char}¸¦ ¾²¸é °ø°£À» Àý¾àÇÒ °¡´É¼ºÀÌ ÀÖ½À´Ï´Ù.\footnote{Bitfield¸¦
-          ¾²¸é ´õ °ø°£À» Àý¾àÇÒ °¡´É¼ºÀÌ ÀÖ½À´Ï´Ù. Áú¹® \ql{2.26} Âü°í.
-          ÀÌ °æ¿ì, unsigned Å¸ÀÔÀÇ bitfield°¡ ÇÊ¿äÇÕ´Ï´Ù. 1-bit·Î µÈ signed
-          Å¸ÀÔ bitfield´Â È£È¯¼ºÀ» º¸ÀåÇÏ¸é¼­ +1ÀÇ °ªÀ» ÀúÀåÇÒ ¼ö ¾ø½À´Ï´Ù.}
-        ±×¸®°í, °ø°£À» Àý¾àÇÏ±â À§ÇØ ÀÛÀº µ¥ÀÌÅÍ Å¸ÀÔÀ» ½è´Ù¸é, ³ªÁß¿¡ \TT{int} 
-        Å¸ÀÔÀ¸·Î º¯È¯ÇÏ´Â ÄÚµå°¡ ¸¹ÀÌ ÇÊ¿äÇÒ °æ¿ì, ¿ÀÈ÷·Á ÄÚµåÀÇ Å©±â°¡ Ä¿Áö°í
-        ´À·ÁÁú ¼ö ÀÖ´Ù´Â ´ÜÁ¡ÀÌ ÀÖ½À´Ï´Ù.)
+	C ì–¸ì–´ëŠ” í‘œì¤€ìœ¼ë¡œ ì œê³µí•˜ëŠ” ë¶ˆë¦¬ì–¸(boolean) íƒ€ìž…ì´ ì—†ìŠµë‹ˆë‹¤.
+	ì™œëƒí•˜ë©´, ë¶ˆë¦¬ì–¸ íƒ€ìž…ì€ í•­ìƒ ê³µê°„/ì²˜ë¦¬ì‹œê°„ì˜ `tradeoff' ë¬¸ì œë¥¼
+	ê°€ì§€ê¸° ë•Œë¬¸ìž…ë‹ˆë‹¤.  ë”°ë¼ì„œ ì´ëŠ” í”„ë¡œê·¸ëž˜ë¨¸ê°€ ì•Œì•„ì„œ ê²°ì •í•˜ë„ë¡
+	í•´ ë†“ì€ ê²ƒìž…ë‹ˆë‹¤.  (\TT{int}ë¥¼ ì“°ë©´ ì²˜ë¦¬ê°€ ë¹ ë¥¼ ìˆ˜ ìžˆê³ ,
+	\TT{char}ë¥¼ ì“°ë©´ ê³µê°„ì„ ì ˆì•½í•  ê°€ëŠ¥ì„±ì´ ìžˆìŠµë‹ˆë‹¤.\footnote{Bitfieldë¥¼
+          ì“°ë©´ ë” ê³µê°„ì„ ì ˆì•½í•  ê°€ëŠ¥ì„±ì´ ìžˆìŠµë‹ˆë‹¤. ì§ˆë¬¸ \ql{2.26} ì°¸ê³ .
+          ì´ ê²½ìš°, unsigned íƒ€ìž…ì˜ bitfieldê°€ í•„ìš”í•©ë‹ˆë‹¤. 1-bitë¡œ ëœ signed
+          íƒ€ìž… bitfieldëŠ” í˜¸í™˜ì„±ì„ ë³´ìž¥í•˜ë©´ì„œ +1ì˜ ê°’ì„ ì €ìž¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.}
+        ê·¸ë¦¬ê³ , ê³µê°„ì„ ì ˆì•½í•˜ê¸° ìœ„í•´ ìž‘ì€ ë°ì´í„° íƒ€ìž…ì„ ì¼ë‹¤ë©´, ë‚˜ì¤‘ì— \TT{int} 
+        íƒ€ìž…ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ì½”ë“œê°€ ë§Žì´ í•„ìš”í•  ê²½ìš°, ì˜¤ížˆë ¤ ì½”ë“œì˜ í¬ê¸°ê°€ ì»¤ì§€ê³ 
+        ëŠë ¤ì§ˆ ìˆ˜ ìžˆë‹¤ëŠ” ë‹¨ì ì´ ìžˆìŠµë‹ˆë‹¤.)
 
-	\verb+#define+°ú \TT{enum} Áß ¾î´À °ÍÀ» ¾µ °ÍÀÎÁö´Â ±×¸® Å« ¹®Á¦°¡
-	µÇÁö ¾Ê½À´Ï´Ù (Áú¹® \ql{2.22}¿Í \ql{17.10}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
-	´ÙÀ½ µÑ Áß ¾Æ¹« °ÍÀÌ³ª ½áµµ ÁÁÀ¸¸ç, 0°ú 1À» Á÷Á¢ ½áµµ ÁÁ½À´Ï´Ù:
+	\verb+#define+ê³¼ \TT{enum} ì¤‘ ì–´ëŠ ê²ƒì„ ì“¸ ê²ƒì¸ì§€ëŠ” ê·¸ë¦¬ í° ë¬¸ì œê°€
+	ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤ (ì§ˆë¬¸ \ql{2.22}ì™€ \ql{17.10}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
+	ë‹¤ìŒ ë‘˜ ì¤‘ ì•„ë¬´ ê²ƒì´ë‚˜ ì¨ë„ ì¢‹ìœ¼ë©°, 0ê³¼ 1ì„ ì§ì ‘ ì¨ë„ ì¢‹ìŠµë‹ˆë‹¤:
 
 \begin{verbatim}
   #define TRUE  1             #define YES 1
@@ -51,68 +51,68 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
 
   enum bool {false, true};    enum bool {no, yes};
 \end{verbatim}
-	\noindent ±×·¯³ª ÀÏ´Ü ¾î¶² °ÍÀ» ¾²°Ú´Ù°í Á¤Çß´Ù¸é, ÇÑ ÇÁ·Î±×·¥ÀÌ³ª
-	ÇÁ·ÎÁ§Æ® ³»¿¡¼­´Â °è¼Ó ±×°ÍÀ» ¾²´Â °ÍÀÌ ÁÁ½À´Ï´Ù.  (±×·¯³ª µð¹ö°Å¿¡¼­
-	º¯¼öÀÇ °ªÀ» °Ë»çÇÒ¶§, ¼öÄ¡°¡ ¾Æ´Ñ ÀÌ¸§À¸·Î º¸¿© ÁÙ ¼ö ÀÖÀ¸¹Ç·Î
-	\TT{enum}ÀÌ ´õ ÁÁÀ» ¼öµµ ÀÖ½À´Ï´Ù. (\note Áú¹® \ql{2.22} Âü°í)
+	\noindent ê·¸ëŸ¬ë‚˜ ì¼ë‹¨ ì–´ë–¤ ê²ƒì„ ì“°ê² ë‹¤ê³  ì •í–ˆë‹¤ë©´, í•œ í”„ë¡œê·¸ëž¨ì´ë‚˜
+	í”„ë¡œì íŠ¸ ë‚´ì—ì„œëŠ” ê³„ì† ê·¸ê²ƒì„ ì“°ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.  (ê·¸ëŸ¬ë‚˜ ë””ë²„ê±°ì—ì„œ
+	ë³€ìˆ˜ì˜ ê°’ì„ ê²€ì‚¬í• ë•Œ, ìˆ˜ì¹˜ê°€ ì•„ë‹Œ ì´ë¦„ìœ¼ë¡œ ë³´ì—¬ ì¤„ ìˆ˜ ìžˆìœ¼ë¯€ë¡œ
+	\TT{enum}ì´ ë” ì¢‹ì„ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤. (\note ì§ˆë¬¸ \ql{2.22} ì°¸ê³ )
 
-	´ÙÀ½°ú °°ÀÌ \TT{typedef}¸¦ ¾µ ¼öµµ ÀÖ½À´Ï´Ù:
+	ë‹¤ìŒê³¼ ê°™ì´ \TT{typedef}ë¥¼ ì“¸ ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   typedef int bool;
 \end{verbatim}
-	\noindent ¶Ç´Â
+	\noindent ë˜ëŠ”
 \begin{verbatim}
   typedef char bool;
 \end{verbatim}
-	\noindent ¶Ç´Â
+	\noindent ë˜ëŠ”
 \begin{verbatim}
   typedef enum { false, true } bool;
 \end{verbatim}
 
 
-	¾î¶² »ç¶÷µéÀº ´ÙÀ½°ú °°ÀÌ ¾²´Â °ÍÀ» ¼±È£ÇÕ´Ï´Ù:
+	ì–´ë–¤ ì‚¬ëžŒë“¤ì€ ë‹¤ìŒê³¼ ê°™ì´ ì“°ëŠ” ê²ƒì„ ì„ í˜¸í•©ë‹ˆë‹¤:
 \begin{verbatim}
   #define TRUE (1==1)
   #define FALSE (!TRUE)
 \end{verbatim}
-	\noindent ¶Ç´Â ´ÙÀ½°ú °°ÀÌ ``µµ¿ì¹Ì(helper)'' ¸ÅÅ©·Î¸¦ ¸¸µì´Ï´Ù:
+	\noindent ë˜ëŠ” ë‹¤ìŒê³¼ ê°™ì´ ``ë„ìš°ë¯¸(helper)'' ë§¤í¬ë¡œë¥¼ ë§Œë“­ë‹ˆë‹¤:
 \begin{verbatim}
   #define Istrue(e) ((e) != 0)
 \end{verbatim}
 
-	±×·¸Áö¸¸ ÀÌ·± ¹æ½ÄÀÌ Æ¯º°È÷ ÁÁ´Ù´Â °ÍÀº ¾Æ´Õ´Ï´Ù.  (Áú¹® \ql{9.2}¸¦
-	Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù; Áú¹® \ql{5.12}¿Í \ql{10.2}µµ º¸½Ã±â ¹Ù¶ø´Ï´Ù).
+	ê·¸ë ‡ì§€ë§Œ ì´ëŸ° ë°©ì‹ì´ íŠ¹ë³„ížˆ ì¢‹ë‹¤ëŠ” ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤.  (ì§ˆë¬¸ \ql{9.2}ë¥¼
+	ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤; ì§ˆë¬¸ \ql{5.12}ì™€ \ql{10.2}ë„ ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤).
 
 \T
-	C99¿¡¼­ \verb+_Bool+ Å¸ÀÔÀ» Á¦°øÇÏ±â ¶§¹®¿¡, À§ ¼³¸íÀº ÀÌÁ¦ ¿Ã¹Ù¸¥
-        ´äº¯ÀÌ ¾Æ´Õ´Ï´Ù. C ¾ð¾î´Â boolean Å¸ÀÔÀ» Á¦°øÇÏ¸ç, Å¸ÀÔ ÀÌ¸§Àº
-        \verb+_Bool+ÀÔ´Ï´Ù. ±ò²ûÇÑ ÀÌ¸§ÀÌ ¾Æ´Ñ, ÀÌ·¸°Ô ÀÌ»óÇÑ ÀÌ¸§À» ¾²´Â
-        ÀÌÀ¯´Â, ±âÁ¸ÀÇ ¸¹Àº C ÇÁ·Î±×·¥µéÀÌ, À§¿¡¼­ ¼³¸íÇÑ °ÍÃ³·³ ³ª¸§´ë·Î
-        boolean Å¸ÀÔÀ» ÀÌ¹Ì ¾²°í ÀÖ±â ¶§¹®¿¡, ÀÌµé ÇÁ·Î±×·¥µé°ú È£È¯À» À§ÇØ¼­
-        ÀÌ·¯ÇÑ ÀÌ¸§À» ¾²°Ô µÇ¾ú½À´Ï´Ù. Ç¥ÁØ Çì´õ ÆÄÀÏ \verb+<stdbool.h>+¸¦
-        Æ÷ÇÔ½ÃÅ°¸é, ¸ÅÅ©·Î \TT{bool}\footnote{ÀÌ¹Ì C++ ¾ð¾î´Â boolean Å¸ÀÔÀ¸·Î
-          \TT{bool}ÀÌ¶ó´Â Å°¿öµå¸¦ Á¦°øÇÏ±â ¶§¹®¿¡, ÁÖÀÇ°¡ ÇÊ¿äÇÕ´Ï´Ù.}
-        ÀÌ \verb+_Bool+·Î Á¤ÀÇµÇ¾î ÀÖ±â ¶§¹®¿¡,
-        ´ÙÀ½°ú °°ÀÌ ¾µ ¼ö ÀÖ½À´Ï´Ù:
+	C99ì—ì„œ \verb+_Bool+ íƒ€ìž…ì„ ì œê³µí•˜ê¸° ë•Œë¬¸ì—, ìœ„ ì„¤ëª…ì€ ì´ì œ ì˜¬ë°”ë¥¸
+        ë‹µë³€ì´ ì•„ë‹™ë‹ˆë‹¤. C ì–¸ì–´ëŠ” boolean íƒ€ìž…ì„ ì œê³µí•˜ë©°, íƒ€ìž… ì´ë¦„ì€
+        \verb+_Bool+ìž…ë‹ˆë‹¤. ê¹”ë”í•œ ì´ë¦„ì´ ì•„ë‹Œ, ì´ë ‡ê²Œ ì´ìƒí•œ ì´ë¦„ì„ ì“°ëŠ”
+        ì´ìœ ëŠ”, ê¸°ì¡´ì˜ ë§Žì€ C í”„ë¡œê·¸ëž¨ë“¤ì´, ìœ„ì—ì„œ ì„¤ëª…í•œ ê²ƒì²˜ëŸ¼ ë‚˜ë¦„ëŒ€ë¡œ
+        boolean íƒ€ìž…ì„ ì´ë¯¸ ì“°ê³  ìžˆê¸° ë•Œë¬¸ì—, ì´ë“¤ í”„ë¡œê·¸ëž¨ë“¤ê³¼ í˜¸í™˜ì„ ìœ„í•´ì„œ
+        ì´ëŸ¬í•œ ì´ë¦„ì„ ì“°ê²Œ ë˜ì—ˆìŠµë‹ˆë‹¤. í‘œì¤€ í—¤ë” íŒŒì¼ \verb+<stdbool.h>+ë¥¼
+        í¬í•¨ì‹œí‚¤ë©´, ë§¤í¬ë¡œ \TT{bool}\footnote{ì´ë¯¸ C++ ì–¸ì–´ëŠ” boolean íƒ€ìž…ìœ¼ë¡œ
+          \TT{bool}ì´ë¼ëŠ” í‚¤ì›Œë“œë¥¼ ì œê³µí•˜ê¸° ë•Œë¬¸ì—, ì£¼ì˜ê°€ í•„ìš”í•©ë‹ˆë‹¤.}
+        ì´ \verb+_Bool+ë¡œ ì •ì˜ë˜ì–´ ìžˆê¸° ë•Œë¬¸ì—,
+        ë‹¤ìŒê³¼ ê°™ì´ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
 \begin{verbatim}
   #include <stdbool.h>
 
   _Bool a;    /* okay */
   bool  b;    /* okay, using macro `bool' */
 \end{verbatim}
-	\noindent ¶Ç, \verb+<stdbool.h>+´Â ¸ÅÅ©·Î \TT{true}, \TT{false}¸¦
-        Á¤ÀÇÇÏ°í ÀÖ±â ¶§¹®¿¡ °¢°¢ 1, 0 ´ë½ÅÀ¸·Î ¾µ ¼ö ÀÖ½À´Ï´Ù.
+	\noindent ë˜, \verb+<stdbool.h>+ëŠ” ë§¤í¬ë¡œ \TT{true}, \TT{false}ë¥¼
+        ì •ì˜í•˜ê³  ìžˆê¸° ë•Œë¬¸ì— ê°ê° 1, 0 ëŒ€ì‹ ìœ¼ë¡œ ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
         
-        Boolean Å¸ÀÔÀÌ ¿Ã ÀÚ¸®¿¡ ´Ù¸¥ Á¤¼ö Å¸ÀÔÀ» ¾²°ÔµÇ¸é, ÀÚµ¿À¸·Î º¯È¯µÇ¸ç,
-        ¾Æ½Ã´Ù½ÃÇÇ, 0ÀÌ ¾Æ´Ñ ¸ðµç °ªÀº 1·Î, 0Àº 0À¸·Î ¹Ù²ò´Ï´Ù.
+        Boolean íƒ€ìž…ì´ ì˜¬ ìžë¦¬ì— ë‹¤ë¥¸ ì •ìˆ˜ íƒ€ìž…ì„ ì“°ê²Œë˜ë©´, ìžë™ìœ¼ë¡œ ë³€í™˜ë˜ë©°,
+        ì•„ì‹œë‹¤ì‹œí”¼, 0ì´ ì•„ë‹Œ ëª¨ë“  ê°’ì€ 1ë¡œ, 0ì€ 0ìœ¼ë¡œ ë°”ë€ë‹ˆë‹¤.
 
-        ¶ÇÇÑ, C ¾ð¾î°¡ boolean Å¸ÀÔÀ» Áö¿øÇÑ´Ù°í ÇØ¼­, C++ Ã³·³, 
-        ºñ±³ ¿¬»êÀÚµéÀÇ ºñ±³ °á°ú°¡ \verb+_Bool+ Å¸ÀÔÀÎ
-        °ÍÀº ¾Æ´Õ´Ï´Ù. ºñ±³ ¿¬»êÀÚÀÇ ºñ±³ °á°ú´Â ¿©ÀüÈ÷ \TT{int}ÀÎ °ÍÀ»
-        ÁÖÀÇÇÏ±â ¹Ù¶ø´Ï´Ù. ¿©±â¿¡¼­ ºñ±³ ¿¬»êÀÚ¶ó°í ÇÏ´Â °ÍÀº,
-        Ç¥ÁØ¿¡¼­ relational operator¿Í equality operator¸¦ Æ÷ÇÔÇÑ °ÍÀÔ´Ï´Ù.
-        Áï, \verb+<+, \verb+<=+, \verb+>+, \verb+>=+, \verb+==+,
-        \verb+!=+°¡ ¿©±â¿¡ ÇØ´çÇÕ´Ï´Ù.
+        ë˜í•œ, C ì–¸ì–´ê°€ boolean íƒ€ìž…ì„ ì§€ì›í•œë‹¤ê³  í•´ì„œ, C++ ì²˜ëŸ¼, 
+        ë¹„êµ ì—°ì‚°ìžë“¤ì˜ ë¹„êµ ê²°ê³¼ê°€ \verb+_Bool+ íƒ€ìž…ì¸
+        ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤. ë¹„êµ ì—°ì‚°ìžì˜ ë¹„êµ ê²°ê³¼ëŠ” ì—¬ì „ížˆ \TT{int}ì¸ ê²ƒì„
+        ì£¼ì˜í•˜ê¸° ë°”ëžë‹ˆë‹¤. ì—¬ê¸°ì—ì„œ ë¹„êµ ì—°ì‚°ìžë¼ê³  í•˜ëŠ” ê²ƒì€,
+        í‘œì¤€ì—ì„œ relational operatorì™€ equality operatorë¥¼ í¬í•¨í•œ ê²ƒìž…ë‹ˆë‹¤.
+        ì¦‰, \verb+<+, \verb+<=+, \verb+>+, \verb+>=+, \verb+==+,
+        \verb+!=+ê°€ ì—¬ê¸°ì— í•´ë‹¹í•©ë‹ˆë‹¤.
 \R
 	\cite{c89} \S\ 6.2.5 \page{33}, \S\ 6.3.1.2 \page{43}, 
                    \S\ 6.5.8 \page{86}, \S\ 6.5.9 \page{86}
@@ -123,48 +123,48 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
 
 \begin{faq}
 \Q{9.2}
-	\verb+#define+À» ½á¼­ \TT{TRUE}¸¦ 1·Î ¸¸µå´Â °ÍÀº À§ÇèÇÏÁö ¾ÊÀ»±î¿ä?
-	C ¾ð¾î¿¡¼­´Â 0ÀÌ ¾Æ´Ñ ºñÆ®°¡ ÇÏ³ª¶óµµ ÀÖÀ¸¸é Âü(true)À¸·Î ÀÎ½ÄµÉ
-	Å×´Ï±î¿ä.  ¸¸¾à¿¡ ¾î¶² ÇÔ¼ö³ª ¿¬»êÀÚ°¡ 1ÀÌ ¾Æ´Ñ ´Ù¸¥ °ªÀ» ¸®ÅÏÇÒ °æ¿ì
-	¾î¶»°Ô µÇ´Â °ÅÁÒ?
+	\verb+#define+ì„ ì¨ì„œ \TT{TRUE}ë¥¼ 1ë¡œ ë§Œë“œëŠ” ê²ƒì€ ìœ„í—˜í•˜ì§€ ì•Šì„ê¹Œìš”?
+	C ì–¸ì–´ì—ì„œëŠ” 0ì´ ì•„ë‹Œ ë¹„íŠ¸ê°€ í•˜ë‚˜ë¼ë„ ìžˆìœ¼ë©´ ì°¸(true)ìœ¼ë¡œ ì¸ì‹ë 
+	í…Œë‹ˆê¹Œìš”.  ë§Œì•½ì— ì–´ë–¤ í•¨ìˆ˜ë‚˜ ì—°ì‚°ìžê°€ 1ì´ ì•„ë‹Œ ë‹¤ë¥¸ ê°’ì„ ë¦¬í„´í•  ê²½ìš°
+	ì–´ë–»ê²Œ ë˜ëŠ” ê±°ì£ ?
 
 \A
-	¸Â½À´Ï´Ù.  »ç½Ç C ¾ð¾î¿¡¼­´Â 0ÀÌ ¾Æ´Ñ ¸ðµç °ªÀÌ Âü(true)ÀÔ´Ï´Ù.
-	±×·¯³ª ÀÌ°ÍÀº ´ÜÁö ``ÀÔ·Â''ÀÏ °æ¿ì¿¡¸¸ ÀÇ¹Ì¸¦
-	°¡Áý´Ï´Ù; ´Ù½Ã ¸»ÇÏ¸é ¾î¶² ºÒ¸®¾ð °ªÀÌ ¿¹»óµÇ´Â °æ¿ì¿¡¸¸ ±× ÀÇ¹Ì¸¦
-	°¡Áý´Ï´Ù.  ¸¸¾à ºÒ¸®¾ð °ªÀÌ ³»ÀåµÈ(built-in) ¿¬»êÀÚ¿¡ ÀÇÇØ ¸¸µé¾îÁø
-	°ÍÀÌ¶ó¸é ºÐ¸íÈ÷ 0 ¶Ç´Â 1ÀÇ °ªÀ» °¡Áö°Ô µË´Ï´Ù.  µû¶ó¼­ ´ÙÀ½°ú °°ÀÌ
-	ÄÚµå¸¦ ¸¸µé¾îµµ ¾ÈÀüÇÕ´Ï´Ù (\TT{TRUE}°¡ 1ÀÌ¶ó°í °¡Á¤ÇÒ ¶§):
+	ë§žìŠµë‹ˆë‹¤.  ì‚¬ì‹¤ C ì–¸ì–´ì—ì„œëŠ” 0ì´ ì•„ë‹Œ ëª¨ë“  ê°’ì´ ì°¸(true)ìž…ë‹ˆë‹¤.
+	ê·¸ëŸ¬ë‚˜ ì´ê²ƒì€ ë‹¨ì§€ ``ìž…ë ¥''ì¼ ê²½ìš°ì—ë§Œ ì˜ë¯¸ë¥¼
+	ê°€ì§‘ë‹ˆë‹¤; ë‹¤ì‹œ ë§í•˜ë©´ ì–´ë–¤ ë¶ˆë¦¬ì–¸ ê°’ì´ ì˜ˆìƒë˜ëŠ” ê²½ìš°ì—ë§Œ ê·¸ ì˜ë¯¸ë¥¼
+	ê°€ì§‘ë‹ˆë‹¤.  ë§Œì•½ ë¶ˆë¦¬ì–¸ ê°’ì´ ë‚´ìž¥ëœ(built-in) ì—°ì‚°ìžì— ì˜í•´ ë§Œë“¤ì–´ì§„
+	ê²ƒì´ë¼ë©´ ë¶„ëª…ížˆ 0 ë˜ëŠ” 1ì˜ ê°’ì„ ê°€ì§€ê²Œ ë©ë‹ˆë‹¤.  ë”°ë¼ì„œ ë‹¤ìŒê³¼ ê°™ì´
+	ì½”ë“œë¥¼ ë§Œë“¤ì–´ë„ ì•ˆì „í•©ë‹ˆë‹¤ (\TT{TRUE}ê°€ 1ì´ë¼ê³  ê°€ì •í•  ë•Œ):
 \begin{verbatim}
   if ((a == b) == TRUE)
 \end{verbatim}
-	±×·¯³ª À§¿Í °°ÀÌ Á÷Á¢ \TT{TRUE}³ª \TT{FALSE}¿Í °°Àº Áö ºñ±³ÇÏ´Â °ÍÀº
-        ¹«ÀÇ¹ÌÇÒ »Ó´õ·¯, ¸Å¿ì À§ÇèÇÕ´Ï´Ù.
-	¿Ö³ÄÇÏ¸é ¾î¶² ¶óÀÌºê·¯¸® ÇÔ¼öµéÀº (Æ¯È÷ \TT{isupper()},
-	\TT{isalpha()}, µîµî) Âü(true)À» ³ªÅ¸³»±â À§ÇØ `0ÀÌ ¾Æ´Ñ °ª'À» ¾¹´Ï´Ù.
-        Áï, ÀÌ ¶§ `0ÀÌ ¾Æ´Ñ °ª'Àº ²À 1ÀÏ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù.
+	ê·¸ëŸ¬ë‚˜ ìœ„ì™€ ê°™ì´ ì§ì ‘ \TT{TRUE}ë‚˜ \TT{FALSE}ì™€ ê°™ì€ ì§€ ë¹„êµí•˜ëŠ” ê²ƒì€
+        ë¬´ì˜ë¯¸í•  ë¿ë”ëŸ¬, ë§¤ìš° ìœ„í—˜í•©ë‹ˆë‹¤.
+	ì™œëƒí•˜ë©´ ì–´ë–¤ ë¼ì´ë¸ŒëŸ¬ë¦¬ í•¨ìˆ˜ë“¤ì€ (íŠ¹ížˆ \TT{isupper()},
+	\TT{isalpha()}, ë“±ë“±) ì°¸(true)ì„ ë‚˜íƒ€ë‚´ê¸° ìœ„í•´ `0ì´ ì•„ë‹Œ ê°’'ì„ ì”ë‹ˆë‹¤.
+        ì¦‰, ì´ ë•Œ `0ì´ ì•„ë‹Œ ê°’'ì€ ê¼­ 1ì¼ í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤.
         
-	(¶Ç, ¸¸¾à ¿©·¯ºÐÀÌ ¾Æ·¡ ÄÚµåº¸´Ù
+	(ë˜, ë§Œì•½ ì—¬ëŸ¬ë¶„ì´ ì•„ëž˜ ì½”ë“œë³´ë‹¤
 \begin{verbatim}
   if (a == b)
 \end{verbatim}
-	\noindent ´ÙÀ½ ÄÚµå°¡ ´õ Çâ»óµÈ °ÍÀÌ¶ó°í ¹Ï´Â´Ù¸é,
+	\noindent ë‹¤ìŒ ì½”ë“œê°€ ë” í–¥ìƒëœ ê²ƒì´ë¼ê³  ë¯¿ëŠ”ë‹¤ë©´,
 \begin{verbatim}
   if ((a == b) == TRUE)
 \end{verbatim}
-        \noindent ¿Ö ´ÙÀ½°ú °°ÀÌ ¾²Áö ¾Ê³ª¿ä?
+        \noindent ì™œ ë‹¤ìŒê³¼ ê°™ì´ ì“°ì§€ ì•Šë‚˜ìš”?
 \begin{verbatim}
   if (((a == b) == TRUE) == TRUE)
 \end{verbatim}
-	\noindent ¾Æ¿¹ ´ÙÀ½°ú °°ÀÌ ¾²´Â°Ô ´õ ÁÁÀº °ÍÀÌ¶ó°í ¹Ï´Â °ÍÀÎ°¡¿ä?
+	\noindent ì•„ì˜ˆ ë‹¤ìŒê³¼ ê°™ì´ ì“°ëŠ”ê²Œ ë” ì¢‹ì€ ê²ƒì´ë¼ê³  ë¯¿ëŠ” ê²ƒì¸ê°€ìš”?
 \begin{verbatim}
   if ((((a == b) == TRUE) == TRUE) == TRUE)
 \end{verbatim}
-	\noindent Lewis CarollÀÇ ¿¡¼¼ÀÌ,
-        ``What the Tortoise Said to Achilles.''¸¦ ÀÐ¾îº¸½Ã±â ¹Ù¶ø´Ï´Ù.)
+	\noindent Lewis Carollì˜ ì—ì„¸ì´,
+        ``What the Tortoise Said to Achilles.''ë¥¼ ì½ì–´ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤.)
 
-        \TT{if (a == b)}°¡ ¿Ïº®ÇÏ°Ô ¿Ã¹Ù¸¥ °Í°ú ¸¶Âù°¡Áö·Î, ¾Æ·¡ ÄÚµåµµ
-        ¿Ïº®È÷ ¿Ã¹Ù¸¥ ÄÚµåÀÔ´Ï´Ù:
+        \TT{if (a == b)}ê°€ ì™„ë²½í•˜ê²Œ ì˜¬ë°”ë¥¸ ê²ƒê³¼ ë§ˆì°¬ê°€ì§€ë¡œ, ì•„ëž˜ ì½”ë“œë„
+        ì™„ë²½ížˆ ì˜¬ë°”ë¥¸ ì½”ë“œìž…ë‹ˆë‹¤:
 \begin{verbatim}
   #include <ctype.h>
   ...
@@ -172,8 +172,8 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
     ...
   }
 \end{verbatim}
- 	\noindent ¿Ö³ÄÇÏ¸é, \TT{isupper}´Â, Âü/°ÅÁþÀ», zero/nonzero·Î ¾Ë·ÁÁÖ±â 
-        ¶§¹®ÀÔ´Ï´Ù. ºñ½ÁÇÏ°Ô, ¾Æ·¡ ÄÚµå´Â ÁÁÀº ÄÚµåÀÔ´Ï´Ù:
+ 	\noindent ì™œëƒí•˜ë©´, \TT{isupper}ëŠ”, ì°¸/ê±°ì§“ì„, zero/nonzeroë¡œ ì•Œë ¤ì£¼ê¸° 
+        ë•Œë¬¸ìž…ë‹ˆë‹¤. ë¹„ìŠ·í•˜ê²Œ, ì•„ëž˜ ì½”ë“œëŠ” ì¢‹ì€ ì½”ë“œìž…ë‹ˆë‹¤:
 \begin{verbatim}
   int isvegetable;   /* really a bool */
   ...
@@ -181,7 +181,7 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
     ...
   }
 \end{verbatim}
-	\noindent ¸¶Âù°¡Áö·Î, ¾Æ·¡ ÄÚµåµµ ÁÁ½À´Ï´Ù:
+	\noindent ë§ˆì°¬ê°€ì§€ë¡œ, ì•„ëž˜ ì½”ë“œë„ ì¢‹ìŠµë‹ˆë‹¤:
 \begin{verbatim}
   extern int fileexists(char *);  /* returns true/false */
   ...
@@ -189,30 +189,30 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
     ...
   }
 \end{verbatim}
-	\noindent À§ µÎ ¿¹¿¡¼­ \TT{isvegetable}°ú \TT{fileexists()}´Â 
-        °³³ä»ó boolean Å¸ÀÔÀÔ´Ï´Ù. µû¶ó¼­ ´ÙÀ½°ú °°ÀÌ ¾²´Â °ÍÀº ÀüÇô
-        °³¼±ÀÌ¶ó°í ÇÒ ¼ö ¾ø½À´Ï´Ù:
+	\noindent ìœ„ ë‘ ì˜ˆì—ì„œ \TT{isvegetable}ê³¼ \TT{fileexists()}ëŠ” 
+        ê°œë…ìƒ boolean íƒ€ìž…ìž…ë‹ˆë‹¤. ë”°ë¼ì„œ ë‹¤ìŒê³¼ ê°™ì´ ì“°ëŠ” ê²ƒì€ ì „í˜€
+        ê°œì„ ì´ë¼ê³  í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤:
 \begin{verbatim}
   if (isvegetable == TRUE)
 \end{verbatim}
-	\noindent ¶Ç´Â,
+	\noindent ë˜ëŠ”,
 \begin{verbatim}
   if (fileexists(outfile) == YES)
 \end{verbatim}
-	\noindent (ÀÌ·¯ÇÑ ½ºÅ¸ÀÏÀÌ Á» ´õ ``¾ÈÀüÇÑ'' ¶Ç´Â ``ÁÁÀº ½ºÅ¸ÀÏ''ÀÌ¶ó°í
-        »ý°¢ÇÑ´Ù¸é, Á¤¸»·Î À§ÇèÇÏ°í ³ª»Û ½ºÅ¸ÀÏÀ» ¹Ï°í ÀÖ´Ù°í ¸»ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-        °¡µ¶¼ºµµ ¿ÀÈ÷·Á ¶³¾îÁý´Ï´Ù. Áú¹® \ql{17.10}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
+	\noindent (ì´ëŸ¬í•œ ìŠ¤íƒ€ì¼ì´ ì¢€ ë” ``ì•ˆì „í•œ'' ë˜ëŠ” ``ì¢‹ì€ ìŠ¤íƒ€ì¼''ì´ë¼ê³ 
+        ìƒê°í•œë‹¤ë©´, ì •ë§ë¡œ ìœ„í—˜í•˜ê³  ë‚˜ìœ ìŠ¤íƒ€ì¼ì„ ë¯¿ê³  ìžˆë‹¤ê³  ë§í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+        ê°€ë…ì„±ë„ ì˜¤ížˆë ¤ ë–¨ì–´ì§‘ë‹ˆë‹¤. ì§ˆë¬¸ \ql{17.10}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
 
-        ¿©±â¿¡¼­ ¹è¿ï °¡Àå Áß¿äÇÑ ±ÔÄ¢Àº,
-        °ªÀ» ´ëÀÔÇÒ ¶§, ÇÔ¼öÀÇ ÀÎÀÚ·Î Àü´ÞÇÒ ¶§, ¶Ç´Â ºÒ¸®¾ð °ªÀ»
-	¸®ÅÏÇÒ ¶§¿¡¸¸ \TT{TRUE}³ª \TT{FALSE}¸¦ ¾´´ÙÀÔ´Ï´Ù.
-	Áï, ºñ±³ÇÒ ¶§¿¡ ÀÌ·± °ÍÀ» ¾²´Â °ÍÀº ÁÁÁö ¾Ê½À´Ï´Ù. (Áú¹® \ql{5.3} Âü°í)
+        ì—¬ê¸°ì—ì„œ ë°°ìš¸ ê°€ìž¥ ì¤‘ìš”í•œ ê·œì¹™ì€,
+        ê°’ì„ ëŒ€ìž…í•  ë•Œ, í•¨ìˆ˜ì˜ ì¸ìžë¡œ ì „ë‹¬í•  ë•Œ, ë˜ëŠ” ë¶ˆë¦¬ì–¸ ê°’ì„
+	ë¦¬í„´í•  ë•Œì—ë§Œ \TT{TRUE}ë‚˜ \TT{FALSE}ë¥¼ ì“´ë‹¤ìž…ë‹ˆë‹¤.
+	ì¦‰, ë¹„êµí•  ë•Œì— ì´ëŸ° ê²ƒì„ ì“°ëŠ” ê²ƒì€ ì¢‹ì§€ ì•ŠìŠµë‹ˆë‹¤. (ì§ˆë¬¸ \ql{5.3} ì°¸ê³ )
 
-	\TT{TRUE}³ª \TT{FALSE}¿Í °°Àº (¶Ç´Â \TT{YES}¿Í \TT{NO}) ¸ÅÅ©·Î¸¦
-	¾²´Â °ÍÀº ¾î¶»°Ô º¸¸é ÁÁÀº °Í °°Áö¸¸ C ¾ð¾î¿¡¼­ ºÒ¸®¾ð °ªÀÌ¶ó´Â
-	°³³äÀÌ Çò°¥¸®±â ¶§¹®¿¡, ¾î¶² ÇÁ·Î±×·¡¸ÓµéÀº
-	0°ú 1ÀÌ¶ó´Â ¼öÄ¡¸¦ Á÷Á¢ ¾²´Â °ÍÀ» ¼±È£ÇÏ±âµµ ÇÕ´Ï´Ù.  (Áú¹® \ql{5.9}¸¦
-	Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.)
+	\TT{TRUE}ë‚˜ \TT{FALSE}ì™€ ê°™ì€ (ë˜ëŠ” \TT{YES}ì™€ \TT{NO}) ë§¤í¬ë¡œë¥¼
+	ì“°ëŠ” ê²ƒì€ ì–´ë–»ê²Œ ë³´ë©´ ì¢‹ì€ ê²ƒ ê°™ì§€ë§Œ C ì–¸ì–´ì—ì„œ ë¶ˆë¦¬ì–¸ ê°’ì´ë¼ëŠ”
+	ê°œë…ì´ í—·ê°ˆë¦¬ê¸° ë•Œë¬¸ì—, ì–´ë–¤ í”„ë¡œê·¸ëž˜ë¨¸ë“¤ì€
+	0ê³¼ 1ì´ë¼ëŠ” ìˆ˜ì¹˜ë¥¼ ì§ì ‘ ì“°ëŠ” ê²ƒì„ ì„ í˜¸í•˜ê¸°ë„ í•©ë‹ˆë‹¤.  (ì§ˆë¬¸ \ql{5.9}ë¥¼
+	ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.)
 
 \R
 	\cite{kr1} \S\ 2.6 \page{39}, \S\ 2.7 \page{41} \\
@@ -227,52 +227,52 @@ boolean Å¸ÀÔÀÇ ÀÌ¸§Àº (ÀÌ»óÇÏÁö¸¸) \verb+_Bool+ÀÔ´Ï´Ù. Á» ´õ ÀÚ¼¼ÇÑ °ÍÀº
 		\S\ 8.6 \Page{241--4} 
 	Carroll, ``What the Tortoise Said to Achilles''
 \T
-	C99´Â Ç¥ÁØ Çì´õ ÆÄÀÏ, \verb+<stdbool.h>+À» ÅëÇØ¼­ ¸ÅÅ©·Î
-        \TT{true}¿Í \TT{false}¸¦ Á¦°øÇÏ¸ç, °¢°¢ 0°ú 1·Î Á¤ÀÇµÇ¾î ÀÖ½À´Ï´Ù.
-	Áú¹® \ql{9.1}¿¡¼­ »õ boolean typeÀÎ \verb+_Bool+À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	C99ëŠ” í‘œì¤€ í—¤ë” íŒŒì¼, \verb+<stdbool.h>+ì„ í†µí•´ì„œ ë§¤í¬ë¡œ
+        \TT{true}ì™€ \TT{false}ë¥¼ ì œê³µí•˜ë©°, ê°ê° 0ê³¼ 1ë¡œ ì •ì˜ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+	ì§ˆë¬¸ \ql{9.1}ì—ì„œ ìƒˆ boolean typeì¸ \verb+_Bool+ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{9.3} % 9.3 COMPLETE
-	\TT{p}°¡ Æ÷ÀÎÅÍÀÏ¶§, \verb+if (p)+¿Í °°Àº ÄÚµå¸¦ ¾²´Â °ÍÀº
-	³ª»Û°¡¿ä?
+	\TT{p}ê°€ í¬ì¸í„°ì¼ë•Œ, \verb+if (p)+ì™€ ê°™ì€ ì½”ë“œë¥¼ ì“°ëŠ” ê²ƒì€
+	ë‚˜ìœê°€ìš”?
 \A
-	¾Æ´Õ´Ï´Ù.  ÁÁ½À´Ï´Ù.  Áú¹® \ql{5.3}À» Âü°íÇÏ±â ¹Ù¶ø´Ï´Ù.
+	ì•„ë‹™ë‹ˆë‹¤.  ì¢‹ìŠµë‹ˆë‹¤.  ì§ˆë¬¸ \ql{5.3}ì„ ì°¸ê³ í•˜ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 \begin{faq}
 \Q{9.4} % 9.4 COMPLETE
-	\TT{TRUE}³ª \TT{FALSE}¿Í °°Àº ½Éº¼À» ¾²´Â °ÍÀÌ ÁÁÀ»±î¿ä, ¾Æ´Ï¸é,
-        1°ú 0À» Á÷Á¢ ¾²´Â °ÍÀÌ ÁÁÀ»±î¿ä?
+	\TT{TRUE}ë‚˜ \TT{FALSE}ì™€ ê°™ì€ ì‹¬ë³¼ì„ ì“°ëŠ” ê²ƒì´ ì¢‹ì„ê¹Œìš”, ì•„ë‹ˆë©´,
+        1ê³¼ 0ì„ ì§ì ‘ ì“°ëŠ” ê²ƒì´ ì¢‹ì„ê¹Œìš”?
 \A
-	±×°ÍÀº ¿©·¯ºÐÀÌ °áÁ¤ÇÒ ¹®Á¦ÀÔ´Ï´Ù.
-	Preprocessor ¸ÅÅ©·ÎÀÎ \TT{TRUE}, \TT{FALSE}´Â (¹°·Ð
-	\TT{NULL} Æ÷ÇÔ) ´ÜÁö ÄÚµå¸¦ ÀÐ±â ½±°Ô ÇÏ±â À§ÇØ ¾²´Â °ÍÀÌÁö,
-	ÀÌµé ¸ÅÅ©·Î°¡ ³ªÅ¸³»´Â °ªÀÌ ¹Ù²ð °¡´É¼ºÀÌ ÀÖ±â ¶§¹®Àº
-	¾Æ´Õ´Ï´Ù. (Áú¹® \ql{5.10}, \ql{17.10} Âü°í)
-        Áï ÀÌ°ÍÀº ½ºÅ¸ÀÏ¿¡ °üÇÑ ¹®Á¦ÀÌÁö ¿Ç°í ±×¸¥ ¹®Á¦°¡ ¾Æ´Õ´Ï´Ù.
+	ê·¸ê²ƒì€ ì—¬ëŸ¬ë¶„ì´ ê²°ì •í•  ë¬¸ì œìž…ë‹ˆë‹¤.
+	Preprocessor ë§¤í¬ë¡œì¸ \TT{TRUE}, \TT{FALSE}ëŠ” (ë¬¼ë¡ 
+	\TT{NULL} í¬í•¨) ë‹¨ì§€ ì½”ë“œë¥¼ ì½ê¸° ì‰½ê²Œ í•˜ê¸° ìœ„í•´ ì“°ëŠ” ê²ƒì´ì§€,
+	ì´ë“¤ ë§¤í¬ë¡œê°€ ë‚˜íƒ€ë‚´ëŠ” ê°’ì´ ë°”ë€” ê°€ëŠ¥ì„±ì´ ìžˆê¸° ë•Œë¬¸ì€
+	ì•„ë‹™ë‹ˆë‹¤. (ì§ˆë¬¸ \ql{5.10}, \ql{17.10} ì°¸ê³ )
+        ì¦‰ ì´ê²ƒì€ ìŠ¤íƒ€ì¼ì— ê´€í•œ ë¬¸ì œì´ì§€ ì˜³ê³  ê·¸ë¥¸ ë¬¸ì œê°€ ì•„ë‹™ë‹ˆë‹¤.
 
-        ¾î¶² »ç¶÷µéÀº \TT{TRUE}¿Í \TT{FALSE}°°Àº ½Éº¼ ÀÌ¸§À» ¾²´Â °ÍÀº, 
-        ÄÚµå¸¦ ÀÐ´Â »ç¶÷¿¡°Ô boolean °ªÀÌ ¾²ÀÎ´Ù´Â °ÍÀ» ¾Ë·ÁÁÖ´Â ¿ªÇÒÀ» 
-        ÇÏ±â ¶§¹®¿¡,
-        ÁÁ´Ù°í ÇÕ´Ï´Ù. ¶Ç ¾î¶² »ç¶÷µéÀº ¾îÂ÷ÇÇ C ¾ð¾î¿¡¼­ boolean °ª°ú Á¤ÀÇ°¡
-        È¥µ¿½º·´±â ¶§¹®¿¡, \TT{TRUE}¿Í \TT{FALSE}°°Àº ¸ÅÅ©·Î¸¦ ¾²´Â °ÍÀº ¿ÀÈ÷·Á
-        ´õ º¹ÀâÇÏ°Ô ¸¸µç´Ù°í »ý°¢ÇÕ´Ï´Ù. (Áú¹® \ql{5.9} Âü°í)
+        ì–´ë–¤ ì‚¬ëžŒë“¤ì€ \TT{TRUE}ì™€ \TT{FALSE}ê°™ì€ ì‹¬ë³¼ ì´ë¦„ì„ ì“°ëŠ” ê²ƒì€, 
+        ì½”ë“œë¥¼ ì½ëŠ” ì‚¬ëžŒì—ê²Œ boolean ê°’ì´ ì“°ì¸ë‹¤ëŠ” ê²ƒì„ ì•Œë ¤ì£¼ëŠ” ì—­í• ì„ 
+        í•˜ê¸° ë•Œë¬¸ì—,
+        ì¢‹ë‹¤ê³  í•©ë‹ˆë‹¤. ë˜ ì–´ë–¤ ì‚¬ëžŒë“¤ì€ ì–´ì°¨í”¼ C ì–¸ì–´ì—ì„œ boolean ê°’ê³¼ ì •ì˜ê°€
+        í˜¼ë™ìŠ¤ëŸ½ê¸° ë•Œë¬¸ì—, \TT{TRUE}ì™€ \TT{FALSE}ê°™ì€ ë§¤í¬ë¡œë¥¼ ì“°ëŠ” ê²ƒì€ ì˜¤ížˆë ¤
+        ë” ë³µìž¡í•˜ê²Œ ë§Œë“ ë‹¤ê³  ìƒê°í•©ë‹ˆë‹¤. (ì§ˆë¬¸ \ql{5.9} ì°¸ê³ )
 \end{faq}
 
 
 \begin{faq}
 \Q{9.5} % 9.5 COMPLETE 
-	´Ù¸¥ °÷¿¡¼­ ¶óÀÌºê·¯¸®¸¦ ¹Þ¾Æ ¿Ô´Âµ¥, ±× ¶óÀÌºê·¯¸®¿¡¼­ ÀÌ¹Ì \TT{TRUE}¿Í
-        \TT{FALSE}¸¦ ´Ù¸£°Ô Á¤ÀÇÇÏ°í ¾²°í ÀÖ¾î¼­, Á¦ ÄÚµå¿Í Ãæµ¹ÀÌ ÀÏ¾î³³´Ï´Ù.
+	ë‹¤ë¥¸ ê³³ì—ì„œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ë°›ì•„ ì™”ëŠ”ë°, ê·¸ ë¼ì´ë¸ŒëŸ¬ë¦¬ì—ì„œ ì´ë¯¸ \TT{TRUE}ì™€
+        \TT{FALSE}ë¥¼ ë‹¤ë¥´ê²Œ ì •ì˜í•˜ê³  ì“°ê³  ìžˆì–´ì„œ, ì œ ì½”ë“œì™€ ì¶©ëŒì´ ì¼ì–´ë‚©ë‹ˆë‹¤.
 
 \A
-	Áú¹® \ql{10.10}À» º¸±â ¹Ù¶ø´Ï´Ù.
+	ì§ˆë¬¸ \ql{10.10}ì„ ë³´ê¸° ë°”ëžë‹ˆë‹¤.
 \end{faq}
 
 %
 % Local Variables:
-% coding: euc-kr
+% coding: utf-8
 % fill-column: 78
 % End:
 %
