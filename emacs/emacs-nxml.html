@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <link rel="stylesheet" type="text/css" 
           href="../css/default.css" title="default"></link>
-    <title>Emacs Screencast: Artist Mode</title>
+    <title>Emacs Screencast: nXML Mode</title>
   <script type="text/javascript" language="javascript"><!--
 /* Jesse Ruderman
  * July 18, 2004
@@ -213,36 +213,44 @@ function addFlashControls(flash)
   </head>
 
   <body onload="setupSeekBar();">
-    <h2>Emacs Screencast: Artist Mode</h2>
+    <h2>Emacs Screencast: nXML Mode</h2>
 
     <p class="navigator" style="text-align: right">
       English | Korean</p>
 
     <p class="navigator">
-      <a href="emacs-comments.html">Previous</a> |
+      <a href="emacs-artist.html">Previous</a> |
       <a href="index.html">Up</a> |
-      <a href="emacs-nxml.html">Next</a></p>
+      Next</p>
 
     <hr/>
 
     <p>
-      Artist mode, toggled by <span class="tt">M-x artist-mode</span>, lets you
-      draw lines, squares, rectangles and poly-lines, ellipses,
-      and circles with your mouse and/or keyboard.  It is extremely
-      useful when inserting text diagrams or figures in your source
-      comments.
+      Demonstrates nXML mode (a new major mode for XML available from
+      <a href="http://www.thaiopensource.com/nxml-mode/">here</a>.
+      Since the author's voice is in Korean, You may not understand
+      my voice, but I'm sure that it will not border you to understand
+      this screencast.
+    </p>
+    
+    <p>
+      Note that this is a simple demonstration that may not fully
+      utilizes lots of powerful features of nxml-mode. This demonstrates
+      the way that I write HTML files, check the spellings, preview
+      the files, and register to the version control system (in this case,
+      CVS.)
     </p>
 
     <object
        type="application/x-shockwave-flash"
-       data="emacs-artist.swf"
-       width="800" height="500">
-       <param name="movie" value="emacs-artist.swf"/>
+       data="emacs-nxml.swf"
+       width="612" height="570">
+       <param name="movie" value="emacs-nxml.swf"/>
        <param name="play" value="true"/>
        <param name="loop" value="False"/>
        <param name="quality" value="low"/>
          <!--
-         <embed src="emacs-artist.swf" width="800" height="500" play="true"
+         <embed src="emacs-nxml.swf" width="612" height="570" play="true"
                 loop="False" quality="low" type="application/x-shockwave-flash"
                 pluginspage="http://www.macromedia.com/go/getflashplayer">
          </embed>
@@ -251,22 +259,27 @@ function addFlashControls(flash)
 
     <p>
       Beside editing commands, above demonstration uses following Emacs
-      commands:
+      features:
     </p>
 
     <ul>
-      <li><span class="tt">C-x b</span> to switch buffers. Originally,
-        it is bound for `switch-to-buffer'.  Instead, binding 
-        `iswitchb-buffer' to <span class="tt">C-x b</span> is much easier
-        to use.</li>
-
-      <li><span class="tt">C-x n n</span> to narrow the region,
-        `narrow-to-region'.
-        It is very useful to prevent the unwanted change on other portion
-        of the buffer, and makes the user concentrating on what he or she
-        want to do.  The narrowing is reverted by the command,
-        <span class="tt">C-x n w</span> `widen'.</li>
+      <li>Org mode: the first screen.</li>
+      <li><span class="tt">C-x v v</span> to add/commit the HTML file
+        to the CVS (version control system).</li>
+      <li>w3m mode (an interface to w3m): available from
+        <a href="http://emacs-w3m.namazu.org">here</a>.</li>
+      <li>ispell: to check the spelling of the HTML file.</li>
+      <li><span class="tt">M-/</span> (dabbrev-expand) to expand the
+        pre-inputted text.</li>
     </ul>
+
+    <p>
+      I made this screenshot
+      using <a href="http://xvidcap.sourceforge.net/">xvidcap</a> to
+      generated MPEG file, and downsizing/converting the file to SWF
+      using mencoder(1).  Currently, the scrollbar attached to the SWF
+      file in this page is not working. (Don't know why.)
+    </p>
 
     <hr/>
 
@@ -301,7 +314,7 @@ function addFlashControls(flash)
 
       <br/>
 
-      Copyright &copy; 2006  
+      Copyright &copy; 2008  
       Seong-Kook Shin.  All rights reserved.
 
     <br/>
