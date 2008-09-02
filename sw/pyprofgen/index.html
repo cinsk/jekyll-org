@@ -35,15 +35,14 @@
     <h2>Documentation</h2>
     <h3>Installation</h3>
     <p>
-      To install pyprofgen version 0.2, check the required softwares are
-      present, and do the following steps:
+      To install pyprofgen 0.3, check the required softwares are
+      present, download the source from CVS, and do the following steps:
     </p>
 
     <div class="source"><pre class="source">
-  $ tar -xzf pyprofgen-0.2.tar.gz
-  $ cd pyprofgen-0.2
-  $ make PREFIX="/usr/local" all
-  $ make PREFIX="/usr/local" install
+  $ cd pyprofgen
+  $ make all
+  $ make install
   $ _</pre></div>
 
     <h3>Usage</h3>
@@ -64,7 +63,7 @@
     -h, --help            Show help message
     -v, --version         Print version information
 
-  Report bugs to &lt;cinsky at gmail.com&gt;.
+  Report bugs to &lt;cinsk at cinsk.org&gt;.
 
   $ pyprofgen demo gmon.out
   ...
@@ -101,26 +100,30 @@
 
     <h2>Downloads</h2>
     <p>
-      PyProfGen is in infant stage yet.  You can download one of following
-      snapshots, otherwise use my public CVS repository.
+      PyProfGen is in infant stage yet.  I only provide CVS access for now.
     </p>
 
-    <ul>
-      <li><a href="./pyprofgen-0.3.tar.gz">pyprofgen-0.3.tar.gz</a></li>
-    </ul>
-
+    <!--
     <p>
       You can try to access the latest, unstable version of this software by
       acessing my anonymous CVS. Press Return to pass the authentification.
       (I suggest you try the CVS version always. The snapshot is not quite
       good as you expected.)
     </p>
-
     <p>
       The MODULE-NAME is &quot;pyprofgen&quot;, and you can see in
       <a href="../index.html">this page</a> how to
       connect to my CVS server.
     </p>
+    -->
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
+  password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root co pyprofgen
+  ...
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
+</pre></div>
 
     <hr/>
 
