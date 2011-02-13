@@ -16,26 +16,30 @@
     <h1>Seong-Kook Shin's Emacs Screencasts</h1>
 
     <p class="navigator" style="text-align: right">
-      English | Korean</p>
+      English | <a href="./index-ko.html">Korean</a></p>
 
     <!-- <p class="navigator"><a href="../index.html">Home</a></p> -->
 
-    <p>
-    </p>
-
     <h2>Scripts</h2>
-    <p>Includes my start-up script, <tt>.emacs</tt>, all of my scripts are
-      available from my CVS repository. You can browse it 
-      <a href="http://www.cinsk.org/viewvc/cvsroot/emacs-scripts/">here</a>,
+    <p>Includes my start-up script, <tt>init.el</tt>, all of my scripts are
+      available from my GIT repository. You can browse it 
+      <a href="http://www.cinsk.org/gitweb/?p=emacs-scripts">here</a>,
       otherwise download it as in following method:</p>
     <div class="source">
-<pre>$ cvs -d :pserver:anonymous@www.cinsk.org:/root login
-CVS password: &lt;RET&gt;
-$ cvs -d :pserver:anonymous@www.cinsk.org:/root co emacs-scripts
-$ cvs -d :pserver:anonymous@www.cinsk.org:/root logout
-$ _</pre>
+<pre>$ git http://www.cinsk.org/git/emacs-scripts</pre>
     </div>
-    <p>Note that <tt>.emacs</tt> itself is named as <tt>dot-emacs.el</tt>.</p>
+
+    <p>After downloading, you rename the downloaded directory
+    to <tt>$HOME/.emacs.d</tt> and make sure to remove your
+    old <tt>$HOME/.emacs</tt>:</p>
+
+    <div class="source">
+      <pre># Mayhaps it's better to backup your script files before doing this.
+$ rm -rf $HOME/.emacs $HOME/.emacs.d
+$ mv emacs-script $HOME/.emacs.d
+      </pre>
+    </div>
+
 
     <h2>Screencast (Demo)</h2>
     <p>
