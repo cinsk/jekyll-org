@@ -108,6 +108,10 @@ proc proc_thumbnails {} {
     proc_header
     # puts "page = $page, start = $start, end = $end<br>"
 
+    if {[file exists ${cwd}/desc.html]} {
+	puts [exec cat ${cwd}/desc.html]
+    }
+
     puts "<p align=\"center\">Page $page of $page_cnt, Total [llength $img_list] image(s)</p>"
 
     set img_list [lrange $img_list $start [expr $end]]
