@@ -6,7 +6,7 @@ foo(void)
   char c;
 
   switch (c) {
-  case 0xffffffff:
+  case 0xffffffffffffLL:
     ;
   }
 }
