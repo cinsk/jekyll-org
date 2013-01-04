@@ -1,5 +1,3 @@
-# $Id$
-
 REMOTE_USR=cinsk
 REMOTE_HOST=www.cinsk.org
 REMOTE_PREFIX=public_html

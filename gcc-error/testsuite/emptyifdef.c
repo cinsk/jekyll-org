@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #ifdef
   int i = 0;

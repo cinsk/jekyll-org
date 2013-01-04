@@ -1,4 +1,3 @@
-/* $Id$ */
 
 int
 foo(int i)

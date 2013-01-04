@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #undef defined
 #define defined abc

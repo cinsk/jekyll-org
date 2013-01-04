@@ -1,4 +1,3 @@
-/* $Id$ */
 int c1, c2, c3;
 
 void f(int op)

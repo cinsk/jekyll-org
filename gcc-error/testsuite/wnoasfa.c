@@ -1,4 +1,3 @@
-/* $Id$ */
 void f(int a, ...) __attribute__ ((format (printf, 2)));
 
 /**

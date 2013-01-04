@@ -1,4 +1,3 @@
-# $Id$
 #
 # Copyright (c) 2005  Seong-Kook Shin <cinsky at gmail.com>
 #

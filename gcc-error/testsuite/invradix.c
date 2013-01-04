@@ -1,4 +1,3 @@
-/* $Id$ */
 
 int i = 0a;
 int j = 0xhd;

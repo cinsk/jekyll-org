@@ -1,4 +1,3 @@
-/* $Id$ */
 
 struct foo {
   int x;

@@ -2,7 +2,6 @@
 # \
 exec tclsh "$0" "$@"
 
-# $Id$
 
 proc print_record { list } {
     array set book "$list"

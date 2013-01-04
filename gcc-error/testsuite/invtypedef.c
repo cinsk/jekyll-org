@@ -1,4 +1,3 @@
-/* $Id$ */
 
 typedef int INT = 1;
 

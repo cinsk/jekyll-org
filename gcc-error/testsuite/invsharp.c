@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #define bugs(s)         s #
 

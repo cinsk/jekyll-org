@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #include <where_is_it.h>
 

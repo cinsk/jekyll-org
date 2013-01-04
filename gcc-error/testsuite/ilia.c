@@ -1,4 +1,3 @@
-/* $Id$ */
 /* TODO: We need a better example than this */
 void foo(void)
 {

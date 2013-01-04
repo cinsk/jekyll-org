@@ -1,4 +1,3 @@
-/* $Id$ */
 
 int i;
 long i;

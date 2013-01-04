@@ -1,4 +1,3 @@
-/* $Id$ */
 
 char foo(i)
      int i = 3;

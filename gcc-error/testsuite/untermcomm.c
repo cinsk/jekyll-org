@@ -1,4 +1,3 @@
-/* $Id$ */
 
 /* This is a comment
 ///

@@ -1,4 +1,3 @@
-/* $Id$ */
 /* TODO: We need a better example than this */
 #define INITVAL 0x01
 void foo(void)

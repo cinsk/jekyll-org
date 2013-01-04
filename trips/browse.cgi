@@ -3,10 +3,6 @@
 exec tclsh "$0" ${1+"$@"}
 
 #
-# $Id$
-#
-
-#
 # Images per line on thumbnail mode.
 #
 set img_per_line 4
@@ -221,7 +217,6 @@ proc proc_header {} {
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <!-- $Id$ -->
     <meta http-equiv="charset" content="iso-8859-1"></meta>
     <title>My Humble Photo Browser</title>
     <link rel="stylesheet" type="text/css" 
@@ -258,9 +253,6 @@ proc proc_footer {} {
       Seong-Kook Shin.  All rights reserved.
     </p>
 
-    <p class="cvsid">
-      $Id$
-    </p>
   </body>
 </html>
     }
@@ -340,7 +332,7 @@ if {[string compare $mode "thumbnails"] == 0} {
 
 #
 # Local Variables:
-# coding: iso8859-1
+# coding: utf-8
 # fill-column: 78
 # End:
 #

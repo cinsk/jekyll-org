@@ -1,4 +1,3 @@
-/* $Id$ */
 #define NOP(x)
 
 NOP(foo

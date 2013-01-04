@@ -1,4 +1,3 @@
-/* $Id$ */
 
 auto int global_auto;
 

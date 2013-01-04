@@ -1,4 +1,3 @@
-/* $Id$ */
 
 $ gcc where_is_it.c
 

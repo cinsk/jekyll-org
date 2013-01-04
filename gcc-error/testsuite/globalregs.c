@@ -1,4 +1,3 @@
-/* $Id$ */
 
 register int global_regs;
 

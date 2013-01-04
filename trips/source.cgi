@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# $Id$
-
 echo "Content-type: text/html"
 echo ""
 
@@ -11,7 +9,6 @@ cat <<EOF
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en">
   <head>
-    <!-- $Id$ -->
     <title>Source of browse.cgi</title>
     <link rel="stylesheet" type="text/css" 
       href="../css/default.css" title="default"></link>
@@ -52,7 +49,6 @@ cat <<EOF
 
       <br></br>
 
-      <p class="footer">\$Id$</p>
     </p>
 </body>
 </html>

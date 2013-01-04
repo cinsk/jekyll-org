@@ -1,4 +1,3 @@
-/* $Id$ */
 #line -1 "foo.c"
 #line hello
 #0x32

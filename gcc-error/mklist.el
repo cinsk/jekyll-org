@@ -1,8 +1,4 @@
 ;;;
-;;; $Id$
-;;;
-
-;;;
 ;;; Generate HTML files for all GCC error/waring messages
 ;;; Copyright (c) 2005  Seong-Kook Shin <cinsky at gmail.com>
 ;;;
@@ -62,7 +58,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       (and (not (null pos))
            (delete-region pos (point-max)))
 
-      (shell-command-on-region (point-min) (point-max) 
+      (shell-command-on-region (point-min) (point-max)
                                "awk ' { printf \"%04d: %s\\n\", NR, $0 }'" buf)
       (and (bufferp buffer)
            (progn (set-buffer buffer)
@@ -92,12 +88,11 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
     \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ko\" lang=\"ko\">
   <head>
-    <!-- $Id$ -->
-    <meta http-equiv=\"Content-Type\" 
+    <meta http-equiv=\"Content-Type\"
           content=\"text/html; charset=utf-8\"/>
     <title>GCC Warning/Error List</title>
     <link rel=\"shortcut icon\" href=\"http://gcc.gnu.org/favicon.ico\"/>
-    <link rel=\"stylesheet\" type=\"text/css\" 
+    <link rel=\"stylesheet\" type=\"text/css\"
       href=\"./default.css\" title=\"default\"/>
   </head>
 
@@ -108,7 +103,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
     <h1>GCC Warning/Error List</h1>
 
     <p>
-       이 문서는 <a href=\"http://www.gnu.org/software/gcc/\">GCC</a> 
+       이 문서는 <a href=\"http://www.gnu.org/software/gcc/\">GCC</a>
        (GNU Compiler Collection)에서 발생할 수 있는 경고(warning) 및
        에러(error)
        메시지들을 나열하고, 어떤 경우에 해당하는 메시지가 발생할 수 있는지를 설명합니다.
@@ -133,7 +128,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       $ make
       ...
       $ ls -F
-      CVS/  Makefile	default.css  gcc-error.html  mklist.el	testsuite/
+      CVS/  Makefile    default.css  gcc-error.html  mklist.el  testsuite/
       $ # read gcc-error.html with your favorite web browser.
     </pre></div>
 
@@ -160,14 +155,14 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 <div style=\"float: right\">
   <a href=\"http://www.anybrowser.org/campaign/\">
     <img border=\"0\" src=\"../img/anybrowser.png\"
-	 alt=\"Any Browser Campaign\"/></a>
+         alt=\"Any Browser Campaign\"/></a>
   <a href=\"http://jigsaw.w3.org/css-validator/check/referer\">
     <img border=\"0\"
-	 src=\"../img/w3c-css.png\"
-	 alt=\"Valid CSS!\" /></a>
+         src=\"../img/w3c-css.png\"
+         alt=\"Valid CSS!\" /></a>
   <a href=\"http://validator.w3.org/check?uri=referer\">
     <img src=\"../img/w3c-xhtml.png\" border=\"0\"
-	 alt=\"Valid XHTML 1.0!\"/></a>
+         alt=\"Valid XHTML 1.0!\"/></a>
 
   <br/>
 
@@ -187,7 +182,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
 
   <br/>
 
-  The latest version is available at 
+  The latest version is available at
   <a href=\"http://www.cinsk.org/gcc-error/gcc-error.html\">here</a>.
 
   <br/>
@@ -235,7 +230,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
       (insert (format "<h2>%s</h2>\n" (file-name-nondirectory pathname)))
       (insert (format "<p>%s</p>\n" desc))
 
-      
+
       (if error
           (insert (format "<div class=\"source3\"><pre>TODO: %s</pre></div>"
                           error))
@@ -243,7 +238,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
           (insert "<div class=\"source2\"><pre>")
           ;;(call-process "pwd" nil output-buffer t)
 
-          (eval (append '(call-process compiler nil gcc-buffer t) 
+          (eval (append '(call-process compiler nil gcc-buffer t)
                         (split-string args)))
 
           (save-excursion
@@ -259,10 +254,10 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
           (insert "</pre></div>\n")))
 
       (and (not error)
-           (progn 
+           (progn
              (insert "<div class=\"source\"><pre>")
              ;;(message (format "position #1: %d" (point)))
-    
+
              (set-buffer source)
              (goto-char (point-max))
              (setq pos (re-search-backward "^/\\*\\*" (point-min) t))
@@ -271,7 +266,7 @@ to store it.  If LANGUAGE is nil, htmlize-on-region assumes that it is \"c\"."
                  (progn (goto-char (point-min))
                         (setq pos (re-search-forward "^///$" (point-max) t))
                         (and (not (null pos))
-                             (htmlize-on-region (point-min) (- pos 3) 
+                             (htmlize-on-region (point-min) (- pos 3)
                                                 output-buffer)))
                (htmlize-on-region (point-min) pos output-buffer))
 

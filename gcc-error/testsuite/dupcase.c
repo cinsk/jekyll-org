@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #define CAT     0
 #define DOG     0

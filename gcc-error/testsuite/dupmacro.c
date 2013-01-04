@@ -1,4 +1,3 @@
-/* $Id$ */
 #define ADD3(a, a, c)   ((a) + (b) + (c))
 
 /**

@@ -1,4 +1,3 @@
-/* $Id$ */
 
 char *str = "Hello
 

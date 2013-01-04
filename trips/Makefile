@@ -1,5 +1,3 @@
-# $Id$
-
 ifndef REMOTE_USR
   REMOTE_USR=cinsk
   REMOTE_HOST=pcrc.hongik.ac.kr

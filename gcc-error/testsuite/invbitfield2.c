@@ -1,4 +1,3 @@
-/* $Id$ */
 
 struct s {
   char x: 30;

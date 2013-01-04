@@ -1,4 +1,3 @@
-# $Id$
 # -*-makefile-*-
 
 # The .html files and all required image files are copied to the directory,

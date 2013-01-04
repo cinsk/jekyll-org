@@ -1,4 +1,3 @@
-/* $Id$ */
 struct s {
   unsigned i: 8;
 };

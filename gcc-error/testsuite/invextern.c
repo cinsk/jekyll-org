@@ -1,4 +1,3 @@
-/* $Id$ */
 
 extern int outer = 12;
 
