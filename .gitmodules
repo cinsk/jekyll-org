@@ -1,3 +1,6 @@
 [submodule "cfaqs"]
 	path = cfaqs
 	url = /var/lib/git/cfaqs-ko.git/
+[submodule "bootstrap"]
+	path = bootstrap
+	url = https://github.com/twitter/bootstrap.git

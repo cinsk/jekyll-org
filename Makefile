@@ -43,3 +43,6 @@ upload: all
 	tar -cf - css | ssh $(REMOTE_USR)@$(REMOTE_HOST) \
 		"cd $(REMOTE_PREFIX); tar -xf -"
 
+
+prepare:
+	test -h assets || ln -s bootstrap/docs/assets .
