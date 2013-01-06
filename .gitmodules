@@ -1,0 +1,3 @@
+[submodule "cfaqs"]
+	path = cfaqs
+	url = /var/lib/git/cfaqs-ko.git/
