@@ -1,0 +1,27 @@
+safe: false
+auto: false
+server: false
+#bootstrap: "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2"
+#prettify: "http://cdnjs.cloudflare.com/ajax/libs/prettify/r224"
+bootstrap: "http://www.cinsk.org/bootstrap"
+prettify: "http://www.cinsk.org/bootstrap"
+jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"
+
+# 'label' is the short label of the index.html where it appears in the
+# top-right corner of all pages
+label: "Jekyll-Org"
+
+
+nav-top: [ "Home", "Articles", "YOUR-PAGE1", "YOUR-PAGE2" ]
+
+source: "src"
+destination: "www"
+
+
+# relative pathname to the directory that contains ".html" files
+# which are generated from ".org"
+orgsource: "articles"
+
+# relative pathname to DESTINATION where Org generated .html files.
+# that is, SRC/ORGSOURCE/*.org -> DESTINATION/ORGDESTINATION/*.html
+orgdestination: "articles"

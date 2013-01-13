@@ -1,0 +1,257 @@
+# -*-org-*-
+#+OPTIONS: toc:4
+#+LINK: google http://www.google.com/search?q=%s
+#+LINK: rfc http://www.rfc-editor.org/rfc/rfc%s.txt
+#+LINK: redis http://redis.io/commands/%s
+#+TODO: TODO(t) | DONE(d) CANCELED(c) POSTPONED
+#+DRAWERS: PROPERTIES CLOCK LOGBOOK COMMENT
+#+TITLE: Jekyll with org-mode and twitter bootstrap
+#+AUTHOR: Seong-Kook Shin
+#+EMAIL: cinsky@gmail.com
+#+BEGIN_HTML
+---
+layout: org
+title: Jekyll with org-mode and twitter bootstrap
+---
+#+END_HTML
+:COMMENT:
+# Markup hints:
+#   *bold*, /italic/, _underlined_, =code=, ~verbatim~
+#   Use '\\' at the end of a line to force a line break.
+#   Use "[[URL or TARGET][NAME]]" to create a hyperlink.
+#   Use "[[google:KEYWORD][DESC]]" to link to Google with KEYWORD.
+#   Use "[[rfc:NUMBER][DESC]]" to link to RFC-NUMBER.txt.
+#   `C-c C-o' to follow a link target.
+#   Use "#+BEGIN_VERSE ... #+END_VERBSE" to format poetry
+#   Use "#+BEGIN_QUOTE ... #+END_QUOTE" to format a quotation.
+#   Use "#+BEGIN_CENTER ... #+END_CENTER" to center some text.
+#   `C-c C-x f' for footnote action(jump or insert).
+#   Unordered list items start with `-', `+', or `*' as bulllets.
+#   Ordered list items start with  `1.' or `1)'.
+:END:
+
+* Introduction
+  This document describes how to integrate your articles (in Emacs
+  [[http://orgmode.org][org-mode]] format) into [[http://jekyllrb.com/][jekyll]] based HTML site with 
+  [[http://twitter.github.com/bootstrap/scaffolding.html][twitter bootstrap scaffolding]] style.
+
+  Note that this article is heavily influenced by [[http://orgmode.org/worg/org-tutorials/org-jekyll.html][Using org to Blog
+  with Jekyll]].
+
+* Document structure
+
+#+BEGIN_SRC text
+.
+├── _plugins          # custom Jekyll/Liquid plugins
+├── org               # Your org files should be placed here
+├── src               # Jekyll source directory
+│   ├── _layouts
+│   └── articles      # org generated html files are installed here
+└── www               # Jekyll destination directory
+    └── articles      # final destination of your .org based html files
+#+END_SRC
+
+
+* Usage
+  
+  All your =.org= files should be located in =org/= directory.
+
+  Since, jekyll requires that all source files that 
+  Your =.org= file should have following header.
+#+BEGIN_HTML
+&nbsp;#+BEGIN_HTML
+ ---
+ layout: org
+ title: Jekyll with org-mode and twitter bootstrap
+ ---
+&nbsp;#+END_HTML
+#+END_HTML
+  Note that you need to remove every first whitespace character in
+  each line above.
+
+  
+*** Table of Content Generation
+
+
+* Implementation
+*** Table of Content(TOC) Generation
+    At first, to convert org files into twitter's /scaffolding/ style, 
+    I need a way to generate first-level headings into /scaffolding/ way.
+    
+    However, to parse org file directly to gereate /scaffolding/ TOC
+    is somewhat difficult to implement; I briefly overlooked
+    =org-html.el= in org-mode, which is fairly complicated.
+
+    Since this is just my hobby to publish my own site, I decieded to
+    make a Jekyll/Liquid plugin, that parses the HTML (which org-mode
+    exported) to get the first-level headings, and use Liquid markup
+    to generate /scaffolding/ TOC.
+
+    Thankfully, org-mode HTML output is fairly simple.  Here are an
+    example of HTML that org-mode generated:
+
+
+#+BEGIN_SRC html
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Introduction</a>
+<ul>
+<li><a href="#sec-1-1">1.1 Conventions in this article</a></li>
+<li><a href="#id-core">1.2 ID management</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Service Components Layout</a>
+<ul>
+<li><a href="#sec-2-1">2.1 Permanent Cluster</a></li>
+<li><a href="#sec-2-2">2.2 Caching Cluster</a></li>
+</ul>
+</ul>
+</div>
+</div>
+#+END_SRC
+
+    As you can see, all hyperlink IDs are in the form of =sec-N-M=, so
+    it can be easily extracted with the following regular expression:
+
+#+BEGIN_SRC ruby
+    /^ *<li> *<a +href *= *"(#sec-[0-9]+)" *>(.*?)<\/a>/
+#+END_SRC
+
+    So, I made a /Jekyll/ plugin, which parses the org-generated HTML file,
+    and put the metadata of the each top-level headings in the /Jekyll/ context,
+    so that the /Jekyll/ layout pages can take benefits from the context:
+
+#+BEGIN_SRC ruby
+module Jekyll
+  class OrgToc < Liquid::Block
+    ...
+    def render(context)
+      contents = context['page']['content']
+
+      thetoc = []
+
+      contents.each_line { |line|
+        m = /^ *<li> *<a +href *= *"(#sec-[0-9]+)" *>(.*?)<\/a>/.match line
+        if m
+          thetoc.push( { "id" => m[1], "title" => m[2] })
+        end
+
+        break if / *<div +id *= *"outline-container-[0-9]+\"/.match line
+      }
+
+      context['page']['orgtoc'] = thetoc
+
+      super
+    end
+    ...
+  end
+end
+
+Liquid::Template.register_tag('orgtoc', Jekyll::OrgToc)
+#+END_SRC
+
+    Then, the /Jekyll/ layout for org HTML files will uses =page.orgtoc= to
+    generate /scaffolding/ TOC:
+
+#+BEGIN_HTML
+{% raw %}
+#+END_HTML
+
+#+BEGIN_SRC html
+<div class="span3 bs-doc-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+  {% orgtoc %}
+    {% for item in page.orgtoc %}
+      <li><a href="{{item.id}}"><i class="icon-chevron-right"></i>
+      {{ item.title }}</a></li>
+    {% endfor %}
+  {% endorgtoc %}
+  </ul>
+</div>
+#+END_SRC
+
+#+BEGIN_HTML
+{% endraw %}
+#+END_HTML
+
+***** Known Issues
+      
+      However, there are some problems with this approach.
+
+      In /scaffolding/ page, one of the left-side navigation item is
+      highlighted, depending on the current location of the contents.
+
+      I cannot make this happen on org-generated page, since the
+      contents generation is handled by /org-mode/, which I cannot
+      control manually.
+
+      In detail, the /scaffolding/ has following structures:
+
+#+BEGIN_SRC html
+<!-- This is the left-side navigation list -->
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+    <li><a href="#sec-1"><i class="icon-chevron-right"></i>Section 1</a></li>
+    <li><a href="#sec-2"><i class="icon-chevron-right"></i>Section 2</a></li>
+    <li><a href="#sec-3"><i class="icon-chevron-right"></i>Section 3</a></li>
+    ...
+  </ul>
+</div>
+
+<!-- This is the right-side, contents -->
+<div class="span9">
+  <section id="sec-1">
+    <div class="page-header">
+      <h1>Section 1</h1>
+    </div>
+    <p>...</p>
+  </section>
+
+  <section id="sec-2">
+    <div class="page-header">
+      <h1>Section 2</h1>
+    </div>
+    <p>...</p>
+  </section>
+
+  ...
+</div>
+#+END_SRC
+
+      Following is the structure that I implemented:
+
+#+BEGIN_SRC html
+<!-- This is the left-side navigation list -->
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+    <li><a href="#sec-1"><i class="icon-chevron-right"></i>Section 1</a></li>
+    <li><a href="#sec-2"><i class="icon-chevron-right"></i>Section 2</a></li>
+    <li><a href="#sec-3"><i class="icon-chevron-right"></i>Section 3</a></li>
+    ...
+  </ul>
+</div>
+
+<!-- This is the right-side, contents -->
+<div class="span9">
+  <!-- from now on, this is org-mode generated contents -->
+  <div id="outline-container-1" class="outline-2">
+    <h2 id="sec-1">Section 1</h2>
+    ...
+  </div>
+
+  <div id="outline-container-2" class="outline-2">
+    <h2 id="sec-1">Section 2</h2>
+    ...
+  </div>
+  ...
+</div>
+#+END_SRC
+
+      1. Since the body content itself is generated by /org-mode/, I
+         cannot make the highlighting feature of the navigation bar
+         (in the left side of the page).
+
+      2. 
+      [[https://github.com/cinsk/jekyll-org/][jekyll-org]] 
