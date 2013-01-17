@@ -1,6 +1,6 @@
 
-;(add-to-list 'load-path "~/.emacs.d")
-;(load "~/.emacs.d/init.el")
+;;(add-to-list 'load-path "~/.emacs.d")
+;;(load "~/.emacs.d/init.el")
 
 (when (locate-library "package")
   ;; If org-mode or htmlize is installed via the package system, we
@@ -9,12 +9,18 @@
   (require 'package)
   (package-initialize))
 
-(require 'cc-mode)
-(require 'ruby-mode)
+;;(require 'cc-mode)
+;;(require 'ruby-mode)
 
 (global-font-lock-mode t)
-(setq org-hide-block-startup nil)
-(setq org-startup-folded 'showeverything)
+;;(add-hook 'org-mode-hook 'turn-on-font-lock)
+
+;;(setq org-hide-leading-stars t)
+;;(setq org-odd-levels-only t)
+;;(setq org-agenda-include-diary t)
+
+;;(setq org-hide-block-startup nil)
+;;(setq org-startup-folded 'showeverything)
 
 (setq org-export-htmlize-output-type 'css)
 
@@ -23,9 +29,41 @@
   (kill-emacs 1))
 
 ;; older version of org-mode may require 'org-install
-(require 'org)
+;;(require 'org)
+;;(require 'org-exp)
+;;(require 'ob)
+;;(require 'ob-tangle)
 
 (message "org: %s" (org-version nil 'full))
+
+(when (and (> emacs-major-version 22)
+           (fboundp 'org-set-emph-re))
+  ;; Current org-mode mark-up algorithm does not support marking
+  ;; partial word. (e.g. =partial=word)
+  ;;
+  ;; On some languages that have postposition, which has no word
+  ;; boundary with the previous noun (e.g. Korean aka josa),
+  ;; marking-up partial word is essential.
+  ;;
+  ;; To work around current implementation, it is possible to insert
+  ;; invisible unicode character such as "word joiner" character,
+  ;; \u2060, between the noun and the postposition, to enable partial
+  ;; word.  Thus the text will be "=partial=\u2060word", and adding
+  ;; this special character to `org-emphasis-regexp-components' will
+  ;; do the trick. (Use `ucs-insert' to insert the character into the
+  ;; text)
+  ;;
+  ;; See the original idea from:
+  ;;   http://thread.gmane.org/gmane.emacs.orgmode/46197/focus=46263
+  (org-set-emph-re 'org-emphasis-regexp-components
+                   '(" \t('\"{"
+                     "- \t.,:!?;'\")}\\\u2060"
+                     " \t\r\n,\"'⁠"
+                     "." 1)))
+
+;;(setcar (assoc "_" org-emphasis-alist) "@")
+;;(org-set-emph-re 'org-emphasis-alist org-emphasis-alist)
+
 
 (when (locate-library "htmlize")
   (require 'htmlize)
@@ -42,9 +80,14 @@
 
          ;; Path to your Jekyll project.
          :publishing-directory "src/articles/"
+         :link-home "../index.html"
+         :link-up "../articles.html"
          :recursive t
          :publishing-function org-publish-org-to-html
-         :headline-levels 4
+         ;;:htmlized-source t
+         ;;:headline-levels 3
+         :table-of-contents t
+         :sub-superscript {}
          :html-extension "html"
          :body-only t ;; Only export section between <body> </body>
          )
@@ -59,6 +102,7 @@
 
         ("www" :components ("org-www" "org-www-static"))
         ))
+
 
 (org-publish "www" 'force)
 

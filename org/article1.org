@@ -1,10 +1,4 @@
 # -*-org-*-
-#+OPTIONS: toc:4
-#+LINK: google http://www.google.com/search?q=%s
-#+LINK: rfc http://www.rfc-editor.org/rfc/rfc%s.txt
-#+LINK: redis http://redis.io/commands/%s
-#+TODO: TODO(t) | DONE(d) CANCELED(c) POSTPONED
-#+DRAWERS: PROPERTIES CLOCK LOGBOOK COMMENT
 #+TITLE: My Article #1
 #+AUTHOR: Seong-Kook Shin
 #+EMAIL: cinsky@gmail.com

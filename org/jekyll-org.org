@@ -1,5 +1,6 @@
 # -*-org-*-
-#+OPTIONS: toc:4
+#+STARTUP: odd
+#+OPTIONS: toc:2
 #+LINK: google http://www.google.com/search?q=%s
 #+LINK: rfc http://www.rfc-editor.org/rfc/rfc%s.txt
 #+LINK: redis http://redis.io/commands/%s
@@ -59,18 +60,71 @@ title: Jekyll with org-mode and twitter bootstrap
   Since, jekyll requires that all source files that 
   Your =.org= file should have following header.
 #+BEGIN_HTML
-&nbsp;#+BEGIN_HTML
- ---
- layout: org
- title: Jekyll with org-mode and twitter bootstrap
- ---
-&nbsp;#+END_HTML
+<pre>#+BEGIN_HTML
+---
+layout: org
+title: Jekyll with org-mode and twitter bootstrap
+---
+⁠#+END_HTML</pre>
 #+END_HTML
-  Note that you need to remove every first whitespace character in
-  each line above.
-
   
-*** Table of Content Generation
+*** Configuration
+    You *MUST* change the value of some keys in =_config.yml=, especially
+    for =bootstrap=, =prettify=, and =jquery=.
+
+#+BEGIN_SRC yaml
+bootstrap: "http://somewhere.com/bootstrap"
+prettify: "http://somewhere.com/bootstrap"
+jquery: "http://somewhere.com/bootstrap/js/jquery.js"
+#+END_SRC
+
+    To use make(1) to build your html generation, the jekyll should
+    not create HTTP server; make sure that you have "=auto=false=".
+
+    To use org-specific Jekyll plugins, make sure that you have
+    "=safe=false=".
+
+
+*** Troubleshootings
+***** I got additional list bullets on Table of Contents!
+
+      You may have some problem on the generated table of contents, which
+      looks like following:
+
+#+BEGIN_HTML
+<div id="text-table-of-contents">
+<ul>
+<li>1 Introduction</li>
+<li>2 Document structure</li>
+<li>3 Usage
+<ul>
+<li>
+<ul>
+<li>3.1 Troubleshootings</li>
+</ul></li>
+</ul>
+</li>
+<li>4 Implementation
+<ul>
+<li>
+<ul>
+<li>4.1 Table of Content(TOC) Generation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+#+END_HTML
+
+      The problem is that, your Emacs scripts set
+      =org-odd-levels-only= to =t=, but the batch script, =publish.el=
+      in the package, does not aware of it.  To work around this, 
+      add "=odd=" in the =STARTUP= keyword.
+
+#+BEGIN_SRC org
+#+STARTUP: odd
+#+END_SRC
 
 
 * Implementation

@@ -1,3 +1,12 @@
+.todo   { color: red; }
+.done   { color: green; }
+.tag    { background-color: #add8e6; font-weight: normal }
+.timestamp { color: #bebebe; }
+.timestamp-kwd { color: #5f9ea0; }
+.right  {margin-left:auto; margin-right:0px;  text-align:right;}
+.left   {margin-left:0px;  margin-right:auto; text-align:left;}
+.center {margin-left:auto; margin-right:auto; text-align:center;}
+
 .org-bold {
   /* bold */
   font-weight: bold;
