@@ -1,11 +1,17 @@
 safe: false
 auto: false
 server: false
+
+#bootstrap: "http://www.cinsk.org/bootstrap"
+#prettify: "http://www.cinsk.org/bootstrap"
+#jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"
+
 #bootstrap: "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2"
 #prettify: "http://cdnjs.cloudflare.com/ajax/libs/prettify/r224"
-bootstrap: "http://www.cinsk.org/bootstrap"
-prettify: "http://www.cinsk.org/bootstrap"
-jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"
+
+bootstrap: "http://some.place.com/bootstrap"
+prettify: "http://some.place.com/bootstrap"
+jquery: "http://some.place.com/js/jquery.js"
 
 # 'label' is the short label of the index.html where it appears in the
 # top-right corner of all pages

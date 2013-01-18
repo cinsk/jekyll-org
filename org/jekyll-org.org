@@ -67,15 +67,43 @@ title: Jekyll with org-mode and twitter bootstrap
 ---
 ⁠#+END_HTML</pre>
 #+END_HTML
-  
+
+*** Tested Platform
+
+***** Gentoo Linux
+      - GNU Emacs 24.2.1 (Gentoo package: app-editors/emacs-23)
+
+      - org-mode version 7.9.3d (package.el: org 20130114) or,
+
+***** Mac (Darwin)
+      - GNU Emacs 24.2 (from [[http://emacsformacosx.com/][here]])
+
+      - org-mode version 7.9.1 (package.el: org 201209003)
+
+      - Gentoo Linux: GNU Emacs 23.2.1, org-mode version 7.9.3d
+      - MacOSX (darwin) 10.8.2: 
 *** Configuration
     You *MUST* change the value of some keys in =_config.yml=, especially
     for =bootstrap=, =prettify=, and =jquery=.
 
 #+BEGIN_SRC yaml
-bootstrap: "http://somewhere.com/bootstrap"
-prettify: "http://somewhere.com/bootstrap"
-jquery: "http://somewhere.com/bootstrap/js/jquery.js"
+bootstrap: "http://some.place.com/bootstrap"
+prettify: "http://some.place.com/bootstrap"
+jquery: "http://some.place.com/bootstrap/js/jquery.js"
+#+END_SRC
+
+    You may need to modify both =src/_layouts/default.html= and
+    =src/_layouts/org.html= to reflect the above configuration.  For example,
+    =default.html= contains a HTML tags such as:
+
+#+BEGIN_SRC html
+<link href="http://some.place.com/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+<link href="http://some.place.com/bootstrap/css/bootstrap-responsive.css"
+      rel="stylesheet"/>
+<link href="http://some.place.com/bootstrap/css/docs.css" rel="stylesheet"/>
+<link href="http://some.place.com/prettify.css" rel="stylesheet"/>
+...
+<script src="http://some.place.com/bootstrap/js/jquery.js"></script>
 #+END_SRC
 
     To use make(1) to build your html generation, the jekyll should
@@ -126,6 +154,9 @@ jquery: "http://somewhere.com/bootstrap/js/jquery.js"
 #+STARTUP: odd
 #+END_SRC
 
+***** I got an error, Symbol's function definition is void: org-version
+      Your Emacs uses out-dated org-version probably 6.x.  Install
+      recent org-mode.
 
 * Implementation
 *** Table of Content(TOC) Generation
