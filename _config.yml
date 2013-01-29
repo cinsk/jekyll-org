@@ -17,8 +17,7 @@ jquery: "http://some.place.com/js/jquery.js"
 # top-right corner of all pages
 label: "Jekyll-Org"
 
-
-nav-top: [ "Home", "Articles", "YOUR-PAGE1", "YOUR-PAGE2" ]
+topnav-labels: [ "Home", "Articles", "dir1/Page 1", "dir2/Page 2" ]
 
 source: "src"
 destination: "www"

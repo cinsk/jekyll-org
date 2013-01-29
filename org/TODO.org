@@ -1,0 +1,15 @@
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: org
+title: jekyll-org TODO
+---
+#+END_HTML
+
+* TODOs
+*** TODO Support org files that have no headings.
+    it's better not to use scaffolding style.
+    <2013-01-14 Mon>
+*** TODO generate scaffolding TOC for markdown articles
+    Or, we could decide not to use scaffolding style.
+
