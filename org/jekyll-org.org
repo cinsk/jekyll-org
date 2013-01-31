@@ -11,6 +11,7 @@
 #+EMAIL: cinsky@gmail.com
 #+BEGIN_HTML
 ---
+id: jekyll-org
 layout: org
 title: Jekyll with org-mode and twitter bootstrap
 ---

@@ -4,6 +4,7 @@
 #+EMAIL: cinsky@gmail.com
 #+BEGIN_HTML
 ---
+id: article1
 layout: org
 title: "My Article #1"
 ---

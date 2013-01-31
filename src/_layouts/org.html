@@ -49,6 +49,14 @@
           <a class="brand" href="./index.html">{{ site.label }}</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              {% toplink id, label, locale, url, self %}
+              {% if id == 'article' %}
+              <li class="active"><a href="{{url}}">{{label}}</a></li>
+              {% else %}
+              <li class=""><a href="{{url}}">{{label}}</a></li>
+              {% endif %}
+              {% endtoplink %}
+              <!--
               {% for item in site.topnav-labels %}
                 {% toplink item %}
 
@@ -61,6 +69,7 @@
                 <li class="{{cls}}"><a href="{{url}}">{{label}} {{lang}}</a></li>
                 {% endtoplink %}
               {% endfor %}
+              -->
             </ul>
           </div>
         </div>

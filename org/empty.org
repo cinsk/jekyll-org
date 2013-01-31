@@ -2,6 +2,7 @@
 ---
 layout: org
 title: Empty
+id: empty
 ---
 #+END_HTML
 
