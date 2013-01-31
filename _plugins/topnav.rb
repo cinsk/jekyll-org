@@ -150,13 +150,16 @@ module Jekyll
         end
       }
 
+      lang = context['page']['lang']
+      lang = LANG_DEFAULT if lang == nil
+
       @linguas.each { |v|
         context.stack {
           context[@v_label] = v[:label] if @v_label != nil
           context[@v_url] = v[:url] if @v_url != nil
 
           if @v_self
-            if context['page']['lang'] == v[:locale]
+            if lang == v[:locale]
               context[@v_self] = true
             else
               context[@v_self] = false
