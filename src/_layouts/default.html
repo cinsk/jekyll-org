@@ -69,6 +69,23 @@
   <div class="container">
 
     <div class="row">
+      <div class="span10"></div>
+      <div class="span2">
+        <!-- This div should be floating and should not scroll, 
+             but I don't know anything about CSS, *sigh* -- cinsk -->
+        <section id="lang">
+          {% linguas label, url, self %}
+            {% if self == true %}
+              [{{label}}]
+            {% else %}
+              [<a href="{{url}}">{{label}}</a>]
+            {% endif %}
+          {% endlinguas %}
+        </section>
+      </div>
+    </div>
+
+    <div class="row">
     {{content}}
     </div>
   </div>

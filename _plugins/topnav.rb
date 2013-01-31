@@ -43,6 +43,28 @@ module Jekyll
     result
   end
 
+  def self.site_url(label, locale, context, exact = false)
+    ::Jekyll.update_tagmap(context)
+    # TODO: return the url of the page with LABEL in LOCALE if possible.
+
+    # url of the current page: context['page']['url']
+    # url of the Page object: page.destination(PREFIX)
+    #context['site']
+
+    base = Pathname.new(context['page']['url']).dirname
+
+    ptag = ::Jekyll.tagmap[label]
+    
+    if ptag[locale]
+      page = ptag[locale]
+    else
+      return nil if exact && (locale != nil)
+      page = ptag[LANG_DEFAULT]
+    end
+
+    Pathname.new(page.destination("")).relative_path_from(base).to_s
+  end
+
   class PageTag
     def initialize(inithash = {})
       @data = inithash.clone
@@ -53,6 +75,76 @@ module Jekyll
     end
   end
 
+
+  class LinguaLink < Liquid::Block
+    def initialize(tag_name, params, tokens)
+      @linguas = []
+      @lang = {}
+
+      p = params.split(',').map(&:strip)
+
+      @v_label = @v_url = @v_self = nil
+
+      @v_label = p[0] if p.size > 0
+      @v_url = p[1] if p.size > 1
+      @v_self = p[2] if p.size > 2
+
+      super
+    end
+
+    def render(context)
+      txt = ""
+      ::Jekyll.update_tagmap(context)
+
+      label = context['page']['label']
+      
+      txt += "<!-- fatal: label is not found in the current page -->\n" if 
+        label == nil
+
+      context['site']['linguas'].each { |h|
+        url = ::Jekyll.site_url(label, h[:tag], context, true);
+
+        if url
+          @linguas << { :label => h[:label], :url => url, :tag => h[:tag] }
+        end
+      }
+
+      @linguas.each { |v|
+        context.stack {
+          @lang = v
+          context[@v_label] = v[:label] if @v_label != nil
+          context[@v_url] = v[:url] if @v_url != nil
+
+          if @v_self
+            if context['page']['lang'] == v[:tag]
+              context[@v_self] = true
+            else
+              context[@v_self] = false
+            end
+          end
+
+          txt += render_all(@nodelist, context)
+        }
+      }
+      txt
+    end
+
+    def unknown_tag(name, params, tokens)
+      txt = ""
+      txt += "unknown(#{name}, #{params}, #{tokens})\n"
+      if name == "label"
+        txt += "LABEL!\n"
+        txt += @lang[:label] if @lang[:label]
+      elsif name == "url"
+        txt += "URL!\n"
+        txt += @lang[:url] if @lang[:label]
+      else
+        super
+      end
+      return txt
+    end
+
+  end
 
   class TopNavLink < Liquid::Block
     def initialize(tag_name, text, tokens)
@@ -77,6 +169,9 @@ module Jekyll
       lang = LANG_DEFAULT if lang == nil
 
       url = context['page']['url']
+      txt += "<!-- page:url=#{url} -->\n"
+      txt += "<!-- page[0].dest=#{context['site']['pages'][0].destination("")}-->\n"
+      txt += "<!-- page[0].url=#{context['site']['pages'][0].url}-->\n"
       #return "<!-- WARNING: page.url is missing -->" if url == nil
 
       # url should be something like "/index.html" or "/dir/somedoc.html"
@@ -230,6 +325,7 @@ end
 Liquid::Template.register_tag('toplink', Jekyll::TopNavLink)
 Liquid::Template.register_tag('topnav', Jekyll::TopNavBar)
 Liquid::Template.register_tag('navurl', Jekyll::TopNavUrl)
+Liquid::Template.register_tag('linguas', Jekyll::LinguaLink)
 
 
 module MyFilter
