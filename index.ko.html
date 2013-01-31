@@ -47,34 +47,54 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               
-                <!-- page:url=/index.ko.html -->
-<!-- page[0].dest=/articles/gdb1.html-->
-<!-- page[0].url=/gdb1.html-->
-
-                <li class="active"><a href="index.ko.html">Home (ko)</a></li>
-                
+              <!--
+              id: home<br/>
+              label: 홈<br/>
+              locale: ko<br/>
+              url: index.ko.html<br/>
+              self: true<br/>
+              -->
               
-                <!-- page:url=/index.ko.html -->
-<!-- page[0].dest=/articles/gdb1.html-->
-<!-- page[0].url=/gdb1.html-->
-
-                <li class=""><a href="./articles.html">Articles </a></li>
-                
+              <li class="active"><a href="index.ko.html">홈</a></li>
               
-                <!-- page:url=/index.ko.html -->
-<!-- page[0].dest=/articles/gdb1.html-->
-<!-- page[0].url=/gdb1.html-->
-
-                <li class=""><a href="./dir1/index.ko.html">Page 1 (ko)</a></li>
-                
               
-                <!-- page:url=/index.ko.html -->
-<!-- page[0].dest=/articles/gdb1.html-->
-<!-- page[0].url=/gdb1.html-->
-
-                <li class=""><a href="./dir2/index.html">Page 2 </a></li>
-                
+              <!--
+              id: article<br/>
+              label: Articles<br/>
+              locale: <br/>
+              url: articles.html<br/>
+              self: true<br/>
+              -->
               
+              <li class="active"><a href="articles.html">Articles</a></li>
+              
+              
+              <!--
+              id: pg1<br/>
+              label: 페이지 1<br/>
+              locale: ko<br/>
+              url: dir1/index.ko.html<br/>
+              self: true<br/>
+              -->
+              
+              <li class="active"><a href="dir1/index.ko.html">페이지 1</a></li>
+              
+              
+              <!--
+              id: pg2<br/>
+              label: Page 2<br/>
+              locale: <br/>
+              url: dir2/index.html<br/>
+              self: true<br/>
+              -->
+              
+              <li class="active"><a href="dir2/index.html">Page 2</a></li>
+              
+              
+
+              <!--
+              
+                -->
             </ul>
           </div>
         </div>
@@ -144,6 +164,8 @@
       <h1>Section 3</h1>
     </div>
     <p>
+      <a href="dir1/index.ko.html">이 하이퍼 링크</a>는
+      현재 페이지의 언어 설정에 따라 적당한 글을 가리킵니다.
     </p>
 
   </section>
