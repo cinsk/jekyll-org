@@ -2,10 +2,24 @@ require 'pathname'
 
 module Jekyll
   @@_pagemap = {}
-  LANG_DEFAULT = "default"
+  @@_localemap = {}
+
+  LANG_DEFAULT = "en"
 
   def self.tagmap
     @@_pagemap
+  end
+
+  def self.localemap
+    @@_localemap
+  end
+
+  def self.update_localemap(context)
+    if @@_localemap.empty?
+      context['site']['linguas'].each { |ent|
+        ::Jekyll.localemap[ent[:tag]] = ent[:label]
+      }
+    end
   end
 
   def self.update_tagmap(context)
@@ -42,7 +56,7 @@ module Jekyll
     result
   end
 
-  def self.site_url(id, locale, context, exact = false)
+  def self.site_url_with_page(id, locale, context, exact = false)
     ::Jekyll.update_tagmap(context)
     # TODO: return the url of the page with LABEL in LOCALE if possible.
 
@@ -65,10 +79,31 @@ module Jekyll
       page = ptag[locale]
     else
       return nil if exact && (locale != nil)
+
       page = ptag[LANG_DEFAULT]
+      if page == nil
+        ptag.each_pair { |l, p|
+          page = p
+          break
+        }
+      end
     end
 
-    Pathname.new(page.destination("")).relative_path_from(base).to_s
+    if page
+      [ page, 
+        Pathname.new(page.destination("")).relative_path_from(base).to_s ]
+    else
+      nil
+    end
+  end
+
+  def self.site_url(id, locale, context, exact = false)
+    ret = site_url_with_page(id, locale, context, exact)
+    if ret != nil && ret.size > 1
+      ret[1]
+    else
+      nil
+    end
   end
 
   class PageTag

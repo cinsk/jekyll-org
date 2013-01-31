@@ -1,6 +1,99 @@
 require 'pathname'
+require 'set'
 
 module Jekyll
+  class Articles < Liquid::Block
+    @@layouts = nil
+
+    def initialize(tag_name, params, tokens)
+      p = params.split(',').map(&:strip)
+      
+      @v_id = @v_url = @v_title = @v_lang = nil
+
+      @v_id = p[0] if p.size > 0
+      @v_title = p[1] if p.size > 1
+      @v_url = p[2] if p.size > 2
+      @v_lang = p[3] if p.size > 3
+      
+      # @articles holds the list of id of the pages that has the layout
+      # specified in @layouts.
+      @articles = []
+      super
+    end
+
+    def init_layouts(context)
+      if @@layouts == nil
+        @layouts = Set.new(context['site']['article_layouts'])
+      end
+    end
+
+    def init_articles(context)
+      context['site']['pages'].each { |pg|
+        if @layouts.include? pg.data['layout']
+          if pg.data['id'] == nil
+            STDERR.write("warning: no 'id' in the page #{pg.url}\n");
+            next
+          end
+
+          if pg.data['title'] == nil
+            STDERR.write("warning: no 'title' in the page #{pg.url}\n");
+            next
+          end
+
+          @articles << pg.data['id']
+        end
+      }
+    end
+
+    def render(context)
+      ::Jekyll.update_tagmap(context)
+      ::Jekyll.update_localemap(context)
+
+      init_layouts(context)
+      init_articles(context)
+
+      lang = context['page']['lang']
+      lang = LANG_DEFAULT if lang == nil
+
+      txt = "<!-- articles: #{@articles} -->\n"
+
+      @articles.each { |id|
+        pgtag = ::Jekyll.tagmap[id]
+
+        txt += "<!-- id(#{id}) lang(#{lang}) -->\n"
+
+        page, url = ::Jekyll.site_url_with_page(id, lang, context)
+
+        #txt += "<!-- page(#{page}) url(#{url}) -->\n"
+
+        if page != nil && url != nil
+          context.stack {
+            context[@v_id] = id if @v_id
+            context[@v_url] = url if @v_url
+            context[@v_title] = page.data['title'] if @v_title
+            
+            l = page.data['lang']
+            l = LANG_DEFAULT if l == nil
+
+            if @v_lang
+              if l == lang
+                context[@v_lang] = ""
+              else
+                context[@v_lang] = ::Jekyll.localemap[l]
+                context[@v_lang] = l if context[@v_lang] == nil
+              end
+            end
+
+            txt += render_all(@nodelist, context)
+          }
+        end
+      }
+
+      txt
+    end
+
+  end
+
   class OrgArticles < Liquid::Block
     def initialize(tag_name, text, tokens)
       super
@@ -73,9 +166,15 @@ module Jekyll
   end
 
   class OrgToc < Liquid::Block
-    def initialize(tag_name, text, tokens)
+    def initialize(tag_name, params, tokens)
+      p = params.split(',').map(&:strip)
+
+      @v_id = @v_section = nil
+
+      @v_id = p[0] if p.size > 0
+      @v_section = p[1] if p.size > 1
+
       super
-      @label = text.strip
     end
 
     def render(context)
@@ -86,20 +185,33 @@ module Jekyll
       contents.each_line { |line|
         m = /^ *<li> *<a +href *= *"#sec-([0-9]+)" *>(.*?)<\/a>/.match line
         if m
-          thetoc.push( { "id" => "#sec-#{m[1]}",
-                         "title" => m[2] })
+          thetoc << { :id => "#sec-#{m[1]}",
+            :section => m[2] }
         end
 
         break if / *<div +id *= *"outline-container-[0-9]+\"/.match line
       }
 
-      context['page']['orgtoc'] = thetoc
+      txt = ""
 
-      super
+      thetoc.each { |c|
+        context.stack {
+          context[@v_id] = c[:id] if @v_id != nil
+          context[@v_section] = c[:section] if @v_section != nil
+
+          txt += render_all(@nodelist, context)
+        }
+      }
+      
+      #context['page']['orgtoc'] = thetoc
       #"ORGTOC: #{thetoc}"
+
+      txt
     end
   end
 end
 
 Liquid::Template.register_tag('orgtoc', Jekyll::OrgToc)
 Liquid::Template.register_tag('orgarticles', Jekyll::OrgArticles)
+Liquid::Template.register_tag('articles', Jekyll::Articles)
+

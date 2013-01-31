@@ -7,6 +7,7 @@
 id: article1
 layout: org
 title: "My Article #1"
+lang: ko
 ---
 #+END_HTML
 
