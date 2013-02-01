@@ -1,0 +1,8 @@
+# Files that GIT should ignore
+# See gitignore(5) for the format of this file
+
+# /src/articles/*.html
+
+/www/
+*~
+#.#*
