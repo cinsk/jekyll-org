@@ -10,10 +10,10 @@ ARTICLES_OBJ := $(patsubst %.org, src/%.html, $(ARTICLES))
 EMACS=$(shell which emacs)
 
 
-all: articles www
+all: www
 rebuild: clean all
 
-www:
+www: articles
 	jekyll
 
 articles: $(ARTICLES)

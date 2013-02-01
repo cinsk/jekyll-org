@@ -46,11 +46,28 @@
           <a class="brand" href="./index.html">{{ site.label }}</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              {% toplink id, label, locale, url, self %}
+              <!--
+              id: {{id}}<br/>
+              label: {{label}}<br/>
+              locale: {{locale}}<br/>
+              url: {{url}}<br/>
+              self: {{self}}<br/>
+              -->
+              {% if self == true %}
+              <li class="active"><a href="{{url}}">{{label}}</a></li>
+              {% else %}
+              <li class=""><a href="{{url}}">{{label}}</a></li>
+              {% endif %}
+              {% endtoplink %}
+
+              <!--
               {% for item in site.topnav-labels %}
                 {% toplink item %}
                 <li class="{{active}}"><a href="{{url}}">{{label}} {{lang}}</a></li>
                 {% endtoplink %}
               {% endfor %}
+                -->
             </ul>
           </div>
         </div>
@@ -67,6 +84,23 @@
 </header>
 
   <div class="container">
+
+    <div class="row">
+      <div class="span10"></div>
+      <div class="span2">
+        <!-- This div should be floating and should not scroll, 
+             but I don't know anything about CSS, *sigh* -- cinsk -->
+        <section id="lang">
+          {% linguas label, url, self %}
+            {% if self == true %}
+              [{{label}}]
+            {% else %}
+              [<a href="{{url}}">{{label}}</a>]
+            {% endif %}
+          {% endlinguas %}
+        </section>
+      </div>
+    </div>
 
     <div class="row">
     {{content}}
