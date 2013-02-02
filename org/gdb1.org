@@ -16,6 +16,7 @@
 ---
 layout: org
 lang: ko
+id: gdb1
 title: "Debugging with GDB: Breakpoints & Data Dumping"
 ---
 #+END_HTML

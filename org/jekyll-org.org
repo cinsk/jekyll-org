@@ -13,6 +13,7 @@
 ---
 layout: org
 title: Jekyll with org-mode and twitter bootstrap
+id: jekyll-org
 ---
 #+END_HTML
 :COMMENT:

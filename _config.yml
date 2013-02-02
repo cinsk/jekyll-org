@@ -17,7 +17,7 @@ jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"
 # top-right corner of all pages
 label: "Jekyll-Org"
 
-topnav-list: [ "home", "article", "pg1", "pg2" ]
+topnav-list: [ "home", "cfaq", "article", "emacs", "resume" ]
 
 source: "src"
 destination: "www"
