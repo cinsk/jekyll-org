@@ -233,8 +233,8 @@ topnav-list: [ "home", "article", "pg1", "pg2" ]
 
 ***** 'articles' block
 
-      If the page's layout is included in =article_layouts= of the
-      =_config.yml=, then the page will be considered as an 'article'.
+      =articles= block can enumerate pages which has a specified
+      layouts.
 
       =articles= block will be evaluated multiple times for each 
       article.  The usage is almost the same as =toplink= block.
@@ -242,22 +242,32 @@ topnav-list: [ "home", "article", "pg1", "pg2" ]
       =articles= will accept four parameters, and each meaning of the
       parameter is:
 
-      - 1st parameter (id): id of the article page
-      - 2nd parameter (title): title of the article page.
-      - 3rd parameter (url): URL of the article page
-      - 4th parameter (lang): name of the locale of the article page.
+      - 1st parameter (layouts): a name of the variable in =_config.yml=
+        where its value is a list of layout names.
+      - 2nd parameter (id): id of the article page
+      - 3rd parameter (title): title of the article page.
+      - 4th parameter (url): URL of the article page
+      - 5th parameter (lang): name of the locale of the article page.
         (such as "English" or "Korean")  If the locale of the current
         page is the same as the evaluating article page, this will be
         an empty string (=""=).
 
-      For example, if you want to enumerate all articles, do the following:
+      For example, suppose that you have pages in either "my_article1" layout
+      or "my_article2" layout.   To enumerate these pages, you need to specify
+      the list of layouts in =_config.yml= like:
+
+#+BEGIN_SRC yaml
+article_layouts: [ "my_article1", "my_article2" ]
+#+END_SRC
+
+      Then, you can enumerate these pages with =article= block like:
 
 #+BEGIN_HTML
 {% raw %}
 #+END_HTML
 #+BEGIN_SRC html
 <ul>
-  {% articles id, title, url, lang %}
+  {% articles article_layouts, id, title, url, lang %}
     {% if lang == "" %}
   <li><a href="{{url}}">{{title}}</a></li>
     {% else %}

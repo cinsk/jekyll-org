@@ -16,7 +16,7 @@ lead:
       written in <a href="http://orgmode.org/">org-mode</a>.</p>
 
     <ul>
-      {% articles id, title, url, lang %}
+      {% articles article_layouts, id, title, url, lang %}
         {% if lang == "" %}
       <li><a href="{{url}}">{{title}}</a></li>
         {% else %}

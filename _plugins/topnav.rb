@@ -221,11 +221,11 @@ module Jekyll
       else
         pages = []
 
-        context['site']['topnav-list'].each { |id|
-          pgtag = ::Jekyll.tagmap[id]
+        context['site']['topnav-list'].each { |id_|
+          pgtag = ::Jekyll.tagmap[id_]
           if pgtag == nil
             raise RuntimeError,
-            "there is no page with id(#{id})"
+            "there is no page with id(#{id_})"
           end
 
           pg = pgtag[lang]
