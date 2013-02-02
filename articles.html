@@ -52,10 +52,10 @@
               label: Home<br/>
               locale: <br/>
               url: index.html<br/>
-              self: true<br/>
+              self: false<br/>
               -->
               
-              <li class="active"><a href="index.html">Home</a></li>
+              <li class=""><a href="index.html">Home</a></li>
               
               
               <!--
@@ -74,10 +74,10 @@
               label: Page 1<br/>
               locale: <br/>
               url: dir1/index.html<br/>
-              self: true<br/>
+              self: false<br/>
               -->
               
-              <li class="active"><a href="dir1/index.html">Page 1</a></li>
+              <li class=""><a href="dir1/index.html">Page 1</a></li>
               
               
               <!--
@@ -85,10 +85,10 @@
               label: Page 2<br/>
               locale: <br/>
               url: dir2/index.html<br/>
-              self: true<br/>
+              self: false<br/>
               -->
               
-              <li class="active"><a href="dir2/index.html">Page 2</a></li>
+              <li class=""><a href="dir2/index.html">Page 2</a></li>
               
               
 
@@ -118,17 +118,11 @@
         <!-- This div should be floating and should not scroll, 
              but I don't know anything about CSS, *sigh* -- cinsk -->
         <section id="lang">
-          <!-- context['page']['lang']:  -->
-<!-- v[:locale]: en -->
-
-            <!-- self: true -->
+          
             
               [English]
             
-          <!-- context['page']['lang']:  -->
-<!-- v[:locale]: ko -->
-
-            <!-- self: false -->
+          
             
               [<a href="articles.ko.html">Korean</a>]
             
@@ -148,31 +142,36 @@
       written in <a href="http://orgmode.org/">org-mode</a>.</p>
 
     <ul>
-      <!-- articles: ["article1", "empty", "article2", "org-todo", "jekyll-org"] -->
+      <!-- articles: ["article1", "article2", "duma", "empty", "jekyll-org", "org-todo"] -->
 <!-- id(article1) lang(en) -->
 
         
       <li><a href="articles/article1.html">My Article #1</a> (Korean) </li>
-        
-      <!-- id(empty) lang(en) -->
-
-        
-      <li><a href="articles/empty.html">Empty</a></li>
         
       <!-- id(article2) lang(en) -->
 
         
       <li><a href="articles/article2.html">My Article</a></li>
         
-      <!-- id(org-todo) lang(en) -->
+      <!-- id(duma) lang(en) -->
 
         
-      <li><a href="articles/TODO.html">jekyll-org TODO</a></li>
+      <li><a href="articles/duma.html">DUMA: Electric Fence</a></li>
+        
+      <!-- id(empty) lang(en) -->
+
+        
+      <li><a href="articles/empty.html">Empty</a></li>
         
       <!-- id(jekyll-org) lang(en) -->
 
         
       <li><a href="articles/jekyll-org.html">Jekyll with org-mode and twitter bootstrap</a></li>
+        
+      <!-- id(org-todo) lang(en) -->
+
+        
+      <li><a href="articles/TODO.html">jekyll-org TODO</a></li>
         
       
     </ul>
