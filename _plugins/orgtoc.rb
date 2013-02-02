@@ -7,14 +7,15 @@ module Jekyll
 
     def initialize(tag_name, params, tokens)
       p = params.split(',').map(&:strip)
-      
-      @v_id = @v_url = @v_title = @v_lang = nil
 
-      @v_id = p[0] if p.size > 0
-      @v_title = p[1] if p.size > 1
-      @v_url = p[2] if p.size > 2
-      @v_lang = p[3] if p.size > 3
-      
+      @v_layout = @v_id = @v_url = @v_title = @v_lang = nil
+
+      @v_layout = p[0] if p.size > 0
+      @v_id = p[1] if p.size > 1
+      @v_title = p[2] if p.size > 2
+      @v_url = p[3] if p.size > 3
+      @v_lang = p[4] if p.size > 4
+
       # @articles holds the list of id of the pages that has the layout
       # specified in @layouts.
       @articles = []
@@ -23,7 +24,7 @@ module Jekyll
 
     def init_layouts(context)
       if @@layouts == nil
-        @layouts = Set.new(context['site']['article_layouts'])
+        @layouts = Set.new(context['site'][@v_layout])
       end
     end
 
