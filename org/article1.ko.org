@@ -6,12 +6,13 @@
 ---
 id: article1
 layout: org
-title: "My Article #1"
-lead: short description of article1.
+title: "첫번째 글"
+lang: ko
+lead: "짧은 글 설명"
 ---
 #+END_HTML
 
-* Head 1
+* 제목 1
 blah blah blah
 blah blah blah
 blah blah blah

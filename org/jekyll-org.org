@@ -246,8 +246,9 @@ topnav-list: [ "home", "article", "pg1", "pg2" ]
         where its value is a list of layout names.
       - 2nd parameter (id): id of the article page
       - 3rd parameter (title): title of the article page.
-      - 4th parameter (url): URL of the article page
-      - 5th parameter (lang): name of the locale of the article page.
+      - 4th parameter (lead): short description of the article page.
+      - 5th parameter (url): URL of the article page
+      - 6th parameter (lang): name of the locale of the article page.
         (such as "English" or "Korean")  If the locale of the current
         page is the same as the evaluating article page, this will be
         an empty string (=""=).
@@ -267,11 +268,37 @@ article_layouts: [ "my_article1", "my_article2" ]
 #+END_HTML
 #+BEGIN_SRC html
 <ul>
-  {% articles article_layouts, id, title, url, lang %}
+  {% articles article_layouts, id, title, lead, url, lang %}
     {% if lang == "" %}
   <li><a href="{{url}}">{{title}}</a></li>
     {% else %}
   <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+    {% endif %}
+  {% endarticles %}
+</ul>
+#+END_SRC html
+#+BEGIN_HTML
+{% endraw %}
+#+END_HTML
+
+      Or, if you want to insert 'lead' value, use the following:
+
+#+BEGIN_HTML
+{% raw %}
+#+END_HTML
+#+BEGIN_SRC html
+<ul>
+  {% articles article_layouts, id, title, lead, url, lang %}
+    {% if lead == nil or lead == "" %}
+      {% assign leadsep = '' %}
+    {% else %} 
+      {% assign leadsep = ': ' %}
+    {% endif %}
+
+    {% if lang == "" %}
+  <li><a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
+    {% else %}
+  <li><a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
     {% endif %}
   {% endarticles %}
 </ul>

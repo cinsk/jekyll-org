@@ -6,7 +6,7 @@
 ---
 id: article2
 layout: org
-title: My Article #2
+title: "My Article #2"
 ---
 #+END_HTML
 
