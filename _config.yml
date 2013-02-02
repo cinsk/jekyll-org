@@ -24,6 +24,7 @@ destination: "www"
 
 
 article_layouts: [ "org" ]
+emacscast_layouts: [ "emacscast" ]
 
 # relative pathname to the directory that contains ".html" files
 # which are generated from ".org"

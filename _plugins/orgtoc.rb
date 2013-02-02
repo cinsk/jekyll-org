@@ -8,13 +8,14 @@ module Jekyll
     def initialize(tag_name, params, tokens)
       p = params.split(',').map(&:strip)
 
-      @v_layout = @v_id = @v_url = @v_title = @v_lang = nil
+      @v_layout = @v_id = @v_url = @v_title = @v_lead = @v_lang = nil
 
       @v_layout = p[0] if p.size > 0
       @v_id = p[1] if p.size > 1
       @v_title = p[2] if p.size > 2
-      @v_url = p[3] if p.size > 3
-      @v_lang = p[4] if p.size > 4
+      @v_lead = p[3] if p.size > 3
+      @v_url = p[4] if p.size > 4
+      @v_lang = p[5] if p.size > 5
 
       # @articles holds the list of id of the pages that has the layout
       # specified in @layouts.
@@ -29,6 +30,8 @@ module Jekyll
     end
 
     def init_articles(context)
+      # Collect all article IDs.
+      articles = Set.new()
       context['site']['pages'].each { |pg|
         if @layouts.include? pg.data['layout']
           if pg.data['id'] == nil
@@ -41,9 +44,10 @@ module Jekyll
             next
           end
 
-          @articles << pg.data['id']
+          articles << pg.data['id']
         end
       }
+      @articles = articles.to_a
     end
 
     def render(context)
@@ -72,7 +76,8 @@ module Jekyll
             context[@v_id] = id if @v_id
             context[@v_url] = url if @v_url
             context[@v_title] = page.data['title'] if @v_title
-            
+            context[@v_lead] = page.data['lead'] if @v_lead
+
             l = page.data['lang']
             l = LANG_DEFAULT if l == nil
 

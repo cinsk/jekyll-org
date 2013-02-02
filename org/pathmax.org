@@ -4,6 +4,7 @@
 layout: org
 title: PATHMAX, MAXPATHLEN, FILENAME MAX
 id: pathmax
+lang: ko
 ---
 #+END_HTML
 

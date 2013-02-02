@@ -16,11 +16,17 @@ lead:
       written in <a href="http://orgmode.org/">org-mode</a>.</p>
 
     <ul>
-      {% articles article_layouts, id, title, url, lang %}
+      {% articles article_layouts, id, title, lead, url, lang %}
+        {% if lead == nil or lead == "" %}
+          {% assign leadsep = '' %}
+        {% else %} 
+          {% assign leadsep = ': ' %}
+        {% endif %}
+
         {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a></li>
+      <li><a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+      <li><a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
         {% endif %}
       {% endarticles %}
     </ul>

@@ -17,6 +17,7 @@
 layout: org
 title: Preventing buffer overflows with strncpy, strncat, and snprintf
 id: strncpy
+lang: ko
 ---
 #+END_HTML
 
