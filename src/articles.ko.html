@@ -13,15 +13,21 @@ lead:
       <h1>Things that I've written</h1>
     </div>
 
-    <p>This is the automatically generated list of articles that are
-      written in <a href="http://orgmode.org/">org-mode</a>.</p>
+    <p>아래 글들은 <a href="http://orgmode.org/">org-mode</a>로
+      작성된 글 목록입니다.</p>
 
     <ul>
-      {% articles id, title, url, lang %}
+      {% articles article_layouts, id, title, lead, url, lang %}
+        {% if lead == nil or lead == "" %}
+          {% assign leadsep = '' %}
+        {% else %} 
+          {% assign leadsep = ': ' %}
+        {% endif %}
+
         {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a></li>
+      <li><a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+      <li><a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
         {% endif %}
       {% endarticles %}
     </ul>
