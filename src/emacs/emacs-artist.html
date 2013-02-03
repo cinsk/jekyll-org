@@ -1,0 +1,64 @@
+---
+layout: emacscast
+title: "Screencast: Artist Mode"
+label: artist
+id: cast-artist
+lang:
+lead:
+---
+
+  <section id="intro">
+    <div class="page-header">
+      <h1>Emacs Screencast: Artist Mode</h1>
+    </div>
+
+    <p>
+      Artist mode, toggled by <span class="tt">M-x artist-mode</span>, lets you
+      draw lines, squares, rectangles and poly-lines, ellipses,
+      and circles with your mouse and/or keyboard.  It is extremely
+      useful when inserting text diagrams or figures in your source
+      comments.
+    </p>
+
+    <object
+       type="application/x-shockwave-flash"
+       data="emacs-artist.swf"
+       width="800" height="500">
+       <param name="movie" value="emacs-artist.swf"/>
+       <param name="play" value="true"/>
+       <param name="loop" value="False"/>
+       <param name="quality" value="low"/>
+         <!--
+         <embed src="emacs-artist.swf" width="800" height="500" play="true"
+                loop="False" quality="low" type="application/x-shockwave-flash"
+                pluginspage="http://www.macromedia.com/go/getflashplayer">
+         </embed>
+         -->
+    </object>
+
+    <p>
+      Beside editing commands, above demonstration uses following Emacs
+      commands:
+    </p>
+
+    <ul>
+      <li><span class="tt">C-x b</span> to switch buffers. Originally,
+        it is bound for `switch-to-buffer'.  Instead, binding
+        `iswitchb-buffer' to <span class="tt">C-x b</span> is much easier
+        to use.</li>
+
+      <li><span class="tt">C-x n n</span> to narrow the region,
+        `narrow-to-region'.
+        It is very useful to prevent the unwanted change on other portion
+        of the buffer, and makes the user concentrating on what he or she
+        want to do.  The narrowing is reverted by the command,
+        <span class="tt">C-x n w</span> `widen'.</li>
+    </ul>
+  </section>
+
+<!--
+  Local Variables:
+  coding: utf-8
+  mode: nxml
+  End:
+ -->

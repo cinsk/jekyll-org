@@ -1,0 +1,97 @@
+---
+layout: default
+title: Emacs Stuff
+label: "Emacs"
+id: emacs
+lang:
+lead:
+---
+
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+    <li><a href="#init"><i class="icon-chevron-right"></i>Init Files</a></li>
+    <li><a href="#scast"><i class="icon-chevron-right"></i>Screencasts</a></li>
+    <li><a href="#material"><i class="icon-chevron-right"></i>Other Materials</a></li>
+  </ul>
+</div>
+
+<div class="span9">
+  <section id="edu">
+    <div class="page-header">
+      <h1>Init Scripts</h1>
+    </div>
+
+    <p>Includes my start-up script, <tt>init.el</tt>, all of my scripts are
+      available from
+      <a href="https://github.com/cinsk/emacs-scripts/">github</a>.
+    </p>
+  </section>
+
+  <section id="scast">
+    <div class="page-header">
+      <h1>Screencast</h1>
+    </div>
+
+    <p>
+      Thanks to <a href="http://www.unixuser.org/~euske/vnc2swf/">vnc2swf</a>
+      and <a href="http://www.karlrunge.com/x11vnc/">x11vnc</a>, I am able to
+      provide online demonstration(screencast) on my emacs session.
+      (Recently, I use <a href="http://xvidcap.sourceforge.net">xvidcap</a>
+      and <a href="http://www.mplayerhq.hu/">mencoder</a>.)
+    </p>
+
+    <p>
+      Note that most of the demonstration is recorded in
+      <a href="http://www.macromedia.com/software/flashplayer/">Macromedia
+        Flash</a>. Unfortunately, the demo files do not support resolution
+        scaling.
+    </p>
+
+    <ul>
+      {% articles emacscast_layouts, id, title, url, lang %}
+        {% if lang == "" %}
+      <li><a href="{{url}}">{{title}}</a></li>
+        {% else %}
+      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+        {% endif %}
+      {% endarticles %}
+    </ul>
+  </section>
+
+  <section id="material">
+    <div class="page-header">
+      <h1>Other Materials</h1>
+    </div>
+
+    <p>
+      I presented a Emacs seminar on 10 year anniversary of online Linux
+      community, <a href="http://kldp.org/">KLDP</a> in Seoul, Korea to
+      demonstrate various Emacs features for developers.  Here is a
+      presentation material written
+      in <a href="http://www.openoffice.org/">Open Office</a> Impress version
+      2.3.</p>
+
+    <p>Note that this material heavily uses both the hyperlink feature
+      and the animations.  Just open and follow the slideshow (shortcut:
+      &lt;f5&gt;), and whenever you see the arrow button on the right bottom
+      of each page, click it to follow the next page.  Some of pages are
+      written in Korean, though.
+    </p>
+    <p>
+      To view it properly, you may need Bigelow &amp;
+      Holmes's <a href="http://en.wikipedia.org/wiki/Lucida">Lucida</a> fonts
+      and <a href="http://kldp.net/projects/unfonts/">Unfont</a> (GPLed).
+    </p>
+
+    <ul>
+      <li><a href="./emacs-devel.odp">emacs-devel.odp</a></li>
+    </ul>
+
+  </section>
+
+<!--
+  Local Variables:
+  coding: utf-8
+  mode: nxml
+  End:
+ -->

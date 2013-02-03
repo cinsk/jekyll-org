@@ -1,0 +1,78 @@
+---
+layout: emacscast
+title: "Screencast: nXML mode"
+label: nxml
+id: cast-nxml
+lang:
+lead:
+---
+
+  <section id="intro">
+    <div class="page-header">
+      <h1>Emacs Screencast: nXML mode</h1>
+    </div>
+
+    <p>
+      Demonstrates nXML mode (a new major mode for XML available from
+      <a href="http://www.thaiopensource.com/nxml-mode/">here</a>.
+      Since the author's voice is in Korean, You may not understand
+      my voice, but I'm sure that it will not border you to understand
+      this screencast.
+    </p>
+
+    <p>
+      Note that this is a simple demonstration that does not utilizes
+      lots of powerful features of nxml-mode. (nxml-mode is far, far
+      greater than what I demonstrate here!!) This only demonstrates
+      the way that I write HTML files, check the spellings, preview
+      the files, and register to the version control system (in this
+      case, CVS.)
+    </p>
+
+    <object
+       type="application/x-shockwave-flash"
+       data="emacs-nxml.swf"
+       width="612" height="570">
+       <param name="movie" value="emacs-nxml.swf"/>
+       <param name="play" value="true"/>
+       <param name="loop" value="False"/>
+       <param name="quality" value="low"/>
+         <!--
+         <embed src="emacs-nxml.swf" width="612" height="570" play="true"
+                loop="False" quality="low" type="application/x-shockwave-flash"
+                pluginspage="http://www.macromedia.com/go/getflashplayer">
+         </embed>
+         -->
+    </object>
+
+    <p>
+      Beside editing commands, above demonstration uses following Emacs
+      features:
+    </p>
+
+    <ul>
+      <li>Org mode: the first screen.</li>
+      <li><span class="tt">C-x v v</span> to add/commit the HTML file
+        to the CVS (version control system).</li>
+      <li>w3m mode (an interface to w3m): available from
+        <a href="http://emacs-w3m.namazu.org">here</a>.</li>
+      <li>ispell: to check the spelling of the HTML file.</li>
+      <li><span class="tt">M-/</span> (dabbrev-expand) to expand the
+        pre-inputted text.</li>
+    </ul>
+
+    <p>
+      I made this screenshot
+      using <a href="http://xvidcap.sourceforge.net/">xvidcap</a> to
+      generated MPEG file, and downsizing/converting the file to SWF
+      using mencoder(1).  Currently, the scrollbar attached to the SWF
+      file in this page is not working. (Don't know why.)
+    </p>
+  </section>
+
+<!--
+  Local Variables:
+  coding: utf-8
+  mode: nxml
+  End:
+ -->

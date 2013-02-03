@@ -1,0 +1,74 @@
+---
+layout: emacscast
+title: "Screencast: hello world"
+label: hello
+id: cast-hello
+lang:
+lead:
+---
+
+  <section id="intro">
+    <div class="page-header">
+      <h1>Emacs Screencast: Hello, world</h1>
+    </div>
+
+    <p>
+      Here is how to type a famous hello.c and compile it, and execute
+      it in emacs:..
+    </p>
+
+    <div class="center">
+      <object
+         type="application/x-shockwave-flash"
+         data="emacs-hello.swf"
+         width="800" height="600">
+        <param name="movie" value="emacs-hello.swf"/>
+        <param name="play" value="true"/>
+        <param name="loop" value="False"/>
+        <param name="quality" value="low"/>
+        <!-- <img src="noflash.jpg"/> -->
+      </object>
+    </div>
+
+    <p>
+      Beside the editing command, above demonstration uses following
+      Emacs commands:
+    </p>
+
+    <ul>
+      <li><tt>C-x C-f</tt> is binded to `dired-x-find-file' that is similar to
+        `find-file' in vanillar emacs.  `dired-x-find-file' loads filename
+        near point when callled interactively with a prefix arg (e.g. C-u).
+      </li>
+
+      <li><tt>M-x compile</tt> to execute the compile command.</li>
+
+      <li><tt>C-&lt;TAB&gt;</tt> to run `other-window'.  `other-window'
+        is binded to <tt>C-x o</tt> by default.</li>
+
+      <li><tt>C-c d</tt> to execute `unicode-shell' command which is
+        similar to `shell' except its coding system is UTF-8.
+
+      <div class="source">
+        <pre>
+(<span class="keyword">defun</span> <span class="function-name">unicode-shell</span> ()
+  <span class="doc">"Execute the shell buffer in UTF-8 encoding.
+Note that you'll need to set the environment variable LANG and others
+appropriately."</span>
+  (interactive)
+  (<span class="keyword">let</span> ((coding-system-for-read 'utf-8)
+        (coding-system-for-write 'utf-8)
+        (coding-system-require-warning t))
+    (call-interactively 'shell)))
+        </pre>
+      </div></li>
+    </ul>
+
+  </section>
+
+<!--
+  Local Variables:
+  coding: utf-8
+  mode: nxml
+  End:
+ -->

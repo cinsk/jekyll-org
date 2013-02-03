@@ -1,0 +1,94 @@
+---
+layout: default
+title: Emacs Stuff
+label: "Emacs"
+id: emacs
+lang: ko
+lead:
+---
+
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+    <li><a href="#init"><i class="icon-chevron-right"></i>Init Files</a></li>
+    <li><a href="#scast"><i class="icon-chevron-right"></i>Screencasts</a></li>
+    <li><a href="#material"><i class="icon-chevron-right"></i>Other Materials</a></li>
+  </ul>
+</div>
+
+<div class="span9">
+  <section id="edu">
+    <div class="page-header">
+      <h1>Init 설정 파일</h1>
+    </div>
+
+    <p>제가 만든 모든 Emacs script들은
+      <a href="https://github.com/cinsk/emacs-scripts/">github</a>에서
+      받을 수 있습니다.</p>
+
+  </section>
+
+  <section id="scast">
+    <div class="page-header">
+      <h1>Screencast</h1>
+    </div>
+
+    <p>
+      <a href="http://www.unixuser.org/~euske/vnc2swf/">vnc2swf</a>와
+      <a href="http://www.karlrunge.com/x11vnc/">x11vnc</a>를 써서,
+      Emacs를 쓰는 데모(screencast)를 만들었습니다. (새로 만든 데모부터는,
+      provide online demonstration(screencast) on my emacs session.
+      <a href="http://xvidcap.sourceforge.net">xvidcap</a>과
+      and <a href="http://www.mplayerhq.hu/">mencoder</a>를 썼습니다.)
+    </p>
+
+    <p>
+      대부분 데모는
+      <a href="http://www.macromedia.com/software/flashplayer/">Macromedia
+        Flash</a>를 써서 만들었습니다.  안타깝게도 해상도 스케일은
+        변경할 수 없습니다.
+    </p>
+
+    <ul>
+      {% articles emacscast_layouts, id, title, url, lang %}
+        {% if lang == "" %}
+      <li><a href="{{url}}">{{title}}</a></li>
+        {% else %}
+      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+        {% endif %}
+      {% endarticles %}
+    </ul>
+  </section>
+
+  <section id="material">
+    <div class="page-header">
+      <h1>Other Materials</h1>
+    </div>
+
+    <p>
+      <a href="http://kldp.org/">KLDP</a> 10주년 기념식에서
+      강의한 Emacs에 대한 세미나 자료입니다.  이 자료는
+      <a href="http://www.openoffice.org/">Open Office</a> Impress version
+      2.3 으로 작성했습니다.</p>
+
+    <p>이 자료는 하이퍼 링크와 여러 에니메이션을 사용했습니다. 자료 페이지에서
+    우측 하단 화살표 버튼을 눌러 따라가시면 됩니다.
+    </p>
+
+    <p>
+      제대로 보기 위해서 Bigelow &amp;
+      Holmes의 <a href="http://en.wikipedia.org/wiki/Lucida">Lucida</a> 글꼴과
+      <a href="http://kldp.net/projects/unfonts/">Unfont</a>가 필요합니다.
+    </p>
+
+    <ul>
+      <li><a href="./emacs-devel.odp">emacs-devel.odp</a></li>
+    </ul>
+
+  </section>
+
+<!--
+  Local Variables:
+  coding: utf-8
+  mode: nxml
+  End:
+ -->
