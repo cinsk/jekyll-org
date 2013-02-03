@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>{{ page.title }}</title>
+
+    <!-- Le styles -->
+    <link href="{{site.bootstrap}}/css/bootstrap.css" rel="stylesheet"/>
+    <link href="{{site.bootstrap}}/css/bootstrap-responsive.css"
+          rel="stylesheet"/>
+    <link href="{{site.bootstrap}}/css/docs.css" rel="stylesheet"/>
+    <link href="{{site.prettify}}/prettify.css" rel="stylesheet"/>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="{{site.bootstrap}}/ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="{{site.bootstrap}}/ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="{{site.bootstrap}}/ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed"
+          href="{{site.bootstrap}}/ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="{{site.bootstrap}}/ico/favicon.png"/>
+
+    <link href="../css/org.css" rel="stylesheet"/>
+
+  <script type="text/javascript" language="javascript"><!--
+/* Jesse Ruderman
+ * July 18, 2004
+ *
+ * Remaining problems:
+ *   IE sometimes crashes on exit after using the this script.
+ *   In IE, it is a little ugly because IE doesn't support border-radius.
+ *   In IE, it does not work at standalone Flash URLs.
+ */
+
+function setupSeekBar() {
+
+setTimeout(initFlashControls, 100);
+
+function initFlashControls()
+{
+  var count = 0;
+
+  function tt(elem)
+  {
+    if (typeof elem.TotalFrames != "undefined") /* do not coerce elem.StopPlay to bool, because that breaks IE */
+    {
+      addFlashControls(elem);
+      ++count;
+    }
+  }
+
+  var i, x;
+
+  for (i = 0; x = document.getElementsByTagName("object")[i]; ++i)
+    tt(x);
+
+  for (i = 0; x = document.getElementsByTagName("embed")[i]; ++i)
+    tt(x);
+
+}
+
+
+function addFlashControls(flash)
+{
+  var controlsDiv = document.createElement("div");
+
+  /* Put the controls under the Flash.
+   *
+   * If the Flash is an <embed> in an <object>, we do not want to touch the <object>, because that would make
+   * Mozilla re-test whether the <object> is broken and reset the <embed>.  So in that case, we put the controls
+   * under the <object>.
+   */
+  var where = flash;
+  while (where.parentNode.tagName.toLowerCase() == "object")
+    where = where.parentNode;
+  where.parentNode.insertBefore(controlsDiv, where.nextSibling);
+
+  /* Construct controls using DOM2 instead of innerHTML.
+   * In Mozilla, innerHTML= is like innerText= at standalone flash URLs.
+   */
+  var table = document.createElement("table");
+  controlsDiv.appendChild(table);
+
+  var row = table.insertRow(-1);
+
+  var pauseButton = document.createElement("button");
+  pauseButton.appendChild(document.createTextNode("Pause"));
+  var buttonCell = row.insertCell(-1);
+  buttonCell.appendChild(pauseButton);
+
+  var slider = row.insertCell(-1);
+  slider.width = "100%";
+
+  var visibleSlider = document.createElement("div");
+  visibleSlider.style.position = "relative";
+  visibleSlider.style.height = "10px";
+  visibleSlider.style.width = "100%";
+  visibleSlider.style.MozBorderRadius = "4px";
+  visibleSlider.style.background = "#aaa";
+  slider.appendChild(visibleSlider);
+
+  var thumb = document.createElement("div");
+  thumb.style.position = "absolute";
+  thumb.style.height = "20px";
+  thumb.style.width = "10px";
+  thumb.style.top = "-5px";
+  thumb.style.MozBorderRadius = "4px";
+  thumb.style.background = "#666";
+  visibleSlider.appendChild(thumb);
+
+
+  var sliderWidth;
+  var paused = false;
+  var dragging = false;
+
+  table.width = Math.max(parseInt(flash.width) || 0, 400);
+
+  addEvent(pauseButton, "click", pauseUnpause);
+  addEvent(slider, "mousedown", drag);
+  addEvent(slider, "drag", function() { return false; }); /* For IE */
+  window.setInterval(update, 30);
+
+  function pauseUnpause()
+  {
+    paused = !paused;
+
+    pauseButton.style.borderStyle = paused ? "inset" : "";
+
+    if (paused)
+      flash.StopPlay();
+    else
+      flash.Play();
+  }
+
+  function update()
+  {
+    sliderWidth = parseInt(getWidth(slider) - getWidth(thumb));
+
+    if (!paused && !dragging)
+      thumb.style.left = parseInt(flash.CurrentFrame() / totalFrames() * sliderWidth) + "px";
+  }
+
+  function dragMousemove(e)
+  {
+    var pageX = e.clientX + document.body.scrollLeft; /* cross-browser, unlike e.pageX, which IE does not support */
+    var pos = bounds(0, pageX - getX(slider) - 5, sliderWidth);
+    var frame = bounds(1, Math.ceil(totalFrames() * pos / sliderWidth), totalFrames() - 2);
+
+    thumb.style.left = pos + "px";
+
+    flash.GotoFrame(frame);
+  }
+
+  function release(e)
+  {
+    removeEvent(document, "mousemove", dragMousemove);
+    removeEvent(document, "mouseup", release);
+    if (!paused)
+      flash.Play();
+    dragging = false;
+  }
+
+  function drag(e)
+  {
+    addEvent(document, "mousemove", dragMousemove);
+    addEvent(document, "mouseup", release);
+    dragging = true;
+    dragMousemove(e);
+  }
+
+
+
+  /* Boring functions, some of which only exist to hide differences between IE and Mozilla. */
+
+  function bounds(min, val, max)
+  {
+    return Math.min(Math.max(min, val), max);
+  }
+
+  function totalFrames()
+  {
+    /* This is weird.  TotalFrames differs between IE and Mozilla.  CurrentFrame does not. */
+
+    if (typeof flash.TotalFrames == "number")
+      return flash.TotalFrames; /* IE */
+    else if (typeof flash.TotalFrames == "function")
+      return flash.TotalFrames(); /* Mozilla */
+    else
+      return 1; /* Partially loaded Flash in IE? */
+  }
+
+  function getWidth(elem)
+  {
+    if (document.defaultView && document.defaultView.getComputedStyle)
+      return parseFloat(document.defaultView.getComputedStyle(elem,null).getPropertyValue("width")); /* Mozilla */
+    else
+      return parseFloat(elem.offsetWidth); /* IE (currentStyle.width can be "auto" or "100%") */
+  }
+
+  function getX(elem)
+  {
+    if (!elem) return 0;
+    return (elem.offsetLeft) + getX(elem.offsetParent);
+  }
+
+  function addEvent(elem, eventName, fun)
+  {
+    if (elem.addEventListener) /* Mozilla */
+      elem.addEventListener(eventName, fun, false);
+    else /* IE */
+      elem.attachEvent("on" + eventName, fun);
+  }
+
+  function removeEvent(elem, eventName, fun)
+  {
+    if (elem.addEventListener)
+      elem.removeEventListener(eventName, fun, false);
+    else
+      elem.detachEvent("on" + eventName, fun);
+  }
+
+}
+
+}
+//-->
+</script>
+
+  </head>
+
+  <body data-spy="scroll" data-target=".bs-docs-sidebar"
+        onload="setupSeekBar();">
+    <!-- Navbar
+         ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar"
+                  data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="./index.html">{{ site.label }}</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              {% toplink id, label, locale, url, self %}
+              {% if id == 'emacs' %}
+              <li class="active"><a href="{{url}}">{{label}}</a></li>
+              {% else %}
+              <li class=""><a href="{{url}}">{{label}}</a></li>
+              {% endif %}
+              {% endtoplink %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subhead
+         ================================================== -->
+    <header class="jumbotron subhead" id="overview">
+      <div class="container">
+        <h1>{{page.title}}</h1>
+        <p class="lead">{{page.lead}}</p>
+      </div>
+    </header>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="span10"></div>
+      <div class="span2">
+
+        <!-- This div should be floating and should not scroll,
+             but I don't know anything about CSS, *sigh* -- cinsk -->
+
+        <section id="lang">
+          {% linguas label, url, self %}
+            {% if self == true %}
+              [{{label}}]
+            {% else %}
+              [<a href="{{url}}">{{label}}</a>]
+            {% endif %}
+          {% endlinguas %}
+        </section>
+      </div>
+    </div>
+
+    <div class="row">
+      {{content}}
+
+      <hr/>
+
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'cinsk'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <p>Designed and built with all the love in the world by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+        <p>Code licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p><a href="http://glyphicons.com">Glyphicons Free</a> licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <ul class="footer-links">
+          <li><a href="http://blog.getbootstrap.com">Blog</a></li>
+          <li class="muted">&middot;</li>
+          <li><a href="https://github.com/twitter/bootstrap/issues?state=open">Issues</a></li>
+          <li class="muted">&middot;</li>
+          <li><a href="https://github.com/twitter/bootstrap/wiki">Roadmap and changelog</a></li>
+        </ul>
+      </div>
+    </footer>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script type="text/javascript"
+            src="http://platform.twitter.com/widgets.js"></script>
+
+    <script src="{{site.jquery}}"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-transition.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-alert.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-modal.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-dropdown.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-scrollspy.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-tab.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-tooltip.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-popover.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-button.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-collapse.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-carousel.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-typeahead.js"></script>
+    <script src="{{site.bootstrap}}/js/bootstrap-affix.js"></script>
+
+    <script src="{{site.bootstrap}}/js/holder/holder.js"></script>
+    <script src="{{site.prettify}}/prettify.js"></script>
+
+    <script src="{{site.bootstrap}}/js/application.js"></script>
+
+  </body>
+</html>
+
+<!--
+ Local Variables:
+ mode: nxml
+ fill-column: 78
+ End:
+-->

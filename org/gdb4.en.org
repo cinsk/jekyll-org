@@ -1,0 +1,287 @@
+# -*-org-*-
+#+STARTUP: odd
+#+OPTIONS: toc:4
+#+BEGIN_HTML
+---
+layout: org
+id: gdb4
+title: GDB Commands in Python
+lead: Using gdbx.py
+---
+#+END_HTML
+
+* Introduction
+
+This is the shortened English version of my Korea article,
+[[file:gdb4.html][Debugging with GDB: gdbx.py]].
+
+From GDB version 7.0 (I strongly recommend version 7.1 or higher,
+though), GDB contains a Python interpreter so that it is possible to
+use Python to create GDB init script.  I made some useful custom GDB
+commands in Python; =hexdump=, =iconv=, and =xmllint=.  As you expect,
+these commands are nothing more than a wrapper to call =hexdump(1)=,
+=iconv(1)=, and =xmllint(1)=.
+
+To use these commands, you need to insert following line in your ~.gdbinit~:
+
+#+BEGIN_SRC text
+source ~/src/gdb/gdbx.py
+#+END_SRC
+
+Here's the link to the repository: [[https://github.com/cinsk/gdb-scripts/blob/master/gdbx.py][github]]
+
+The rest article explains how to use these custom commands.
+
+* hexdump
+
+While GDB =x= command prints various data in your custom format, it is
+not still pretty (at least for me.)  GDB =hexdump= operates like GDB
+=dump=, prints the data in =hexdump(1)=-like output:
+
+#+BEGIN_SRC text
+hexdump value EXPR [## OPTION...]
+hexdump memory START_ADDR END_ADDR [## OPTION...]
+#+END_SRC
+
+If you want to print the value of an expression (i.e. variable), GDB
+=hexdump value= is your choice.  To print the memory region, use GDB
+=hexdump memory=:
+
+#+BEGIN_SRC text
+# Print the string constant, "hello, world"
+(gdb) hexdump value "hello, world"
+00000000  68 65 6c 6c 6f 2c 20 77  6f 72 6c 64 00           |hello, world.|
+0000000d
+# Print the value in the variable 'buffer'
+(gdb) hexdump value buffer
+00000000  3c 6d 65 73 73 61 67 65  20 66 72 6f 6d 3d 22 63  |<message from="c|
+00000010  69 6e 73 6b 79 40 73 61  6d 73 75 6e 67 2e 63 6f  |insky@xxxxxxx.co|
+00000020  6d 2f 74 76 22 20 74 6f  3d 22 63 69 6e 73 6b 79  |m/tv" to="cinsky|
+00000030  40 73 61 6d 73 75 6e 67  2e 63 6f 6d 2f 77 65 62  |@xxxxxxx.com/web|
+...
+# Print the value (only the first 32 bytes)
+(gdb) hexdump memory buffer ((char*)buffer+32)
+00000000  3c 6d 65 73 73 61 67 65  20 66 72 6f 6d 3d 22 63  |<message from="c|
+00000010  69 6e 73 6b 79 40 73 61  6d 73 75 6e 67 2e 63 6f  |insky@xxxxxxx.co|
+00000020
+(gdb) _
+#+END_SRC
+
+By default, GDB =hexdump= prints the data using =hexdump(1)= '-C'
+option.  If you want use different option, add '##' in the
+commandline, then add your options.  For example, to print the data in
+octal format, use '-b' option:
+
+#+BEGIN_SRC text
+(gdb) hexdump memory valid ((char*)valid+32) ## -b
+0000000 074 155 145 163 163 141 147 145 040 146 162 157 155 075 042 143
+0000010 151 156 163 153 171 100 163 141 155 163 165 156 147 056 143 157
+0000020
+(gdb) _
+#+END_SRC
+
+Refer to the man page of =hexdump(1)= for more options.
+
+* iconv
+
+If you want debug a program that uses various character encodings,
+there are some cases like that (1) You want to verify the data in
+specified character encoding, (2) You knew that the data contains
+foreign language message, but you're not sure what kind of character
+encoding it uses.
+
+GDB =iconv= command make easy to solve above problems.
+
+First, you need to set the system's default character encoding. (By
+'system', I mean the internal Python interpreter's) To get or set the
+system encoding you can use following command:
+
+#+BEGIN_SRC text
+iconv encoding [#ENCODING]
+#+END_SRC
+
+If you give no argument, GDB =iconv encoding= prints the current
+default character encoding.  If you give one argument that incicates
+certain encoding, GDB =iconv encoding= replace the current character
+encoding to the specified one.
+
+The argument, '#ENCODING' uses special form; the first character
+should be always '#', uses only lower-case character, and you need to
+substitute all non-alpha-numeric character to '_'.  For example, if
+you want to use "ISO_8859-10:1992", your choice will be
+"iso_8859_10_1992":
+
+#+BEGIN_SRC text
+(gdb) iconv encoding #iso_8859_10_1992
+#+END_SRC
+
+In general cases, most of modern Linux distribution uses "UTF-8" as
+their default encoding, you may want to do:
+
+#+BEGIN_SRC text
+(gdb) iconv encoding #utf_8
+#+END_SRC
+
+The actual conversion will be done with following commands:
+
+#+BEGIN_SRC text
+iconv value EXPR #ENCODING [#ENCODING...]
+iconv memory START_ADDR END_ADDR [#ENCODING...]
+#+END_SRC
+
+The meaning of EXPR, START_ADDR, and END_ADDR is the same as GDB
+=hexdump= or GDB =dump= command.
+
+For example, suppose that the char array, buffer contains a string,
+and you are certain that it contains a Korean message.  But you're not
+sure of the encoding it encoded.  As most Korean messages are encoded
+in one of "euc-kr", "cp949", "UTF-8" or "UCS-2", you may use following
+command:
+
+#+BEGIN_SRC text
+(gdb) iconv value buffer #euc_kr #cp949 #utf_8 #ucs_2
+Target encoding is UTF8:
+EUC-KR: |asdf하이^@|
+ CP949: |asdf하이^@|
+ UTF-8: |asdf|
+        iconv: illegal input sequence at position 4
+ UCS-2: |獡晤쿇쳀|
+        iconv: incomplete character or shift sequence at end of buffer
+(gdb) _
+#+END_SRC
+
+From the above example, you know that the default system
+encoding("Target encoding" in above) is UTF8.  Then it was encoded in
+either one of EUC-KR or CP949.  (For your information, CP949 is a kind
+of superset of EUC-KR.)  Then, you can see that it is definitely not
+UTF-8 encoded, for iconv(1) prints an error message for that.
+
+However, UCS-2 encoding output was interesting.  If you don't
+recognize either Korean or Chinese, it will be difficult to guess.
+But, the output from UCS-2 shows four letters; first two letters in
+Chinses, and the second two letters in Korean.  In addition, =iconv(1)=
+prints an error message that looks different from the message of
+UTF-8.
+
+In details, GDB 'iconv' sends full data to the =iconv(1)= command.  This
+means the '\0' character itself also sent to =iconv(1)=.  That's why you
+can see the strange output "^@" in the end of first two encodings
+(EUC-KR and CP949).  Since a character in UCS-2 encoding uses 2-byte
+(16bit), having only '\0' character in the end of the buffer makes
+=iconv(1)= complaining about that it need 1 byte more.  That's why it
+prints "incomplete character" in the error message.  To solve this,
+you need to limit the data length so that GDB 'iconv' exclude the last
+'\0' character.  The easiest way is to use GDB =iconv memory= command:
+
+#+BEGIN_SRC text
+(gdb) ptype buffer
+type = char [9]
+(gdb) p/x buffer
+$1 = {0x61, 0x73, 0x64, 0x66, 0xc7, 0xcf, 0xc0, 0xcc, 0x0}
+(gdb) iconv memory buffer ((char*)buffer+8'') #euc_kr #cp949 #utf_8 #ucs_2
+Target encoding is UTF8:
+EUC-KR: |asdf하이|
+ CP949: |asdf하이|
+ UTF-8: |asdf|
+        iconv: illegal input sequence at position 4
+ UCS-2: |獡晤쿇쳀|
+(gdb) _
+#+END_SRC
+
+By limiting the data sent, you'll find no error message was appeared
+in UCS-2.  However, it contains meaningless characters, so we can
+guess that the answer will be "The variable buffer contains a message
+encoded either EUC-KR or CP949".
+
+The reason that GDB =iconv= uses strange encoding format such as
+"#iso_8859_10_1992", is to support auto-completion on encoding names.
+I was not successful to use any of '-', '(', ')', or ':' on
+auto-completion that GDB python interface provided.
+
+* xmllint
+
+If your program deals with XML document, or sends/receives a XML data,
+you may need to verify the consitency of data in XML point of view.
+For example, the XML syntax of the data may be broken or the data is
+not compatible with your XML schema.  To solve this problem, GDB
+=xmllint= command is provided:
+
+#+BEGIN_SRC text
+xmllint value EXPR [## OPTION...]
+xmllint memory START_ADDR END_ADDR [## OPTION...]
+#+END_SRC
+
+As you expected, options of above command are in same context of GDB
+=hexdump= command.
+
+To check the XML validity of the variable, 'buffer', you need:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: items line 1 and item
+session sessionid="copy3252345-600" status="completed" progress="????"/> </item>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: event line 1 and items
+essionid="copy3252345-600" status="completed" progress="????"/> </item> </items>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: message line 1 and event
+"copy3252345-600" status="completed" progress="????"/> </item> </items> </event>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Extra content at the end of the document
+copy3252345-600" status="completed" progress="????"/> </item> </items> </event> 
+                                                                               ^
+(gdb) _
+#+END_SRC
+
+If GDB =xmllint= could not find any error, it will dump the data like:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result"
+to="cinsk@somewhere/res2" id="qewr"><info:query xmlns:info="http://
+jabber.org/protocol/disco#info"><info:identity category="xmpp robot"
+type="robot"/><info:features var="http://jabber.org/protocol/disco#
+info"/><info:feature var="http://jabber.org/protocol/disco#items"/>
+</info:query></iq>
+(gdb) _
+#+END_SRC
+
+As you know, the data was supposed to be processed by the program, not
+human, so it is hardly readable.  To format/indent the data for you,
+human, use =xmllint(1)='s '--format' option:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer ## --format
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result" to="cinsk@somewhere/res2" id="qewr">
+  <info:query xmlns:info="http://jabber.org/protocol/disco#info">
+    <info:identity category="xmpp robot" type="robot"/>
+    <info:features var="http://jabber.org/protocol/disco#info"/>
+    <info:feature var="http://jabber.org/protocol/disco#items"/>
+  </info:query>
+</iq>
+(gdb) _
+#+END_SRC
+
+You can even uses your schema file to check against 'buffer':
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer ## --schema /somewhere/schema.xsd
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result"
+to="cinsk@somewhere/res2" id="qewr"><info:query xmlns:info="http://
+jabber.org/protocol/disco#info"><info:identity category="xmpp robot"
+type="robot"/><info:features var="http://jabber.org/protocol/disco#
+info"/><info:feature var="http://jabber.org/protocol/disco#items"/>
+</info:query></iq>
+/tmp/gdb-4NR2cb:1: element features: Schemas validity error : Element
+'{http://jabber.org/protocol/disco#info}features': This element is not
+expected. Expected is one of ( {http://jabber.org/protocol/disco#info}
+identity, {http://jabber.org/protocol/disco#info}feature ).
+/tmp/gdb-4NR2cb fails to validate
+
+(gdb) _
+#+END_SRC
+
+That's all. :)

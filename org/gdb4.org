@@ -1,0 +1,289 @@
+# -*-org-*-
+#+STARTUP: odd
+#+OPTIONS: toc:4
+#+BEGIN_HTML
+---
+layout: org
+lang: ko
+id: gdb4
+title: Debugging with GDB Part 4
+lead: Using gdbx.py
+
+---
+#+END_HTML
+
+
+* Introduction
+
+GDB version 7.0부터 Python interpreter가 내장되어, GDB 명령을 Python
+코드를 써서 만드는 것이 가능해졌습니다.  (현실적으론 version 7.1부터)
+이 글은 글쓴이가 만든 새 GDB 명령을 소개합니다.
+
+* hexdump
+
+GDB 'x' 명령은 다양한 옵션을 받아 데이터를 출력해주지만, 보기 좋게
+출력하지는 않습니다. GDB 'hexdump'는 GDB 'dump' 명령과 비슷하게
+동작하며, 좀 더 이쁘게? 출력해 줍니다:
+
+#+BEGIN_SRC text
+hexdump value EXPR [## OPTION...]
+hexdump memory START_ADDR END_ADDR [## OPTION...]
+#+END_SRC
+
+한 변수나, 상수값을 출력하려면 GDB =hexdump value=⁠를, 주소 범위를
+출력하려면 GDB =hexdump memory=⁠를 쓰면 됩니다. 예를 들면 다음과
+같습니다:
+
+#+BEGIN_SRC text
+# 문자열 상수 "hello, world"를 출력
+(gdb) hexdump value "hello, world"
+00000000  68 65 6c 6c 6f 2c 20 77  6f 72 6c 64 00           |hello, world.|
+0000000d
+# 변수 buffer에 담긴 내용을 출력
+(gdb) hexdump value buffer
+00000000  3c 6d 65 73 73 61 67 65  20 66 72 6f 6d 3d 22 63  |<message from="c|
+00000010  69 6e 73 6b 79 40 73 61  6d 73 75 6e 67 2e 63 6f  |insky@xxxxxxx.co|
+00000020  6d 2f 74 76 22 20 74 6f  3d 22 63 69 6e 73 6b 79  |m/tv" to="cinsky|
+00000030  40 73 61 6d 73 75 6e 67  2e 63 6f 6d 2f 77 65 62  |@xxxxxxx.com/web|
+...
+# 변수 buffer의 내용을 32바이트만 출력
+(gdb) hexdump memory buffer ((char*)buffer+32)
+00000000  3c 6d 65 73 73 61 67 65  20 66 72 6f 6d 3d 22 63  |<message from="c|
+00000010  69 6e 73 6b 79 40 73 61  6d 73 75 6e 67 2e 63 6f  |insky@xxxxxxx.co|
+00000020
+(gdb) _
+#+END_SRC
+
+GDB =hexdump= 명령은 외부 명령 =hexdump(1)=⁠를 써서 출력합니다.
+기본적으로 '-C' 옵션을 써서 출력하게 되어 있으며, 만약 다른 옵션을
+원한다면 GDB =hexdump= 명령 뒤에 "##"를 쓴 다음, =hexdump(1)=⁠에 전달할
+옵션을 써 주면 됩니다.  예를 들어 8진수로 출력하고 싶다면, 다음과 같이
+'-b' 옵션을 쓰면 됩니다.
+
+#+BEGIN_SRC text
+(gdb) hexdump memory valid ((char*)valid+32) ## -b
+0000000 074 155 145 163 163 141 147 145 040 146 162 157 155 075 042 143
+0000010 151 156 163 153 171 100 163 141 155 163 165 156 147 056 143 157
+0000020
+(gdb) _
+#+END_SRC
+
+쓸 수 있는 옵션은 man 1 hexdump를 보기 바랍니다.
+
+* iconv
+
+여러 character encoding을 지원하는 프로그램을 작성할 때, 종종, 주어진
+버퍼에 있는 값들이 정상적으로 encoding된 것인지 확인하고 싶을 때가
+있습니다.  또, 분명히 한국어 메시지가 들어 있는 버퍼인데, 어떤
+encoding으로 encode된 것인지 알고 싶을 때가 있습니다.  이런 상황에 GDB
+=iconv= 명령을 쓰면 꽤 편리합니다.
+
+GDB =iconv= 명령은 주어진 데이터를, 사용자가 지정한 encoding으로
+가정하고 현재 시스템 encoding으로 변환합니다.  성공적으로 변횐되면, 그
+결과를 출력하며, 에러가 발생한 경우에는 에러 메세지까지 출력해 줍니다.
+
+현재 시스템 encoding을 설정하거나 얻는 명령은 다음과 같습니다:
+
+#+BEGIN_SRC text
+iconv encoding [#ENCODING]
+#+END_SRC
+
+GDB =iconv encoding= 명령에 아무런 인자를 주지 않으면, 현재 시스템
+encoding을 출력합니다.  만약 인자를 주면, 해당 encoding으로
+변경합니다.  정상적으로 쓰기 위해서, 현재 GDB가 실행된 터미널 환경에서
+지원하는 encoding을 지정해야 합니다.
+
+GDB =iconv= 명령에 인자로 쓰이는 #ENCODING은 첫글자가 '#'이며,
+encoding 이름에서 대문자는 모두 소문자로 바꾸고, 알파벳이나 숫자가 아닌
+다른 문자들을 모두 '_'로 바꾼 이름을 써야 합니다.  예를 들어, 시스템
+encoding을 "ISO_8859-10:1992"로 바꾸고 싶다면 아래와 같이 실행합니다:
+
+#+BEGIN_SRC text
+(gdb) iconv encoding #iso_8859_10_1992
+#+END_SRC
+
+앞에서도 말했지만, 현재 터미널 환경이 지원하는 encoding을 써야 하므로,
+다음과 같이 하는 것이 바람직합니다:
+
+#+BEGIN_SRC text
+(gdb) iconv encoding #utf_8
+#+END_SRC
+
+실제 데이터를 변환해서 출력해보는 명령은 GDB =iconv value= 또는
+=iconv memory=⁠이며, 각각 문법은 다음과 같습니다:
+
+#+BEGIN_SRC text
+iconv value EXPR #ENCODING [#ENCODING...]
+iconv memory START_ADDR END_ADDR [#ENCODING...]
+#+END_SRC
+
+이 때 쓴 인자인 EXPR, START_ADDR, 그리고 END_ADDR는 앞에서 설명한 GDB
+=hexdump=⁠와 쓰임새가 같습니다.
+
+예를 들어 char 배열인 buffer에 어떤 문자열이 들어 있고, 이 문자열이
+어떤 encoding으로 되어 있는지 잘 모른다고 가정해 봅시다.  대신, 이
+문자열은 한국어 데이터를 가지고 있다는 것만 알고 있다고 합시다.  대개의
+경우, 한국어 데이터는 euc-kr, cp949, utf-8, ucs-2로 되어 있으므로,
+아래와 같이 실행해봅니다:
+
+#+BEGIN_SRC text
+(gdb) iconv value buffer #euc_kr #cp949 #utf_8 #ucs_2
+Target encoding is UTF8:
+EUC-KR: |asdf하이^@|
+ CP949: |asdf하이^@|
+ UTF-8: |asdf|
+        iconv: illegal input sequence at position 4
+ UCS-2: |獡晤쿇쳀|
+        iconv: incomplete character or shift sequence at end of buffer
+(gdb) _
+#+END_SRC
+
+위 출력 결과를 보면, euc-kr, cp949로 가정하고 UTF8로 변환한 경우,
+성공적으로 수행되었다는 것을 알 수 있습니다. (iconv error message도
+없고, 변환된 내용 "asdf1하이^@"가 읽을 수 있는 내용이기
+때문입니다. 반면에, UTF-8으로 가정하고 변환하면 =iconv(1)=⁠가 error를
+출력한 것을 알 수 있습니다.  'buffer'가 해당 encoding으로 만들어진
+데이터가 아니기 때문입니다.
+
+마지막 UCS-2로 가정했을때 iconv가 출력하는 내용은 조금 다릅니다.  먼저
+EUC-KR과 CP949였을 때, 맨 뒤에 "^@"이 출력된 것에 주의하기
+바랍니다. 이는 '\0' 문자를 나타낸 것으로 GDB =iconv value=⁠는 C 문자열의
+마지막 '\0' 문자까지 =iconv(1)=⁠에 전달하기 때문에 발생하는 것입니다.
+EUC-KR, CP949, UTF-8 모두 알파벳 문자는 8 bit이고, '\0'도 제대로
+encoding된 문자에 속하기 때문에, 에러가 발생하지 않았지만, UCS-2의 경우
+모든 문자가 16 bit이기 때문에, 8 bit인 '\0' 문자만 읽고 변환에 실패한
+것입니다.  이 경우, '\0' 문자 앞까지만 변환하도록 GDB =iconv memory=
+명령을 쓰면 원하는 결과를 얻을 수 있습니다:
+
+#+BEGIN_SRC text
+(gdb) ptype buffer
+type = char [9]
+(gdb) p/x buffer
+$1 = {0x61, 0x73, 0x64, 0x66, 0xc7, 0xcf, 0xc0, 0xcc, 0x0}
+(gdb) iconv memory buffer ((char*)buffer+8'') #euc_kr #cp949 #utf_8 #ucs_2
+Target encoding is UTF8:
+EUC-KR: |asdf하이|
+ CP949: |asdf하이|
+ UTF-8: |asdf|
+        iconv: illegal input sequence at position 4
+ UCS-2: |獡晤쿇쳀|
+(gdb) _
+#+END_SRC
+
+위 결과를 보면 UCS-2로 변환한 내용에도 iconv 에러가 발생하지 않은 것을
+알 수 있습니다.  그러나, 변환된 내용이 올바른 한국어 데이터가 아니기
+때문에 주어진 'buffer'가 UCS-2가 아니라고 판단할 수 있습니다.
+
+* xmllint
+
+때에 따라, 프로그램이 XML 문서를 읽거나, XML 형태의 데이터로 통신하는
+경우, 주어진 버퍼에 저장된 XML 데이터가 올바른 형태인지 검사할 필요가
+있습니다.  또 XML parsing은 성공했다 하더라도 문맥(context)상 잘못된
+문서일 경우가 있으므로, 일일히 개발자가 확인해 주어야 하는데,
+들여쓰기가 제대로 되어 있지 않은 경우, 단순히 GDB =print= 명령으로
+읽어보기가 어려울 때가 있습니다.  이럴 때에 GDB =xmllint= 명령을 쓰면
+도움이 됩니다.
+
+#+BEGIN_SRC text
+xmllint value EXPR [## OPTION...]
+xmllint memory START_ADDR END_ADDR [## OPTION...]
+#+END_SRC
+
+이 명령의 형식은 이 글의 맨 앞부분에서 소개드린 GDB =hexdump=⁠와
+완벽하게 같습니다.
+
+예를 들어 char 배열 'buffer'에 XML 데이터가 들어 있다고 가정해 봅시다.
+이 때, XML 문법상 에러가 없는지 확인할려면 다음과 같이 실행합니다:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: items line 1 and item
+session sessionid="copy3252345-600" status="completed" progress="????"/> </item>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: event line 1 and items
+essionid="copy3252345-600" status="completed" progress="????"/> </item> </items>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Opening and ending tag mismatch: message line 1 and event
+"copy3252345-600" status="completed" progress="????"/> </item> </items> </event>
+                                                                               ^
+/tmp/gdb-AGFSXH:1: parser error : Extra content at the end of the document
+copy3252345-600" status="completed" progress="????"/> </item> </items> </event> 
+                                                                               ^
+(gdb) _
+#+END_SRC
+
+그러면, 위와 같이 =xmllint(1)= 명령이 에러을 출력해 줍니다.  만약 에러가
+없을 경우, 해당 데이터를 출력해 줍니다:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result"
+to="cinsk@somewhere/res2" id="qewr"><info:query xmlns:info="http://
+jabber.org/protocol/disco#info"><info:identity category="xmpp robot"
+type="robot"/><info:features var="http://jabber.org/protocol/disco#
+info"/><info:feature var="http://jabber.org/protocol/disco#items"/>
+</info:query></iq>
+(gdb) _
+#+END_SRC
+
+들여쓰기가 제대로 되어 있지 않아, 읽기 힘들다면 =xmllint(1)=⁠의
+"--format" 옵션을 사용합니다:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer ## --format
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result" to="cinsk@somewhere/res2" id="qewr">
+  <info:query xmlns:info="http://jabber.org/protocol/disco#info">
+    <info:identity category="xmpp robot" type="robot"/>
+    <info:features var="http://jabber.org/protocol/disco#info"/>
+    <info:feature var="http://jabber.org/protocol/disco#items"/>
+  </info:query>
+</iq>
+(gdb) _
+#+END_SRC
+
+Schema 파일이 있을 경우 "--schema" 옵션을 써서 문서를 검사할 수도 있습니다:
+
+#+BEGIN_SRC text
+(gdb) xmllint value buffer ## --schema /somewhere/schema.xsd
+<?xml version="1.0"?>
+<iq xmlns="jabber:client" from="cinsk@somewhere/res1" type="result"
+to="cinsk@somewhere/res2" id="qewr"><info:query xmlns:info="http://
+jabber.org/protocol/disco#info"><info:identity category="xmpp robot"
+type="robot"/><info:features var="http://jabber.org/protocol/disco#
+info"/><info:feature var="http://jabber.org/protocol/disco#items"/>
+</info:query></iq>
+/tmp/gdb-4NR2cb:1: element features: Schemas validity error : Element
+'{http://jabber.org/protocol/disco#info}features': This element is not
+expected. Expected is one of ( {http://jabber.org/protocol/disco#info}
+identity, {http://jabber.org/protocol/disco#info}feature ).
+/tmp/gdb-4NR2cb fails to validate
+
+(gdb) _
+#+END_SRC
+
+현재, 위와 같이 사용할 때 경로 이름에 "~/src/something"에서처럼 '~'
+문자를 쓸 수 없습니다.
+
+* Summary
+
+지금까지 설명 드린 =hexdump=, =iconv=, =xmllint= 명령들은, 글쓴이가
+GDB python interface를 써서 만들었습니다.  직접 써보길 원한다면,
+~gdbx.py~⁠를 받아서 저장한(예: "$HOME/src/gdb/") 다음, 개발자의 ~.gdbinit~
+파일에 다음과 같이 써 주어야 합니다:
+
+#+BEGIN_SRC text
+source ~/src/gdb/gdbx.py
+#+END_SRC
+
+참! 글쓴이는 Gentoo Linux에서 GDB version 7.1으로 작업했습니다.  GDB
+version 7.1 미만은 제대로 동작하지 않습니다.
+
+- [http://www.cinsk.org/gitweb/?p=snippets.git;a=blob_plain;f=gdbx.py;hb=HEAD
+  gdbx.py 다운로드 받기]
+- [http://www.cinsk.org/gitweb/?p=snippets.git;a=blob;f=gdbx.py;hb=HEAD
+  읽어보기]
+
+마지막으로, 직접 GDB 명령을 만들어 보고 싶다면, [[Debugging with GDB:
+User Defined Commands in Python]]을 읽어보기 바랍니다.
