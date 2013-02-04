@@ -1,0 +1,317 @@
+---
+layout: default
+title: "C FAQ -- Korean"
+label: "C FAQ"
+id: cfaq
+lang:
+lead: Korean translation of comp.lang.c FAQ
+---
+<div class="span3 bs-docs-sidebar">
+  <ul class="nav nav-list bs-docs-sidenav">
+    <li><a href="#about"><i class="icon-chevron-right"></i>About</a></li>
+    <li><a href="#files"><i class="icon-chevron-right"></i>Files</a></li>
+    <li><a href="#help"><i class="icon-chevron-right"></i>Help Needed</a></li>
+    <li><a href="#donate"><i class="icon-chevron-right"></i>Donate</a></li>
+    <li><a href="#links"><i class="icon-chevron-right"></i>Links</a></li>
+  </ul>
+</div>
+  <!--
+    <link rel="Start" href="../index.html"></link>
+    <link rel="Up" href="../index.html"></link>
+    <link rel="Next" href="../profile.html"></link>
+  -->
+
+<div class="span9">
+  <section id="about">
+    <div class="page-header">
+      <h1>About</h1>
+    </div>
+    
+    <!-- SiteSearch Google -->
+    <form method="get" action="http://www.google.co.kr/custom" target="_top">
+      <table border="0" bgcolor="#ffffff" align="center">
+        <tr><td nowrap="nowrap" valign="top" align="left" height="32">
+            <a href="http://www.google.com/">
+              <img src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
+          </td>
+          <td nowrap="nowrap">
+            <input type="hidden" name="domains" value="www.cinsk.org"></input>
+            <label for="sbi" style="display: none">Enter your search terms</label>
+            <input type="text" name="q" size="31" maxlength="255" value="" id="sbi"></input>
+            <label for="sbb" style="display: none">Submit search form</label>
+            <input type="submit" name="sa" value="Search" id="sbb"></input>
+        </td></tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td nowrap="nowrap">
+            <table>
+              <tr>
+                <td>
+                  <input type="radio" name="sitesearch" value="" id="ss0"></input>
+                  <label for="ss0" title="Search the Web"><font size="-1" color="#000000">Web</font></label></td>
+                <td>
+                  <input type="radio" name="sitesearch" value="www.cinsk.org" checked="checked" id="ss1"></input>
+                  <label for="ss1" title="Search www.cinsk.org"><font size="-1" color="#000000">www.cinsk.org</font></label></td>
+              </tr>
+            </table>
+            <input type="hidden" name="client" value="pub-6606082321393172"></input>
+            <input type="hidden" name="forid" value="1"></input>
+            <input type="hidden" name="ie" value="EUC-KR"></input>
+            <input type="hidden" name="oe" value="EUC-KR"></input>
+            <input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"></input>
+            <input type="hidden" name="hl" value="ko"></input>
+      </td></tr></table>
+    </form>
+    <!-- SiteSearch Google -->
+
+    <p>
+      This is the Korean translation of <em>C Programming FAQ</em>,
+      the official FAQ from Usenet <a href="news:comp.lang.c">comp.lang.c</a>
+      which is maintained by 
+      <a href="http://www.eskimo.com/~scs/">Steve Summit</a>.
+    </p>
+
+    <p>
+      Thanks for his permission, I was able to translate this document in 
+      Korean.  If you need any copyright information about my translation, 
+      read a few front pages of the document.
+    </p>
+        
+    <p>
+      This document is somewhat different than the original on-line 
+      C FAQ list. Here are some plans and it's features:
+    </p>
+
+    <ul>
+    <li> All answers will have appropriate references regarding to C99.
+      (See the Reference Chapter for [HS2002], [C99], [ISO Rationale],
+      and [SUS].)</li>
+    <li> All contents in the original on-line C FAQ list is already 
+      included.</li>
+    <li> Borrowed some examples in the book version, <em>C Programming FAQs --
+        Frequently Asked Question</em> (Addison Wesley, 0-201-84519-9)
+      will be included.</li>
+    <li> Later, we will have many questions and answers regarding to
+      new C99 features plus wide character set and multibyte characters</li>
+    </ul>
+      
+    <p>
+      Note that this document is far more than just translation of Steve's work.
+      I've updated it from time to time to inject missing part (e.g. 
+      internationalization, new concepts in ISO/IEC 9899:1999, known as C99).
+    </p>
+  </section>
+
+  <section id="files">
+    <div class="page-header">
+      <h1>Files</h1>
+    </div>
+
+    <p>
+      Unfortunately, these files are far from printing quality.
+      Currently, I'm concentrating the contents itself, not design nor layout
+      problem.
+    </p>
+
+    <p>
+      Unlike the old version, the HTML pages are encoded in UTF-8, not euc-kr.
+    </p>
+
+    <ul>
+      <li><a href="html/">View Online</a> HTML (.html)</li>
+    </ul>
+
+    <p>
+      Sorry for your inconvinience, but Postscript version is no longer
+      provided.  The good news is that new PDF version is searchable!
+    </p>
+
+    <!--
+    <ul>
+      <li><a href="cfaqs-ko.ps">Download</a> Postscript (.ps)</li>
+      <li><a href="cfaqs-ko.ps.gz">Download</a> gzipped Postscript (.ps.gz)</li>
+      <li><a href="cfaqs-ko.ps.bz2">Download</a> bzipped Postscript (.ps.bz2)</li>
+    </ul>
+    -->
+
+    <ul>
+      <li><a href="cfaqs-ko.pdf">Download</a> PDF</li>
+      <li><a href="cfaqs-ko.pdf.gz">Download</a> gzipped PDF (.pdf.gz)</li>
+      <li><a href="cfaqs-ko.pdf.bz2">Download</a> bzipped PDF (.pdf.bz2)</li>
+    </ul>
+
+    <p>
+      You can download the latest/unauthorized contents in LaTeX format from my 
+      <a href="http://www.cinsk.org/viewvc/cvsroot/public_html/cfaqs/">CVS
+        repository</a>.
+    </p>
+
+    <div class="source"><pre class="source">
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root login
+  Logging in to :pserver:anonymous@www.cinsk.org:/root
+  CVS password: &lt;RET&gt;
+  $ cvs -d :pserver:anonymous@www.cinsk.org:/root co cfaqs
+  ...
+  $ _</pre></div>
+
+    <p>
+      Or, you can browse online
+      <a href="http://www.cinsk.org/viewvc/cvsroot/public_html/cfaqs/">here</a>.
+    </p>
+
+  </section>
+
+  <section id="help">
+    <div class="page-header">
+      <h1>Help Needed</h1>
+    </div>
+
+    <p>
+      If you want to help me to make this document better, please read
+      following items carefully and send e-mail to me.
+    </p>
+
+    <!--
+    <p>   
+      Currently I use <a href="http://www.tug.org/teTeX/">teTeX</a> 2.0.2 
+      with <a href="http://ftp.ktug.or.kr/mirrors/HLaTeX/hlatex-en.html">
+        HLaTeX 0.991</a> plus 
+      <a href="http://www.latex2html.org/">latex2html</a> for HTML format.
+      Unfortunately, searching 
+      Hangul(Korean) text is not possible
+      in my .pdf documents. I generate .pdf by using
+      <a href="http://project.ktug.or.kr/dvipdfmx/">dvipdfmx</a>.
+      If you know how to make search-able PDF documents, please let me know.
+    </p>
+    -->
+    <p>
+      Previously, you could not search for Korean text from the PDF version
+      due to my TeX configuration.  Thanks to
+      the <a href="http://www.tug.org/texlive/">Tex Live</a> and
+      new <a href="http://project.ktug.or.kr/dvipdfmx/">dvipdfmx</a>, that
+      problem is history now.  The new problem is, the PDF version does not
+      contain any bookmarks.  If you know how to fix it, please let me know.
+    </p>
+
+    <p>
+      Among other things, reporting any errata, giving me a suggestion or an
+      advice is the most helpful contribution. ;-)
+    </p>
+  </section>
+  
+  <section id="donate">
+    <div class="page-header">
+      <h1>Donation</h1>
+    </div>
+
+    <p>
+      If you do not have enough time to examine the document itself,
+      please donate some of the required reference document to me.
+      Currently I have following documents and books:
+    </p>
+
+    <ul>
+      <li><em>C Programming Language</em>, 2nd edition, ISBN 0-13-110362-8</li>
+      <li><em>C: A Reference Manual</em>, 5th edition, ISBN 0-13-089592-X</li>
+      <li><em>C Programming FAQs</em>, ISBN 0-201-84519-9</li>
+      <li><em>ISO/IEC 9899:1999 Programming Languages -- C</em>,
+        2nd edition</li>
+      <li><em>ISO/IEC 14882:1998 Programming Languages -- C++</em>, 
+        1st edition</li>
+    </ul>
+
+    <p>
+      I need following books and documents:
+    </p>
+
+    <ul>
+      <li>I lost, <em>POSIX Programmer's Guide</em>, ISBN 0937175730</li>
+      <li>Mine's worn out,
+        <em>Advanced Programming in the UNIX Environment</em>,
+        ISBN 0201563177</li>
+      <li><em>C Programming Language</em>, 1st edition, 0-13-110163-3</li>
+      <li><em>ISO/IEC 9899:1990 Programming Languages -- C</em></li>
+      <li><em>Single UNIX Specification</em> Version 3, or
+        IEEE Std 1003.1 (POSIX), or ISO/IEC 9945. Must be PDF format</li>
+      <li><em>ISO/IEC 10646:2003, Information Technology -- Universal
+	  Multiple-Octet Coded Character Set (UCS)</em></li>
+      <li><em>The Unicode Standard, Version 4.0</em>, Addison-Wesley,
+	2003. ISBN 0-321-18578-1</li>
+      <li>Any book and document you might think useful is welcome</li>
+    </ul>
+
+    <p>
+      Books and document which has not exactly same version or edition are
+      welcome to donate to me. Especially, I need "C Programming Language,
+      first edition" which is known as K&amp;R1. Of course, other books and
+      document you might think I might need are also helpful.
+      To donate, please send me an e-mail or contact me via phone. My contact
+      points are in the first page. (Use the link &quot;here&quot; at the
+      bottom of this page.)
+    </p>
+
+
+    <p>
+      Or, you can donate money for me to buy those books.  Visit
+      <a href="../donate.html">here</a> to
+      make your donation using your credit card.
+    </p>
+
+  </section>
+
+  <section id="links">
+    <div class="page-header">
+      <h1>External Links</h1>
+    </div>
+
+    <p>
+      Here are some useful links to learn Standard C in general.
+      Note that the information of these sites may be not for beginners.
+    </p>
+
+    <ul>
+      <li><a href="http://www.open-std.org/jtc1/sc22/wg14/">JTC1/SC22/WG14 -
+          C</a>  You can get the <em>Rationale for International Standard -- 
+          Programming Languages -- C</em> here.</li>
+      <li><a href="http://www.lysator.liu.se/c/">Programming in C</a></li>
+      <li><a href="http://CAReferenceManual.com/">C: A Reference Manual</a></li>
+    </ul>
+
+    <p>
+      More links for additional information. Note that these information 
+      may be not directly related to the Standard C.
+    </p>
+
+    <ul>
+      <li><a href="http://www.unix.org/single_unix_specification/"><em>The
+          Single UNIX Specification</em></a> IEEE Std 1003.1, 2004 edition, 
+          Version 3, better known as POSIX.1  You may need to register yourself
+          here. The registration is free.</li>
+      <li><a href="http://kldp.org/">Korean Linux Documentation Project</a>
+        Though this site has no concern about Standard C, it has many 
+        <a href="http://bbs.kldp.org/">forums</a>
+        useful to discuss a lot of programming subjects. (Korean)</li>
+    </ul>
+  </section>
+
+  <!--
+    <p align="center">
+      <script type="text/javascript">
+        google_ad_client = "pub-6606082321393172";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        google_ad_format = "728x90_as";
+        google_cpa_choice = "CAEaCPE0Qicm8BvfUAU";
+      </script>
+      <script type="text/javascript" 
+              src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>
+    </p>
+    -->
+
+<!--
+ Local Variables:
+ coding: utf-8
+ mode: nxml
+ End:
+-->
