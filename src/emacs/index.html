@@ -47,12 +47,20 @@ lead:
         scaling.
     </p>
 
-    <ul>
-      {% articles emacscast_layouts, id, title, url, lang %}
-        {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a></li>
+    <ul class="unstyled">
+      {% articles emacscast_layouts, id, title, lead, url, lang %}
+        {% if lead == nil or lead == "" %}
+          {% assign leadsep = '' %}
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+          {% assign leadsep = ':' %}
+        {% endif %}
+
+        {% if lang == "" %}
+      <li><i class="icon-camera"></i>
+        <a href="{{url}}">{{title}}</a>{{leadsep}} {{lead}}</li>
+        {% else %}
+      <li><i class="icon-camera"></i>
+        <a href="{{url}}">{{title}}</a> ({{lang}}) {{leadsep}} {{lead}}</li>
         {% endif %}
       {% endarticles %}
     </ul>

@@ -48,12 +48,14 @@ lead:
         변경할 수 없습니다.
     </p>
 
-    <ul>
-      {% articles emacscast_layouts, id, title, url, lang %}
+    <ul class="unstyled">
+      {% articles emacscast_layouts, id, title, lead, url, lang %}
         {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a></li>
+      <li><i class="icon-camera"></i>
+        <a href="{{url}}">{{title}}</a></li>
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}) </li>
+      <li><i class="icon-camera"></i>
+        <a href="{{url}}">{{title}}</a> ({{lang}}) </li>
         {% endif %}
       {% endarticles %}
     </ul>

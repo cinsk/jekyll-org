@@ -6,8 +6,8 @@ ARTICLES_OBJ := $(patsubst %.org, src/%.html, $(ARTICLES))
 
 # In MacOSX, if you want to use your own installed version of Emacs,
 # modify the path below this line.
-EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
-#EMACS=$(shell which emacs)
+#EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
+EMACS=$(shell which emacs)
 
 
 all: www

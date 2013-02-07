@@ -16,7 +16,7 @@ lead:
     <p>아래는 제가 써놓은 글이며, <a href="http://orgmode.org/">org-mode</a>로
       작성했습니다.</p>
 
-    <ul>
+    <ul class="unstyled">
       {% articles article_layouts, id, title, lead, url, lang %}
         {% if lead == nil or lead == "" %}
           {% assign leadsep = '' %}
@@ -25,9 +25,11 @@ lead:
         {% endif %}
 
         {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
+      <li><i class="icon-book"></i>
+        <a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
+      <li><i class="icon-book"></i>
+        <a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
         {% endif %}
       {% endarticles %}
     </ul>

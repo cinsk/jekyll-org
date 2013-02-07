@@ -15,7 +15,7 @@ lead:
     <p>This is the automatically generated list of articles that are
       written in <a href="http://orgmode.org/">org-mode</a>.</p>
 
-    <ul>
+    <ul class="unstyled">
       {% articles article_layouts, id, title, lead, url, lang %}
         {% if lead == nil or lead == "" %}
           {% assign leadsep = '' %}
@@ -24,9 +24,11 @@ lead:
         {% endif %}
 
         {% if lang == "" %}
-      <li><a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
+      <li><i class="icon-book"></i>
+        <a href="{{url}}">{{title}}</a>{{leadsep}}{{lead}}</li>
         {% else %}
-      <li><a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
+      <li><i class="icon-book"></i>
+        <a href="{{url}}">{{title}}</a> ({{lang}}){{leadsep}}{{lead}}</li>
         {% endif %}
       {% endarticles %}
     </ul>
