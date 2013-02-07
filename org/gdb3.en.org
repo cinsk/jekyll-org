@@ -4,7 +4,7 @@
 #+BEGIN_HTML
 ---
 layout: org
-id: gdb4
+id: gdb3
 title: GDB Commands in Python
 lead: Using gdbx.py
 ---
@@ -13,7 +13,7 @@ lead: Using gdbx.py
 * Introduction
 
 This is the shortened English version of my Korea article,
-[[file:gdb4.html][Debugging with GDB: gdbx.py]].
+[[file:gdb3.html][Debugging with GDB: gdbx.py]].
 
 From GDB version 7.0 (I strongly recommend version 7.1 or higher,
 though), GDB contains a Python interpreter so that it is possible to

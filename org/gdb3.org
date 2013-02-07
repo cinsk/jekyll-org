@@ -5,8 +5,8 @@
 ---
 layout: org
 lang: ko
-id: gdb4
-title: Debugging with GDB Part 4
+id: gdb3
+title: Debugging with GDB Part 3
 lead: Using gdbx.py
 
 ---

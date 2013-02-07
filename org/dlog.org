@@ -1,0 +1,1414 @@
+# -*-org-*-
+#+STARTUP: odd
+#+OPTIONS: toc:4
+#+BEGIN_HTML
+---
+layout: org
+id: dlog
+title: dlog
+lang: ko
+lead: message log for debugging
+---
+#+END_HTML
+
+
+* 일러두기
+  이 글은 C 언어 프로그램을 작성/디버깅할 때 간단히 쓸 수 있는 출력
+  함수 집합인 dlog 모듈에 관한 내용입니다.  가벼운 마음으로
+  읽어보시고, 실제 현업에서 비슷한 목적으로 쓰실 것이라면 [[http://log4c.sourceforge.net][log4c]],
+  [[http://logging.apache.org/log4cxx][log4cxx]], [[http://logging.apache.org/log4j][log4j]] 등을 쓰시길 추천합니다.
+
+* dlog
+
+가장 많이 쓰이는 디버깅 툴이 뭐냐고 물으면, 농담 반 진담 반으로
+=printf()=⁠라고 말합니다. 사실 =printf()=⁠는 별 다른 도구 없이, C
+라이브러리만 있으면 바로 쓸 수 있는 것이기 때문에, 많은 개발자들이
+즉석에서 활용할 수 있는 디버깅 툴이라고 할 수 있습니다.
+
+물론 엄밀히 말해서, =printf()= 뿐만 아니라, 출력에 관한 여러 함수가 다
+해당됩니다. 특히 Linux 환경에서 개발하신다면 아래와 같은 코드에 매우
+익숙할 것입니다:
+
+#+BEGIN_SRC c
+void
+foo(const char *pathname)
+{
+  int fd;
+
+  fd = open(pathname, O_RDONLY);
+  if (ret == -1) {
+    fprintf(stderr, "myprogram: cannot open \"%s\": %s\n",
+            pathname, strerror(errno));
+    exit(1);
+  }
+  /* ... */
+}
+#+END_SRC
+
+GNU C 라이브러리는 위와 같은 상황을 손쉽게 해결할 수 있도록, 다음과
+같은 [[http://www.gnu.org/software/hello/manual/libc/Error-Messages.html#index-error-217][error()]]란 함수를 제공합니다:
+
+#+BEGIN_SRC c
+#include <error.h>
+void error(int STATUS, int ERRNUM, const char *FORMAT, ...);
+#+END_SRC
+
+이 때, STATUS가 0이 아닌 경우, error()는 메시지를 출력하고
+=exit(STATUS)=⁠를 호출하게 됩니다. 또 ERRNUM이 0이 아닌 경우, 해당하는
+에러 코드도 함께 출력해 줍니다. FORMAT 이후의 인자들은 printf()와
+사용법이 같습니다. 만약, 사용자 프로그램에서 =program_name=⁠이란 전역
+변수에 프로그램 이름을 문자열로 저장해 두었다면 출력할 모든 메시지에
+접두어로 프로그램 이름을 출력해 줍니다.
+
+따라서, 맨 앞에서 =fprintf()=⁠를 쓴 에러 출력 처리는 다음과 같이 간단하게
+만들 수 있습니다:
+
+#+BEGIN_SRC c
+#include <error.h>
+const char *program_name = "myprogram";
+
+int
+foo(const char *pathname)
+{
+  int fd;
+  fd = open(pathname, O_RDONLY);
+  if (fd == -1)
+    error(1, errno, "cannot open \"%s\"", pathname);
+  /* ... */
+}
+#+END_SRC
+
+규모가 작은 프로그램을 작성한다면, 위에서처럼 GNU C 라이브러리에서
+제공하는 error()를 쓰는 것으로 충분합니다. 또 파일 이름과 줄번호를
+출력해 주는 [[http://www.gnu.org/software/hello/manual/libc/Error-Messages.html#index-error_005fat_005fline-218][error_at_line()]]도 제공되므로 참고하기 바랍니다.
+
+* 소개
+
+글쓴이는, 덩치가 큰 프로그램을 작성하는 팀의 일부로 참여하다보니,
+프로그램을 실행하면, 수많은 로그 메시지가 출력이 되고, 각각 메시지
+포맷이 제각각이라서 알아보기 힘들었던 적이 있습니다. 그래서 가능하면,
+사용하기 쉽고, 일관된 메시지를 출력하도록, 메시지 처리용 함수가
+필요했습니다.
+
+기존 프로그램은 다양한 인터페이스를 써서 여러 방식으로 메시지를
+출력했는데, 이는, 프로그램 소스가 방대하고, 참여하는 개발자가 워낙
+많아서 각각 메시지를 출력하는 방식이 제각각이었기 때문입니다. 크게
+다음과 같은 문제가 있었습니다.
+
+1. 메시지가 출력되는 곳이 제각각이다 -- 출력 stream을 stdout, stderr를
+   아무런 규칙없이 마구 사용했습니다. 즉 어떤 모듈은 printf()를 써서
+   메시지를 남기고 (stdout), 어떤 모듈은 fprintf(stderr, ...)를 써서
+   출력합니다.  따라서, 메시지 출력이 꼬일 가능성이 있었습니다. 이유:
+   stdout의 내부 버퍼 등.
+2. 중요성에 상관없는 로그의 남발 -- 어떤 모듈은 (디버깅을 위해서) 내부
+   변수의 상태 변화를 일일히 출력하는 반면, 어떤 모듈은 꼭 필요한
+   정보만 출력합니다.  각각 모듈을 담당하는 개발자들이 기준없이 로그를
+   남발하다보니, 결과적으로 출력된 로그들을 분석하기가 매우 힘듭니다.
+3. 로그 출력 포맷을 내부적으로 정하지 않아서, 어떤 로그는 자신이 불려진
+   코드의 파일 이름, 줄번호까지 출력하는 반면, 어떤 로그는 에러가
+   발생했을 경우, 에러 원인도 출력하지 않았습니다.
+
+1의 경우는, 로그 기록 함수가 내부적으로 지정한 stream이나 파일에
+출력하고, 사용자에게 이 stream/파일을 노출시키지 않는 방식으로 해결하면
+됩니다. 물론 필요하다면 stream/파일을 지정할 수 있는 함수도 제공할 수
+있습니다.
+
+2의 경우는, 로그 기록 메시지마다 사용자가 메시지 category를 지정하고,
+나중에 메시지 category에 따라 출력을 filtering하게 하면 됩니다.
+
+3의 경우는 코드상으로 기준을 강제로 적용하기 힘듭니다. 개발자가
+출력하는 메시지 포맷은, 따로 개발자들끼리 협의를 거쳐서 기준을 정하는
+것이 맞습니다. 여러가지 포맷이 나올 수 있겠지만, 글쓴이는 GNU Coding
+Standard를 따르는 것이 올바른 선택이라고 생각합니다. 대충 요약하면
+다음과 같은 형태의 메시지를 사용합니다:
+
+#+BEGIN_SRC text
+program:source-file-name:lineno: message
+program: message
+program:source-file-name:lineno:column: message
+#+END_SRC
+
+공백을 쓴 곳을 주의해서 보기 바랍니다. 메시지 출력하는 소스는 각각
+':'로 구분하지만 공백을 두지 않습니다. 공백은 메시지 출력 소스와 실제
+메시지 사이에만 존재합니다.  이런 엄격한? 기준을 두는 이유는, 사람
+이외에 다른 필터 프로그램 등에서 정규식(regular expression)을 써서
+원하는 메시지를 쉽게 필터링하기 위한 것입니다.  실제로 Emacs는 컴파일러
+에러 메시지를 분석하여, 개발자가 손쉽게 에러가 발생한 소스를 찾을 수
+있도록 해 줍니다. (C-x `, next-error)
+
+* First implemetation
+
+일단, 사용자가 쉽게 사용할 수 있도록 메시지 정보는 printf() 형태로 받을
+수 있도록 합니다.  이 것은 가변 인자를 처리하는 방법만 알면 쉬운데,
+[[http://wiki.kldp.org/wiki.php/CLanguageVariableArgumentsList][C Programming: Variable Argument List]]를 참고하기 바랍니다.
+
+먼저, (앞에서 조건 1) 메시지 출력을 위한 stream을 전역 변수로 준비합니다:
+
+#+BEGIN_SRC c
+static FILE *dlog_fp;
+#+END_SRC
+
+또, (앞에서 조건 2) 메시지 filtering을 위한 mask를 저장할 변수를 전역
+변수로 준비합니다. 나중에 사용자가 지정한 category가 이 mask에 있는
+종류라면, 메시지는 출력되지 않습니다:
+
+#+BEGIN_SRC c
+static unsigned int dlog_mask;
+#+END_SRC
+
+마지막으로, (앞에서 조건 3) 원할 경우 프로그램 이름 등을 출력하기 위해
+메시지 prefix로 사용할 문자열을 가리킬 전역 변수를 준비합니다:
+
+#+BEGIN_SRC c
+static const char *dlog_prefix;
+#+END_SRC
+
+이제 메시지를 출력할 dlog 함수를 다음과 같이 만듭니다:
+
+#+BEGIN_SRC c
+/*
+ * dlog: print log messages.
+ *
+ * If error ERRNUM is non-zero, it's corresponding error string is
+ * prepended to the message.  The message's CATEGORY is ANDed against
+ * `dlog_mask' to be filtered out.
+ *
+ * The remaining paramters from FORMAT is in printf(3) style.
+ */
+void
+dlog(int errnum, unsigned category, const char *format, ...)
+{
+  va_list ap;
+
+  if (!dlog_fp)
+    return;
+
+  if (dlog_mask & category)
+    return;
+
+  fflush(stdout);
+  fflush(dlog_fp);
+
+  if (dlog_prefix)
+    fprintf(dlog_fp, "%s: ", dlog_prefix);
+
+  va_start(ap, format);
+  vfprintf(dlog_fp, format, ap);
+  va_end(ap);
+
+  if (errnum)
+    fprintf(dlog_fp, ": %s", strerror(errnum));
+
+  fputc('\n', dlog_fp);
+
+  fflush(dlog_fp);
+}
+#+END_SRC
+
+위 함수는 크게 설명이 필요한 부분이 별로 없을 정도로 간단합니다.
+다만, 대개의 경우, =dlog_fp=⁠는 stderr일 것이므로, stdout과 출력이 꼬일
+것을 염려해서, 군데군데 =fflush()=⁠를 써 준 것을 잘 보기 바랍니다.
+
+또, 위 함수의 prototype은 다음과 같습니다:
+
+#+BEGIN_SRC c
+extern void dlog(int errnum, unsigned category, const char *format, ...)
+  __attribute__ ((format (printf, 3, 4)));
+#+END_SRC
+
+이 때, `__attribte__ ()'는 GCC의 확장 기능입니다. 여기서 사용한
+"(format (printf, 3, 4))"의 뜻은, 세번째 파라메터(format)이 printf(3)
+형태의 포맷을 지정하는 문자열이며, 네번째 인자부터 가변 인자라는 것을
+나타냅니다.  이 정보를 주면, 실제 포맷을 지정하는
+format-specifier('%s'등)와, 주어진 가변 인자의 타입이 다를 경우, GCC가
+경고를 출력해 줍니다. 예를 들면:
+
+#+BEGIN_SRC c
+void
+foo(void)
+{
+  dlog(0, 0, "hello, %s", 1234);
+  /* ... */
+}
+#+END_SRC
+
+처럼 호출했을 경우, GCC는 다음과 같은 경고를 발생합니다:
+
+#+BEGIN_SRC sh
+$ gcc -Wall -c tmp.c
+tmp.c: In function ‘foo’:
+tmp.c:61: warning: format ‘%s’ expects type ‘char *’, but argument 4 has type ‘int’
+$ _
+#+END_SRC
+
+앞에서 만든 dlog()를 쓰면 "program: message" 형태의 메시지를 쉽게
+처리할 수 있습니다. 이제 "program:file:line: message" 형태를 출력하기
+위한 함수 =dlog_at_line()=⁠을 만듭니다. 사실상, 파일 이름과 줄 번호를
+출력하는 것을 제외한 나머지는 =dlog()=⁠와 같기 때문에, 지면상 소스의
+일부분만 보이겠습니다:
+
+#+BEGIN_SRC c
+void dlog_at_line(int errnum, unsigned category,
+                  const char *filename, unsigned int lineno,
+                  const char *format, ...)
+  __attribute__ ((format (printf, 4, 5)));
+
+
+void
+dlog_at_line(int errnum, unsigned category,
+             const char *filename, unsigned int lineno,
+             const char *format, ...)
+{
+  /* ... */
+  if (dlog_prefix)
+    fprintf(dlog_fp, "%s:", dlog_prefix);
+
+  fprintf(dlog_fp, "%s:%u ", filename, lineno);
+
+  if (status)
+    fprintf(dlog_fp, "%s: ", strerror(status));
+
+  /* ... */
+}
+#+END_SRC
+
+이처럼 만들어 두었다면, 이제 프로그램을 개발할 때, 다음과 같이 활용할
+수 있습니다.
+
+#+BEGIN_SRC c
+if (cannot_open_file) {
+  dlog(0x0001, errno, "cannot open XXX file");
+  /* handle the error here */
+}
+...
+
+if (missing_element_tag_on_parsing) {
+  dlog_at_line(0x0010, 0, filename, lineno,
+               "missing element <%s>", elem->name);
+  /* handle the error here */
+}
+#+END_SRC
+
+또, 단순히 메시지 출력이 아닌, 프로그램 종료 기능까지 추가된 함수인
+=derror()=⁠도 만듭니다. =derror()=⁠는 첫번째 파라메터인 STATUS가 0이 아닌
+경우, =exit(STATUS)=⁠를 호출한다는 것만 =dlog()=⁠와 다릅니다:
+
+#+BEGIN_SRC c
+extern void derror(int status, int errnum, unsigned category,
+                   const char *format, ...)
+  __attribute__ ((format (printf, 4, 5)));
+#+END_SRC
+
+이제, 맨 앞에서 소개했던 전역 변수들(=dlog_fp=, =dlog_mask=, =dlog_prefix=)을
+다루기 위한, utility 함수들을 만듭니다. 이 함수들은 단순히, 입력받은
+값을 전역 변수에 덮어쓰는 함수이기 때문에, prototype만 소개합니다:
+
+#+BEGIN_SRC c
+extern FILE *dlog_set_stream(FILE *new_fp);
+extern unsigned dlog_set_filter(unsigned new_mask);
+extern const char *dlog_set_prefix(const char *new_prefix);
+#+END_SRC
+
+=dlog_set_stream()=⁠은, 단순히 =dlog_fp=⁠를 설정하는 것 이외에도, 주어진
+스트림의 내부 버퍼를 없애는 역할도 합니다. 만약 메시지 출력이
+buffered된다면, (특히 디버깅할 때) 메시지 출력 시점과, 출력 함수를
+호출한 시점이 다를 수 있기 때문입니다.
+
+#+BEGIN_SRC c
+FILE *
+dlog_set_stream(FILE *fp)
+{
+  FILE *old = dlog_fp;
+
+  if (fp != dlog_fp)
+    fclose(dlog_fp);
+
+  dlog_fp = fp;
+  setvbuf(dlog_fp, NULL, _IONBF, 0);
+
+  return old;
+}
+#+END_SRC
+
+추가적으로, 사용자가 stream을 등록했다면, 이 stream을 닫는 함수도
+다음과 같이 만들어 줍니다.  이 함수는 나중에 =dlog_init()=⁠에서
+=atexit(3)=⁠를 써서 프로그램이 끝날때 자동으로 호출되게 할 것입니다:
+
+#+BEGIN_SRC c
+static void
+dlog_close_stream(void)
+{
+  if (dlog_fp)
+    fclose(dlog_fp);
+}
+#+END_SRC
+
+사용자가 프로그램 시작에 앞서, 위 세 함수를 써서 설정하도록 하면, 매우
+귀찮아할 것입니다. 따라서 프로그램이 시작할 때, =dlog_init()=⁠을 부르게
+하고, =dlog_init()=⁠이 적절하게 초기값을 설정하도록 합니다. 또, 환경
+변수(environment variable)를 써서, 이 초기값을 바꿀 수 있도록 하면,
+이러한 값을 변경하기 위해서 프로그램을 다시 컴파일할 필요가 없기 때문에
+매우 편리할 것입니다.  즉, 환경 변수 "DLOG_FILE"이 파일 이름을 가리키고
+있다면, 모든 메시지 출력이 해당 파일로 기록되게 합니다. 만약 이 환경
+변수의 값이 ""이거나, 정의되지 않았을 경우에는, default로 =stderr=⁠를
+사용합니다.  비슷하게, 환경 변수 "DLOG_MASK"가 적절한 mask 값을 설정할
+수 있도록 하면, 프로그램을 재컴파일할 필요없이, 원하는 category의
+메시지만 얻을 수 있습니다. 또, mask는 십진수(ex. 1024),
+십육진수(ex. 0x010), 팔진수(ex. 077) 등을 모두 쓸 수 있도록 하는 것이
+편리합니다.  이 모든 작업을 하는 =dlog_init()=⁠은 다음과 같습니다:
+
+#+BEGIN_SRC c
+int
+dlog_init(void)
+{
+  const char *p;
+  char *endptr = NULL;
+  unsigned int mask;
+  FILE *fp;
+
+  dlog_set_stream(stderr);
+  p = getenv("DLOG_FILE");
+  if (p) {
+    if (p[0] == '\0')
+      dlog_set_stream(0);
+    else
+      fp = fopen(p, "w");
+
+    if (!fp)
+      fprintf(stderr, "dlog: warning: cannot open file in DLOG_FILE\n");
+    else
+      dlog_set_stream(fp);
+  }
+  atexit(dlog_close_stream);
+
+  p = getenv("DLOG_MASK");
+  if (p && p[0] != '\0') {
+    mask = strtoul(p, &endptr, 0);
+    if (*endptr == '\0') {
+      dlog_mask = mask;
+    }
+    else {
+      fprintf(stderr, "dlog: warning: unrecognized format in DLOG_MASK\n");
+    }
+  }
+
+  return 0;
+}
+#+END_SRC
+
+위에서, =atexit()=⁠를 써서 등록한 함수는, 단순히 =dlog_fp=⁠가 NULL이 아닐
+경우, =fclose(dlog_fp)=⁠를 호출하는 함수입니다. 나머지 코드에 대한 설명은
+생략합니다.
+
+환경 변수를 써서 dlog 모듈의 메시지를 제어하는 것을 테스트해
+봅시다. 예를 들어 다음과 같은 간단한 프로그램 a.out이 있다고
+가정합니다:
+
+#+BEGIN_SRC c
+#define D_FATAL  0x08
+#define D_ERR    0x04
+#define D_WARN   0x02
+#define D_LOG    0x01
+
+int
+main(int argc, char *argv[])
+{
+  dlog_init();
+  dlog_set_prefix(argv[0]);
+
+  dlog(D_LOG, 0, "argc = %d", argc);
+  dlog(D_WARN, 0, "no init file found");
+  dlog(D_ERR, 0, "parse error");
+  dlog(D_FATAL, 0, "out of memory");
+  return 0;
+}
+#+END_SRC
+
+이 프로그램을 실행하면 다음과 같은 출력을 얻습니다:
+
+#+BEGIN_SRC sh
+$ ./a.out
+./a.out: argc = 1
+./a.out: no init file found
+./a.out: parse error
+./a.out: out of memory
+$ _
+#+END_SRC
+
+로그와 경고 수준의 메시지를 보고 싶지 않다면, 다음과 같이 DLOG_MASK를
+설정하면 됩니다:
+
+#+BEGIN_SRC sh
+$ DLOG_MASK=0x3 ./a.out
+./a.out: parse error
+./a.out: out of memory
+$ _
+#+END_SRC
+
+dlog 모듈의 출력을 모두 err.log로 기록하고 싶다면, 다음과 같이
+DLOG_FILE을 설정합니다:
+
+#+BEGIN_SRC sh
+$ DLOG_FILE=err.log ./a.out
+$ cat err.log
+./a.out: argc = 1
+./a.out: no init file found
+./a.out: parse error
+./a.out: out of memory
+$ _
+#+END_SRC
+
+*** 추가 기능
+위 예제를 살펴모면 =dlog_set_prefix()=⁠에 =argv[0]=⁠을 준 것을 볼 수
+있습니다. 대부분의 shell 프로그램이 =argv[0]=⁠에 실행한 프로그램의 경로를
+넣어주기 때문입니다.  하지만, =argv[0]=⁠이 프로그램의 이름을 가리킨다는
+보장은 없습니다. 이는 =exec()=⁠를 실행한 프로세스(shell)에 전적으로
+의존하는 부분이기 때문에, =argv[0]=⁠을 바로 쓰는 것은 별로 바람직한 방법이
+아닙니다.
+
+GNU C 라이브러리는 =error()= 함수를 만들때, 전역 변수 =program_name=⁠이
+정의된 경우, 자동으로 이 변수에 설정된 문자열을 prefix로
+사용합니다. =dlog()= 또한 =program_name=⁠을 활용하도록 만들면 좋을 것 같다는
+생각이 듭니다.  다음과 같은 예를 보기 바랍니다:
+
+#+BEGIN_SRC c
+#include <dlog.h>
+
+const char *program_name = "my_program";
+
+int
+main(void)
+{
+  dlog_init();
+  dlog(...);
+  return 0;
+}
+#+END_SRC
+
+즉, 사용자 프로그램에서 전역 변수 "program_name"을 정의한 경우,
+=dlog_init()=⁠이 자동으로 =dlog_set_prefix(program_name)=⁠을 부르도록 하면
+됩니다.  따라서 =dlog_init()= 맨 마지막에 다음과 같은 코드를 추가합니다:
+
+#+BEGIN_SRC c
+extern const char *program_name;
+
+void
+dlog_init(void)
+{
+  /* 기존과 동일 */
+  if (program_name)
+    dlog_set_prefix(program_name);
+}
+#+END_SRC
+
+그러나, 위 코드는 큰 문제점이 있습니다.  실제 프로그램에서
+=program_name=⁠을 정의했다면, 문제없이 동작하지만, =program_name=⁠을 정의하지
+않았다면, =program_name=⁠이 정의되지 않았기 때문에 다음과 같은 에러가
+발생할 것입니다:
+
+#+BEGIN_SRC sh
+$ gcc -I. tmp.c dlog.c
+/tmp/ccnZ5BkJ.o: In function `dlog_init':
+dlog.c:(.text+0x3a6): undefined reference to `program_name'
+#+END_SRC
+
+그렇다고 =program_name=⁠을 dlog 모듈에서 직접 정의한다면, 사용자가 또
+=program_name=⁠을 정의하지 않았다면 괜찮지만, 사용자도 정의했을 경우에는
+다음과 같은 에러가 발생합니다:
+
+#+BEGIN_SRC c
+$ gcc -I. tmp.c dlog.c
+/tmp/ccUHGkGr.o:(.bss+0x0): multiple definition of `program_name'
+/tmp/cc4sTyyh.o:(.data+0x0): first defined here
+#+END_SRC
+
+정확히 말해서, 이런 문제는 C 언어의 문제가 아니라 linker의 문제입니다.
+여기에서 필요한 것은, 사용자가 정의했으면 =program_name=⁠을 쓰고, 정의하지
+않았다면 =program_name=⁠을 안 쓰는 것인데, 이 문제를 해결하는 방법은 GCC의
+확장 기능인 "__attribute__((weak))"를 쓰는 것입니다. 즉, dlog
+모듈에서, 전역 변수 =program_name=⁠을 다음과 같이 정의합니다:
+
+#+BEGIN_SRC c
+const char *program_name __attribute__((weak)) = NULL;
+#+END_SRC
+
+위와 같이 선언하면, 오브젝트 파일 안에서, =program_name=⁠이란 심볼의
+속성이 "weak"가 됩니다. "weak" 심볼의 경우, 링크할 때, 같은 이름의 다른
+심볼이 있는 경우에 무시됩니다. 따라서 사용자가 =program_name=⁠을 정의한
+경우에는, dlog 모듈 안의 =program_name=⁠은 무시됩니다.  사용자가 따로
+정의하지 않은 경우에는, dlog 모듈 안의 =program_name=⁠이 쓰이게 됩니다.
+
+이왕 설명하는 김에.. ^^  이 차이는 nm(1)을 쓰면 확실히 알 수 있습니다:
+
+#+BEGIN_SRC sh
+$ # weak 속성을 쓰지 않은 경우.
+$ cc -I. -c dlog.c
+$ nm dlog.o | grep program_name
+00000000 B program_name
+$ # weak 속성을 쓴 경우
+$ cc -I. -c dlog.c
+$ nm dlog.o | grep program_name
+00000000 V program_name
+$ _
+#+END_SRC
+
+위 출력을 보면, 같은 심볼 =program_name=⁠에 대해서 각각 "B"와 "V"로 나온
+것을 알 수 있습니다. "B"는 초기화된 data section에 있는 심볼을 뜻하며,
+"V"는 weak 심볼을 나타냅니다.  자세한 것은 =nm(1)=⁠의 manual을 참고하기
+바랍니다.  또, [[http://kldp.org/node/68410][nm과 c++filt 활용]]도 읽어보시기 바랍니다.
+
+주의, 위에서 설명한 weak 심볼에 관한 내용은 OS에서 쓰는 binary file
+format에 따라 불가능할 수도 있습니다.  (Linux는 ELF 파일 포맷을
+기본으로 하고 있으며, weak 심볼을 쓸 수 있습니다.)
+
+*** 생각해 볼 문제
+
+1. dlog 모듈은 async-safe하지 않기 때문에, signal handler에서 쓸 수
+   없습니다.  이 문제에 대해서는 이 글의 마지막에서 다시 한 번
+   다루겠습니다.
+2. multi-threaded 프로그램에서 쓸 수 없습니다.  당연히 multi-thread를
+   고려하지 않았기 때문에 문제가 있을 수 밖에 없습니다. 이 문제는 바로
+   다음에서 해결할 것입니다.
+3. multi-process 프로그램에서 쓸 수 없습니다.
+4. 원론적으로, 이런 디버깅 메시지를 출력하는 모듈은 assert(3)와
+   비슷하게, 특정 매크로를 정의해서(주로 NDEBUG), release build에서는
+   코드를 만들때 제거하는 트릭을 씁니다.  dlog()는 이러한 기능을
+   제공하지 않습니다.  (글쓴이의 개인적인 의견임) 디버그 메시지 출력
+   기능을 전부 삭제하는 것은 좋지 않다고 생각하기 때문입니다.  사실
+   출력 mask로 모두 출력하지 않게 만들면, 실제론 category를 검사해서
+   바로 리턴하기 때문에, dlog()의 overhead는 그리 크지 않습니다.
+
+* Second Version: thread support
+
+앞에서 만든 dlog module을 multi-thread 프로그램에서 쓰려면, 몇가지
+수정이 필요합니다.
+
+첫째. multi-thread를 전혀 고려하지 않고 설계되었으므로, =dlog()= 등의
+함수에서 출력하는 메시지가 atomic하게 출력된다는 보장이 없습니다.
+
+둘째. 각 thread에서 =dlog()=⁠를 불렀을 경우, 메시지가 어떤 thread에서
+호출된 것인지 구별할 필요가 발생합니다. 따라서, 메시지 출력 포맷에 대해
+조금 더 생각해 보아야 합니다.  주저리주저리 설명했지만, 각 thread마다
+이름을 붙이고, 이 이름을 붙여서 메시지를 만들면 해결될 문제입니다.  이
+목적에 가장 가까운 데이터 타입이 =pthread_t=⁠이지만, =pthread_t=⁠의 타입을
+출력할 방법이 없다는 것이 골치아픈 문제입니다. 또, 앞에서 GNU Coding
+Standard에서 쓸 수 있는 메시지 포맷을 지키는 것을 기억해야 합니다.
+
+이 장에서는 위 두 문제를 해결하는 방법을 설명합니다.
+
+먼저, 두번째 문제부터 해결합니다.  일단, thread별로 이름이 붙어있다고
+가정하고, 메시지 출력 format을 정해야 합니다. 여러 가지 방법이
+있겠지만, 간단하게 다음과 같이 정의하고 쓸 것입니다.
+
+#+BEGIN_SRC text
+program:source-file-name:lineno: <thread-name> message
+program: <thread-name> message
+program:source-file-name:lineno:column: <thread-name> message
+#+END_SRC
+
+다음으로 thread에 이름을 붙이는 방법에 대해 생각해봅시다. pthread에서
+각 thread id는 =pthread_t= 타입에 저장됩니다. 문제는, 이 타입이 scalar
+type이 아닐 수도 있다는 것입니다. 따라서 다음과 같은 코드는 100% 잘못된
+예입니다.
+
+#+BEGIN_SRC c
+pthread_t tid;
+
+printf("thread: %d", (int)tid); /* wrong: pthread_t may not be a scalar type */
+printf("thread: %p", &tid);     /* wrong: compilable, but incorrect context */
+#+END_SRC
+
+시스템에 따라서, =pthread_t=⁠가 간단한 정수 타입일 수도 있지만, 아닐
+가능성도 있기 때문에, =pthread_t=⁠를 직접 thread 이름을 저장하기 위해 쓸
+수 없습니다.  직접 (=pthread_t=, name) pair를 저장하는 hash table을 만들
+수도 있지만, 이 글에서는 가장 간단한 방법을 쓰겠습니다. 바로
+pthread에서 제공하는 thread-specific data를 쓰는 것입니다.
+Thread-specific data는, thread만의 고유한 데이터 영역이며, 한 thread가
+다른 thread의 thread-specific data에 접근할 수 없습니다.
+
+Thread-specific data를 만들려면, 먼저 이 데이터 영역에 대한 key를
+만들어야 합니다. 그리고 나서 각 thread는 이 key를 써서 thread 자신만의
+데이터를 읽거나 쓸 수 있습니다.  key를 만드는 함수는
+=pthread_key_create()=⁠이며, key를 이용, 데이터를 쓰는(write) 함수는
+=pthread_setspecific()=, 데이터를 읽는 함수는
+=pthread_getspecific()=⁠입니다.
+
+#+BEGIN_SRC c
+#include <pthread.h>
+
+int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
+void *pthread_getspecific(pthread_key_t key);
+int pthread_setspecific(pthread_key_t key, const void *value);
+#+END_SRC
+
+=pthread_key_create()=⁠의 두번째 파라메터는, thread가 끝났을 경우, 각
+key에 설정된 값--즉 =pthread_setspecific()=⁠에서 두번째 인자로 준 value에
+대해-- 호출될 파괴자입니다.
+
+사용자가 따로 지정하지 않았다면, 각 thread별로 "thread#1", "thread#2"
+등으로 이름을 붙일 것입니다. 이 때, 수치를 위한 counter를 만들고, 이
+counter를 증가시켜서 다음 thread에 대한 이름을 만듭니다.
+
+지금까지 설명한 내용을 바탕으로, thread를 지원하기 위해, 다음과 같이
+구조체를 만들고, 필요한 멤버를 초기화합니다:
+
+#+BEGIN_SRC c
+static int dlog_thread = 0;     /* If zero, disable thread support. */
+
+struct thinfo_ {
+  int counter;                  /* for naming each thread */
+  pthread_once_t once;          /* once control for the initializer */
+  pthread_mutex_t mutex;        /* mutex for `counter' member */
+  pthread_key_t key;            /* thread-specific data for thread names */
+};
+
+static struct thinfo_ thinfo = {
+  0,
+  PTHREAD_ONCE_INIT,
+  PTHREAD_MUTEX_INITIALIZER,
+                                /* no initializer for `key' member */
+};
+#+END_SRC
+
+위에서 보인 것처럼, thread 지원에 필요한 데이터를 초기화하는 함수를
+=pthread_once(3p)=⁠를 써서 만듭니다:
+
+#+BEGIN_SRC c
+static void
+free_thname(void *value)
+{
+  if (value)
+    free(value);
+}
+
+static void
+dlog_thread_init_once(void)
+{
+  thinfo.counter = 0;
+  if (pthread_key_create(&thinfo.key, free_thname) < 0)
+    fprintf(stderr, "dlog: cannot create a thread key: %s\n",
+            strerror(errno));
+}
+
+int
+dlog_thread_init(void)
+{
+  int ret = -1;
+
+  ret = 0;
+  dlog_thread = 1;
+  if (pthread_once(&thinfo.once, dlog_thread_init_once) != 0)
+    return -1;
+
+  return ret;
+}
+#+END_SRC
+
+위에서, =pthread_once(3p)=⁠는 두번째 인자로 주어진 함수를 딱 한번만 실행해
+주는 함수입니다.  예를 들어 위에서 만든 =dlog_thread_init()=⁠을 여러
+thread에서 동시에 부른다 하더라도, =dlog_thread_init_once()=⁠는 딱 한 번만
+실행됩니다.
+
+이제, 자동으로 thread 이름을 만들어 주는 함수를 만듭니다:
+
+#+BEGIN_SRC c
+static char *
+dlog_create_name(void)
+{
+  char *name = NULL;
+  int id;
+
+  pthread_mutex_lock(&thinfo.mutex);
+  id = ++thinfo.counter;
+  pthread_mutex_unlock(&thinfo.mutex);
+
+  if (asprintf(&name, "thread#%u", id) < 0)
+    return NULL;
+
+  return name;
+}
+#+END_SRC
+
+thinfo.counter는 현재 마지막 thread에 붙은 번호를 저장합니다. 이 변수는
+여러 thread에서 접근하기 때문에, mutex를 써서 lock을 걸어주어야
+합니다. =[[http://www.gnu.org/software/hello/manual/libc/Dynamic-Output.html][asprintf(3)=⁠]]는 GNU C 라이브러리의 확장 기능으로, =malloc(3)=⁠과
+=sprintf(3)=⁠를 합한 기능을 합니다. 즉, =printf(3)= 형태의 인자를 받아서
+=malloc(3)=⁠을 써서 문자열을 만들고, 첫번째 인자에 전달된 포인터가
+가리키도록 해 줍니다.
+
+이제, thread 이름을 사용자가 설정하고, 얻어낼 수 있는 함수를 만듭니다:
+
+#+BEGIN_SRC c
+int
+dlog_set_thread_name(const char *name)
+{
+  char *p;
+
+  name = strdup(name);
+  if (!name)
+    return -1;
+
+  p = pthread_getspecific(thinfo.key);
+  free_thname(p);
+
+  if (pthread_setspecific(thinfo.key, name) != 0)
+    return -1;
+
+  return 0;
+}
+
+
+static const char *
+dlog_get_thread_name(void)
+{
+  char *p = NULL;
+
+  p = pthread_getspecific(thinfo.key);
+  if (!p) {
+    p = dlog_create_name();
+    dlog_set_thread_name(p);
+    free(p);
+  }
+  p = pthread_getspecific(thinfo.key);
+
+  return p;
+}
+#+END_SRC
+
+위에서, =dlog_set_thread_name()=⁠은 사용자가 "thread#1", "thread#2"등처럼
+자동으로 붙는 이름 대신, 직접 thread 이름을 지정할 때 쓰는 함수입니다.
+=dlog_get_thread_name()=⁠는 나중에 =dlog()=⁠가 쓸 함수이기 때문에 외부에
+노출할 필요가 없어서 static 함수로 만들었습니다.
+
+지금까지 설명한 코드들은, 모두 thread별로 이름을 붙이기 위한 것입니다.
+이제 이 장의 맨 앞에서 첫번째 문제점으로 설명한, =dlog()=⁠의 thread-safe
+기능에 대해 생각해봅시다.
+
+POSIX에 따르면 stream 연산은 atomic합니다. 즉, FILE *에 출력하는
+함수들은 각각 atomic하게 동작합니다. 예를 들어 아래 코드를 여러
+thread에서 동시에 실행한다고 가정해 봅시다:
+
+#+BEGIN_SRC c
+printf("hello");
+#+END_SRC
+
+Stream 연산은 atomic하기 때문에, (순서는 보장할 수 없지만) 항상
+"hellohello..." 이런 식으로 출력됩니다. 즉 "hehellollo"등으로 섞여서
+출력되지 않는다는 뜻입니다.
+
+하지만, =dlog()=⁠와 마찬가지로 stream 출력 함수들을 여러번 호출하는
+경우에는 문제가 됩니다.  앞에서 구현한 =dlog()=⁠는 내부에서 stream 출력
+함수를 여러번 호출해서 한 메시지를 만듭니다. 따라서, 여러 thread가
+=dlog()=⁠를 동시에 부르면, 메시지별로 출력될 수도 있지만, 한 메시지 출력
+도중, 다른 메시지가 출력될 가능성이 짙습니다. 결국, 이 문제를
+해결하려면 =dlog()= 함수 기능인 메시지 출력도 atomic하게 만들어야
+합니다.
+
+물론 mutex를 하나 만들고 =pthread_mutex_*= 함수들을 써서 이 문제를 해결할
+수도 있지만, pthread는 stream을 위해서 특별히 다음과 같은 함수들을
+제공합니다:
+
+#+BEGIN_SRC c
+#include <stdio.h>
+
+void flockfile(FILE *file);
+int ftrylockfile(FILE *file);
+void funlockfile(FILE *file);
+#+END_SRC
+
+간단하게, =flockfile()=⁠은 lock을 얻는 함수이며, =funlockfile()=⁠은 lock을
+풉니다. =ftrylockfile()=⁠은 flockfile의 non-blocking 버전입니다. 이
+함수들은 recursive하게 동작합니다. 즉, =flockfile()=⁠을 같은 stream에
+대해서 여러번 부를 수 있으며, lock을 건 횟수만큼 =funlockfile()=⁠이
+호출되어야 lock이 풀리는 형태입니다.
+
+따라서, =dlog()=⁠가 사용하는 =dlog_fp=⁠를 위 함수들을 써서 적절하게 lock을
+걸고 풀어준다면, =dlog()=⁠를 thread-safe한 함수로 만들 수 있습니다.
+
+이제 앞에서 설명한 모든 기능을 써서 =dlog()=⁠를 새로 작성할
+때입니다. 다음과 같습니다:
+
+#+BEGIN_SRC c
+void
+dlog(int errnum, unsigned category, const char *format, ...)
+{
+  va_list ap;
+ 
+  if (!dlog_fp)
+    return;
+ 
+  if (dlog_mask & category)
+    return;
+ 
+  fflush(stdout);
+  flockfile(dlog_fp);         /* Enter the critical section */
+
+ 
+  if (dlog_prefix)
+    fprintf(dlog_fp, "%s: ", dlog_prefix);
+ 
+  if (dlog_thread)            /* print the thread name */
+    fprintf(dlog_fp, "<%s> ", dlog_get_thread_name());
+
+  va_start(ap, format);
+  vfprintf(dlog_fp, format, ap);
+  va_end(ap);
+ 
+  if (errnum)
+    fprintf(dlog_fp, ": %s", strerror(errnum));
+ 
+  fputc('\n', dlog_fp); 
+  fflush(dlog_fp);
+  funlockfile(dlog_fp);       /* Leave the critical section */
+}
+#+END_SRC
+
+지금까지 만든 dlog를 쓰려면, =dlog_init()= 다음에 다음과 같이
+=dlog_thread_init()=⁠을 불러주어야 합니다. 만약 =dlog_thread_init()=⁠을
+부르지 않으면, thread 별 이름은 출력되지 않습니다.
+
+#+BEGIN_SRC c
+#include <dlog.h>
+#include <pthread.h>
+
+#define NUM_WORKERS     4
+
+void *worker_proc(void *arg);
+
+const char *program_name = "a.out";
+pthread_t workers[NUM_WORKERS];
+
+int
+main(int argc, char *argv[])
+{
+  int i;
+  void *retval;
+
+  dlog_init();
+  dlog_thread_init();
+
+  dlog_set_thread_name("main");
+  dlog(0, 0, "Let's rock!");
+  for (i = 0; i < NUM_WORKERS; i++) {
+    pthread_create(&workers[i], NULL, worker_proc, (void *)i);
+  }
+
+  for (i = 0; i < NUM_WORKERS; i++) {
+    pthread_join(workers[i], &retval);
+    dlog(0, 0, "thread finished with return val %d", (int)retval);
+    /* ... */
+  }
+  dlog(0, 0, "Bye!");
+  return 0;
+}
+
+void *
+worker_proc(void *arg)
+{
+  dlog(0, 0, "thread started");
+  return arg;
+}
+#+END_SRC
+
+위 소스(tmp.c)를 컴파일하고 실행한 결과는 다음과 같습니다:
+
+#+BEGIN_SRC sh
+$ gcc -I. tmp.c dlog.c -lpthread
+$ ./a.out 
+a.out: <main> Let's rock!
+a.out: <thread#1> thread started
+a.out: <thread#2> thread started
+a.out: <thread#3> thread started
+a.out: <thread#4> thread started
+a.out: <main> thread finished with return val 0
+a.out: <main> thread finished with return val 1
+a.out: <main> thread finished with return val 2
+a.out: <main> thread finished with return val 3
+a.out: <main> Bye!
+$ _
+#+END_SRC
+
+물론, 시스템에 따라서 2-5번째 출력("thread started")의 순서는 바뀔 수
+있습니다.
+
+*** 추가 기능
+pthread에는 정수 형태의 thread id를 얻어내는 함수가 없지만, Linux에는
+(Linux 2.4.11 이후 버전부터) =gettid(2)=⁠란 시스템 콜이 존재합니다.
+앞에서 우리는 thread 이름을 위해 직접 "thread#1"등의 이름을 붙여서
+메시지를 만들었지만, =gettid(2)=⁠를 써서, 이름 대신, thread id를 직접 쓸
+수도 있습니다. =gettid(2)=⁠의 prototype은 다음과 같습니다:
+
+#+BEGIN_SRC c
+#include <sys/types.h>
+
+pid_t gettid(void);
+#+END_SRC
+
+그런데, GNU C 라이브러리는 위 시스템 콜에 대해 wrapper를 제공하지
+않으므로, =gettid(2)=⁠를 그냥 쓸 수는 없고, 다음과 같이 wrapper를 만들어
+써야 합니다:
+
+#+BEGIN_SRC c
+#include <unistd.h>
+#include <sys/types.h>
+
+#if defined(USE_GETTID) && (USE_GETTID > 0)
+#include <sys/syscall.h>
+
+static pid_t
+gettid(void)
+{
+  return syscall(SYS_gettid);
+}
+#endif  /* USE_GETTID */
+#+END_SRC
+
+그리고 나서, thread 이름을 만들어 주는 =dlog_create_name()=⁠을 다음과 같이
+바꾸면 됩니다:
+
+#+BEGIN_SRC c
+static char *
+dlog_create_name(void)
+{
+  char *name = NULL;
+
+#if defined(USE_GETTID) && (USE_GETTID > 0)
+  if (asprintf(&name, "%u", (unsigned)gettid()) < 0)
+    return NULL;
+#else
+  int id;
+
+  pthread_mutex_lock(&thinfo.mutex);
+  id = ++thinfo.counter;
+  pthread_mutex_unlock(&thinfo.mutex);
+
+  if (asprintf(&name, "thread#%u", id) < 0)
+    return NULL;
+#endif  /* USE_GETTID */
+
+  return name;
+}
+#+END_SRC
+
+그리고 나서, dlog 메시지를 출력하면 =pid_t= 형태의 thread 이름이
+출력됩니다:
+
+#+BEGIN_SRC sh
+$ gcc -I. tmp.c dlog.c -lpthread
+$ ./a.out
+a.out: <main> Let's rock!
+a.out: <21716> thread started
+a.out: <21717> thread started
+a.out: <21718> thread started
+a.out: <21719> thread started
+a.out: <main> thread finished with return val 0
+a.out: <main> thread finished with return val 1
+a.out: <main> thread finished with return val 2
+a.out: <main> thread finished with return val 3
+a.out: <main> Bye!
+$ _
+#+END_SRC
+</source>
+
+*** 생각해 볼 문제
+1. mult-thread를 지원하는 dlog 모듈을 만들었지만, pthread 기능을 쓰기
+   때문에, thread를 쓰지 않는 프로그램에 쓰더라도 링크시 "-lpthread"
+   옵션을 써야 합니다.  따라서 thread 관련된 코드를, 모두 NO_THREAD란
+   매크로가 정의되지 않았을 때에만 컴파일되도록 #ifndef ... #endif를
+   써서 묶어주는 것도 좋을 것입니다.
+2. thread별 원치 않은 sync가 발생할 수 있습니다.  사실 이 문제는 단순히
+   =printf(3)=⁠를 쓰더라도 발생하는 문제입니다.  즉, =printf(3)= 또는
+   =dlog()=⁠를 썼을 때에는 문제가 없지만, 이런 출력 함수를 지웠을 경우에
+   문제가 발생할 수 있습니다.  이 문제는 출력 함수 문제가 아니라,
+   필요한 곳에 동기화(syncronization) 관련 기능을 쓰지 않아서
+   발생합니다.  즉, 코드의 어디엔가 race condition이 숨어 있을 가능성이
+   높습니다.
+3. pthread 관련 함수를 쓰지 않고, multi-thread를 지원하는 =dlog()=⁠를 만들
+   수도 있습니다. =dlog()=⁠에서 여러번 =fprintf(3)=⁠를 불러서 메시지를
+   출력하지 않고, =snprintf(3)= 등을 써서 메시지를 만든 다음,
+   =fprintf(3)=⁠를 한 번 불러서 완전한 메시지를 출력하게 만드는 것입니다.
+   이 방법이 가능한 이유는 stream 관련 함수는 (thread 범위에서)
+   atomic하기 때문입니다.  단, 이 경우, thread 이름을 출력할 방법이
+   애매해집니다.
+4. 위에서 stream 관련 함수가 atomic하다고 했지만, 이 것은 같은 프로세스
+   안에서 thread 사이에서 atomic하다는 뜻입니다.  만약, =dlog()=⁠를 쓰는
+   프로그램이 =fork(2)= 등을 써서 multi-process로 동작한다면 문제가
+   됩니다. stream 관련 함수는 multi-process에서 atomic하지 않습니다.
+
+* Third Version
+이번에는 multi-process를 지원하도록 dlog 모듈을 수정해 봅시다.  먼저
+알아둘 것이 몇가지 있습니다.
+
+가장 먼저, stream 연산은 말할 것도 없고, 저수준 write(2) 경우에도
+출력은 atomic하지 않습니다. 즉, fork(2) 후에, printf(3)를 그냥 쓰면,
+parent와 child의 출력이 섞일 수 있습니다.  마찬가지로 write(2)를 써서
+STDOUT_FILENO에 출력하는 것도, 두 출력이 섞일 수 있습니다.
+
+File descriptor를 공유하는 프로세스끼리 동기화(synchronization)를
+보장받는 방법은 (글쓴이가 알기론) 다음과 같습니다:
+
+첫째, =pipe(2)=⁠를 통해서 =write(2)=⁠하는 경우, write하는 데이터의 크기가
+=PIPE_MAX=⁠보다 작을 경우, atomic하게 쓸(write)할 수 있습니다.
+
+둘째, 다른 방법과 달리, 간단하게 만들려면, 프로세스 별로 로그 데이터를
+기록하는 파일을 별도로 유지하면 됩니다.  즉, 동기화할 필요성을 없애면
+됩니다.
+
+세째, file lock을 써서 동기화를 하는 경우에 atomic을 보장받을 수
+있습니다. 이는 =fcntl(2)= 함수에 =F_SETLK=, =F_GETLK= 등을 써서 할 수
+있습니다.
+
+네째, =O_APPEND= flag을 써서 =open(2)=⁠한 파일에 그냥 =write(2)=⁠를 써서
+메시지 출력을 하는 것입니다.
+
+이제 위 세 가지 방법에 대해 각각 장단점을 따져 봅시다. 첫번째 방법을
+쓴다는 것은, 각 =dlog()= 함수 호출이 미리 만들어진 pipe에 =write(2)=⁠한다는
+것을 뜻합니다.  그렇다면, 누군가가 이 pipe에서 메시지를 =read(2)=⁠해서
+다시 지정한 파일에 =write(2)=⁠해 주어야한다는 것인데, 이 작업을 하려면
+별도의 read thread 또는 read process를 만들어야하는데, 단순한 메시지
+기록 모듈에 이러한 작업을 하는 것은 배보다 배꼽이 더 클 우려가
+있습니다. 따라서 패스~
+
+세번째 방법의 경우에는 프로세스 별로 독립적인 파일을 유지하기 때문에,
+구현은 매우 간단합니다. 다만, 한 파일로 출력하는 것이 아니기 때문에,
+화면(예: stdout, stderr 등)으로 출력할 경우에는 메시지가 뒤섞일 수
+있습니다.  또 각 프로세스 별로 독립적인 파일을 쓰기 때문에, 각각
+파일에서 메시지의 순서를 알 수가 없습니다.  순서를 알려면 메시지를
+출력할 때, 메시지 출력 시간을 표시하면 가능하긴 합니다.  실제로
+valgrind와 같은 툴은 "--trace-children=yes"란 옵션을 쓰면, 각 프로세스
+별로 로그 파일을 만들어 줍니다.
+
+두번째 방법의 경우, 가장 확실한 방법이긴 합니다.  문제는 지금까지 dlog
+관련 함수들은 모두 입출력을 stream 함수를 써서 했고, fcntl은 file
+descriptor를 사용하는 low I/O 함수라는 것입니다.  또, file lock은 NFS
+v2, v3에서 지원하지 않습니다.  기존 코드를 유지하려면 =fcntl()=⁠을 부를
+때마다 =fileno(3)=⁠를 써서 =FILE *=⁠에서 file descriptor를 얻어내야합니다.
+이 방법이 걱정되는 것은 FILE *와 file descriptor를 번갈아가며 쓰는 것이
+위험하면서도 성능상 문제가 될 수 있기 때문입니다.  이 방법을 쓰면서
+가장 안전한? 방법은 기존 dlog 관련 함수가 stream 함수 대신 (file
+descriptor를 사용하는) low I/O 함수를 써서 입/출력을 하도록 만드는
+것입니다.
+
+#+BEGIN_SRC c
+#include <stdio.h>
+
+int fileno(FILE *stream);
+#+END_SRC
+
+또는, 아예 stream 관련 입출력을 쓰지 않고, 모두 low I/O를 쓰도록 해도
+됩니다.  물론 이 경우, 대부분 메시지 formatting은 =sprintf(3)=⁠나
+=snprintf(3)=⁠를 써서 만들면 됩니다.
+
+마지막으로 네째 방법에 대해 생각해 봅시다.  앞에서 pipe에
+=PIPE_BUF=⁠보다 작은 크기의 데이터를 쓸 때 atomic을 보장받을 수 있다고
+했습니다.  그리고 파일을 열 때, =O_APPEND=⁠를 써서 열었다면,
+=write(2)=⁠를 부를 경우, 자동으로 =lseek(2)=⁠를 부른 것처럼, file
+offset이 맨 뒤로 이동합니다.  =O_APPEND= flag은 =lseek(2)=⁠와
+=write(2)=⁠를 불러서 파일의 맨 뒷 부분에 데이터를 쓸 때, =lseek()=⁠와
+=write()= 사이에 (다른 프로세스 등에 의해) 다른 lseek/write가
+끼어들(intermixed) 수 없도록 해 줍니다. 사실 여기까지는 POSIX에 정의된
+내용입니다.  POSIX에서 =write(2)=⁠가 atomic하다는 말은
+없습니다. 하지만, =write(2)=⁠가 atomic하지 않다면 =O_APPEND= flag의 존재
+의미가 희미해집니다.  그렇다고 엄청난 크기의 데이터를 =write(2)=⁠하는
+경우, atomic하지 않을 거라는 것은 쉽게 예상할 수 있습니다.  그럼 어느
+정도의 크기가 atomic을 보장받을 수 있을까?  여기에 대한 정확한 답변은
+없습니다.  하지만, 이미 pipe에서 =PIPE_BUF=⁠를 쓰고 있으므로, 상대적으로
+reasonable한 system이라면 =PIPE_BUF= 크기의 데이터를 =O_APPEND= flag을
+써서 연 파일에 대해 =write(2)=⁠할 경우, atomic하다고 봐도 문제없을
+것입니다.
+
+게다가, write(2)의 경우, thread-safe한 함수이므로, 바로 앞 장에서
+thread-safe 버전을 만들 때 =flockfile= / =funlockfile=⁠을 쓸 이유도
+없어집니다.  따라서 글쓴이는 stream I/O를 하는 부분을 모두 low-level
+I/O로 바꾸고, 메시지의 크기는 =PIPE_BUF=⁠보다 작아야 한다는 제한을 더해서
+dlog를 새로 만들려고 합니다.
+
+가장 먼저 dlog_fp 대신 다음과 같이 dlog_fd를 만듭니다:
+
+#+BEGIN_SRC c
+static int dlog_fd = -1;
+#+END_SRC
+
+먼저, =FILE *=⁠를 받아서, output stream을 설정했던 =dlog_set_stream()=⁠을
+=dlog_set_file()=⁠로 바꿔봅시다:
+
+#+BEGIN_SRC c
+int dlog_set_file(int fd);
+#+END_SRC
+
+주어진 fd가 =O_APPEND=⁠로 열린 파일이 아닐 가능성도 있으므로,
+=fcntl(2)=⁠을 써서 =O_APPEND= flag을 추가하는 것, 그리고, 이미 이 fd에
+대하여 data가 들어가 있을 경우를 대비해서 =fflush(3)= 대신 =fsync(2)=⁠를
+불러주는 것 이외에는 기존 함수와 거의 같습니다:
+
+#+BEGIN_SRC c
+int
+dlog_set_file(int fd)
+{
+  int old = dlog_fd;
+
+  if (dlog_fd != fd) {
+    if (dlog_fd != -1)
+      close(dlog_fd);
+
+    if (fd != -1) {
+      fsync(fd);
+      if (fcntl(fd, F_SETFL, O_APPEND) == -1)
+        return -1;
+
+      dlog_fd = fd;
+    }
+  }
+}
+#+END_SRC
+
+또, =dlog_close_stream()=⁠을 =dlog_close_file()=⁠로 바꿉니다:
+
+#+BEGIN_SRC c
+static void
+dlog_close_file(void)
+{
+  if (dlog_fd != -1)
+    close(dlog_fd);
+}
+#+END_SRC
+
+=dlog_init()=에서 기존 stream 관련 함수를 부르는 부분을 모두
+바꿉니다. 또, 환경 변수 "DLOG_TRACE_CHILD"의 값에 따라 process ID 출력
+여부를 결정할 수 있도록 합니다.
+
+#+BEGIN_SRC c
+#define FILE_MODE       (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
+
+static int dlog_trace_child = 0; /* If nonzero, print PID of each process */
+
+void
+dlog_process_init(void)
+{
+  dlog_trace_child = 1;
+}
+
+
+int
+dlog_init(void)
+{
+  const char *p;
+  char *endptr = NULL;
+  unsigned int mask;
+  int fd;
+  int tracep;
+
+  dlog_set_file(STDERR_FILENO);
+  p = getenv("DLOG_FILE");
+  if (p) {
+    if (p[0] == '\0')
+      dlog_set_file(-1);
+    else if (strcmp(p, "-") == 0)
+      dlog_set_file(STDOUT_FILENO);
+    else {
+      fd = open(p, O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, FILE_MODE);
+
+      if (fd == -1)
+        fprintf(stderr, "warning: cannot open file in DLOG_FILE\n");
+      else
+        dlog_set_file(fd);
+    }
+  }
+
+  p = getenv("DLOG_TRACE_CHILD");
+  if (p) {
+    if (p[0] != '\0') {
+      tracep = strtoul(p, &endptr, 0);
+      if (*endptr == '\0' && tracep != 0)
+        dlog_process_init();
+    }
+    else
+      dlog_trace_child = 0;
+  }
+  /* ... */
+}
+#+END_SRC
+
+이제 마지막으로, =dlog()=⁠를 고칠 단계입니다.  먼저, 앞에서 모든 메시지는
+바로 출력하는 것이 아니라, 버퍼에다 메시지를 만들고 나서, =write(2)=⁠를
+써서 한 번에 출력합니다.  이 때 버퍼의 크기는 =PIPE_BUF=⁠이며, 버퍼에
+메시지를 작성하는 부분은 =snprintx()=⁠를 써서 만듭니다.
+
+#+BEGIN_SRC c
+#include <snprintx.h>
+
+int snprintx(char **buf, ssize_t *size, const char *format, ...);
+#+END_SRC
+
+=snprintx()=⁠는 글쓴이가 만든 함수이며, =snprintf(3)=⁠와 같은 일을
+합니다. 다만, 첫 두 인자가 char *와 ssize_t에 대한 포인터를 받고,
+문자열을 만든 다음에 이 문자열의 끝을 가리키도록 두 인자가 바뀐다는
+점이 다릅니다.  예를 들어, 주어진 버퍼에 "hello"와 "world"를 연속적으로
+붙여서 문자열을 만들고 싶다면, 다음과 같이 할 수 있습니다:
+
+#+BEGIN_SRC c
+char buf[BUF_MAX];
+char *p = buf;
+ssize_t bufsize = sizeof(buf);
+
+snprintx(&p, &bufsize, "hello");
+snprintx(&p, &bufsize, "world");
+printf("%s\n", buf);
+#+END_SRC
+
+snprintx 모듈은 두 파일로 구성되어 있으며, 각각
+[http://www.cinsk.org/viewvc/snippets/snprintx.h?view=markup
+snprintx.h]와
+[http://www.cinsk.org/viewvc/snippets/snprintx.c?view=markup
+snprintx.c]입니다.
+
+아래는, 모든 것을 반영한 =dlog()=⁠입니다:
+
+#+BEGIN_SRC c
+void
+dlog(int errnum, unsigned category, const char *format, ...)
+{
+  va_list ap;
+  char buf[PIPE_BUF];
+  char *ptr = buf;
+  ssize_t bufsize = sizeof(buf);
+
+  if (dlog_fd != -1) {
+    if (dlog_mask & category)
+      return;
+
+    fflush(stdout);
+    if (dlog_fd == STDERR_FILENO)
+      fflush(stderr);
+
+    if (dlog_prefix)
+      snprintx(&ptr, &bufsize, "%s: ", dlog_prefix);
+
+    if (dlog_trace_child && dlog_thread)
+      snprintx(&ptr, &bufsize, "<%d-%s> ", (unsigned int)getpid(),
+              dlog_get_thread_name());
+    else if (dlog_trace_child)
+      snprintx(&ptr, &bufsize, "<%d:> ", (unsigned int)getpid());
+    else if (dlog_thread)
+      snprintx(&ptr, &bufsize, "<:%s> ", dlog_get_thread_name());
+
+    va_start(ap, format);
+    vsnprintx(&ptr, &bufsize, format, ap);
+    va_end(ap);
+
+    if (errnum)
+      vsnprintx(&ptr, &bufsize, ": %s", strerror(errnum));
+
+    snprintx(&ptr, &bufsize, "\n");
+
+    if (bufsize > 0)
+      write(dlog_fd, buf, sizeof(buf) - bufsize);
+
+    fsync(dlog_fd);
+  }
+}
+#+END_SRC
+
+또, thread만 지원했던 버전과는 달리, dlog_trace_child와 dlog_thread
+변수 상태에 따라 "<PID:THREAD-NAME>", "<PID:>", "<:THREAD-NAME>" 등의
+정보를 출력합니다.
+
+이제 실제로 테스트 해 봅시다. 먼저 앞 장에서 테스트 목적으로 만든
+tmp.c를 조금 바꿔서 multi-process + multi-thread 기능을 하도록
+만듭니다. 출력이 너무 많아지는 것을 막기 위해 NUM_WORKERS를 2로 설정한
+것과 몇 개의 헤더 파일 추가, 그리고 아래 =main()=⁠을 제외하고 나머지는
+같습니다:
+
+#+BEGIN_SRC c
+/* ... */
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#define NUM_WORKERS     2
+
+/* ... */
+
+int
+main(int argc, char *argv[])
+{
+  int i;
+  void *retval;
+  pid_t id;
+  int status;
+
+  dlog_init();
+  dlog_process_init();
+  dlog_thread_init();
+
+  dlog_set_thread_name("main");
+
+  dlog(0, 0, "Let's rock!");
+
+  id = fork();
+
+  for (i = 0; i < NUM_WORKERS; i++) {
+    pthread_create(&workers[i], NULL, worker_proc, (void *)i);
+  }
+
+  for (i = 0; i < NUM_WORKERS; i++) {
+    pthread_join(workers[i], &retval);
+    dlog(0, 0, "thread finished with return val %d", (int)retval);
+    /* ... */
+  }
+
+  if (id == 0)
+    _exit(0);
+  else
+    wait(&status);
+
+  dlog(0, 0, "Bye!");
+
+  return 0;
+}
+#+END_SRC
+
+위 파일을 컴파일하고 실행한 결과는 다음과 같습니다:
+
+#+BEGIN_SRC sh
+$ gcc -I. tmp.c dlog.c -lpthread
+$ ./a.out
+a.out: <21772:main> Let's rock!
+a.out: <21772:21774> thread started
+a.out: <21772:21775> thread started
+a.out: <21772:main> thread finished with return val 0
+a.out: <21772:main> thread finished with return val 1
+a.out: <21773:21776> thread started
+a.out: <21773:main> thread finished with return val 0
+a.out: <21773:21777> thread started
+a.out: <21773:main> thread finished with return val 1
+a.out: <21772:main> Bye!
+$ _
+#+END_SRC
+
+*** 생각해 볼 점
+
+1. 지금까지 만든 dlog 모듈의 경우, mask와 출력 파일 등의 default 값을
+   설정하는 방법은 만들지 않았습니다. 이는 =dlog_init()=⁠에 default mask,
+   default output file 등을 인자로 받아서 변경할 수 있도록 만들 수
+   있습니다.
+2. =dlog()=⁠는 메시지 출력만 하지만, GNU =error()=⁠와 비슷하게, =exit(3)=⁠까지
+   호출하는 =derror()=⁠도 손쉽게 만들 수 있습니다.
+3. Why reinvent the wheel?  이 글에서 주욱 설명한 dlog 대신 =syslog()=⁠를
+   써서 모든 문제를 해결할 수 있습니다.  다만 syslog를 쓸 경우, syslog
+   daemon이 떠 있어야 하고, syslog 설정을 바꾸기 위해서 root 권한이
+   필요할 수 있습니다.  또, 오래된 syslog인 경우, 짧은 시간에 다량의
+   메시지가 입력으로 들어오면 일부 메시지를 무시하는 경우가 있다는 글을
+   읽은 적이
+   있습니다. [[http://groups.google.com/group/comp.unix.admin/browse_frm/thread/52f588755580036b/][여기에]]
+4. =syslog()=⁠를 쓰던, 위 dlog를 쓰던, 아니면 그냥 =printf()=⁠를 쓰던, 어떤
+   경우에도 async-safe하지 않습니다. 즉, signal handler에서 쓸 수
+   없습니다.  글쓴이가 알기로, pthread의 거의 모든 함수들은
+   async-safe하지 않으므로, signal handler에서 쓸 수 있는 편리한?
+   함수를 만들기는 거의 불가능합니다.  (방법을 아신다면 글쓴이에게
+   연락을... ^^)
+
+마지막으로, 현재 버전의 dlog 모듈 및 snprintx 모듈은 [[http://www.cinsk.org/gitweb/?p=snippets.git;a=tree][여기]]에서 얻을 수
+있습니다.
+
+

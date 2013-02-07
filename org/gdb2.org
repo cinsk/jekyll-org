@@ -1,0 +1,604 @@
+# -*-org-*-
+#+STARTUP: odd
+#+OPTIONS: toc:4
+#+BEGIN_HTML
+---
+layout: org
+lang: ko
+id: gdb2
+title: Debugging with GDB Part 2
+lead: User defined commands
+---
+#+END_HTML
+
+* Introduction
+이 글은 GDB의 기능 중 사용자 명령을 만들어 쓰는 법을 설명합니다. 개발자
+여러분들의 칼퇴근에 조금이나마? 도움이 되기를 바랍니다. ^^;
+
+주의! 노파심에서 말씀드리지만, 이 글에서 나온 모든 소스 코드들은
+디버깅을 하기 위한 방법을 설명하기 위해, 즉석에서 만든 코드이므로, 코드
+자체에 대한 의견은 사양합니다.
+
+아울러 잘못된 내용이나 오타 등을 발견하셨다면 연락바랍니다.
+
+* Convenience Variables
+
+GDB는 개발자가 디버깅 도중에 사용할 수 있는 일종의 변수(variable)를
+제공합니다. 이 변수는 GDB 안에 존재하는 것으로, 디버깅하는 프로그램에
+영향을 주지 않습니다. 변수를 쓰는 법은 shell에서 쓰는 것과 비슷하게
+이름 앞에 =$=⁠를 붙여서 변수를 나타냅니다. 변수에 값을 대입하는 것은 =set=
+명령이나 =print= 명령을 써서 할 수 있습니다. 둘 다 모두 값을 대입하는 데
+쓸 수 있으며, =print= 명령을 써서 대입하게 되면, 대입된 값을 바로
+출력한다는 것만 다릅니다.
+
+#+BEGIN_SRC gdb-script
+(gdb) set $foo = 31         # $foo에 31 대입
+(gdb) p $foo                # $foo 값 출력
+$6 = 31
+(gdb) p $tmp="hello"        # $tmp에 "hello" 대입 및 출력
+$7 = 0x804a068 "hello"
+(gdb) p $tmp                # $tmp 값 출력
+$8 = 0x804a068 "hello"
+(gdb) _
+#+END_SRC
+
+물론, GDB에서 쓰는 변수들은 타입이 지정되어 있지 않습니다. 즉 개발자가
+처음에는 정수를 대입했다가, 나중에 포인터 값을 저장하더라도 아무런
+문제가 되지 않습니다. 또한 단순한 값 대입 이외에도, 함수를 호출해서 그
+결과를 저장할 수도 있습니다.
+
+#+BEGIN_SRC gdb-script
+(gdb) set $len = list_length(dead_node_list)
+$1 = 13
+#+END_SRC
+
+아래 예제는 매우 쓸모있는 것으로, 구조체를 가리키는 포인터의 배열의
+내용을 조사하는 명령입니다. GDB는 =<RET>=⁠을 누르면, 바로 전 명령을
+수행하게 되므로, 단순히 =<RET>=⁠을 치는 것으로, 배열의 내용을 차례대로
+조사할 수 있습니다.
+
+#+BEGIN_SRC gdb-script
+(gdb) set $i = 0
+...
+(gdb) print bar[$i++]->contents
+...
+(gdb) <RET>
+...
+...
+#+END_SRC
+
+이런 변수들을 쓸 때, 주의할 점이 하나 있습니다. 이름 앞에 =$=⁠를 붙이는
+것은 단순히 변수 뿐만 아니라, CPU의 레지스터(register)를 다룰 때에도
+쓰입니다. 따라서 변수 이름을 지을 때는, CPU 레지스터 이름과 다른 이름을
+써야 합니다. 예를 들어 아래 명령을 실행하게 되면 큰일납니다. :)
+
+#+BEGIN_SRC gdb-script
+(gdb) set $pc = 1234
+#+END_SRC
+
+=$pc=⁠는 *program counter* 레지스터를 나타내는 이름입니다. 따라서 위
+명령을 실행하고 나면 현재 CPU의 program counter register의 값이 바뀌기
+때문에 =next=, =run=, =continue= 등의 GDB 명령을 수행할 때, 엉망이 될
+확률이 높습니다. GDB는 CPU에 상관없이 =$pc=, =$sp=, =$fp=, =$ps=⁠를
+register 이름으로 사용합니다. 예를 들어, x86 계열에서 프로그램 카운터
+레지스터 이름은 =$eip=⁠이지만, 개발자는 =$pc= 또는 =$eip=⁠를 모두 다
+사용할 수 있습니다. 이 레지스터 이름의 뜻은 대충 다음과 같습니다:
+
+#+BEGIN_SRC gdb-script
+$pc   # program counter register
+$sp   # stack pointer register
+$fp   # frame pointer register
+$ps   # processor status register
+#+END_SRC
+
+따라서 위 이름은 자신의 CPU 타입에 상관없이 (변수 이름 지을때) 무조건
+피해야 합니다. 위 이름 이외에도 CPU가 지원하는 레지스터 이름을 피해야
+하는 것은 말할 것도 없습니다. 현재 자신의 CPU에서 지원하는 register의
+이름을 보려면 =info all-registers= 명령을 쓰면 됩니다. 예를 들어 아래
+내용은 제 컴퓨터에서 이 명령을 실행한 결과입니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) info all-registers
+eax            0x804a008	134520840
+ecx            0x804a048	134520904
+edx            0x804a008	134520840
+ebx            0xb7ed0ff4	-1209200652
+esp            0xbfce8840	0xbfce8840
+ebp            0xbfce8868	0xbfce8868
+esi            0xb7f0eca0	-1208947552
+edi            0x0	0
+eip            0x8048431	0x8048431 <main+122>
+eflags         0x200286	[ PF SF IF ID ]
+cs             0x73	115
+ss             0x7b	123
+ds             0x7b	123
+es             0x7b	123
+fs             0x0	0
+gs             0x33	51
+st0            0	(raw 0x00000000000000000000)
+st1            0	(raw 0x00000000000000000000)
+...
+#+END_SRC
+
+이외에도 피해야 할 이름이 몇 가지 있는데, GDB가 특수한 목적으로
+자동으로 값을 넣어주는 변수들이 있습니다. 각 변수들에 대한 자세한
+설명은 info(1) GDB 문서를 참고하기 바랍니다. 여기서는 간단히
+소개합니다.
+
+#+BEGIN_SRC gdb-script
+$_         # last address examined by 'x' command
+$__        # last value in $_
+$_exitcode # the exit code when program terminates.
+#+END_SRC
+
+* User Defined Commands
+GDB는 사용자가 기존의 GDB 명령을 써서 새로운 명령을 만들 수 있는 기능을
+제공합니다. 경험상 GDB에서 사용자가 새로 만드른 명령들은 대부분
+출력하는 함수들이며, =print= 명령과 다른 명령들을 조합해서 쓰는 것이
+일반적입니다.
+
+사용자 명령(user-defined command)은 =define ... end= 형태로
+정의합니다. 또, 인자를 받아 처리할 수 있으며, 각 인자들은 =$arg0=,
+=$arg1=, ..., =$arg9=⁠로, 그 값을 읽을 수 있습니다. 또한 =$argc=⁠는
+전달된 인자의 갯수입니다. 예를 들어 아래 명령은 주어진 세 인자를 더해서
+그 결과를 출력하는 사용자 명령입니다:
+
+#+BEGIN_SRC gdb-script
+define adder
+  print $arg0 + $arg1 + $arg2
+end
+#+END_SRC
+
+위와 같이 정의했다면, 다음과 같이 쓸 수 있습니다.
+
+#+BEGIN_SRC text
+(gdb) adder 1 2 3
+$1 = 6
+(gdb) _
+#+END_SRC
+
+위 명령을 두 개 또는 세 개의 인자를 처리하도록 고치면 다음과 같습니다:
+
+#+BEGIN_SRC gdb-script
+define adder
+  if $argc == 2
+    print $arg0 + $arg1
+  end
+  if $argc == 3
+    print $arg0 + $arg1 + $arg2
+  end
+end
+#+END_SRC
+
+GDB에서 제공하는 명령들에 대한 도움말은 항상 =help= 명령으로 얻을 수
+있습니다. 우리가 만든 =adder=⁠에 대한 도움말을 제공하려면 =document
+... end= 명령을 쓰면 됩니다.
+
+#+BEGIN_SRC gdb-script
+document adder
+Add 2 or 3 arguments and print the result
+end
+#+END_SRC
+
+사용자 명령을 만들때 쓸 수 있는 유용한 GDB 명령들은 다음과 같습니다.
+
+#+BEGIN_SRC gdb-script
+if, else          # 주어진 조건식이 참일 경우, 수행. end로 끝남
+while             # 주어진 조건식이 참일 경우 반복. end로 끝남
+loop_break        # 가장 안쪽 while을 벗어남
+loop_continue     # 가장 안쪽 while의 조건식 부분으로 점프
+end               # 블럭 명령들의 끝을 나타냄
+
+echo TEXT               # text 출력, 히스토리 저장 안됨
+output EXPR             # 수식만 출력 (newline, "$$ = " 없이..)
+output/FMT EXPR         # 주어진 포맷으로 출력
+printf STRING, EXPR..   # printf(3) 스타일로 출력
+#+END_SRC
+
+* Examples
+간단한 linked list를 생각해 봅시다. 이 리스트는 단일(singular)
+리스트이며, 각 노드는 상황에 따라 int, void *, double 타입의 데이터를
+저장할 수 있습니다. 대부분 개발자라면 즉시 머리에 다음과 같은 구조체가
+떠오를 것입니다:
+
+#+BEGIN_SRC c
+enum listtype_ {
+  LT_NONE,
+  LT_INTEGER,
+  LT_DOUBLE,
+  LT_POINTER,
+};
+typedef enum listtype_ listtype_t;
+
+struct list_ {
+  listtype_t type;         /* type of v member, LT_* */
+  union {
+    int ival;
+    void *pval;
+    double dval;
+  } v;
+  struct list_ *next;
+};
+typedef struct list_ list_t;
+#+END_SRC
+
+위와 같이 만들었다면, 정수를 저장하는 =list_t=⁠를 만드는 함수는 다음과
+같이 만들 수 있을 것입니다 (편의상 에러 검사 등의 코드는 모두
+생략합니다):
+
+#+BEGIN_SRC c
+list_t *
+int_node(int value)
+{
+  list_t *p = malloc(sizeof(*p));
+  p->type = LT_INTEGER;
+  p->v.ival = value;
+  p->next = NULL;
+  return p;
+}
+#+END_SRC
+
+마찬가지로 void *, double을 저장하는 함수를 각각 =ptr_node()=,
+=double_node()=⁠로 만들었다고 가정합니다.
+
+그리고, 새 노드를 기존 리스트의 앞부분에 추가하는 함수를 다음과 같이
+만들었습니다:
+
+#+BEGIN_SRC c
+list_t *
+prepend_list(list_t *list, list_t *newnode)
+{
+  newnode->next = list;
+  return newnode;
+}
+#+END_SRC
+
+이제, 이러한 형태의 리스트가 프로그램 전반에 걸쳐서 매우 널리 쓰인다고
+가정해봅시다. 개발자는 이런 리스트를 처리하는 함수들을 많이 만들었을
+것입니다. 예를 들면, 이러한 리스트를 인자로 받아서, 리스트에 들어있는
+정보를 파일에 저장하거나, 네트웍을 통해 다른 컴퓨터에 전송하는 함수들을
+생각하시면 됩니다. 이런 함수들은 대개 다음과 같은 형태로 만들어져 있을
+것입니다:
+
+#+BEGIN_SRC c
+void process_int_list(list_t *list);
+void process_short_list(list_t *list);
+#+END_SRC
+
+그리고, 이런 함수들에서 몇몇 버그가 발견되었다고 가정해
+봅시다. 그렇다면, 개발자는 무엇이 잘못되었는지 알기 위해 시간을 보내게
+됩니다. "혹시 인자로 받은 리스트를 연결하는 포인터들이 잘못되었을까?",
+"저장된 데이터의 타입과 =list_t::type=⁠의 값이 서로 다르지 않을까?",
+"전달받은 리스트가 예상했던 것보다 너무 짧거나 긴 것이 아닐까?" 등등.
+
+한가지 상황을 가정해봅시다. 먼저 =process_int_list()=⁠는 주어진 리스트가
+가진 데이터들이 모두 =LT_INTEGER= 타입일 경우에만 정상적으로
+동작합니다. 또 =process_short_list()=⁠는 주어진 리스트가 가진 노드들의
+갯수가 3개 이하일 경우에만 정상적으로 동작합니다. 이제 이 함수들에
+비정상적인 리스트가 전달되었다고 가정해 봅시다. 예를 들어,
+=process_int_list()=⁠에 전달된 리스트의 노드 중 하나가 =LT_POINTER=
+타입이고, =process_short_list()=에 전달된 리스트가 가진 노드의 갯수가
+5개라고 가정합니다.
+
+그리고 개발자는 이 두 함수에 breakpoint를 걸고, 조사하기
+시작합니다. 예를 들어 아래 GDB session은, 개발자가
+=proces_int_list()=⁠에 breakpoint를 걸고, 전달된 리스트가 정상적인지
+확인하는 과정을 담은 것입니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) br process_int_list
+Breakpoint 1 at 0x804845f: file list.c, line 81.
+(gdb) r
+Starting program: /home/cinsk/src/a.out 
+...
+Breakpoint 1, process_int_list (list=0x804a050) at list.c:81
+(gdb) p list
+$1 = (list_t *) 0x804a050
+(gdb) p *list
+$2 = {type = LT_INTEGER, v = {ival = 8, pval = 0x8, dval = 3.9525251667299724e-323}, next = 0x804a038}
+(gdb) set print pretty on
+(gdb) p *list
+$3 = {
+  type = LT_INTEGER, 
+  v = {
+    ival = 8, 
+    pval = 0x8, 
+    dval = 3.9525251667299724e-323
+  }, 
+  next = 0x804a038
+}
+(gdb) p *list->next
+$4 = {
+  type = LT_POINTER, 
+  v = {
+    ival = -559038737, 
+    pval = 0xdeadbeef, 
+    dval = 1.8457939563190925e-314
+  }, 
+  next = 0x804a020
+}
+(gdb) p *list->next->next
+$5 = {
+  type = LT_INTEGER, 
+  v = {
+    ival = 0, 
+    pval = 0x0, 
+    dval = 0
+  }, 
+  next = 0x804a008
+}
+(gdb) p *list->next->next->next
+$6 = {
+  type = LT_INTEGER, 
+  v = {
+    ival = 4, 
+    pval = 0x4, 
+    dval = 1.9762625833649862e-323
+  }, 
+  next = 0x0
+}
+(gdb) _
+#+END_SRC
+
+위 session을 보시면, 리스트의 노드들을 살펴보기 위해, 다음과 같은
+명령을 쓴 것을 알 수 있습니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) p *list
+(gdb) p *list->next
+(gdb) p *list->next->next
+(gdb) p *list->next->next->next
+#+END_SRC
+
+위 예에서는 리스트가 짧아서 저 정도만 조사해도 되지만, 리스트가 길다면
+위와 같이 계속 쫒아가면서 조사하는 것은 매우 번거로운 일이
+됩니다. 실제로 우리가 원하는 것은 노드들을 따라가면서, 각 노드의 타입이
+LT_INTEGER인지만 조사하면 됩니다. 따라서 다음과 같이 GDB 사용자 명령을
+만들 수 있습니다:
+
+#+BEGIN_SRC gdb-script
+define list_intp
+  set $ptr = $arg0
+  set $valid = 1
+  while $ptr != NULL
+    if $ptr->type != LT_INTEGER
+      set $valid = 0
+      loop_break
+    end
+    set $ptr = $ptr->next
+  end
+  p $valid
+end
+
+document list_intp
+Test whether the list consists of LT_INTEGER nodes.
+end
+#+END_SRC
+
+위 명령은 주어진 리스트를 따라가면서, 모든 노드의 타입이 =LT_INTEGER=⁠이면
+1을, 그렇지 않으면 0을 리턴하는 사용자 명령입니다. =lst1=⁠은 =LT_INTEGER=
+타입만 있는 리스트이고, =lst2=⁠가 =LT_POINTER= 타입이 있는 리스트라 가정하면
+다음과 같이 테스트할 수 있습니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) list_intp lst1
+$3 = 1
+(gdb) list_intp lst2
+$4 = 0
+(gdb) _
+#+END_SRC
+
+이제, 주어진 리스트의 길이를 리턴하는 함수를 만들어 봅시다. 이 코드는
+=list_intp=⁠와 거의 비슷합니다:
+
+#+BEGIN_SRC gdb-script
+define list_len
+  set $ptr = $arg0
+  set $len = 0
+  while $ptr != NULL
+    set $len++
+    set $ptr = $ptr->next
+  end
+  print $len
+end
+
+document list_len
+Return the number of nodes in the list
+end
+#+END_SRC
+
+그리고 나서 다음과 같이 쓸 수 있습니다.
+
+#+BEGIN_SRC gdb-script
+(gdb) list_len list
+$5 = 4
+(gdb) _
+#+END_SRC
+
+주어진 리스트의 모든 링크들을 출력하는 함수도 만들어 봅시다:
+    
+#+BEGIN_SRC gdb-script
+define list_dump
+  set $ptr = $arg0
+  while $ptr != NULL
+    printf "0x%08x: ", $ptr
+    output $ptr->type
+    printf ", next(0x%08x)\n", $ptr->next
+    set $ptr = $ptr->next
+  end
+end
+
+document list_dump
+Dump the contents of the list.
+end
+#+END_SRC
+
+아래는 =LT_INTEGER= 타입으로 이루어진 리스트를 위 명령을 써서 출력한
+예입니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) list_dump lst
+0x0804a050: LT_INTEGER, next(0x0804a038)
+0x0804a038: LT_INTEGER, next(0x0804a020)
+0x0804a020: LT_INTEGER, next(0x0804a008)
+0x0804a008: LT_INTEGER, next(0x00000000)
+(gdb) _
+#+END_SRC
+
+지금까지 간단한 리스트 처리 프로그램에서 GDB 사용자 명령을 쓰는 법에
+대해 알아보았습니다. 사실 위에 =list_dump=⁠나 =list_len=⁠과 같은 명령들은,
+개발자가 소스에 비슷한 함수를 만들어 두었다면 그냥 print 명령으로
+불러서 처리할 수도 있습니다. 예를 들어 다음과 같이 주어진 리스트의
+길이를 리턴하는 함수가 있다고 가정해 봅시다.
+
+#+BEGIN_SRC c
+int list_length(const list_t *list);
+#+END_SRC
+
+그럼 GDB에서 주어진 리스트 =lst=⁠의 길이를 알기 위해 다음과 같이 실행하면
+됩니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) p list_length(lst)
+$1 = 3
+(gdb) _
+#+END_SRC
+
+다만, 이런 함수를 만들어 두지 않았다면, GDB 사용자 명령으로 간단히
+만들어서, 디버깅을 쉽게 할 수 있다는 것을 알아두셨으면 합니다.
+
+* Command Files
+GDB를 매번 실행할 때마다 사용자 명령들을 만들어야 한다면, 차라리 안
+쓰는 것이 더 편할지도 모릅니다. 일반적으로 사용자 명령은 별도의 파일로
+만들어 두고, GDB를 실행할 때 불러오게 하는 것이 좋습니다. 따로 만들어
+둔 파일을 불러오려면 =source= 명령을 사용합니다. 예를 들어, 앞에서 만든
+명령들을 =command.gdb=⁠에 저장해 두었다면 다음과 같이 불러올 수 있습니다:
+
+#+BEGIN_SRC gdb-script
+(gdb) source command.gdb
+#+END_SRC
+
+매번 위와 같이 실행하는 것도 귀찮다면, GDB가 자동으로 읽는, 설정 파일에
+써 두는 것도 좋습니다. 보통 GDB가 실행되면, 먼저 사용자 홈 디렉토리에
+있는 =.gdbinit=⁠을 읽고, 그 다음에 현재 디렉토리에 있는 =.gdbinit=⁠을
+읽습니다.  따라서 같은 프로그램을 매번 디버깅해야 하는 상황이라면
+사용자 명령 정의를, =.gdbinit=⁠에 써 두는 것이 좋습니다. 주의. Windows나
+DOS, DJGPP용 GDB일 경우 =.gdbinit= 대신 =gdb.ini=⁠를 사용합니다.
+
+=source=⁠로 불러오는 파일이나 =.gdbinit= 파일의 형식은 같으며, "#" 다음에
+오는 문자는 모두 주석(comment)입니다. Emacs 소스나 Linux kernel 소스에
+=.gdbinit=⁠이 들어 있으니 참고삼아 읽어볼만 합니다. 주의. Linux kernel
+소스에 있는 GDB 파일들은 대개 =dot.gdbinit*= 꼴로 파일 이름이
+붙습니다. 다음 명령으로 찾아볼 수 있습니다.
+
+#+BEGIN_SRC sh
+$ find /usr/src/linux -name 'gdbinit'
+#+END_SRC
+
+
+#+BEGIN_HTML
+<!--
+----
+
+
+디버깅 상황을 설명하기 위해, 글쓴이가 현재 foobar라는 인터프리터를 작성한다고 가정해 봅시다. foobar 인터프리터는 단순하며 C 언어와 비슷한 형태의 script를 이해한다고 가정합시다.
+
+주의! 노파심에서 말씀드리지만, 이 글에서 나온 모든 소스 코드들은 디버깅을 하기 위한 방법을 설명하기 위해, 즉석에서 만든 코드입니다. 당연히 실전에서 쓸 수 있는 코드들이 아닙니다. 이 코드들을 보고 글쓴이를 평가하지 말기 바랍니다. ^^/;
+
+<source lang="c">
+enum symtype_t {
+  ST_NONE,  ST_INT,  ST_CHAR,
+  ST_FLOAT, ST_STR,  ST_PTR,
+};
+
+struct symbol_ {
+  unsigned type;         /* type of symbol */
+
+  char *name;            /* name of symbol */
+
+  struct attr *attrs;    /* symbol attributes */
+
+  union {
+    int ival;
+    char cval;
+    double dval;
+    char *sval;
+    void *pval;
+  } v;                   /* value of this symbol, depending on `type' */
+
+  struct symbol_ *next;  /* points to the next symbol */
+};
+typedef struct symbol_ symbol_t;
+</source>
+
+위는 즉석에서? 만든, 프로그래밍 언어에서 쓰이는 symbol table을 위한 구조체입니다.
+
+<source lang="c">
+symbol_t *
+make_symbol(const char *name)
+{
+  symbol_t *s;
+  s = malloc(sizeof(*s));
+  if (!s)
+    return NULL;
+  s->type = ST_NONE;
+  s->name = NULL;
+  if (name)
+    s->name = strdup(name);
+  s->attrs = NULL;
+  memset(&s->v, 0, sizeof(s->v));
+  s->next = NULL;
+  return s;
+}
+
+symbol_t *
+int_symbol(const char *name, int value)
+{
+  symbol_t *s;
+  s = make_symbol(name);
+  if (!s)
+    return NULL;
+  s->type = ST_INT;
+  s->v.ival = value;
+  return s;
+}
+
+symbol_t *
+float_symbol(const char *name, double value)
+{
+  symbol_t *s;
+  s = make_symbol(name);
+  if (!s)
+    return NULL;
+  s->type = ST_FLOAT;
+  s->v.dval = value;
+  return s;
+}
+</source>
+
+위 소스를 보면 아시겠지만, symbol_t는 심볼의 이름과 값을 저장하는 구조체입니다. 심볼이 가질 수 있는 값의 타입들은 symtype_t에 정의되어 있습니다. symbol을 만들려면 make_symbol()을 불러 symbol을 만들고 이 symbol의 값을 적당하게 설정해주거나, 위에서 예로 보인 int_symbol() 또는 float_symbol()을 써서 간단하게 만들 수 있습니다.
+
+foobar 인터프리터는 현재 scope에서 만들어진 모든 이름은 위 symbol_t 타입을 노드로 갖는 리스트로 관리합니다. 예를 들어 아래 함수는 현재 scope에서 주어진 이름을 찾는 함수입니다:
+
+<source lang="c">
+symbol_t *
+find_symbol_in_scope(symbol_t *symbol_list, const char *name)
+{
+  symbol_t *p;
+  for (p = symbol_list; p != NULL; p = p->next)
+    if (strcmp(name, p->name) == 0)
+      return p;
+  return NULL;
+}
+</source>
+
+foobar 인터프리터는 위와 같이 symbol을 다루는 함수가 매우 많이 존재합니다. 따라서 foobar 인터프리터 개발자는 이러한 함수를 디버깅할 때 symbol_t 타입의 리스트가 항상 정상적인 값을 가지고 있는지 검사해야 합니다.
+
+
+TODO:
+* list 구조 따라가며 값 출력하는 command
+* symbol type에 따라 출력하는 command
+* list 구조 길이 출력 command
+-->
+
+#+END_HTML
