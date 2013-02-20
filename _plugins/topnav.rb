@@ -105,7 +105,7 @@ module Jekyll
     ptag = ::Jekyll.tagmap[id]
 
     if ptag == nil
-      STDERR.write("#{context['page']['url']}: invalid id(#{id})\n")
+      #STDERR.write("#{context['page']['url']}: invalid id(#{id})\n")
       return nil
     end
 

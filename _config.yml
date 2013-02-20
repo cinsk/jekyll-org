@@ -19,7 +19,7 @@ jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"
 
 # 'label' is the short label of the index.html where it appears in the
 # top-right corner of all pages
-label: "Jekyll-Org"
+label: "cinsk.org"
 
 topnav-list: [ "home", "cfaq", "article", "emacs", "resume" ]
 

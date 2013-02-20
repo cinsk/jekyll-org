@@ -167,7 +167,8 @@ lead:
     </ul>
 
     <p>
-      <img src="./img/u-ca5.png" align="right" alt="U-CA5"/>
+      <img src="./img/u-ca5.png" class="img-rounded"
+           align="right" alt="U-CA5"/>
       I developed <em>libmpv</em>, which is MPV processor depends on
       <em>libsxml</em>. These two libraries are used in several Samsung
       cameras including U-CA5.
@@ -201,24 +202,37 @@ lead:
 
     </ul>
 
-    <div align="center">
-      <img src="./img/spl07.png" border="0" alt="SPL-07"/>
-      <a href="./img/exhibit_l1.jpg"><img src="./img/exhibit_t1.jpg"
-                                          border="0"
-                                          alt="SEK 2007 Exhibition 1"/></a>
-      <a href="./img/exhibit_l2.jpg"><img src="./img/exhibit_t2.jpg"
-                                          border="0"
-                                          alt="SEK 2007 Exhibition 2"/></a>
-      <br/>
+    <div class="row-fluid">
+    <ul class="thumbnails">
+      <li class="span3"></li>
+      <li class="span2">
+        <img src="./img/spl07.png" class="img-rounded" alt="SPL-07"/></li>
+      <li class="span2">
+        <a href="./img/exhibit_l1.jpg"><img src="./img/exhibit_t1.jpg"
+        class="img-rounded"
+        alt="SEK 2007 Exhibition 1"/></a></li>
+      <li class="span2">
+        <a href="./img/exhibit_l2.jpg"><img src="./img/exhibit_t2.jpg"
+                                            class="img-rounded"
+                                            alt="SEK 2007 Exhibition 2"/></a></li>
+      <li class="span3"></li>
+    </ul>
+    <ul class="thumbnails">
+      <li class="span3"></li>
+      <li class="span2">
       <a href="./img/sodi_l1.png"><img src="./img/sodi_t1.png"
-                                       border="0"
-                                       alt="Screenshot 1"/></a>
+                                       class="img-rounded"
+                                       alt="Screenshot 1"/></a></li>
+      <li class="span2">
       <a href="./img/sodi_l2.png"><img src="./img/sodi_t2.png"
-                                       border="0"
-                                       alt="Screenshot 2"/></a>
+                                       class="img-rounded"
+                                       alt="Screenshot 2"/></a></li>
+      <li class="span2">
       <a href="./img/sodi_l3.png"><img src="./img/sodi_t3.png"
-                                       border="0"
-                                       alt="Screenshot 3"/></a>
+                                       class="img-rounded"
+                                       alt="Screenshot 3"/></a></li>
+      <li class="span3"></li>
+    </ul>
     </div>
 
     <p>
@@ -243,7 +257,7 @@ lead:
     </p>
 
     <img src="./img/infolink.jpg"
-       border="0" align="right"
+       class="img-rounded" align="right"
        alt="Infolink Screenshots"/>
 
     <p>
@@ -281,14 +295,52 @@ lead:
       and developed virtual machine monitor.
     </p>
 
-    <p>
-      <!-- 2011
-           Learning Django.
+    <hr/>
 
-      CloudPI
-      (2011-), casi - Cloud App service interface spec
-      -->
+    <p>
+      From now on, my job is not fully development work, but also includes
+      management works.
     </p>
+
+    <p>
+      2011, In CloudPi project, I designed hybrid cloud
+      management console called CloudPI, which provide cloud infra and
+      cloud platform sub-systems:
+
+      <ul>
+        <li>Infra: CloudPI provide the hybrid cloud infra management;
+           (at the time, it supported
+           <a href="http://aws.amazon.com">AWS</a> and
+           <a href="http://incubator.apache.org">CloudStack</a>)</li>
+        <li>Platform: our application platform was heavily modified version of
+        VMWare's <a href="http://www.cloudfoundry.org/">CloudFoundry</a>.</li>
+      </ul>
+
+      <!-- BST 30, HQ 5 -->
+    </p>
+
+    <!--
+    <p>
+      2012, Our team was focusing to enchance our cloud application platform,
+      to provide better platform.  The major features were:
+
+      <ul>
+        <li>Enhanced Load balancer: our platform instance was proven up to
+        100k TPS (with auto-scaling of platform and application instances)</li>
+        <li>Enhanced Monitoring: not only the platform metrics itself, but
+        application can generate custom log / metrics and send to our monitoring
+        system for visualization.</li>
+      </ul>
+
+      <!-- BST 40, HQ 10 -- >
+    </p>
+
+    <p>
+      2013, Our team was focusing to provide RPC application platform,
+      which utilize ZeroC's <a href="http://www.zeroc.com/">ICE</a>.
+      <!-- BST 40, HQ 10 -- >
+    </p>
+    -->
   </section>
 </section>
 
