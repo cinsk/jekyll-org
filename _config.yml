@@ -2,6 +2,10 @@ safe: false
 auto: false
 server: false
 
+title: "cinsk's yard"
+paginate: 5
+#paginate_path: "/blog/page:num"
+
 bootstrap: "http://www.cinsk.org/bootstrap"
 prettify: "http://www.cinsk.org/bootstrap"
 jquery: "http://www.cinsk.org/bootstrap/js/jquery.js"

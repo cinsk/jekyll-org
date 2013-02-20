@@ -6,6 +6,17 @@ module Jekyll
 
   LANG_DEFAULT = "en"
 
+  class Pager
+    # def self.pagination_enabled?(config, file)
+    #   puts "pagination_enabled?(config, #{file})"
+    #   if !config['paginate'].nil?
+    #     return (/index.*\.html$/.match file) != nil
+    #   else
+    #     return nil
+    #   end
+    # end
+  end
+
   def self.tagmap
     @@_pagemap
   end
@@ -22,12 +33,25 @@ module Jekyll
     end
   end
 
+  def self.dump_pageinfo(page)
+    puts "page: #{page.name} basename(#{page.basename}) ext(#{page.ext})"
+    puts "      dir(#{page.dir})"
+    puts "      url: #{page.url}"
+    page.data.each_pair { |k, v|
+      puts "     [#{k}] = [#{v}]"
+    }
+  end
+
   def self.update_tagmap(context)
     result = "<!-- update_tagmap -->"
 
     if @@_pagemap.empty?
       context['site']['pages'].each { |pg|
-        id = pg.data['id']
+        ::Jekyll.dump_pageinfo(pg)
+
+        id = pg.data['pid']
+        id = pg.data['id'] if id == nil
+
         if id
           if ::Jekyll.tagmap.has_key?(id)
             tag = ::Jekyll.tagmap[id]
@@ -39,11 +63,20 @@ module Jekyll
           locale = LANG_DEFAULT
           locale = pg.data['lang'] if pg.data['lang']
 
+          # In some cases, there can be multiple pages that have same
+          # PID.  (e.g. if pagination is enabled, the /index.html and
+          # page*/index.htmlwill have same PID)
+
           if tag[locale]
-            raise RuntimeError,
-            "duplicated id:lang pairs; previous(#{tag[locale].name}), current(#{pg.name})"
+            if tag[locale].name != pg.name
+              raise RuntimeError,
+              "duplicated id:lang pairs; previous(#{tag[locale].name}), current(#{pg.name})"
+            end
+            # Ignore this page since there is already PageTag with
+            # same id.
+          else
+            tag[locale] = pg
           end
-          tag[locale] = pg
         end
       }
 
@@ -73,6 +106,7 @@ module Jekyll
 
     if ptag == nil
       STDERR.write("#{context['page']['url']}: invalid id(#{id})\n")
+      return nil
     end
 
     if ptag[locale]
@@ -136,8 +170,10 @@ module Jekyll
       txt = ""
       ::Jekyll.update_tagmap(context)
 
-      id = context['page']['id']
-      
+
+      id = context['page']['pid']
+      id = context['page']['id'] if id == nil
+
       txt += "<!-- fatal: current page does not have an id -->\n" if 
         id == nil
 
@@ -206,19 +242,20 @@ module Jekyll
       lang = context['page']['lang']
       lang = LANG_DEFAULT if lang == nil
 
-      id = context['page']['id']
+      id = context['page']['pid']
+      id = context['page']['id'] if id == nil
 
       if id == nil
-        raise RuntimeError, 
-        "page(#{context['page']['url']}) does not have id\n";
+        # raise RuntimeError, 
+        # "page(#{context['page']['url']}) does not have id\n";
       end
 
       ptag = ::Jekyll.tagmap[id]
 
       txt = ""
-      if ptag == nil
+
+
         txt += "<!-- toplink: invalid parameter, label(#{context[@label]}) not found -->\n"
-      else
         pages = []
 
         context['site']['topnav-list'].each { |id_|
@@ -231,11 +268,14 @@ module Jekyll
           pg = pgtag[lang]
           pg = pgtag[LANG_DEFAULT] if pg == nil
 
-          linkinfo = { :id => pg.data['id'],
+          pid = pg.data['pid']
+          pid = pg.data['id'] if id == nil
+
+          linkinfo = { :id => pid,
             :label => pg.data['label'],
             :locale => pg.data['lang'],
-            :url => ::Jekyll.site_url(pg.data['id'], lang, context),
-            :self => if id == pg.data['id']; true; else; false; end }
+            :url => ::Jekyll.site_url(pid, lang, context),
+            :self => if id != nil && id == pid; true; else; false; end }
 
           pages << linkinfo
 
@@ -256,7 +296,6 @@ module Jekyll
             txt += render_all(@nodelist, context)
           }
         }
-      end
       txt
     end
 

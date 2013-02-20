@@ -70,7 +70,6 @@ title: Jekyll with org-mode and twitter bootstrap
 #+END_HTML
 
 *** Tested Platform
-
 ***** Gentoo Linux
       - GNU Emacs 24.2.1 (Gentoo package: app-editors/emacs-23)
 

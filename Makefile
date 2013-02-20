@@ -14,6 +14,7 @@ all: www
 rebuild: clean all
 
 www: articles
+	rm -rf src/_posts/*~
 	jekyll
 
 articles: $(ARTICLES)
@@ -23,6 +24,8 @@ articles: $(ARTICLES)
 clean:
 	rm -f $(ARTICLES_OBJ)
 	rm -rf www
+	rm -rf $$HOME/.org-timestamps/org-posts*.cache
+	rm -rf $$HOME/.org-timestamps/org-www*.cache
 
 dist-clean:
 	find . -name '*~' -delete

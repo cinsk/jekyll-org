@@ -101,9 +101,40 @@
          :publishing-function org-publish-attachment)
 
         ("www" :components ("org-www" "org-www-static"))
-        ))
+
+        ("posts" :components ("org-posts" "org-posts-static"))
+
+        ("org-posts"
+         ;; Path to your org files.
+         :base-directory "posts/"
+         :base-extension "org"
+
+         ;; Path to your Jekyll project.
+         :publishing-directory "src/_posts/"
+         :link-home "../index.html"
+         :link-up "../posts.html"
+         :recursive t
+         :publishing-function org-publish-org-to-html
+         ;;:htmlized-source t
+         ;;:headline-levels 3
+         :table-of-contents nil
+         :sub-superscript {}
+         :html-extension "html"
+         :body-only t ;; Only export section between <body> </body>
+         )
+
+        ("org-posts-static"
+         :base-directory "posts/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+         :publishing-directory "src/img/posts/"
+         :recursive t
+         :publishing-function org-publish-attachment)))
 
 
-(org-publish "www" 'force)
+;;(org-publish "www" 'force)
+(org-publish "www" nil)
+
+(setq org-export-html-toplevel-hlevel 3)
+(org-publish "posts" nil)
 
 ;(org-export-htmlize-region-for-paste (0 1))

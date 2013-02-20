@@ -1,0 +1,77 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "CouchDB: tool for design documents, couch-register-design"
+blurb: >
+  Whenever I experiment CouchDB, especially design documents, always I
+  feel unhandy to upload the document.
+tags: [ "couchdb", "cloudant", "bigcouch", "couchapp" ]
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+
+For simple experiments, Futon (CouchDB web interface) is the easiest
+solution. However, if you want to keep the changes systemically, or
+if you want to use any version control system, you're on your own.
+
+The difficulty come from the format of the design document; CouchDB
+wants you to specify javascript functions in JSON string. If you
+decided not to use Futon, you'll escape your function in JSON string
+by yourself.
+
+Worse, if your function is not valid, you'll realize after the
+design document is uploaded.
+
+Precisely, I want a tool that:
+
+  - can add/update the design document from the sources that I provided,
+  - can verify all javascript functions before uploading,
+  - can upload attachment files.
+    
+First, I tried to use CouchApp, but lack of the detailed guide makes
+me gave up. Sorry CouchApp folks. :(
+
+Second, I wrote simple bash shell scripts to interact with CouchDB
+with =curl(1)=, to upload the document after escaping the function to
+build JSON document. It was not simple to implement all the features
+that I need, so I stopped.
+
+Third, I try to write the tool in Ruby, and try to use httpclient,
+but I couldn't make httpclient works for HTTP client features like
+multipart/form-data. (Mayhaps I didn't know how to use httpclient
+fluently.) So I stopped again.
+
+Fourth, I realized that I spent too much time to write this
+script. I don't want to dig the source of the httpclient, so I just
+write small Ruby wrapper of =curl(1)=, and made the tool, finally.
+
+If you have interest, visit couch-register-design and experiment.
+
+#+BEGIN_SRC sh
+$ ./register-designs.rb -h
+Usage: register-designs.rb [OPTION...] DIRECTORY
+
+    -d, --database [URL]             CouchDB endpoint URL
+                                     (default: "http://localhost:5984/sedis")
+
+    -j, --jspath [JS-PATH]           Javascript interpreter
+    -v, --verbose                    Verbose output
+
+    -h, --help                       Show this message
+    -V, --version                    Show version and exit
+
+Register design documents from DIRECTORY where it contains
+files for the document.
+
+  DIRECTORY/views/VIEW-NAME/*.js  (e.g. map.js or reduce.js)
+  DIRECTORY/shows/*.js            (e.g. print.js or others)
+  DIRECTORY/*.js                  (e.g. validate_doc_update.js)
+  DIRCETORY/_attachments/*        (automatically uploaded)
+
+Report bugs to <cinsky at gmail.com> or post bugs to
+  <https://github.com/cinsk/couch-register-design/issues>
+#+END_SRC

@@ -2,36 +2,64 @@
 layout: default
 title: Seong-Kook Shin's little world
 label: Home
-id: home
+pid: home
 lang:
 lead: living in my brand new life
 ---
-<div class="span3 bs-docs-sidebar">
-  <ul class="nav nav-list bs-docs-sidenav">
-    <li><a href="#about"><i class="icon-chevron-right"></i>About</a></li>
-  </ul>
-</div>
 
-<div class="span9">
-  <section id="about">
-    <div class="page-header">
-      <h1>About me,</h1>
+{% for post in paginator.posts %}
+<article>
+  <div class='row'>
+    <aside class='span3 article-meta'>
+      <ul class='unstyled'>
+        <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
+        <li class="tags">
+          {{ post.tags | sort | array_to_sentence_string }}
+        </li>
+      </ul>
+    </aside>
+
+    <div class='span9'>
+      <header>
+        {% if paginator.previous_page %}
+        <h2 class='article-title'><a href="..{{ post.url }}">{{ post.title }}</a></h2>
+        {% else %}
+        <h2 class='article-title'><a href=".{{ post.url }}">{{ post.title }}</a></h2>
+        {% endif %}
+      </header>
+
+      <p>
+        {{ post.blurb }}<br>
+        <a href=".{{ post.url }}#continue">Read More...</a>
+      </p>
     </div>
-    <p>
-      I am Seong-Kook Shin, better known as 'cinsk' in local community.
-    </p>
+  </div>
+</article>
+{% endfor %}
 
-    <ul>
-      <li>I maintain the Korean translation of <em>C Programming
-      FAQs</em>.  (The authentic version (in English) is available
-      from <a href="http://c-faq.com/">here</a> by Steve
-      Summit.)</li>
-      <li>I'm working at <a href="http://www.samsung.com/">Samsung
-      Electronics</a> headquarter in Korea as a software developer.
-      You can see my resume <a href="{% mlink resume %}">here</a>.</li>
-    </ul>
-  </section>
-</div>
+<ul class='pager'>
+  <!-- {{ paginator }} -->
+  {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+  <li class='previous'><a href='../'>&#x2190; Newer</a></li>
+    {% else %}
+  <li class='previous'><a href='../page{{ paginator.previous_page }}'>&#x2190; Newer</a></li>
+    {% endif %}
+  {% else %}
+  <li class='previous disabled'><a href='#'>&#x2190; Newer</a></li>
+  {% endif %}
+
+  {% if paginator.next_page %}
+    {% if paginator.previous_page %}
+  <li class='next'><a href='../page{{ paginator.next_page }}'>Older &#x2192;</a></li>
+    {% else %}
+  <li class='next'><a href='./page{{ paginator.next_page }}'>Older &#x2192;</a></li>
+    {% endif %}
+  {% else %}
+  <li class='next disabled'><a href='#'>Older &#x2192;</a></li>
+  {% endif %}
+</ul>
+
 
 <!--
   Local Variables:

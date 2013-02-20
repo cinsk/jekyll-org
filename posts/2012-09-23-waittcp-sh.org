@@ -1,0 +1,101 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Waiting until TCP port is opened/closed using bash and nc(netcat)"
+tags: [ "screen", "xargs" ]
+blurb: >
+  Recently, I wrote a shell script which interacts with a TCP
+  server. Since the script took charge of launching the server,
+  sometimes my script fails because the server did not open the socket
+  yet.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+To come up with this problem, I used to wait certain amount of time
+using sleep(1) like this:
+
+#+BEGIN_SRC sh
+# launch the server which automatically daemonizes itself.
+start-server 
+
+# one second is enough for my system.
+sleep 1
+
+client do something
+#+END_SRC
+
+It was fine for my system, until I realized this method would not
+work on slow machine. Worse, when my system in a heavy-load, my
+system also failed to run above script successfully.
+
+I would solve this problem by raising the amount of seconds
+sleeping, but I do not want to wait more on my relatively fast
+system.
+
+Then I realized that netcat (a.k.a. =nc=) provides such feature with
+the "-z" option.
+
+To test whether =www.cinsk.org= (TCP port 80) is opened, I can launch
+
+#+BEGIN_SRC sh
+# In BSD-like (MacOS) system
+$ nc -z www.cinsk.org 80
+Connection to www.cinsk.org 80 port [tcp/http] succeeded!
+$ _
+
+# On my Linux system, no message but just return zero on success
+$ nc -z www.cinsk.org 80
+$ _
+#+END_SRC
+
+Then I found another problem. Suppose that the firewall drops all
+packets for that port. Since by default, netcat(=nc=) will wait
+permanently until the port is open, the script that uses netcat(=nc=)
+will not return.
+
+Thanks to the rich interface of netcat, it provides another option
+"-w" to specify the amount of time it will wait. The problem is,
+MacOS nc (BSD) does not work with "-w" option if the firewall drops
+all packets. Installing GNU version will solve this problem. (by the
+command "=brew install netcat=")
+
+Finally, I wrote wait4tcp.sh to lessen the burden for others.
+
+#+BEGIN_SRC sh
+# Wait until port 80 8080 5984 are opened
+$ ./wait4tcp.sh HOSTNAME 80 8080 5984
+
+# The same as above, except it will retry only 10 times per each port.
+$ ./wait4tcp.sh -w 10 HOSTNAME 80 8080 5984
+
+# Wait until port 80 is closed
+$ ./wait4tcp.sh -c HOSTNAME 80
+
+# The same as above, except it will retry permanently.
+$ ./wait4tcp.sh -w -1 -c HOSTNAME 80
+
+# With the bash brace expansion, wait for port range 6379..6383 are opened
+$ ./wait4tcp.sh HOSTNAME {6379..6383}
+#+END_SRC
+
+By default, wait4tcp.sh will retry 100 times per each port. Retrying
+100 times is done less than 1 second in my system. Using "-w -1"
+option will retry permanently.
+
+* Updated
+
+  Recently, I read valuable article from [[http://www.catonmat.net/blog/tcp-port-scanner-in-bash/][TCP Port Scanner in Bash]],
+  and found that bash provides special filenames for redirections.
+  
+  As Peteris suggested, I changed to bash special filenames and
+  =timeout(1)= so that there is no dependency to netcat(=nc=).
+  
+  Here is the full source code for =wait4tcp.sh=:
+
+#+BEGIN_HTML
+<script src="https://gist.github.com/3769111.js"> </script>
+#+END_HTML

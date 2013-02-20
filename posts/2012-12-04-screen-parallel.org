@@ -1,0 +1,98 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Parallel command execution using GNU screen(1)"
+blurb: >
+  I have been working on to develop large-scale web application, which
+  deals with a lot of image files. To test the application, we need a
+  huge number of large (the resolution should be higher than 640x480)
+  images. Since we didn't have lots of samples, I decided to grab from
+  <a href="http://images.google.com/">Google images</a>. For my own
+  execuse, the testing will be done in private network, which makes me
+  less obligation for the copyright issue.
+tags: [ "screen", "xargs" ]
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+
+The image archiving job was simple. I create a small shell script that
+extracts actual image URL from the saved Google images result, and
+saved that file as images.lst. Each line of that file contains image
+URL. Then I create another script that reads URL one by one, and [[http://www.gnu.org/software/wget][wget]]
+the image to the local storage, and produce several thumbnails using
+[[http://www.imagemagick.org/][ImageMagick]]. So the whole process can be describe as:
+
+#+BEGIN_SRC sh
+$ cat images.lst | ./image-downloader.sh
+#+END_SRC
+
+I intended to download around 1000 images, and since it uses just one
+thread of execution, it will takes for a while. At that time, I was
+beginning to wonder, "It would be great if there is an utility that
+automatically divide the input data file into specified number of
+pieces, then execute the command that I specified for each piece."
+
+I instantly remembered that there is a tool called [[http://www.gnu.org/software/parallel/][parallel]], but I
+decided to make my own. There is a reason to build from scratch:
+
+The work job program, which will deal with dividened piece, is not
+matured program mostly. This means that I need to watch the progress
+of each job process output, and I need to fix it in quick-and-dirty
+way.  Similar to previous reason, sometimes, I need to analyze the
+output of the process at the run-time.  Needs a 'detatched from tty'
+feature, so that I can launch the whole process in remote and can
+forget it for a while.  All the reasons makes me to think, it would be
+great if I can create a script (I named it, screen-parallel.sh) to use
+GNU screen to do the parallel jobs. For example, if I specified the
+concurrency level to 10, then screen-parallel.sh will divide the input
+into 10 pieces, and will create 10 screen windows, and execute the
+command that I specified per piece.
+
+For example, in the beginning of the article, I used 
+"=cat images.lst | ./image-downloader.sh=". To do that job in 10 workers,
+
+#+BEGIN_SRC sh
+$ screen-parallel.sh -h
+Parallel execution of a command using GNU screen(1)
+Usage: screen-parallel.sh [OPTION...] COMMAND [ARG...]
+
+    -c CONCURRENCY           set concurrency level (default: 3)
+
+    -i INPUT                 specify input data file
+    -p                       send input to STDIN of COMMAND
+
+    -d                       leave screen(1) in detached state.
+
+    -v                       verbose mode
+
+If no input file specified, this program will create CONCURRENCY
+windows, then each window will execute COMMAND with ARGs.
+
+Otherwise, input file will be splitted in CONCURRENCY parts, and
+COMMAND will be executed per part.  If any of ARG is "{}", then it
+will be substituted to the pathname of the part.  If there is none,
+the pathname of the part will be appended to ARGs.
+
+Example:
+
+    # Split 'input.txt into 5 parts,
+    # and execute "./process.sh -i PART-PATHNAME -v".
+    screen-parallel.sh -i input.txt -c 5 ./process.sh -i {} -v
+
+    # Run 3 instances of "standalone.sh -p"
+    screen-parallel.sh -c 3 ./standalone.sh -p
+ 
+$ screen-parallel.sh -c 10 -i images.lst -p ./image-downloader.sh
+#+END_SRC
+
+Option =-c 10= means to specify the concurrency level to 10, and option
+=-i images.lst= means to use the input file, =images.lst=, and option =-p=
+indicates that the each divided piece will be provides via STDIN to
+the command process.
+
+The whole source code is provided in the [[https://github.com/cinsk/screen-parallel/][GitHub repository]]. Feel free
+to leave an issue there if you have any comment or suggestion. Thanks.

@@ -1,0 +1,34 @@
+.article-container {
+  padding: 120px 0;
+}
+
+.article-container > article {
+  margin-bottom: 60px;
+}
+
+.article-container > article:last-of-type {
+  margin-bottom: 0;
+}
+
+.article-title {
+  font-size: 41px;
+  font-weight: 300;
+  line-height: 38px;
+  margin-bottom: 25px;
+}
+
+.article-meta {
+  color: #d5d5d5;
+  font-family: serif;
+  font-style: italic;
+  padding-top: 83px;
+  
+  -webkit-transition: color .7s ease;
+  -moz-transition:    color .7s ease;
+  -o-transition:      color .7s ease;
+  transition:         color .7s ease;
+}
+
+.article-meta:hover {
+  color: #555;
+}

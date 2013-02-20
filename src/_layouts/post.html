@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ page.title }}</title>
+    {% include title.html %}
 
     <!-- Le styles -->
     <link href="{{site.bootstrap}}/css/bootstrap.css" rel="stylesheet"/>
@@ -14,6 +14,7 @@
           rel="stylesheet"/>
     <link href="{{site.bootstrap}}/css/docs.css" rel="stylesheet"/>
     <link href="{{site.prettify}}/prettify.css" rel="stylesheet"/>
+    <link href="../../../css/articles.css" rel="stylesheet"/>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -54,7 +55,7 @@
               url: {{url}}<br/>
               self: {{self}}<br/>
               -->
-              {% if self == true %}
+              {% if id == "home" %}
               <li class="active"><a href="{{url}}">{{label}}</a></li>
               {% else %}
               <li class=""><a href="{{url}}">{{label}}</a></li>
@@ -78,8 +79,8 @@
 ================================================== -->
 <header class="jumbotron subhead" id="overview">
   <div class="container">
-    <h1>{{page.title}}</h1>
-    <p class="lead">{{page.lead}}</p>
+    <h1>{{site.title}}</h1>
+    <!-- <p class="lead">{{page.title}}</p> -->
   </div>
 </header>
 
@@ -88,7 +89,7 @@
     <div class="row">
       <div class="span10"></div>
       <div class="span2">
-        <!-- This div should be floating and should not scroll, 
+        <!-- This div should be floating and should not scroll,
              but I don't know anything about CSS, *sigh* -- cinsk -->
         <section id="lang">
           {% linguas label, url, self %}
@@ -103,7 +104,25 @@
     </div>
 
     <div class="row">
-    {{content}}
+      {{content}}
+
+      <hr/>
+
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'cinsk'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     </div>
   </div>
 

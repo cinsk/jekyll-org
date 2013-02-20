@@ -1,0 +1,93 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Emacs: tabs and spaces, trailing whitespaces"
+blurb: >
+  Long time ago, when I never heard about Emacs, and the times when I
+  used to code in Borland Turbo C, I hated spaces. I even didn't
+  understand people who uses spaces to indent their codes. The main
+  reason was, I hated that the code looks ugly (precisely, if the
+  indentation broken) whenever I looked at the source code in other
+  text editors.
+tags: [ "emacs", "tab", "space", "whitespace" ]
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+
+Alas, the time had changed. Now we have the freedom to choose tab or
+spaces without any problem, thanks to the decent editors.
+
+Still, some people stick to use tab characters in their source
+codes. I suggest to those people to read the wonderful article, 
+[[http://www.jwz.org/doc/tabs-vs-spaces.html][Tabs versus Spaces: An Eternal Holy War]] by Jamie Zawinski.
+
+Of course, we cannot completely ignore tab characters, notably
+=Makefile=. And in some scripts, we need to use actual tab characters,
+but mostly, we can live without tabs, especially dealing with
+compliation-style source code such as C, C++, Java, etc. What I want
+to emphasize is, don't use tab character to indent your code.
+
+Still, life is not that simple, I need to work with people who uses
+tab characters to indent their code. Some of them accidentally modify
+my code and put tab characters in it which I hate but all I can do is
+either to convince then to use spaces or to modify their code silently
+by my hand.
+
+The primary text editor for my disposal is Emacs. I used to use the
+scrips that Jamie Zawinski made in his article, but I found better
+solution which is built-in on recent version of Emacs, so I made some
+change.
+
+Following code will change the source code to convert tabs into spaces
+and remove any trailing whitespaces (This only works for the
+registered language modes):
+
+#+BEGIN_SRC emacs-lisp
+;; These hook configuration ensures that all tab characters in C, C++
+;; source files are automatically converted to spaces on saving.
+(defvar untabify-remove-trailing-spaces-on-write-modes
+  '(c-mode c++-mode java-mode emacs-lisp-mode lisp-mode nxml-mode)
+  "List of major mode that needs to convert tab characters into spaces,
+and to remove trailing whitespaces")
+
+(defun untabify-remove-trailing-spaces-on-write ()
+  "Utility function that removes tabs and trailing whitespaces"
+  (when (memq major-mode untabify-remove-trailing-spaces-on-write-modes)
+    (save-restriction
+      (widen)
+      (untabify (point-min) (point-max))
+      (delete-trailing-whitespace (point-min) (point-max))))
+  ;; Should return nil so that if this function is registered into
+  ;; `write-contents-functions', and if we need to propagate the control
+  ;; to the other functions in `write-contents-functions'.
+  ;;
+  ;; Personally, this function should be registered into
+  ;; `before-save-hook' anyway.
+  nil)
+
+(add-hook 'before-save-hook 'untabify-remove-trailing-spaces-on-write)
+#+END_SRC
+
+And here's the code that visualize:
+
+#+BEGIN_SRC emacs-lisp
+;; As suggested in
+;;  http://stackoverflow.com/questions/935723/find-tab-characters-in-emacs,
+;;
+;; Following sexp visualize tab character.
+(add-hook 'font-lock-mode-hook
+          '(lambda ()
+             (when (memq major-mode
+                         untabify-remove-trailing-spaces-on-write-modes)
+               (font-lock-add-keywords nil
+                                       '(("\t" 0
+                                          'trailing-whitespace prepend))))))
+#+END_SRC
+
+Now I'm looking for easy way to decline GIT commit if the soure
+codes (depending on the file name extension) contains TAB
+characters...

@@ -1,0 +1,96 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Emacs, Mac, Fontset, Font and X resources"
+tags: [ "emacs", "macosx", "font", "fontset" ]
+blurb: >
+  Recently, I bought a macbook pro for my personal use.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+As soon as it is delivered to my home, I installed Emacs 24.x, from
+[[http://emacsformacosx.com/][EmacsForMacOsX]].  Normally, in my other computers, I use the version
+23.x.  The reason that I installed unstable 24.x is, that I want to
+use the package system (package.el) in my macbook.  It would be very
+boring and tedious if I need to install all the packages that I want
+to use like in my other Gentoo linux.
+
+For my Linux systems, I uses Korean and English fonts using Emacs's
+X resource configuration.  For example,
+
+#+BEGIN_SRC conf-xdefault-mode
+Emacs*Fontset-0:-*-DejaVu Sans Mono-*-*-*-*-14-*-*-*-*-*-fontset-dejavu14,\
+          latin:-*-DejaVu Sans Mono-*-*-*-*-14-*-*-*-*-*-*,\
+        hangul:-*-NanumGothic_Coding-*-*-*-*-*-*-*-*-*-*-*
+Emacs.Font: fontset-dejavu14
+#+END_SRC
+
+But in my macbook, it didn't work. The reason is, in Mac, the X
+window system is not running by default. It seems that MacOS delays
+loading X window system until the first X application starts. And it
+takes a couple of seconds, which I don't like it. Of course, I could
+force to load the X resource, by using =xrdb -merge
+MY_EMACS_X_RESOURCE_FILE= in my =.bash_profile= but as I said
+before, it took several seconds to load the X system.
+
+So, I want to set my fontset configuration in the startup lisp code
+instead X resource file. With a few experiments, here are the
+working version:
+
+#+BEGIN_SRC emacs-lisp
+  (set-fontset-font "fontset-standard" 'unicode 
+                    (font-spec :name "Consolas"
+                               :weight 'normal
+                               :slant 'normal
+                               :size 16)); nil 'prepend)
+  (set-fontset-font "fontset-standard" 'hangul
+                    (font-spec :name "NanumGothicCoding"))
+
+  (set-face-font 'default "fontset-standard")
+#+END_SRC
+
+In addition to fontset configuration, there are a few more configuration for Mac.
+
+1. I want to use Command key as a meta key, since it's where the
+   Meta key should be.
+2. I want to use Command-C to work as "copy the content to the
+   clipboard".  Since the Command key is meta key now, I want to
+   bind M-c to something that works like "copy the selection to the
+   clipboard for other application.".
+3. I want to make Fn-Delete key as to delete right character.
+4. I want to maintain one startup lisp code for all my Linux
+   machines and Macbook.
+
+With some help, here's the complete lisp code for Mac:
+
+#+BEGIN_SRC emacs-lisp
+(when (eq system-type 'darwin)
+  (setq mac-option-modifier nil)
+  (setq mac-command-modifier 'meta)
+  ;; sets fn-delete to be right-delete
+  (global-set-key [kp-delete] 'delete-char)
+
+  (set-fontset-font "fontset-standard" 'unicode 
+                    (font-spec :name "Consolas"
+                               :weight 'normal
+                               :slant 'normal
+                               :size 16)); nil 'prepend)
+  (set-fontset-font "fontset-standard" 'hangul
+                    (font-spec :name "NanumGothicCoding"))
+
+  (set-face-font 'default "fontset-standard")
+
+  (when (display-graphic-p)
+    (global-set-key [(meta ?c)] 'ns-copy-including-secondary)))
+#+END_SRC
+
+Finally! I can use Emacs with my custom preferences like in my Linux
+machines. :)
+
+Note that this configuration worked on Emacs pretest binary 24.x
+EmacsForMacOsX. As 24.1 is turned to the stable release, it suddenly
+turned out not working! :(  Read on more [[../../../2012/07/10/osx-emacs-fontset.html][here]].

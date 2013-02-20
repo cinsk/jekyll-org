@@ -1,0 +1,68 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Emacs ruby-mode and RVM prompt"
+tags: [ "emacs", "ruby", "rvm", "prompt" ]
+blurb: >
+  On emacs ruby-mode, if you do <code>M-x run-ruby</code> (or
+  <code>C-c C-s</code>), the inferior ruby interpreter is provided in
+  the "=*ruby*=" buffer so that you can evaluate lots of ruby
+  statements or expressions.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+When you press =M-p= (=M-x comint-previous-input=), Emacs will cycle to
+the previous input histrory saving input, so that you can easily
+re-evaulate of your previous input.
+
+It works like other inferior interpreter provided by python-mode,
+slime, and so on.
+
+What makes me frustrated is, it works for the ruby 1.8 installed in
+my gentoo system, but it does not work for the ruby 1.9.3 installed
+via RVM. The minibuffer shows sulpurous error:
+
+#+BEGIN_SRC ruby
+Search failed: "^irb(.*)[0-9:]+0> *"
+#+END_SRC
+
+Looking at the ruby-mode's source, I found that string is the value
+of '=inferior-ruby-first-prompt-pattern=' in =inf-ruby.el=. It looks
+like that ruby-mode uses =inferior-ruby-first-prompt-pattern= and
+=inferior-ruby-prompt-pattern= for the ruby's prompt pattern.
+
+Another notable different from the start between two rubies (v1.8
+system versus v1.9 RVM) are their prompt patterns:
+
+#+BEGIN_SRC ruby
+  # ruby 1.8 (system)
+  irb(main):001:0> _
+
+  # ruby 1.9.3 (RVM)
+  ruby-1.9.2-p180 :001 > _
+#+END_SRC
+
+Now it's clear who is the culprit. Due to the difference of the
+prompt pattern, ruby-mode could not provide me =M-p= or =M-n= working.
+
+So I modified two variables in =inf-ruby.el= and reports a bug to the
+Ruby issue tracking system and got a quick response.
+
+It turns out that it's not the fault of ruby-mode, but it's the
+fault of RVM. (Actually, it's not a defect. It just not right for my
+purpose.)
+
+By default, RVM uses different prompt from the native ruby. To solve
+this, you can force RVM ruby (irb) to use the native prompt
+pattern. It's simple: modify =$HOME/.irbrc= to include following:
+
+#+BEGIN_SRC ruby
+IRB.conf[:PROMPT_MODE] = :DEFAULT
+#+END_SRC
+
+I feel embbarassed that I blamed ruby-mode when I found something is
+wrong :(

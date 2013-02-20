@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^.*$ https://github.com/cinsk/pyprofgen [R=301,L]
