@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /cfaqs/
+RewriteRule ^index-ko.html$ index.ko.html [R=301,L]

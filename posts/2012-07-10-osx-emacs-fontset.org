@@ -55,7 +55,7 @@ use smaller font size any more. It sucks! Anyway, here is the
 screenshot with the above setting:
 
 #+ATTR_HTML: class="img-rounded" width="50%" alt="OSX Mountain Lion Emacs with Korean Font"
-[[../../../img/posts/osx-emacs-fontset.png]]
+[[file:osx-emacs-fontset.png]]
 
 I tried with several fonts such as Monaco, Andale Mono, and so on
 but I found Consolas is superior among others (this is my biased

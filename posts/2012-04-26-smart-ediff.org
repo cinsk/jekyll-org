@@ -47,7 +47,7 @@ so my X window system provides 3840x1080 display. That means, if I
 call =ediff-toggle-wide-display=, the screen will look like:
 
 #+ATTR_HTML: class="img-rounded" width="60%" alt="ediff too widen"
-[[../../../img/posts/ediff-widen-display.png]]
+[[file:ediff-widen-display.png]]
 
 As you can see, this is unacceptable. So, again, I need to modify
 the configuration little bit, so that it will widen the frame in a

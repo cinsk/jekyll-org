@@ -96,7 +96,7 @@ When writing e-mail in Emacs using M-x mail, press M-RET to
 auto-completing mail address.
 
 #+ATTR_HTML: class="img-rounded" width="50%" alt="Emacs mail address completion"
-[[../../../img/posts/emacs-address-completion.png]]
+[[file:emacs-address-completion.png]]
 
 Listing of gcontract.rb:
 

@@ -6,5 +6,8 @@
 # #.#*
 
 /www/
+/src/_posts/*.html
+/src/img/posts/
+*~
 .#*
 /src/articles/
