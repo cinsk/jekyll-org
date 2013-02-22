@@ -43,3 +43,6 @@ linguas:
   :tag: en
 - :label: Korean
   :tag:  ko
+
+exclude:
+- cfaqs.src

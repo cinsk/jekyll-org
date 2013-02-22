@@ -10,8 +10,13 @@ ARTICLES_OBJ := $(patsubst %.org, src/%.html, $(ARTICLES))
 EMACS=$(shell which emacs)
 
 
-all: www
+all: cfaqs www
 rebuild: clean all
+
+cfaqs:
+	cd src/cfaqs.src && $(MAKE)
+	cp src/cfaqs.src/cfaqs-ko.pdf* src/cfaqs/
+	cp -a src/cfaqs.src/html src/cfaqs/
 
 www: articles
 	rm -rf src/_posts/*~
@@ -22,6 +27,9 @@ articles: $(ARTICLES)
 	./html5tize.rb $(wildcard src/articles/*.html)
 
 clean:
+	rm -f src/cfaqs/cfaqs-ko.pdf*
+	rm -rf src/cfaqs/html
+	cd src/cfaqs.src && $(MAKE) clean
 	rm -f $(ARTICLES_OBJ)
 	rm -rf www
 	rm -rf $$HOME/.org-timestamps/org-posts*.cache

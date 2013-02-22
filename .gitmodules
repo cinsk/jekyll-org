@@ -1,0 +1,3 @@
+[submodule "src/cfaqs.src"]
+	path = src/cfaqs.src
+	url = www.cinsk.org:/var/lib/git/cfaqs-ko.git
