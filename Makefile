@@ -10,6 +10,8 @@ ARTICLES_OBJ := $(patsubst %.org, src/%.html, $(ARTICLES))
 EMACS=$(shell which emacs)
 
 
+PREFIX=/var/www/localhost/htdocs
+
 all: cfaqs www
 rebuild: clean all
 
@@ -37,3 +39,7 @@ clean:
 
 dist-clean:
 	find . -name '*~' -delete
+
+install:
+	cp -a www/.htaccess $(PREFIX)/
+	cp -a www/* $(PREFIX)/
