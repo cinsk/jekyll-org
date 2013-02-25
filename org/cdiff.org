@@ -1,0 +1,5100 @@
+# -*-org-*-
+#+STARTUP: odd
+#+OPTIONS: toc:4
+#+BEGIN_HTML
+---
+layout: org
+id: cdiff
+title: "ISO C와 ISO C++의 차이"
+lead: Incompatibilties Between ISO C and ISO C++
+lang: ko
+---
+#+END_HTML
+
+
+* 번역자 소개글
+  이 글은 [[mailto:david@tribble.com][David R. Tribble]]씨의 허락을 얻어 번역한 글입니다.
+  영문 원본은 [[http://david.tribble.com/text/cdiffs.htm][Incompatibilities Between ISO C and ISO C++]]을 보기 바랍니다.
+
+*** 번역: implementation
+    표준 문서에는, 'implementation'이라는 단어가 나오며, 이는 간단히
+    말해, 표준을 구현한 컴파일러 또는 프로그램을 뜻합니다.  어떤
+    책에서는 이를 '구현체'라고 부르기도 하지만, (글쓴이의 기준에)
+    어색해 보이기 때문에, 혼동의 여지가 없는 한, 그냥 'C 컴파일러' 또는
+    '특정 C 컴파일러'라고 부르겠습니다.
+    
+#+BEGIN_SRC text
+  The implementation is free to use a different underlying primitive
+  integer type for each enumerated type.
+#+END_SRC
+
+#+BEGIN_SRC text
+  C 컴파일러는 각 열거형 타입에 대해 서로 다른 내부 단순 정수
+  타입[underlying primitive integer type]을 쓸 수 있습니다.
+#+END_SRC
+
+*** 번역: identifier
+    특별히 구분할 상황이 아닌 경우, 'identifier'는 '이름'으로
+    번역합니다.  'name'과 구분할 상황이 필요한 경우, 전자는
+    '이름[identifier]', 후자는 '이름[name]'으로 씁니다.
+
+*** 번역: specifier
+    앞 명사에 따라 '지정자' 또는 '변환자'로 번역
+
+    | format specifier   | 형 변환자       |
+    | =static= specifier | =static= 지정자 |
+
+*** 번역: constant, literal
+
+    둘 다 '상수'로 번역
+
+* 소개
+  
+  ANSI X3J9 위원회는 C 언어에 대한 표준화 작업을 1985년 안팍에
+  시작했고, 몇년이 지나서 1989년 ANSI에 새 표준이 등록되었습니다.
+
+  이 후, 1990년에 ISO 위원회는 국제화 이슈를 추가한 개정판_{amendment}⁠을
+  만들고 이를 ISO C 표준으로 만들었습니다.  1989년 C 표준의 공식 이름은
+  /ANSI/ISO 9899-1989, Programming Lanaguges - C/⁠이며, 이 글에서는
+  간단히 C89라고 부르겠습니다.  1990년 ISO 개정 표준의 공식 이름은
+  /ISO/IEC 9899-1990, Programming Languages - C/⁠이며, 이 글에서는
+  C90이라고 부릅니다.
+
+  ISO 위원회는 1999년에 새 버전을 내놓았고, 이 문서의 공식 이름은
+  /ISO/IEC 9899-1999, Programming Lanaguges - C/이며, 이 글에서는
+  C99라고 부릅니다.
+
+  C++ 언어는 ANSI C 이후의 C 언어를 기반으로 하고 있습니다.
+  1995년 즈음에 ISO 위원회에서 C++를 표준화하려는 움직임이 있었고, 1998년에
+  /ISO/IEC 14882-1998, Programming Languages - C++/⁠이라는 이름의 표준이
+  만들어졌습니다. 이 표준 문서는 이 글에서 C++98 또는 C++이라고 부르겠습니다.
+
+  두 언어가 공통 조상을 가진 것은 맞습니다. 그리고 표준화 작업
+  과정에서, 관련자들은 가능하면 두 언어의 호환성을 유지하려고
+  노력했지만, 불가피하게 약간의 차이가 생겼습니다.  따라서 이
+  차이점들을 알아두면, C 코드를 작성할 때 문제가 발생할 일이 줄어들
+  것입니다.
+
+  일반적으로 "특정 기능에 대해 C 언어가 C++과 호환이 되지
+  않는다_{incompatible C features}"라는 말은, (1) 해당 기능을 쓴 C
+  프로그램이 (C++ 문법에 어긋나서) 틀리다_{not valid}라는 뜻이거나,
+  (2) 컴파일은 되지만, C 언어에서와 
+  다른 방식으로 동작한다_{different behavior}⁠라는 뜻입니다.
+  즉, C 언어로는 올바른 프로그램이지만, C++ 언어로서는 타당하지 않다는
+  뜻입니다.  이 글에서는 이러한 차이점들을 모두 다루려고 합니다.
+  이러한 차이점들을 잘 피해간다면, C++ 코드로 컴파일해도, 무리가 없는
+  C 코드를 작성하는데 많은 도움이 될 것이라 생각합니다.
+
+  다른 차이로, C++ 프로그램으로는 올바르지만, C 언어로는 타당하지
+  않은 기능들이 있습니다.  이 글에서는 이러한 기능들을 "호환성없는 C++
+  기능_{incompatible C++ features}"이라고 부를 것입니다.  C++ 언어의
+  많은 부분이 여기에 해당합니다. (예를 들어 class, template, exception,
+  reference, member function, anonymous union등이 있습니다.) 
+  이 글에서 이러한 부분들은 자세히 다루지 않을 것입니다.
+
+  또 다른 차이로, C90과 C++이 서로 같은 이름의 기능을 제공하지만, 이
+  기능이 언어에 따라 차이가 있는 경우가 있습니다.  이러한 내용들은 이
+  글에서 다룰 것입니다.
+  
+  이 글은 C99와 C++98의 차이를 다룹니다. (C90과 C++의 차이는 다루지 않습니다.
+  자세한 것은 부록 B의 [[* STR][Stroustrup]] [STR]을 보기 바랍니다.)
+
+  또 이 글에서, C99 표준 라이브러리에 추가된 내용들은, C++과 차이가 있지 않은 한,
+  다루지 않을 것입니다.
+
+* C++ vs. C
+
+  앞 소개에서 간단히 말했지만, 호환성 없는 C++ 기능, 즉, C 언어에서는
+  쓸 수 없는 C++ 특성들은 이 글에서 다루지 않을 것입니다. C++ 언어의
+  많은 부분이 여기에 해당하며, C++ 표준 라이브러리도 여기에
+  해당합니다. 이러한 기능들에는 다음과 같은 것들이 있습니다. (모든
+  기능이 나열된 것은 아닙니다.)
+
+  - anonymous union
+  - class
+  - constructor, destructor
+  - exception 그리고 =try/catch= block
+  - external function linkage (예: =​extern "C"​=)
+  - function overloading
+  - member function
+  - namespace
+  - =new=⁠와 =delete= 연산자
+  - operator overloading
+  - reference type
+  - standard template library (STL)
+  - template class
+  - template function
+
+* Changes to C99 versus C++98
+
+  이 단원에서는, C90 때에는 C++98과 호환성이 없었지만, C99에서는
+  호환성이 있는 내용들에 대해 다룹니다.
+
+*** Aggregate Initizlizer
+
+    C90에서는, 합성 타입_{aggregate type}(struct, 배열, union 등)이
+    automatic, register 변수로 쓰일 때, 상수_{constant expression}⁠만
+    초기값으로 쓸 수 있습니다.  (그러나 대부분 컴파일러들이 이 제한을
+    지키고 있지 않습니다.)
+
+    C99에는 이러한 제한이 없습니다.
+
+    C++에서는, automatic/register 변수 초기값으로 상수가 아닌
+    표현_{non-constant expression}⁠도 쓸 수 있습니다. (또, 상수가 아닌
+    표현을 static/external 변수 초기값으로도 쓸 수 있습니다.)
+
+    예를 들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  // C and C++ code
+  void foo(int i)
+  {
+    float x = (float)i;           // C90, C99, C++ 모두 ok
+    int   m[3] = { 1, 2, 3 };     // C90, C99, C++ 모두 ok
+    int   g[2] = { 0, i };        // C90에서는 에러
+  }
+#+END_SRC
+
+    [C99: §6.7.8]
+    [C++98: §3.7.2, 8.5, 8.5.1]
+
+*** Comments
+
+    C++에서는 =/* ... */= 형태 이외에 =//...= 형태의 주석_{comment}⁠을
+    쓸 수 있습니다. 
+
+    C90은 =/* ... */= 형태의 주석만 인식합니다.  일반적으로 =//...= 형태의
+    주석을 쓰면 문법 에러가 발생하지만, 드물게 경고없이 원하지 않은 뜻으로
+    컴파일되는 경우가 있습니다:
+
+#+BEGIN_SRC c
+  i = (x//*y*/z++
+       , w); 
+#+END_SRC
+
+    C99는 두 가지 형태의 주석을 모두 인식합니다.
+
+    [C99: §5.1.1.2, 6.4.9]
+    [C++98: §2.1, 2.7]
+
+*** Conditional expression declarations
+
+    C++에서는, 조건문_{conditional expression}⁠에 지역 변수를 선언할 수 있습니다.
+    (예: =for=, =if=, =while=, =switch= 문장에서.)  이렇게 선언된 지역 변수는
+    조건문을 포함한 문장_{statement}⁠의 끝까지 scope를 가집니다.  예를 들면 다음과
+    같습니다:
+
+#+BEGIN_SRC c
+  for (int i = 0; i < SIZE; i++)
+    a[i] = i + 1; 
+#+END_SRC
+
+    C90은 이 특성을 제공하지 않습니다.
+
+    C99는 이 특성을 제공하지만, =for= 문장에서만 쓸 수 있습니다.
+
+    [C99: §6.8.5]
+    [C++98: §3.3.2, 6.4, 6.5]
+
+*** 이중글자_{digraph} 토큰
+
+    C++ 언어는 두 글자로 이루어진 토큰_{token}⁠을 지원합니다. 이것을
+    'digraph'라고 부르는데, C90에서는 지원하지 않습니다.  이 두 글자
+    토큰과 실제 해당하는 토큰은 다음과 같습니다:
+    
+    #+ATTR_HTML: class=".table" style="margin-top: 100;"
+    | =<:=   | =[=  |
+    | =:>=   | =]=  |
+    | =<%=   | ={=  |
+    | =%>=   | =}=  |
+    | =%:=   | =#=  |
+    | =%:%:= | =##= |
+
+    C99는 C++과 같이 위의 두 글자 토큰을 지원합니다.
+
+    따라서 아래 프로그램은 C99와 C++에서 다 쓸 수 있습니다.
+
+#+BEGIN_SRC c
+  %:include <stdio.h>
+      
+  %:ifndef BUFSIZE
+   %:define BUFSIZE  512
+  %:endif
+      
+  void copy(char d<::>, const char s<::>, int len)
+  <%
+    while (len-- >= 0)
+    <%
+      d<:len:> = s<:len:>;
+    %>
+  %> 
+#+END_SRC
+    
+    [C99: §6.4.6]
+    [C++98: §2.5, 2.12]
+
+*** Implicit function declaration
+
+    C90은 함수가 호출되기 전에 선언되지 않은 경우, 이 함수는
+    '함축적으로_{implicitly} 선언되었다'라고 하며, 해당 함수는 =int=⁠를
+    리턴하는 것으로 간주합니다.  예를 들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  /* 현재 scope에 bar() 선언이 없음 */
+      
+  void foo(void)
+  {
+    bar();  /* 함축적 선언: extern int bar() */
+  } 
+#+END_SRC
+
+    C++에서는 이러한 함축적 선언을 허용하지 않습니다.  따라서  해당 scope에
+    선언이 없을 경우, 그 함수를 부를 수 없습니다.
+
+    C99도 함수가 함축적으로 선언된 것을 허용하지 않습니다.  따라서, 위의 코드는
+    C99와 C++ 모두에서 틀린 코드입니다.
+   
+    [C99: §6.5.2.2]
+    [C++98: §5.2.2]
+
+*** Implicit variable declarations
+
+    C90에서 변수 선언, 함수 인자, 구조체 멤버에 타입 지정자_{type specifier}⁠가 
+    없을 경우, =int=⁠로 선언된 것으로 간주합니다.
+
+    C99와 C++은 모두 이러한 생략을 허용하지 않습니다.
+
+    따라서 아래 코드는 C90에서는 올바르지만, C99와 C++에서는 틀린 코드입니다:
+   
+#+BEGIN_SRC c
+  static  sizes = 0;         /* Implicit int, error */
+      
+  struct info
+  {
+    const char *  name;
+    const         sz;      /* Implicit int, error */
+  };
+      
+  static foo(register i)     /* Implicit ints, error */
+  {
+    auto  j = 3;           /* Implicit int, error */
+      
+    return (i + j);
+  }
+#+END_SRC
+    
+    [C99: §6.7, 6.7.2]
+    [C++98: §7, 7.1.5]
+
+*** Intermixed declarations and statements
+
+    C90 문법에서는, 모든 선언은 해당 블럭의 첫번째 문장_{statement}⁠이 나오기 전에
+    미리 나와야 합니다.
+
+    C++에서는 이러한 제한이 없습니다.  즉, 문장_{statement}⁠과 선언이 섞여 쓰여도
+    됩니다.
+
+    C99에서도 이러한 제한이 없기 때문에, 문장_{statement}⁠과 선언을 섞어 쓸 수 
+    있습니다.
+
+#+BEGIN_SRC c   
+  void prefind(void)
+  {
+    int i;
+      
+    for (i = 0; i < SZ; i++)
+      if (find(arr[i]))
+        break;
+      
+    const char *s;   /* C90에서는 에러, C99와 C++에서는 ok */
+      
+    s = arr[i];
+    prepend(s);
+  } 
+#+END_SRC
+    
+    [C99: §6.8.2]
+    [C++98: §6, 6.3, 6.7]
+
+
+* C99 versus C++98
+
+  이 단원에서는 C99와 C++98의 차이점에 대해서 다룹니다.  이 차이점 중에는
+  C89 시절부터 존재했던 것들도 있고, C99로 개정되면서 생긴 차이점들도 있습니다.
+
+  앞에서도 잠깐 말했지만, C++에 있는 특성(예: class member
+  function)들은 이 단원에서 다루지 않을 것입니다.  단지, C와 C++에 모두
+  존재하는 특성들 중 차이가 있는 것들만 다룹니다.  이 차이점들은 대부분
+  C에서는 올바르지만 C++에서는 틀린 것들입니다.
+
+  몇몇 특성들은, C 언어와 호환성을 높이기 위해, C++ 컴파일러의 확장
+  기능으로 제공되기도 합니다.
+
+*** Alternate punctuation token spellings
+
+    C++에서는 구두점 토큰_{punctuation token} 대신에 다음 토큰들을 쓸
+    수 있습니다:
+
+# I don't know how to escape a pipe character('|') in org table
+# with =...= markup.  See
+# http://stackoverflow.com/questions/5144862/escape-pipe-character-in-org-mode
+# 
+# and            &&                     
+# and_eq         &=                     
+# bitand         &                      
+# bitor          |                      
+# compl          ~                      
+# not            !                      
+# not_eq         !=                     
+# or             ||                     
+# or_eq          |=                     
+# xor            ^                      
+# xor_eq         ^=                     
+
+#+BEGIN_HTML
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left"><code>and</code></td><td class="left"><code>&amp;&amp;</code></td></tr>
+<tr><td class="left"><code>and_eq</code></td><td class="left"><code>&amp;=</code></td></tr>
+<tr><td class="left"><code>bidand</code></td><td class="left"><code>&amp;</code></td></tr>
+<tr><td class="left"><code>bitor</code></td><td class="left"><code>|</code></td></tr>
+<tr><td class="left"><code>compl</code></td><td class="left"><code>~</code></td></tr>
+<tr><td class="left"><code>not</code></td><td class="left"><code>!</code></td></tr>
+<tr><td class="left"><code>not_eq</code></td><td class="left"><code>!=</code></td></tr>
+<tr><td class="left"><code>or</code></td><td class="left"><code>||</code></td></tr>
+<tr><td class="left"><code>or_eq</code></td><td class="left"><code>|=</code></td></tr>
+<tr><td class="left"><code>xor</code></td><td class="left"><code>^</code></td></tr>
+<tr><td class="left"><code>xor_eq</code></td><td class="left"><code>^=</code></td></tr>
+</tbody>
+</table>
+#+END_HTML
+
+    위 키워드들은 C++ 전처리기_{preprocessor}⁠에서도 인식합니다.
+
+    C90에서는 위 키워드들을 제공하지 않습니다.  대신 위 이름들을
+    =<iso646.h>= 헤더 파일에서 매크로로 제공하기 때문에, 키워드처럼 쓸
+    수 있긴 합니다.
+
+    C++ 언어는 비어있는 =<iso646.h>= 헤더를 제공하기 때문에,
+    C++ 프로그램에서 이 헤더를 포함해도 아무런 문제가 없습니다.  
+    이 헤더를 포함하지 않은 C 프로그램에서는, 위 이름들을 다른 목적으로
+    써도 됩니다.  대신, 이럴 경우, C++ 프로그램으로 컴파일하면
+    문제가 발생합니다.
+
+#+BEGIN_SRC c
+  enum oper { nop, and, or, eq, ne };
+      
+  extern int  instr(enum oper op, struct compl *c); 
+#+END_SRC
+
+    따라서 작성한 프로그램이 C와 C++ 모두 지원하려면, 위의
+    이름_{identifier}⁠들을 다른 목적으로 쓰지 말아야 하며, 위 이름들을
+    쓸 때, 무조건 =<iso646.h>=⁠를 포함시키는 것이 좋습니다.
+   
+#+BEGIN_SRC c
+  // Proper header inclusion allows for the use of 'and' et al
+      
+  #ifndef __cplusplus
+   #include <iso646.h>
+  #endif
+      
+  int foo(float a, float b, float c)
+  {
+    return (a > b and b <= c);
+  } 
+#+END_SRC
+    
+    [C99: §7.9]
+    [C++98: §2.5, 2.11]
+
+*** Array parameter qualifiers
+
+    C99에서는, 함수 인자로 배열이 올 때, 배열 선언부의 첫
+    대괄호_{bracket}, (=[]=⁠) 안에 type qualifier (예: cv-qualifier인
+    =const=, =volatile=, =restrict=)를 쓸 수 있습니다.
+    이 qualifier는 배열 파라미터의 타입을 변경합니다.  따라서 아래 두 선언은
+    같은 뜻입니다:
+
+#+BEGIN_SRC c
+  extern void foo(int str[const]);
+  extern void foo(int *const str); 
+#+END_SRC
+
+    위 두 선언에서 파라미터 =str=⁠은 =int= 오브젝트를 가리키는 =const=
+    포인터입니다.
+
+    C99에서는, 또, 배열 선언부에서 배열 크기를 나타내는 수식_{expression} 앞에
+    =static= 지정자_{speciifer}⁠를 쓸 수 있습니다.  이 경우, 배열의 크기가 적어도
+    지정된 배열 크기보다 같거나 클 것을 나타냅니다.  (즉, 컴파일러에게 배열을
+    효과적으로 다룰 수 있도록 힌트를 제공합니다.)  예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  void baz(char s[static 10])
+  {
+    // s[0]부터 s[9]까지 연속적으로 존재함을 나타냄
+    ...
+  } 
+#+END_SRC
+
+    이 모든 기능들은 C++에서 제공하지 않습니다.
+   
+    (몇몇 C++ 컴파일러에서는 확장 기능으로 제공할 수도 있습니다.)
+   
+    [C99: §6.7.5, 6.7.5.2, 6.7.5.3]
+    [C++98: §7.1.1, 7.1.5.1, 8.3.4, 8.3.5, 8.4]
+
+*** Boolean type
+
+    C99는 =_Bool= 키워드를 제공하며, 이는 참/거짓을 나타내는
+    정수_{integer} 타입을 선언하는데 씁니다.  또, =<stdbool.h>= 헤더를
+    제공하며, 아래와 같은 매크로를 제공합니다:
+
+    | =bool=  | =_Bool=⁠과 같음    |
+    | =false= | =(_Bool)0=⁠과 같음 |
+    | =true=  | =(_Bool)1=⁠과 같음 |
+
+    C++에서는 =bool=, =false=, =true=⁠가 모두 키워드이며, =bool=은
+    내재된_{built-in} 불리언_{boolean} 타입입니다.
+
+    =<stdbool.h>=⁠를 포함하지 않은 C 프로그램은 이 키워드들을 다른
+    이름_{identifier}⁠이나 매크로 이름으로 쓸 수 있지만, 이럴 경우 C++
+    프로그램으로 컴파일하면 문제가 됩니다.  예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  typedef short  bool;       // Different
+      
+  #define false  ('\0')      // Different
+  #define true   (!false)    // Different
+      
+  bool  flag =   false; 
+#+END_SRC
+
+    따라서, C 프로그램에서도, 위 이름들을 다른 목적으로 쓰는 것은 좋지 않으며,
+    올바른 목적으로 쓸 경우, 반드시 =<stdbool.h>=⁠을 포함시켜야 합니다.
+
+    (대부분 C++ 컴파일러는 확장 기능으로서, 비어있는 =<stdbool.h>= 헤더를
+    제공합니다.)
+   
+    [C99: §6.2.5, 6.3.1.1, 6.3.1.2, 7.16, 7.26.7]
+    [C++98: §2.11, 2.13.5, 3.9.1]
+
+*** Character literals
+
+    C 언어에서, '=a='와 같은 문자 상수는 =int= 타입이며, 따라서 =sizeof('a')=⁠는 
+    =sizeof(int)=⁠와 같습니다.
+    
+    C++에서 문자 상수는 =char= 타입이며, 따라서 =sizeof('a')=⁠는
+    =sizeof(char)=⁠와 같습니다.
+
+    따라서 C와 C++ 프로그램으로 컴파일할 때, 다르게 동작하는
+    코드가 나올 수 있습니다.
+
+    #+BEGIN_SRC c
+  memset(&i, 'a', sizeof('a'));   // Questionable code 
+    #+END_SRC
+    
+    사실상, 이는 큰 문제가 되지 않습니다.  왜냐하면, C와 C++ 모두에서,
+    문자 상수가 수식_{expression}⁠에 나올 경우, 함축적으로_{implicitly}
+    =int= 타입으로 변경되기 때문입니다.
+    
+    [C99: §6.4.4.4]
+    [C++98: §2.13.2]
+
+*** clog identifier
+
+    C99에서, =<math.h>= 헤더에 복소수_{complex} 자연 
+    로그_{natural logarithm} 함수로 =clog()=⁠를 제공합니다.
+
+    C++은 =<iostream>= 헤더에 표준 에러 로그
+    스트림_{standard error logging output stream}⁠으로 =std::clog=⁠를
+    제공합니다. (이는 =stderr= 스트림과 같습니다.)  
+    =clog=⁠은 =<math.h>= 헤더가 포함될
+    경우, 전역_{global} namespace에 위치하며, 로그 함수를
+    가리킵니다. 만약 =<math.h>= 헤더가 =clog=⁠를 매크로 이름으로
+    정의했다면, C++ 코드와 충돌날 수 있습니다.
+
+#+BEGIN_SRC c++
+  // C++ code
+      
+  #include <iostream>
+  using std::clog;
+      
+  #include <math.h>               // 충돌날 가능성이 있음
+      
+  void foo(void)
+  {
+    clog << clog(2.718281828) << endl;
+    // Possible conflict
+  }
+#+END_SRC
+
+    C++ 프로그램에서 이런 충돌 가능성을 없애려면, =<iostream>=⁠과
+    =<cmath>= 헤더를 포함하면 됩니다.  이 경우, 두 =clog= 이름이 모두
+    =std::= namespace에 존재하며, 하나는 변수 이름이고 다른 하나는 함수
+    이름이기 때문에 문제가 발생하지 않습니다.
+
+#+BEGIN_SRC c++
+  // C++ code
+      
+  #include <iostream>
+  #include <cmath>
+      
+  void foo(void)
+  {
+    std::clog << std::clog(2.718281828) << endl;
+    // 서로 다른 타입이기 때문에 충돌나지 않음
+  }
+      
+  void bar(void)
+  {
+    complex double  (* fp)(complex double);
+      
+    fp = &std::clog;            // 문제없음
+  }
+#+END_SRC
+
+    이 충돌 가능성을 회피하기 위해, 한 소스 파일 안에서 서로 다른 뜻의 =clog=⁠를
+    동시에 쓰지 않는 것도 좋습니다.
+   
+    [C99: §7.3.7.2]
+    [C++98: §27.3.1]
+
+*** Comma operator results
+
+    C 언어에서 콤마 연산자는, 오른쪽 피연산자가 l-value이더라도, 결과는
+    r-value가 나옵니다.  C++에서는 오른쪽 피연산자가 l-value일 경우,
+    결과도 l-value가 됩니다.  따라서 아래 예는 올바른 C++ 코드이지만 C
+    프로그램으로서는 틀린 코드가 됩니다:
+
+#+BEGIN_SRC c++
+  int     i;
+  int     j;
+      
+  (i, j) = 1;     // C++에서는 ok, C에서는 에러
+#+END_SRC
+    
+    [C99: §6.5.3.4, 6.5.17]
+    [C++98: §5.3.3, 5.18]
+
+*** Complex floating-point type
+
+    C99는 내장된 복소수 및 허수 타입을 제공하며, 각각 키워드
+    =_Complex=, =_Imaginary=⁠를 써서 선언합니다.
+
+    C99에서 제공하는 복소수 및 허수 타입은 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  _Complex float                         
+  _Complex double                        
+  _Complex long double                   
+                                         
+  _Imaginary long double                 
+  _Imaginary double                      
+  _Imaginary long double                 
+#+END_SRC
+
+    C99는 =<complex.h>= 헤더를 제공하며, 이 안에는 복소수 타입 정의,
+    관련 매크로, 상수 등이 들어 있습니다.  특히, 이 헤더는 아래와 같은
+    매크로를 제공합니다:
+
+    | =complex=   | =_Complex=⁠와 동일   |
+    | =imaginary= | =_Imaginary=⁠와 동일 |
+    | =I=         | /i/  (허수 단위)    |
+
+    C 코드에서 이 헤더를 포함하지 않을 경우, 위 단어들을 다른 목적의
+    이름_{identifier}⁠이나 매크로 이름으로 쓸 수 있습니다.  사실
+    =_Complex=⁠나 =_Imaginary=⁠처럼 이상한 이름을 키워드를 만든 것도,
+    C89나 기존 C 코드에서, =complex=⁠나 =imaginary=⁠란 이름을 썼을 경우,
+    문제없이 동작할 수 있도록 하기 위해서 입니다.
+
+    (복소수가 아닌) 일반 실수 연산에서 함축적으로 확장되는 타입
+    변환_{implicit widening conversion}⁠이 이루어지는 것처럼, 복소수 및
+    허수 타입도 확장되는 변환이 이루어집니다.
+
+#+BEGIN_SRC c
+  // C99 code
+      
+  #include <complex.h>
+      
+  complex double square_d(complex double a)
+  {
+    return (a * a);
+  }
+      
+  complex float square_f(complex float a)
+  {
+    complex double  d = a;      // 함축적 변환
+      
+    return square_d(a);         // 함축적 변환
+  } 
+#+END_SRC
+
+    C++은 =<complex>= 헤더를 통해, =complex=⁠라는 template class를 제공하며
+    이 타입은 C99의 =complex=⁠와 호환되지 않습니다.
+    
+    이론적으로, C++의 =complex=⁠는 template class이기 때문에, C99보다 좀
+    더 많은 복소수 타입을 제공할 수 있습니다.
+   
+#+BEGIN_SRC c++
+  // C++ code
+      
+  #include <complex>
+      
+  complex<float> square(complex<float> a)
+  {
+    return (a * a);
+  }
+      
+  complex<int> square(complex<int> a)
+  {
+    return (a * a);
+  } 
+#+END_SRC
+
+    약간의 제한을 감수할 수 있다면, C99와 C++ 모두에서 쓸 수 있는 =typedef=⁠을
+    만들 수 있습니다:
+   
+#+BEGIN_SRC c++
+  #ifdef __cplusplus
+      
+   #include <complex>
+      
+   typedef complex<float>           complex_float;
+   typedef complex<double>          complex_double;
+   typedef complex<long double>     complex_long_double;
+      
+  #else
+      
+   #include <complex.h>
+      
+   typedef complex float            complex_float;
+   typedef complex double           complex_double;
+   typedef complex long double      complex_long_double;
+      
+   typedef imaginary float          imaginary_float;
+   typedef imaginary double         imaginary_double;
+   typedef imaginary long double    imaginary_long_double;
+      
+  #endif 
+#+END_SRC
+
+    위 정의를 추가하면, C와 C++ 모두에서 쓸 수 있는 코드를 만들 수 있습니다.
+    예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c++
+  complex_double square_cd(complex_double a)
+  {
+    return (a * a);
+  } 
+#+END_SRC
+    
+    [C99: §6.2.5, 6.3.1.6, 6.3.1.7, 6.3.1.8]
+    [C++98: §26.2]
+
+*** Compound literals
+
+    C99에서는 단순_{primitive} 타입이 아닌 (예: 사용자가 만든 구조체나
+    배열) 경우에도 상수_{constant expression}⁠로 쓸 수 있습니다.  이를
+    /compound literal/⁠이라고 부릅니다. 예를 들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  struct info
+  {
+    char name[8+1];
+    int  type;
+  };
+      
+  extern void add(struct info s);
+  extern void move(float coord[2]);
+      
+  void predef(void)
+  {
+    add((struct info){ "e", 0 });      // struct 상수
+    move((float[2]){ +0.5, -2.7 });    // 배열 상수
+  } 
+#+END_SRC
+
+    C++은 이러한 기능을 지원하지 않습니다.
+
+    대신 C++에서는, default class constructor가 아닌 constructor를 통해
+    비슷한 기능을 쓸 수 있지만, C 만큼 자유롭지_{flexible}⁠ 않습니다:
+   
+#+BEGIN_SRC c++
+  void predef2()
+  {
+    add(info("e", 0));      // info::info() constructor 호출
+  } 
+#+END_SRC
+
+    (이 C 언어 기능은 몇몇 C++ 컴파일러에서도 확장 기능으로 제공하긴 하지만,
+    POD structure type이나 POD type의 배열에서만 쓸 수 있습니다.)
+
+    역자 주: POD structure는 'plain old data structure'의 줄임말입니다.
+    좀 더 자세히, constructor나 destructor, virtual member function이 없는
+    =struct=⁠, =union=, =enum=, =class=⁠등을 뜻합니다.
+
+    [C99: §6.5.2, 6.5.2.5]
+    [C++98: §5.2.3, 8.5, 12.1, 12.2]
+
+*** const linkage
+
+    C 언어에서, =const= qualifier가 붙은 변수는 변경할_{modifiable} 수 없는
+    오브젝트를 선언합니다.  변경할 수 없다는 것을 빼놓으면, 일반 변수와
+    같습니다.   구체적으로, 파일 스코프를 가진 =const= 오브젝트가
+    =static=⁠으로 선언되지 않았다면, 이 이름은 /external linkage/ 속성을 가지고,
+    다른 소스 모듈에서 볼 수 있습니다.
+   
+#+BEGIN_SRC c
+  const int           i = 1;  // External linkage
+      
+  extern const int    j = 2;  // 'extern'을 안해도 상관없음
+  static const int    k = 3;  // 'static'은 반드시 써 주어야 함
+#+END_SRC
+
+    C++ 언어에서, 파일 스코프를 가진 const 오브젝트는 /internal linkage/
+    속성을 가집니다.  즉, 이 이름은 다른 소스 파일에서 보이지
+    않습니다.  다른 소스 파일에서 이 이름을 쓰려면, =extern=⁠으로
+    선언되어야 합니다.
+
+#+BEGIN_SRC c++
+  const int           i = 1;  // Internal linkage
+      
+  extern const int    j = 2;  // 'extern'은 반드시 써 주어야 함
+  static const int    k = 3;  // 'static'을 안해도 상관없음
+#+END_SRC
+
+    따라서 상수를 정의할 때, 명백하게_{explicitly} =static=⁠이나 =extern=⁠을
+    반드시 써 주는 것이 좋습니다.
+
+    [C99: §6.2.2, 6.7.3]
+    [C++98: §7.1.5.1]
+
+*** Designated initializers
+
+    C99는 구조체, union, 또는 배열을 선언할 때, (멤버 이름이나 배열
+    인덱스_{subscript}⁠로) 특정 멤버만 초기화할 수 있는 /designated
+    initializer/⁠를 지원합니다. 예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  struct info
+  {
+    char    name[8+1];
+    int     sz;
+    int     typ;
+  };
+      
+  struct info  arr[] =
+  {
+    [0] = { .sz = 20, .name = "abc" },
+    [9] = { .sz = -1, .name = "" }
+  }; 
+#+END_SRC
+
+    Unspecified members are default-initialized.
+
+    C++은 이 기능을 제공하지 않습니다.
+
+    (몇몇 C++ 컴파일러는 이 기능을 확장 기능으로 제공할 수
+    있습니다. 하지만 이 경우에도 POD 구조체 타입이나 POD 타입의
+    배열에만 쓸 수 있을 것입니다.  비슷한 기능을, defaut class
+    constructor가 아닌 class constructor로 흉내낼 수도 있습니다.)
+   
+    [C99: §6.7.8]
+    [C++98: §8.5.1, 12.1]
+
+*** Duplicate typedefs
+  
+    C 언어에서, 같은 스코프 안에서, 같은 이름의 =typedef=⁠가 두 번 이상
+    나올 수 없습니다.
+
+    C++에서는, =typedef= 또는 타입 이름이 C 언어와 다르게 취급됩니다.
+    그래서 같은 스코프 안에서, 같은 이름의 =typedef=⁠가 두 번 이상 나올
+    수 있습니다.
+
+    따라서, 아래 코드는 올바른 C++ 코드이지만, 틀린 C 코드입니다:
+
+#+BEGIN_SRC c++
+  typedef int  MyInt;
+  typedef int  MyInt;     // C++에서는 ok, C에서는 틀린 코드
+#+END_SRC
+
+    따라서, 만약 같은 코드가 C 언어와 C++ 에서 동시에 쓰인다면 (예:
+    여러 헤더 파일에서 공통으로 쓰이는 =typedef=), 전처리기
+    지시어_{preprocessing directive}⁠를 써서, 한 번만 정의되도록
+    해 주어야 합니다.  예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  //========================================
+  // one.h
+      
+  #ifndef MYINT_T
+   #define MYINT_T
+   typedef int  MyInt;
+  #endif
+  ...
+      
+  //========================================
+  // two.h
+      
+  #ifndef MYINT_T
+   #define MYINT_T
+   typedef int  MyInt;
+  #endif
+  ... 
+#+END_SRC
+
+    이렇게 하면, C 코드에서도 에러없이 여러 헤더 파일을 포함할 수
+    있습니다:
+   
+#+BEGIN_SRC c
+  // Include multiple headers that define typedef MyInt
+  #include "one.h"
+  #include "two.h"
+      
+  MyInt   my_counter = 0; 
+#+END_SRC
+    
+    [C99: §6.7, 6.7.7]
+    [C++98: §7.1.3]
+
+*** Dynamic sizeof evaluation
+
+    C99는 가변 길이 배열_{variable-length array}⁠(VLA)을 지원하기 때문에,
+    =sizeof= 연산자가 항상 컴파일 시간 상수_{compile-time constant}⁠를
+    리턴하지는 않습니다.  VLA에 =sizeof= 연산자를 쓰면, 그 결과는
+    런타임에 결정됩니다. (물론 VLA이 아닌 경우에는 컴파일 타임에 결정됩니다.)
+    예를 들면, 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  size_t dsize(int sz)
+  {
+    float   arr[sz];        // 동적으로 할당된 가변 길이 배열(VLA)
+      
+    if (sz <= 0)
+      return sizeof(sz);    // 컴파일 타임에 평가됨[evaluated]
+    else
+      return sizeof(arr);   // 런 타임에 평가됨[evaluated]
+  } 
+#+END_SRC
+
+    C++은 가변 길이 배열(VLA)을 지원하지 않습니다.  따라서 가변 길이
+    배열에 =sizeof= 연산자를 쓴 코드를 C++로 컴파일할 경우, 문제가
+    발생합니다.
+
+    [C99: §6.5.3.4, 6.7.5, 6.7.5.2]
+    [C++98: §5.3, 5.3.3]
+
+*** Empty parameter lists
+
+    C 언어에서, 파라미터 리스트가 비어있는 함수와, 파라미터 리스트에
+    =void=⁠만 있는 함수는 서로 뜻이 다릅니다.  전자는
+    프로토타입_{prototype}⁠이 없는 함수로, 인자_{argument}⁠의 갯수가
+    정해지지 않았다는 뜻이며, 후자의 경우, 이 함수는 인자를 받지
+    않는다는 뜻입니다.
+
+#+BEGIN_SRC c
+  // C code
+      
+  extern int  foo();          // 파라미터가 비어있음. (unspecified)
+  extern int  bar(void);      // 파라미터가 없음.
+      
+  void baz()
+  {
+    foo(0);         // C에서 ok, C++에서 에러
+    foo(1, 2);      // C에서 ok, C++에서 에러
+      
+    bar();          // C, C++ 모두 ok
+    bar(1);         // C, C++ 모두 에러
+  } 
+#+END_SRC
+
+    이와 달리, C++에서는, 이 두 가지 경우를 구별하지 않으며, 모두
+    인자를 받지 않는 것으로 해석합니다.
+   
+#+BEGIN_SRC c++
+  // C++ code
+      
+  extern int  xyz();
+      
+  extern int  xyz(void);  // 'xyz()'와 동일
+                          // C와 다른 뜻이며, 틀린 C 코드임.
+#+END_SRC
+
+    같은 코드가 C와 C++에 동시에 쓰인다면, 인자를 받지 않는 함수를
+    선언할 때, 반드시 =void=⁠를 써 준 프로토타입으로 선언하면 됩니다.
+    예를 들면, 다음과 같습니다:
+
+#+BEGIN_SRC c
+  // Compiles as both C and C++
+  int bosho(void)
+  {
+    ...
+  } 
+#+END_SRC
+
+    참고로, C99에서 프로토타입이 없는 함수는 쓰는 것은 좋지
+    않습니다_{deprecated}.  (C89에서도 마찬가지임)
+   
+    [C99: §6.7.5.3]
+    [C++98: §8.3.5, C.1.6.8.3.5]
+
+*** Empty preprocessor function macro arguments
+
+    C99에서는, 매크로 함수를 부를 때, 인자를 생략할 수 있습니다.
+   
+#+BEGIN_SRC c
+  #define ADD3(a,b,c)  (+ a + b + c + 0)
+      
+  ADD3(1, 2, 3)   => (+ 1 + 2 + 3 + 0)
+  ADD3(1, 2, )    => (+ 1 + 2 + + 0)
+  ADD3(1, , 3)    => (+ 1 + + 3 + 0)
+  ADD3(1,,)       => (+ 1 + + + 0)
+  ADD3(,,)        => (+ + + + 0) 
+#+END_SRC
+
+    C++에서는, 인자를 생략할 수 없습니다.
+
+    (특정 C++ 컴파일러들은 이를 확장 기능으로 제공할 수도 있습니다.)
+   
+    [C99: §6.10.3, 6.10.3.1]
+    [C++98: §16.3., 16.3.1]
+
+*** Enumeration constants
+
+    C 언어에서 enum 상수_{enumeration constant}⁠는 본질적으로 이름을
+    붙인 =signed int= 타입입니다.  따라서 enum 상수의 초기값의 범위는
+    [ =INT_MIN=, =INT_MAX= ]입니다.  따라서 enum 상수 =RED=⁠는 어떤
+    값을 가지든, =sizeof(RED)=⁠와 =sizeof(int)=⁠는 같습니다.
+
+    C++에서 enum 상수의 타입_{enumeration constant type}⁠은 해당 
+    enum 타입_{enumeration type}⁠과 같습니다.  즉, 해당 내부 정수
+    타입_{underlying integer type}⁠과 같은 크기와 alignment를 갖습니다.
+    C++에서 enum 상수에 쓰이는 내부 정수 타입은 C 언어와 달리
+    여러 가지가 쓰일 수 있습니다: =signed int=, =unsigned int=, =signed long=,
+    =unsigned long=.  따라서 enum 상수 초기값의 범위도 더 다양합니다.
+    즉, =RED=⁠가 enum 상수일 때, 항상 =sizeof(RED)=⁠와 =sizeof(int)=⁠가 
+    같다고 보장할 수 없습니다.
+
+    그래서, C 코드가 C++로 컴파일된 경우, 만약, C++ 컴파일러가
+    내부적으로 C와 다른 내부 정수 타입을 쓴다면, 또는 =sizeof(RED)=⁠에
+    의존하는 코드를 쓴다면, 문제가 될 수 있습니다.
+   
+#+BEGIN_SRC c++
+  enum ControlBits
+  {
+    CB_LOAD  =  0x0001,
+    CB_STORE =  0x0002,
+    ...
+    CB_TRACE =  LONG_MAX+1,       // (Undefined behavior)
+    CB_ALL   =  ULONG_MAX
+  }; 
+#+END_SRC
+    
+    [C99: §6.4.4.3, 6.7.2.2]
+    [C++98: §4.5, 7.2]
+
+*** Enumeration declarations with trailing comma
+
+    C99에서는, 구조체 초기값을 쓸 때와 비슷하게,
+    마지막 enum 상수 초기값_{enumeration constant initializer} 다음에
+    콤마(,)가 나올 수 있습니다.  예를 들면, 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  enum Color { RED = 0, GREEN, BLUE, }; 
+#+END_SRC
+
+    C++에서는 이를 허용하지 않습니다.
+
+    (특정 C++ 컴파일러는 이를 확장 기능 형태로 제공할 수도 있습니다.)
+
+    [C99: §6.7.2.2]
+    [C++98: §7.2]
+
+*** Enumeration types
+
+    C 언어에서, enum 타입_{enumerated type}⁠들이 서로 다른,
+    유일한_{unique} 타입이며, 한 프로그램 안에서 다른 enum
+    타입들과 같지 않습니다.  따라서 C 컴파일러는 enum 타입에 대해
+    서로 다른, 내부 단순 정수 타입_{underlying primitive integer type}⁠을
+    쓸 수 있습니다.  이 말은, =sizeof(enum A)=⁠와 =sizeof(enum B)=⁠가 서로
+    다를 수 있다는 것을 뜻합니다.  또 =RED=⁠가 =enum Color=⁠의 열거형 상수일 때,
+    =sizeof(RED)=⁠와 =sizeof(enum Color)=⁠가 서로 다를 수 있습니다.
+    (왜냐하면 모든 열거형 상수의 타입은 =signed int=⁠이기 때문입니다.)
+
+    모든 enum 상수_{enumeration constant}는 수식_{expression}⁠에 나타날
+    때, =signed int= 타입의 값으로 변환됩니다.  enum 상수 값은
+    =int=⁠보다 클 수 없으므로, =int=⁠가 가장 넓은 범위의 enum
+    타입_{enumeration type}이라고 생각할 수 있습니다.  하지만 C
+    컴파일러는 더 넓은 범위의 enum 정수 타입_{enumeration integer type}⁠을
+    자유로이 쓸 수 있습니다.
+    이러한 확장 타입은 C++에서 쓰이는
+    타입과 다를 수 있습니다.
+
+    C 언어에서는, 명백한 캐스트_{explicit cast} 없이, 정수값_{integer value}⁠을
+    enum 타입_{enumeration type}⁠의 오브젝트에 바로 대입할 수 있습니다.
+    예를 들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  // C code
+      
+  enum Color { RED, BLUE, GREEN };
+      
+  int         c = RED;    // 캐스트 필요 없음
+  enum Color  col = 1;    // 캐스트 필요 없음
+#+END_SRC
+
+    C++에서도, 모든 enum 타입_{enumerated type}⁠은 유일하며_{unique},
+    각각 서로 다른 타입이며, 좀 더 나아가 더 강한 규칙을 가집니다.
+    특히, 서로 다른 열거형 타입을 인자로 받는 오버로드_{overload}⁠된
+    함수를 만들 수 있습니다.  열거형 타입의 오브젝트들은 정수형
+    타입으로 함축적으로 변환_{implictly converted}⁠될 수 있지만, 정수형
+    타입은 명백한 변환_{explicitly convert}⁠을 통해서만 열거형 타입으로
+    변환될 수 있습니다.  함축적으로 변환된_{implcitly converted} enum
+    값_{enumeration value}은 해당하는 내부 정수 
+    타입_{underlying integer type}⁠으로 변환되며, 반드시
+    =signed int=⁠일 필요는 없습니다.
+    예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c++
+  // C++ code
+      
+  enum Color { ... };
+      
+  enum Color setColor(int h)
+  {
+    enum Color  c;
+      
+    c = h;             // 에러: 함축적 변환 불가[no implicit conversion]
+    return c;
+  }
+      
+  int hue(enum Color c)
+  {
+    return (c + 128);  // 함축적 변환[Implicit conversion],
+                       // 그러나 signed int가 아닐 수도 있음
+  } 
+#+END_SRC
+
+    C++에서는, enum 상수_{enumeration constant}⁠와 해당 enum
+    타입_{enumeration type}⁠은 서로 같은 타입과 크기를 갖습니다.  따라서
+    =RED=⁠가 =enum Color= 타입인 경우에 =sizeof(RED)=⁠와 =sizeof(enum
+    Color)=⁠는 같습니다. (C 언어에서는 다를 수 있습니다.)
+
+    같은 열거형 타입이 C와 C++ 모두 같은 내부 타입_{underlying type}⁠을
+    가진다는 보장은 없습니다.  또 서로 다른 C 컴파일러들에서 같은 내부
+    타입을 가진다는 보장도 없습니다.  이는 C와 C++ 사이의 호출
+    interface에 영향을 미칩니다.  또, 이것으로 인해, C 코드를 C++로
+    컴파일했을 경우, (C++ 컴파일러가 내부적으로 enum 
+    타입_{enumeration type}⁠을 C 컴파일러와 다른 크기 타입으로 쓰거나,
+    =sizeof(RED)=⁠에
+    의존하는 수식_{expression}⁠을 쓴 경우) 호환성이 없을 수도 있습니다.
+
+#+BEGIN_SRC c++
+  // C++ code
+      
+  enum Color { ... };
+      
+  extern "C" void  foo(Color c);
+                      // Parameter type이 서로 다를 수 있음
+      
+  void bar(Color c)
+  {
+    foo(c);         // Enum type이 서로 다른 크기일 수 있음
+  } 
+#+END_SRC
+    
+    [C99: §6.4.4.3, 6.7.2.2]
+    [C++98: §4.5, 7.2]
+
+*** Flexible array members (FAMs)
+    
+    이 기능은 'struct hack'이라고 알려져 있으며, 고정된 크기의
+    멤버들을 포함하고, 마지막에 가변 크기를 가지는 배열 멤버를 가질 수 있는
+    구조체를 선언하는 적합한_{conforming} 방법을 제공합니다.
+    일반적으로 이런 구조체는 =malloc()=⁠을 통해 공간을 할당받으며,
+    할당하는 크기는 구조체의 크기에 필요한 공간을 더한 값을 사용합니다.
+    예를 들면 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  struct Hack
+  {
+    int     count;    // Fixed member(s)
+    int     fam[];    // Flexible array member
+  };
+      
+  struct Hack * vmake(int sz)
+  {
+    struct Hack *  p;
+      
+    p = malloc(sizeof(struct Hack) + sz*sizeof(int));
+               // 가변 크기 구조체를 할당
+      
+    p->count = sz;
+    for (int i = 0; i < sz; i++)
+      p->fam[i] = i;
+      
+    return p;
+  } 
+#+END_SRC
+
+    C++은 이런 기능_{flexible array member}⁠을 제공하지 않습니다.
+
+    (C++ 컴파일러가 확장 기능 형태로 이 기능을 제공할 수 있지만,
+    POD 구조체 타입으로만 제한될 것입니다.)
+   
+    [C99: §6.7.2.1]
+    [C++98: §8.3.4]
+
+*** Function name mangling
+
+    오버로드_{overload}⁠된 함수와 멤버 함수를 지원하기 위해, C++
+    컴파일러는 함수 이름을 생성된 오브젝트 코드의 심볼_{symbol}
+    이름으로 매핑_{mapping}⁠할 방법이 필요합니다.  예를 들어 함수
+    =::foo(int)=, =::foo(float)=, 그리고 =Mine::foo()=⁠은 같은
+    이름(=foo=)을 쓰지만, 부르는 방식_{calling signature}⁠이 달라야
+    합니다.  이런 함수들은, 링크 단계에서 이러한 함수 이름을 구별하기
+    위해, 서로 다른 심볼 이름을 써야 합니다.
+
+    역자 주: 함수 이름을 서로 다른 심볼 이름으로 변환하는 것을
+    'mangle'한다고 표현합니다.
+
+    C 언어에서는 (함수 이름이 심볼 이름으로 매핑되는) 이러한 과정이
+    C++과는 서로 다릅니다.  C 언어에서는 매핑 과정을 통해 =signed=,
+    =unsigned=⁠ 구별을 안 하게 할 수도 있고, 프로토타입이 없는 =extern=
+    함수도 쓸 수 있게 해 줍니다.  어쨌든, C++로 컴파일할 C 코드는 서로
+    다른 심볼 이름을 갖게 되며, 같은 심볼 이름을 쓰게 할려면
+    =​extern "C"​=⁠로 선언되어야 합니다.  예를 들면, 다음과 같습니다:
+   
+#+BEGIN_SRC c++
+  int  foo(int i);   // Different symbolic names in C and C++
+      
+  #ifdef __cplusplus
+  extern "C"
+  #endif
+  int  bar(int i);   // Same symbolic name in both C and C++ 
+#+END_SRC
+
+    C++ 함수들은 함축적으로_{implicitly} =extern "C++"​= linkage 속성을
+    가집니다.
+
+    이러한 C++ 함수 이름 mangling에 의해, C++ 이름_{identifier}⁠들은 두
+    개 이상의 밑줄 문자를 가지는 것을 허용하지 않습니다. (예:
+    =foo__bar=⁠는 잘못된 C++ 이름입니다.)  이러한 이름_{name}은
+    컴파일러_{implementation}⁠가 내부적으로 쓰도록 예약_{reserved}⁠되어
+    있습니다.  따라서 컴파일러는 이런 이름들을 써서,
+    유일한_{unique} 심볼 이름을 만들어 냅니다. (예를 들어,
+    =Mine::foo(int)=⁠란 이름을 =foo__4Mine_Fi=⁠란 심볼 이름으로
+    매핑합니다)
+
+    C 언어는 이런 이름을 따로 예약_{reserved}⁠하지 않기 때문에, C
+    프로그램에서 이런 이름을 쓰는 것은 상관없습니다. 예를 들면, 다음과
+    같습니다.
+   
+#+BEGIN_SRC c
+  void foo__bar(int i)  // C++로는 쓸 수 없는 이름임.
+  { ... } 
+#+END_SRC
+    
+    [C99: §5.2.4.1, 6.2.2, 6.4.2.1]
+    [C++98: §2.10, 3.5, 17.4.2.2, 17.4.3.1.2, 17.4.3.1.3]
+
+*** Function pointers
+
+    C++ 함수는 따로 지정하지 않았다면, =extern "C++"​= linkage 속성을
+    가집니다.  C++에서 어떤 C 함수를 부르고 싶다면, 이 함수는
+    =​extern "C"​= linkage 속성을 가져야 합니다.  
+    일반적으로, 이는 =​extern "C"​= 블럭 안에, 
+    C 함수들을 선언해서 해결합니다:
+    
+#+BEGIN_SRC c++
+  extern "C"
+  {
+    extern int  api_read(int f, char *b);
+    extern int  api_write(int f, const char *b);
+  } 
+      
+  extern "C"
+  {
+    #include "api.h"
+  } 
+#+END_SRC
+
+    그러나, 단순히 =​extern "C"​= linkage 속성을 쓴다고 해서, 항상 C++ 함수가
+    C 함수를 부를 수 있는 것은 아닙니다.
+    좀 더 자세히 말하면, =​extern "C"​= 함수를 가리키는 포인터와 =​extern "C++"​=
+    함수를 가리키는 포인터는 호환되지 않습니다.  C++ 코드로 컴파일 될 때,
+    함수 포인터는 함축적으로_{implicitly} =​extern "C++"​= 속성을 가진 것으로
+    간주되며, 따라서 =​extern "C"​= 함수의 주소를 대입할 수 없습니다.
+    (그래서 C API 라이브러리와 콜백_{callback} 함수가 항상 문제가 되곤 합니다.)
+   
+#+BEGIN_SRC c++
+  extern int      mish(int i);    // extern "C++" function
+      
+  extern "C" int  mash(int i);
+      
+  void foo(int a)
+  {
+    int  (*pf)(int i);          // C++ 함수 포인터
+      
+    pf = &mish;                 // Ok, C++ 함수 주소
+    (*pf)(a);
+      
+    pf = &mash;                 // 에러, C 함수 주소
+    (*pf)(a);
+  } 
+#+END_SRC
+
+    C++에서 함수 포인터와 =​extern "C"​= 함수가 올바르게 동작하게 만들려면,
+    C 함수 주소를 대입할 함수 포인터는 =​extern "C"​=⁠로 만들어야 합니다.
+
+    한가지 방법은, 올바른 linkage를 갖도록 아래와 같이 =typedef=⁠를 써서
+    해결할 수 있습니다:
+   
+#+BEGIN_SRC c++
+  extern "C"
+  {
+    typedef int  (*Pcf)(int);   // C 함수 포인터
+  }
+      
+  void bar(int a)
+  {
+    int  (*pf)(int i);          // C++ 함수 포인터
+      
+    pf = &mish;                 // Ok, C++ 함수 주소
+    (*pf)(a);
+      
+    Pcf  pc;                    // C 함수 포인터
+      
+    pc = &mash;                 // Ok, C 함수 주소
+    (*pc)(a);
+  } 
+#+END_SRC
+    
+    [C99: §6.2.5, 6.3.2.3, 6.5.2.2]
+    [C++98: §5.2.2, 17.4.2.2, 17.4.3.1.3]
+   
+*** Hexadecimal floating-point literals
+  
+    C99는 16진수로 표시한 실수 상수를 지원합니다.  상수 앞쪽에 "=0x="를 붙이고,
+    지수_{exponent} 부분에 "=p="를 쓰면 됩니다.  예를 들면, 다음과 같습니다:
+
+#+BEGIN_SRC c
+  float  pi = 0x3.243F6A88p+03; 
+#+END_SRC
+  
+    또, C99는 =printf()=⁠와 =scanf()= 계열 함수에 새로운 형
+    지정자_{format specifier}⁠를 제공합니다:
+
+#+BEGIN_SRC c
+  printf("%9.3a", f);
+  printf("%12.6lA", d); 
+#+END_SRC
+    
+    (C++ 컴파일러에서 이 기능을 추가 기능 형태로 제공할 수도 있습니다.)
+   
+    [C99: §6.4.4.2, 6.4.8]
+    [C++98: §2.9, 2.13.3]
+
+*** IEC 60559 arithmetic support
+
+    어떤 C99 컴파일러_{implementation}⁠는 =__STD_IEC_559= 매크로를 미리
+    정의해 놓습니다.  이 경우, IEC 60559 (IEEE 599로도 알려져 있음)을
+    준수하는 형태로 실수_{floating-point} 계산이 이루어집니다.  이
+    매크로를 정의하지 않은 컴파일러는 IEC 60559를 준수할 필요가
+    없습니다.
+
+    C++은 IEC 60559 실수 명세_{specification}⁠을 준수하는지 여부를
+    알려주지 않습니다.
+
+    그러나, C++ 컴파일러들은 이 기능(IEC 60559를 준수하는지, 또
+    =__STD_IEC_559= 매크로를 정의하는지)을 확장 기능 형태로 제공할 수도
+    있습니다.
+
+    또, C99는 컴파일러가 =__STD_IEC_559_COMPLEX= 매크로를 정의할 경우,
+    모든 복소수_{complex floating-point} 연산이 IEC 60559에 정의되어 있는
+    방식으로 이루어질 것을 요구합니다.
+    이는 내부적으로 =_Complex=⁠와 =_Imaginary= 타입이 구현되어 있는 방식에
+    영향을 줍니다.
+
+    C++은 복소수 연산을 위해 =complex<>= template class와 라이브러리
+    함수를 =<complex>= 헤더를 통해 제공하며, 이는 C99 복소수 타입과
+    호환되지 않습니다.
+
+    C++ 컴파일러는 복소수 계산 방식과 =__STD_IEC_559= 매크로를 
+    확장 기능으로 제공할 수 있으며, 이는 =complex<>= template class가
+    구현되는 방식에 영향을 줍니다.
+   
+    [C99: §6.10.8, F, G]
+    [C++98: §16.8]
+   
+*** Inline functions
+
+    C99와 C++ 모두, inline 함수를 제공합니다.  이는 컴파일러가 해당 함수가
+    일반 함수 호출이 아닌, 함수 내용이 바로 실행되는 
+    형태_{inline code expansion}⁠로
+    할 수 있는 힌트를 제공합니다.  현실적으로 inline 함수가 C99와 C++ 사이에
+    호환성 문제를 일으킬 가능성은 없지만, 약간의 차이는 존재합니다.
+
+    C++ 언어에서는, 같은 inline 함수의 정의가 여러 번 나올 경우, 토큰
+    단위로 완벽하게 같아야 합니다.
+    
+    이와는 달리, C99에서는, 한 inline 함수의 정의가 여러번 나올 경우, 서로
+    달라도 상관없습니다.  특히, 컴파일러가 이 차이를 미리 감지할 필요도 없고,
+    경고_{diagnostic}⁠를 출력할 필요도 없습니다.
+
+    아래 두 소스 파일은, 같은 inline 함수에 대해, 약간 다른 정의를 가지고
+    있으며, 따라서 C99에서는 올바른 코드지만, C++에서는 틀린 코드입니다:
+
+#+BEGIN_SRC c
+  //========================================
+  // one.c
+      
+  inline int twice(int i)         // 첫번째 정의
+  {
+    return i * i;
+  }
+      
+  int foo(int j)
+  {
+    return twice(j);
+  }
+      
+  //========================================
+  // two.c
+      
+  typedef int  integer;
+      
+  inline integer twice(integer a) // 두번째 정의
+  {
+    return (a * a);
+  }
+      
+  int bar(int b)
+  {
+    return twice(b);
+  } 
+#+END_SRC
+
+    현실적으로, 이것이 문제가 될 소지는 별로 없습니다.  일반적으로,
+    inline 함수 정의는 공통으로 쓰는 헤더 파일에 있으므로, 토큰 단위로
+    같기_{same token sequences} 때문입니다.
+
+    [C99: §6.7.4]
+    [C++98: §7.1.2]
+
+*** Integer types headers
+
+    C99는 헤더 =<stdint.h>=⁠를 통해 표준 정수 타입에 대한 선언과 매크로 정의를
+    제공합니다.  예를 들면, 다음과 같습니다:
+
+#+BEGIN_SRC c
+  int height(int_least32_t x);
+  int width(uint16_t x); 
+#+END_SRC
+
+    C++은 이러한 타입이나 헤더를 제공하지 않습니다.
+
+    (확장 기능으로 이를 제공하는 C++ 컴파일러가 있을 수 있으며, 어떤
+    C++ 컴파일러들은 =<cstdint>= 헤더를 제공하기도 합니다.)
+   
+    [C99: §7.1.2, 7.18]
+    [C++98: §17.4.1.2, D.5]
+
+*** Library function prototypes
+
+    C++ 표준 라이브러리 헤더 파일은 (C++에서 좀 더 강한 타입 검사를 쓸
+    수 있도록) 몇몇 표준 C 라이브러리 함수 선언을 고쳐서 제공합니다.
+    예를 들어, 아래 표준 C 라이브러리 함수 선언은:
+   
+#+BEGIN_SRC c
+  // <string.h>
+  extern char *   strchr(const char *s, int c); 
+#+END_SRC
+  
+    C++ 라이브러리에서 아래처럼 바뀝니다:
+
+#+BEGIN_SRC c
+  // <cstring>
+  extern const char * strchr(const char *s, int c);
+  extern char *       strchr(char *s, int c); 
+#+END_SRC
+  
+    이런 차이는 C 코드를 C++에서 컴파일할 때 문제가 될 수 있습니다.
+    예를 들면:
+   
+    #+BEGIN_SRC c
+  // C code
+  const char * s = ...;
+  char *       p;
+      
+  p = strchr(s, 'a');             // C에서 ok, C++에서 에러
+    #+END_SRC
+    
+    즉, 함수에서 리턴된 =const= 포인터를 =const=⁠가 아닌 변수에
+    대입하려고 했기 때문에, 문제가 발생하는 것입니다.  아래와 같이,
+    간단한 캐스트_{cast}⁠를 써서, C++과 C 모두에서 동작하게 할 수
+    있습니다:
+
+#+BEGIN_SRC c
+  // C++ 컴파일 위해 수정
+  p = (char *) strchr(s, 'a');    // C와 C++ 모두 ok
+#+END_SRC
+    
+    [C99: §7.21.5, 7.24.4.5]
+    [C++98: §17.4.1.2, 21.4]
+
+*** Library header files
+
+    C++ 표준 라이브러리는 C89 표준 라이브러리를 포함하고 있습니다.
+    (아래는 예외:)
+
+    | =<complex.h>=  |
+    | =<fenv.h>=     |
+    | =<inttypes.h>= |
+    | =<stdbool.h>=  |
+    | =<stdint.h>=   |
+    | =<tgmath.h>=   |
+
+    C++이 C89 표준 라이브러리를 포함하고 있지만, 이를 사용하는 것은
+    권장하지 않습니다_{deprecated}.  대신에 같은 기능을 하는 C++ 헤더가 따로
+    제공됩니다:
+
+    | =<math.h>=   | /대신에/ | =<cmath>=   |
+    | =<stddef.h>= | /대신에/ | =<cstddef>= |
+    | =<stdio.h>=  | /대신에/ | =<cstdio>=  |
+    | =<stdlib.h>= | /대신에/ | =<cstdlib>= |
+    | ...          |          | ...         |
+
+    따라서, C++에서 다음과 같이 deprecated된 헤더를 쓰게 되면, 미래에 나올
+    C++ (표준) 컴파일러로 컴파일되지 않을 수도 있습니다:
+   
+#+BEGIN_SRC c++
+  #include <stdio.h>     // C++에서 deprecate됨
+      
+  int main(void)
+  {
+    printf("Hello, world\n");
+    return 0;
+  } 
+#+END_SRC
+
+    미래 버전 C++에서도 잘 돌아가게 하기 위해서, 아래처럼 고치면 됩니다:
+   
+#+BEGIN_SRC c++
+  #ifdef __cplusplus
+   #include <cstdio>     // C++ only
+   using std::printf;
+  #else
+   #include <stdio.h>    // C only
+  #endif
+      
+  int main(void)
+  {
+    printf("Hello, world\n");
+    return 0;
+  } 
+#+END_SRC
+    
+    [C99: §7.1.2]
+    [C++98: §17.4.1.2, D.5]
+
+*** long long integer type
+
+    C99는 =signed long long=⁠과 =unsigned long long= 정수 타입을 추가로 제공하며,
+    이들은 적어도 64 비트 이상입니다.
+
+    또, C99는 이들 정수 타입의 상수를 만들기 위한 어휘 규칙_{lexical rule}⁠도
+    가지고 있습니다.  예를 들면, 아래와 같습니다:
+
+#+BEGIN_SRC c
+  long long int           i = -9000000000000000000LL;
+  unsigned long long int  u = 18000000000000000000LLU; 
+#+END_SRC
+
+    또, C99는 새 정수 타입을 위한 매크로를 =<limits.h>=⁠에 추가했고,
+    =printf()=⁠와 =scanf()= 계열 함수에, 새 형 지정자_{format specifier}⁠를
+    제공하며, 이 타입을 위한 추가 함수도 제공합니다.  예를
+    들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  void pr(long long i)
+  {
+    printf("%lld", i);
+  } 
+#+END_SRC
+
+    C++은 이 정수 타입을 제공하지 않습니다.
+
+    (아마도, C 언어용 라이브러리도 제공하는 C++ 컴파일러 환경에서는
+    새 정수 타입을, 추가 기능 형태로 제공할 것입니다.)
+   
+    [C99: §5.2.4.2.1, 6.2.5, 6.3.1.1, 6.4.4.1, 6.7.2, 7.12.9, 7.18.4,
+    7.19.6.1, 7.19.6.2, 7.20.1, 7.20.6, 7.24.2.1, 7.24.2.2, 7.24.4, A.1.5,
+    B.11, B.19, B.23, F.3, H.2]
+    [C++98: §2.13.1, 3.9.1, 21.4, 22.2.2.2.2, 27.8.2, C.2]
+
+*** Nested structure tags
+
+    두 언어 모두, 한 구조체 안에서 다른 구조체를 선언할 수 있습니다.
+    C 언어에서 내부에 중첩되게_{nested} 선언된 구조체 태그_{structure tag}⁠의
+    스코프는 바깥 구조체와 같습니다.  단, C++에서는
+    다릅니다. C++에서 내부 구조체는 (C 언어와 달리) 그 자신만의
+    스코프를 따로 가집니다.  이 규칙은 =struct=, =union=, =enum= 타입
+    모두 적용됩니다.  예를 들면, 다음과 같습니다:
+
+#+BEGIN_SRC c
+  struct Outer
+  {
+    struct Inner          // 중첩된 구조체 선언
+    {
+      int         a;
+      float       f;
+    }           in;
+      
+    enum E                // 중첩된 enum 타입 선언
+    {
+      UKNOWN, OFF, ON
+    }           state;
+  };
+      
+  struct Inner    si;     // C에서 ok: 중첩 타입은 바깥에서도 보임.
+                          // C++에서는 바깥에서 보이지 않음.
+      
+  enum E          et;     // C에서 ok: 중첩 타입은 바깥에서도 보임.
+                          // C++에서는 바깥에서 보이지 않음.
+#+END_SRC
+
+    C++에서 바깥 class prefix를 명백하게_{explicitly}
+    써 주면, C++에서도 중첩된 내부 선언을 (바깥 쪽에서) 쓸 수 있습니다.  또는,
+    중첩해서 선언하지 말고,  파일 스코프를 갖도록, 맨 바깥쪽에 별도로 선언하면
+    문제가 해결됩니다. 전자의 경우 예는, 아래와 같습니다:
+
+#+BEGIN_SRC c++
+  // C++ 코드
+      
+  Outer::Inner     si;    // Explicit type name
+  Outer::E         et;    // Explicit type name 
+#+END_SRC
+
+    후자의 예는 아래와 같습니다:
+
+#+BEGIN_SRC c++
+  // C, C++ 모두 사용 가능
+      
+  struct Inner            // 중첩되지 않은 구조체 선언
+  {
+      int         a;
+      float       f;
+  };
+      
+  enum E                  // 중첩되지 않은 구조체 선언
+  {
+      UKNOWN, OFF, ON
+  };
+      
+  struct Outer
+  {
+      struct Inner    in;
+      enum E          state;
+  }; 
+#+END_SRC
+    
+    [C99: §6.2.1, 6.2.3, 6.7.2.1, 6.7.2.3]
+    [C++98: §9.9, C.1.2.3.3]
+
+*** Non-prototype function declarations
+   
+    C 언어에서는, (K&R 스타일이라고 알려진) 프로토타입이 아닌, 함수 정의를
+    할 수 있습니다.  (C90, C99 모두, 이 방식을 권장하지 
+    않습니다_{deprecated practice})
+    예를 들면, 아래와 같습니다:
+   
+#+BEGIN_SRC c
+  int foo(a, b)     // Deprecated syntax
+      int  a;
+      int  b;
+  {
+    return (a + b);
+  } 
+#+END_SRC
+
+    C++ 언어는 프로토타입 형태의 함수 정의만 지원합니다.  따라서, 위 코드를
+    C++에서 쓰려면, 아래와 같이 프로토타입 형태로 바꿔야 합니다:
+   
+#+BEGIN_SRC c++
+  int foo(int a, int b)
+  {
+    return (a + b);
+  } 
+#+END_SRC
+    
+    [C99: §6.2.7, 6.5.2.2, 6.7.5.3, 6.9.1, 6.11.6, 6.11.7]
+    [C++98: §5.2.2, 8.3.5, 8.4, C.1.6]
+   
+*** Old-style casts
+
+    C++은 아래와 같은 형태의 형변환_{typecast} 연산자를 제공합니다:
+
+    | =const_cast=       |
+    | =dynamic_cast=     |
+    | =reinterpret_cast= |
+    | =static_cast=      |
+
+    아래 C 코드는 올바른 C++98 코드이지만, 미래의 C++ 표준에서는 틀린 
+    코드가 될 가능성이 높습니다.
+
+#+BEGIN_SRC c
+  char *        p;
+  const char *  s = (const char *) p; 
+#+END_SRC
+    
+    한가지 방법은, C++ 형변환_{typecast} 연산자를 흉내내는 매크로를 만들어서
+    쓰는 것입니다:
+   
+#+BEGIN_SRC c++
+  #ifdef __cplusplus
+   #define const_cast(t,e)        const_cast<t>(e)
+   #define dynamic_cast(t,e)      dynamic_cast<t>(e)
+   #define reinterpret_cast(t,e)  reinterpret_cast<t>(e)
+   #define static_cast(t,e)       static_cast<t>(e)
+  #else
+   #define const_cast(t,e)        ((t)(e))
+   #define dynamic_cast(t,e)      ((t)(e))
+   #define reinterpret_cast(t,e)  ((t)(e))
+   #define static_cast(t,e)       ((t)(e))
+  #endif
+      
+  const char *  s = const_cast(const char *, p); 
+#+END_SRC
+
+    위에는 포함시켰습니다만, =dynamic_cast=⁠는 사실상 C 언어에서 의미가 없습니다.
+    차라리 아래처럼 만드는 것이 더 나을 수도 있습니다:
+
+   
+#+BEGIN_SRC c++
+  #define dynamic_cast(t,e)      _Do_not_use_dynamic_cast
+                                 // 컴파일 에러 발생
+#+END_SRC
+
+    C++은 함수 형태의 형 변환_{functional typecast}⁠도 제공하며, 이는 C 언어에서
+    쓸 수 없습니다:
+   
+#+BEGIN_SRC c++
+  f = float(i);   // C++: float으로 형변환, C에서는 틀린 코드임
+#+END_SRC
+
+    C와 C++ 용으로 동시에 쓰일 코드에는 이러한
+    형변환_{typecast}⁠을 쓰면 안됩니다.
+   
+    [C99: §6.3, 6.54]
+    [C++98: §5.2, 5.2.3, 5.2.7, 5.2.9, 5.2.10, 5.2.11, 5.4, 14.6.2.2,
+    14.6.2.3]
+
+*** One definition rule
+  
+    C 언어는 변수를 정의할 때, 여러번 정의할 수 있는데,  이 때 초기값이 없는
+    정의를 잠정적_{tentative} 정의라고 합니다.
+
+    역자 주: 아무 변수나 잠정적 정의를 쓸 수 있는 것은 아닙니다.
+    파일 스코프 변수이어야 하고, storage class specifier가 없거나,
+    =static=⁠이어야 합니다.
+   
+#+BEGIN_SRC c
+  int  i;        // 잠정적 정의 [tentative definition]
+  int  i = 1;    // 명백한 정의 [explicit definition]
+#+END_SRC
+
+    C++은 이를 허용하지 않습니다.  반드시 한 변수의 정의는 한번만
+    나와야 합니다.
+
+    C 언어는 다른 소스 파일에서 다른 정의를 제공하는 것을 허용하며, 이것을
+    위한 경고 등을 제공할 의무도 없습니다.  예를 들면 아래와 같습니다:
+
+#+BEGIN_SRC c
+  //========================================
+  // one.c
+      
+  struct Capri                // A declaration
+  {
+    int     a;
+    int     b;
+  };
+      
+  //========================================
+  // two.c
+      
+  struct Capri                // Conflicting declaration
+  {
+    float   x;
+  }; 
+#+END_SRC
+
+    C++에서는, 위 코드는 틀린 코드입니다.  C++은 두 정의가 토큰 단위로
+    같아야_{same sequence of tokens} 합니다.
+   
+    C 언어는 같은 함수나 오브젝트의 정의가 다른 소스 파일에 다른 토큰들로
+    정의되는 것을 허용합니다.  물론 다른 토큰들로 정의되는 것을 허용하지만,
+    의미상 같은 정의여야만 합니다.
+
+    C++ 규칙은 좀 더 엄격하기 때문에, 정의가 여러 번 나용 경우, 토큰 단위로
+    같아야 합니다.   아래 코드는 의미상 같지만, 문법적으로 (토큰 단위로) 다르기
+    때문에,  올바른 C 코드이지만, 틀린 C++ 코드입니다:
+   
+#+BEGIN_SRC c
+  //========================================
+  // file1.c
+      
+  struct Waffle               // 선언
+  {
+    int     a;
+  };
+      
+  int syrup(int amt)          // 정의
+  {
+    return amt*2;
+  }
+      
+  //========================================
+  // file2.c - Valid C, but invalid C++
+      
+  typedef int     IType;
+      
+  struct Waffle               // 같은 정의이지만 
+  {                           // 다른 토큰들로 이뤄짐
+    IType   a;
+  };
+      
+  IType syrup(IType quant)    // 같은 정의이지만
+  {                           // 다른 토큰들로 이뤄짐
+    return (quant*2);
+  } 
+#+END_SRC
+
+    [C99: §6.9.2, J.2]
+    [C++98: §3.2, C.1.2.3.1]
+
+*** _Pragma keyword
+  
+    C99는 =_Pragma= 키워드를 제공합니다.  이는 =#pragma= 전처리기
+    지시어_{preprocessor directive}⁠와
+    같은 역할을 합니다.  예를 들어 아래 두 문장은 같습니다:
+
+#+BEGIN_SRC c
+  #pragma FLT_ROUND_INF   // 전처리기 pragma
+      
+  _Pragma(FLT_ROUND_INF)  // Pragma 문장 [statement]
+#+END_SRC
+
+    C++은 =_Pragma= 키워드를 지원하지 않습니다.
+
+    (몇몇 C++ 컴파일러는 이를 확장 기능으로 제공할 수 있습니다.)
+   
+    [C99: §5.1.1.2, 6.10.6, 6.10.9]
+    [C++98: §16.6]
+
+***** 역자 주: =_Pragma=⁠의 목적
+
+      C90에서는, 매크로 확장 결과로 =#pragma=⁠를 쓸 수
+      없습니다. =_Pragma= 키워드는 매크로 확장 결과로 쓰일 수
+      있습니다.  예를 들어, armcc 컴파일러를 쓸 경우, 특정 함수나
+      변수를 오브젝트 파일의 지정된 섹션_{section}⁠에 넣기 위해, 아래와
+      같이 할 수 있습니다:
+
+#+BEGIN_SRC c
+  # define RWDATA(X) PRAGMA(arm section rwdata=#X)
+  # define PRAGMA(X) _Pragma(#X)
+  
+  RWDATA(foo)  // same as #pragma arm section rwdata="foo"
+  int y = 1;   // y is placed in section "foo"
+#+END_SRC
+
+      [[[http://infocenter.arm.com/help/topic/com.arm.doc.dui0472i/BABDIJDD.html][ARM© Compiler toolchain Using the Compiler]]]
+
+*** Predefined identifiers
+
+    C99는 미리 정의된 이름_{predefined identifier}⁠으로, =__func__=⁠를 제공하며,
+    이는 항상 해당 함수의 이름을 가리키는 문자열 상수_{string literal}⁠입니다.
+    예를 들면 다음과 같습니다:
+
+#+BEGIN_SRC c
+  int incr(int a)
+  {
+    fprintf(dbgf, "%s(%d)\n", __func__, a);
+    return ++a;
+  } 
+#+END_SRC
+
+    (몇몇 C++ 컴파일러는 이를 확장 기능 형태로 제공하지만, 어떤 값을
+    나타내는지 확실하지 않습니다.  특히 중첩된_{nested} namespace 안의
+    중첩된_{nested} template class의 멤버 함수에 대해 그렇습니다.)
+   
+    [C99: §6.4.2.2, 7.2.1.1, J.2]
+
+*** Reserved keywords in C99
+
+    아래 키워드들은 C++이 인식할 수 없는, C99 키워드입니다:
+   
+    | =restrict=   |
+    | =_Bool=      |
+    | =_Complex=   |
+    | =_Imaginary= |
+    | =_Pragma=    |
+
+    따라서, 이 키워드를 쓴 C 코드를 C++로 컴파일할 경우 문제가 됩니다:
+   
+#+BEGIN_SRC c
+  extern int   set_name(char *restrict n); 
+#+END_SRC
+    
+    [C99: §6.4.1, 6.7.2, 6.7.3, 6.7.3.1, 6.10.9, 7.3.1, 7.16, A.1.2]
+    [C++98: §2.11]
+
+*** Reserved keywords in C++
+
+    아래 키워드들은 C99가 인식할 수 없는, C++ 키워드입니다:
+   
+    | =bool=         | =mutable=          | =this=     |
+    | =catch=        | =namespace=        | =throw=    |
+    | =class=        | =new=              | =true=     |
+    | =const_cast=   | =operator=         | =try=      |
+    | =delete=       | =private=          | =typeid=   |
+    | =dynamic_cast= | =protected=        | =typename= |
+    | =explicit=     | =public=           | =using=    |
+    | =export=       | =reinterpret_cast= | =virtual=  |
+    | =false=        | =static_cast=      | =wchar_t=  |
+    | =friend=       | =template=         |            |
+
+    또, C++은 =asm= 키워드를 예약_{reserve}⁠하고 있습니다.  C의 경우,
+    컴파일러_{implementation}⁠에 따라 예약_{reserved}⁠되어 있을 수도 있고,
+    아닐 수도 있습니다.
+
+    C 코드에서는 위 키워드들을 자유롭게 다른 이름_{identifier}⁠이나
+    매크로 이름으로 쓸 수 있습니다.  대신 이런 코드를 C++로 컴파일할
+    경우, 문제가 됩니다:
+
+#+BEGIN_SRC c
+  extern int   try(int attempt);
+  extern void  frob(struct template *t, bool delete); 
+#+END_SRC
+    
+    [C99: §6.4.1]
+    [C++98: §2.11]
+
+*** =restrict= keyword
+
+    C99는 =restrict= 키워드를 제공하며, 포인터에 대한 최적화를 수행할 수 있게
+    도와주는 역할을 합니다.  예를 들면:
+
+#+BEGIN_SRC c
+  void copy(int *restrict d, const int *restrict s, int n)
+  {
+    while (n-- > 0)
+      ,*d++ = *s++;
+  } 
+#+END_SRC
+
+    C++은 이 키워드를 인식하지 못합니다.
+
+    C와 C++ 모두에 쓰일 코드라면, 간단하게 =restrict= 키워드를 위한 매크로를 
+    만들어서 해결할 수 있습니다.
+
+#+BEGIN_SRC c++
+  #ifdef __cplusplus
+   #define restrict    /* nothing */
+  #endif 
+#+END_SRC
+
+    (이 기능은 몇몇 C++ 컴파일러에서 확장 기능으로 제공할 수 있습니다.
+    또, 확장 기능을 제공하는 컴파일러라면, 이 키워드를 pointer 뿐만 아니라
+    reference에도 쓸 수 있게 해 줄 것입니다.)
+   
+    [C99: §6.2.5, 6.4.1, 6.7.3, 6.7.3.1, 7, A.1.2, J.2]
+    [C++98: §2.11]
+
+***** 역자 주: restrict 포인터
+      =restrict= 키워드를 쓴 포인터의 경우, 이 포인터가 가리키는 오브젝트를
+      접근_{access}⁠하기 위해서, 반드시 이 포인터만 쓸 수 있다는 것을 나타냅니다.
+      즉 다른 포인터를 써서 이 포인터가 가리키는 오브젝트에 접근할 수 없습니다.
+
+      이는 컴파일러가 최적화를 수행하는 데, 도움이 됩니다.  즉, 컴파일러가
+      모든 경우를 다 분석하지 않더라도, (=restrict= 키워드를 쓴) 
+
+*** Returning =void=
+
+    C++은 리턴 타입이 =void=⁠인 함수에서 =void= 타입의 수식_{expression}⁠을
+    리턴하는 것을 허용합니다.  C 언어 =void= 함수는, 어떤 수식_{expression}⁠도
+    리턴할 수 없습니다.
+
+    예를 들면:
+
+#+BEGIN_SRC c++
+  void foo(someType expr)
+  {
+    ...
+    return (void)expr;      // C++에서 ok, C에서는 에러
+  } 
+#+END_SRC
+
+    C++에서 이것이 허용된 이유는, template 함수가 template 파라미터
+    용으로, (=void=⁠를 포함한) 어떤 return type이라도 받을 수 있게 하기
+    위해서입니다.  예를 들어:
+    
+#+BEGIN_SRC c++
+  // C++ code
+  template <typename T>
+  T bar(someType expr)
+  {
+    ...
+    return (T)expr;         // T가 void이더라도 ok
+  } 
+#+END_SRC
+    
+    [C99: §6.8.6.4]
+    [C++98: §3.9.1, 6.6.3]
+
+*** =static= linkage
+
+    C와 C++ 모두에서, 오브젝트나 함수 모두 (internal linkage라고도
+    하는) static file linkage 속성을 가질 수 있습니다.  이와 달리,
+    C++에서는 이를 권장하지 않습니다_{deprecated}.  대신, 이름이
+    없는_{unnamed} namespace를 쓸 것을 권장합니다.  이름이 없는
+    namespace 안에 선언된 C++ 오브젝트나 함수는 (=static=⁠으로 선언되지
+    않은 한) external linkage 속성을 가집니다.  C++에서 namespace
+    스코프 안에 선언된 오브젝트나 함수 선언에 =static=⁠을 쓰는 것은
+    권장하지 않습니다_{deprecated}.)
+
+    C++98로 컴파일된 C 코드에서 문제될 것은 없지만, 미래 버전 C++ 표준에는
+    문제가 될 수 있습니다.   예를 들어 아래는 deprecate된 =static=⁠을 사용한
+    코드입니다:
+
+#+BEGIN_SRC c
+  // C and C++ code
+      
+  static int  bufsize = 1024;
+  static int  counter = 0;
+      
+  static long square(long x)
+  {
+    return (x * x);
+  } 
+#+END_SRC
+
+    아래는, 권장하는, C++ 방식으로 작성된 코드입니다:
+   
+#+BEGIN_SRC c++
+  // C++ code
+  
+  namespace /* 이름없음 */
+  {
+    static int  bufsize = 1024;
+    static int  counter = 0;
+  
+    static long square(long x)
+    {
+      return (x * x);
+    } 
+  
+  }
+#+END_SRC
+
+    (=static= 지정자_{specifier}⁠를 쓰는 것은 불필요합니다.)
+
+    한 가지 방법으로, 전처리기_{preprocessor} 매크로와 wrapper를 사용하여
+    해결할 수도 있습니다:
+   
+#+BEGIN_SRC c++
+  // C and C++ code
+      
+  #ifdef __cplusplus
+   #define STATIC  static
+  #endif
+      
+  #ifdef __cplusplus
+  namespace /*unnamed*/
+  {
+  #endif
+      
+  STATIC int  bufsize = 1024;
+  STATIC int  counter = 0;
+      
+  STATIC long square(long x)
+  {
+    return (x * x);
+  }
+      
+  #ifdef __cplusplus
+  }
+  #endif 
+#+END_SRC
+    
+    [C99: §6.2.2, 6.2.4, 6.7.1, 6.9, 6.9.1, 6.9.2, 6.11.2]
+    [C++98: §3.3.5, 3.5, 7.3.1, 7.3.1.1, D.2]
+
+*** String initializers
+
+    C 언어에서 문자 배열은 문자열 상수로 초기화할 수 있습니다. 
+    이 때, 문자열 상수 길이는 배열의 크기와 같거나, 하나만큼 더 클 수 있습니다.
+    이는 문자열 끝을 나타내는 널_{null} 문자를 위한 것입니다.  예를 들면:
+
+#+BEGIN_SRC c
+  char  name1[] =  "Harry";   // 문자 여섯개짜리 배열
+      
+  char  name2[6] = "Harry";   // 문자 여섯개짜리 배열
+      
+  char  name3[] =  { 'H', 'a', 'r', 'r', 'y', '\0' };
+                              // 위 'name1'과 같음
+      
+  char  name4[5] = "Harry";   // 문자 다섯개짜리 배열, 널 문자 없음
+#+END_SRC
+
+    C++에서도 문자 배열을 문자열 상수로 초기화 할 수 있습니다.  다만,
+    초기값의 널 문자도 반드시 배열에 들어가야 합니다.
+    따라서 위 예제의 마지막 선언(=name4=)은 틀린 C++ 코드입니다.
+   
+    [C99: §6.7.8]
+    [C++98: §8.5, 8.5.2]
+
+*** String literals are const
+
+    C 언어에서 문자열 상수_{literal}⁠은 =char[n]= 타입이며, 변경할 수
+    없습니다.  (즉, 문자열 상수_{literal}⁠의 내용을 바꾸는 것은 정의되어
+    있지 않습니다_{undefined behavior}.)
+
+    C++에서 문자열 상수_{literal}⁠은 =const char[n]= 타입이며, 
+    변경할 수 없습니다.
+
+    문자열 상수가 수식_{expression}⁠에 쓰일 때 (혹은 함수에 전달될 때),
+    C와 C++ 모두 문자열 상수를 =char *=⁠를 가리키는 포인터로
+    변환합니다.  (특히, C++ 변환은 두 단계를 거칩니다.  먼저 =const
+    char[n]= 타입을 =const char *= 타입으로 변환하는 배열-포인터 변환을
+    수행하고, 그 다음으로 결과를 qualification 변환_{conversion}⁠으로
+    =char *= 타입으로 변환합니다.)
+ 
+    아래 코드는 C와 C++ 모두에서 올바른 코드입니다:
+   
+#+BEGIN_SRC c
+  extern void  frob(char *s);
+                    // 인자가 const char * 타입이 아님
+      
+  void foo(void)
+  {
+    frob("abc");    // C, C++ 모두 ok
+                    // 문자열 상수는 char * 타입으로 변환됨
+  } 
+#+END_SRC
+
+    따라서, 이 내용은 C99와 C++98 사이에 호환성 문제를 일으키지
+    않습니다.  그러나 C++에서 함축적 변환_{implicit converion}⁠은
+    deprecate된 기능입니다.  (아마도 두번 변환 대신 =const char *=
+    타입의 단일_{single} 함축적 변환_{implicit conversion}⁠으로 바뀔
+    것으로 예상됨.)  따라서 미래 버전 C++에서는 위 코드가 틀릴 가능성도
+    있습니다.
+   
+    [C99: §6.3.2.1, 6.4.5, 6.5.1, 6.7.8]
+    [C++98: §2.13.4, 4.2, D.4]
+
+*** Structures declared in function prototypes
+
+    C 언어는 함수 프로토타입 스코프 안에서 =struct=, =union=, =enum= 타입을
+    정의하는 것을 허용합니다.  예를 들어:
+
+#+BEGIN_SRC c
+  extern void  foo(const struct info { int typ; int sz; } *s);
+      
+  int bar(struct point { int x, y; } pt)
+  { ... } 
+#+END_SRC
+  
+    또, C 언어는 함수 리턴 타입에 구조체를 선언하는 것을
+    허용합니다. 예를 들면:
+   
+#+BEGIN_SRC c
+  extern struct pt { int x; }  pos(void); 
+#+END_SRC
+  
+    C++은 위 두 기능 모두 허용하지 않습니다.  왜냐하면, C++에서 이런
+    식으로 선언된 구조체의 스코프는 함수 선언 또는 정의 바깥으로
+    확장되지 않기 때문에, 해당 구조체의 오브젝트를 정의하는 것이
+    불가능하며, 정의가 불가능하기 때문에, 이 함수의 리턴 값을 대입할
+    변수나, 이 함수에 전달할 인자를 정의하는 것이 불가능해집니다.
+
+    반면 두 언어 모두, 함수 프로토타입 안에, 또는 함수 리턴 타입에
+    불완전한_{incomplete} 구조체 타입을 쓰는 것은 지원합니다:
+
+#+BEGIN_SRC c
+  void  frob(struct sym *s);  // 불완전한 타입에 대한 포인터는 ok
+  struct typ *  fraz(void);   // 위와 같음
+#+END_SRC
+    
+    [C99: §6.2.1, 6.7.2.3, 6.7.5.3, I]
+    [C++98: §3.3.1, 3.3.3, 8.3.5, C.1.6.8.3.5]
+
+*** Type-generic math functions
+
+    C99는 여러 타입에 쓸 수 있는_{type-generic} 수학 함수를
+    제공합니다.  이 함수들은 근본적으로 세가지 실수 타입(=float=,
+    =double=, =long double=)과 세가지 복소수 타입(=complex float=,
+    =complex double=, =complex long double=)을 지원하는
+    오버로드된_{overloaded} 함수입니다.
+
+    이 함수들을 쓰려면 =<tgmath.h>= 헤더를 써야 하며, 이 함수들은
+    매크로로 이루어져 있으며, 아마도 컴파일러에 따라 다른
+    이름_{implementation-defined name}⁠으로 치환될 것입니다.
+
+    예를 들어, 아래는 이런 함수들을 정의하는 방법 중 하나입니다:
+    
+#+BEGIN_SRC c
+  /* Equivalent <tgmath.h> contents:
+   * extern float                sin(float x);
+   * extern double               sin(double x);
+   * extern long double          sin(long double x);
+   * extern float complex        sin(float complex x);
+   * extern double complex       sin(double complex x);
+   * extern long double complex  sin(long double complex x);
+   * ...
+   */
+      
+  // Macro 정의
+  #define sin  __tg_sin       // 컴파일러 내장된[built-in] 이름
+  #define cos  __tg_cos       // 컴파일러에 내장된[built-in] 이름
+  #define tan  __tg_tan       // 컴파일러에 내장된[built-in] 이름
+  ... 
+#+END_SRC
+
+    C++도 마찬가지로 여러 타입에 쓸 수 있는 함수를 제공합니다. 사실
+    오버로드된 함수를 여러 개 제공하는 것은, C++이 가진 특징 중
+    하나입니다.
+    
+    C++ can also provide type-generic functions, since it is quite capable of
+    providing multiple overloaded function definitions.
+
+    (여러 C++ 컴파일러_{implementation}⁠들은 이런 수학 함수들을 확장
+    기능 형태로 제공하지만, C99의 수학 함수들과 상당히 다를 수
+    있습니다. 특히 이런 여러 타입에 쓸 수 있는 함수들에 대한 포인터의
+    동작 방식은 두 언어가 다를 것입니다.)
+   
+    [C99: §7.22]
+    [C++98: §13, 13.1, 13.3.1, 13.3.2, 13.3.3]
+
+*** Typedefs versus type tags
+
+    C 언어에서는 =struct=, =union=, =enum= 키워드 다음에 타입
+    태그_{type tag}⁠가 나와야 합니다.
+
+    C++에서는 타입 태그를 =typedef= 이름으로 간주합니다.
+
+    따라서, 아래 코드는 올바른 C 코드이지만, 틀린 C++ 코드입니다.
+
+#+BEGIN_SRC c
+  // Valid C, invalid C++
+      
+  typedef int  type;
+      
+  struct type
+  {
+    type            memb;   // int
+    struct type *   next;   // struct pointer
+  };
+      
+  void foo(type t, int i)
+  {
+    int          type;
+    struct type  s;
+      
+    type = i + t + sizeof(type);
+    s.memb = type;
+  } 
+#+END_SRC
+
+    =typedef=⁠를 처리하는 방식이 두 언어에서 다르기 때문에, C와 C++ 모두
+    올바른 코드라도, 각각 다른 방식으로 동작하는 코드가 나올 수 있습니다.
+    예를 들어:
+
+#+BEGIN_SRC c
+  int  sz = 80;
+      
+  int size(void)
+  {
+    struct sz
+    { ... };
+      
+    return sizeof(sz);      // C에서는 sizeof(int)
+                            // C++에서는 sizeof(struct sz)
+  } 
+#+END_SRC
+    
+    [C99: §6.2.1, 6.2.3, 6.7, 6.7.2.1, 6.7.2.2, 6.7.2.3]
+    [C++98: §3.1, 3.3.1, 3.3.7, 3.4, 3.4.4, 3.9, 7.1.3, 7.1.5, 7.1.5.2, 9.1]
+
+*** Variable-argument function declarators
+
+    C90 문법으로, 함수 파라미터 리스트의 마지막에 생략
+    부호_{ellipsis}(=...=)를 쓰면, 이 함수는 이름이 있는 마지막 인자
+    다음에 0개 또는 그 이상의 추가 인자를 받는다는 것을 나타냅니다.
+
+    C++에서도 가변 함수 인자 리스트를 지원하지만, 두가지
+    방식_{syntactical form}⁠을 제공합니다.
+   
+#+BEGIN_SRC c++
+  /* Variable-argument function declarations */
+  int  foo(int a, int b, ...);      // C, C++ 모두 ok
+  int  bar(int a, int b ...);       // C++에서 ok, 틀린 C 코드
+#+END_SRC
+    
+    [C99: §6.7.5]
+    [C++98: §8.3.5]
+   
+*** Variable-argument preprocessor function macros
+
+    C99는 가변 인자를 받을 수 있는 매크로 함수를 지원합니다.  매크로
+    정의 부분 파라미터 리스트 마지막에 '=...=' 토큰을 쓰고, 매크로 치환
+    텍스트 자리에 =__VA_ARGS__=⁠를 써서 만들 수 있습니다.
+
+    예를 들면, 다음과 같습니다:
+   
+#+BEGIN_SRC c
+  #define DEBUGF(f,...) \
+    (fprintf(dbgf, "%s(): ", f), fprintf(dbgf, __VA_ARGS__))
+      
+  #define DEBUGL(...) \
+    fprintf(dbgf, __VA_ARGS__)
+      
+  int incr(int *a)
+  {
+    DEBUGF("incr", "before: a=%d\n", *a);
+    (*a)++;
+    DEBUGL("after: a=%d\n", *a);
+    return (*a);
+  } 
+#+END_SRC
+  
+    C++은 이 기능을 제공하지 않습니다.
+
+    (C++ 컴파일러는 이 기능을 확장 기능으로 제공할 수 있습니다.)
+   
+    [C99: §6.10.3, 6.10.3.1, 6.10.3.4, 6.10.3.5]
+    [C++98: §16.3, 16.3.1]
+
+*** Variable-length arrays (VLAs)
+
+    C99는 가변 길이 배열_{variable-length array, 이하 VLA}⁠을
+    지원합니다.  'automatic storage' 특성을 가지고 크기는 프로그램 실행
+    시간_{program execution time}⁠에 동적으로 결정됩니다.  예를 들면:
+
+#+BEGIN_SRC c
+  size_t sum(int sz)
+  {
+    float   arr[sz];      // 동적 할당되는 VLA
+      
+    while (sz-- > 0)
+      arr[sz] = sz;
+    return sizeof(arr);   // 런타임에 평가[evaluate]됨
+  } 
+#+END_SRC
+
+    C99는 또, VLA 타입을 함수 파라미터로 쓸 수 있게, 새 선언 문법을
+    제공합니다.  즉, 기존에는 배열인 함수 파라미터의 대괄호 사이에
+    크기를 나타내는 정수 상수 수식_{constant integer size expression}⁠만
+    올 수 있었지만, (새 문법으로) '=*='를 쓰거나
+    변수 이름_{variable identifier}⁠을 쓸 수 있습니다. 
+    아래는 함수에 전달되는 VLA에 관한 예제입니다:
+   
+#+BEGIN_SRC c
+  extern float  sum_square(int n, float a[*]);
+      
+  float sum_cube(int n, float a[m])
+  {
+    ...
+  }
+      
+  void add_seq(int n)
+  {
+    float   x[n];       // VLA
+    float   s;
+      
+    ...
+    s = sum_square(n, x) + sum_cube(n, x);
+    ...
+  } 
+#+END_SRC
+
+    VLA 함수 파라미터 선언에 쓴 '=*='는 (프로토타입 형태의) 함수
+    선언에만 쓸 수 있으며, 함수 정의에는 쓸 수 없습니다.  또 이 기능은
+    =sizeof= 수식_{expression}⁠에 영향을 주는 것도 알아두기 바랍니다.
+
+    C++은 VLA을 지원하지 않습니다.
+   
+    [C99: §6.7.5, 6.7.5.2, 6.7.5.3, 6.7.6]
+    [C++98: §8.3.4, 8.3.5, 8.4]
+
+*** Void pointer assignments
+
+    C 언어에서는, =void=⁠를 가리키는 포인터 (=void *=) 값을, 캐스트
+    필요없이, 아무런 타입의 포인터 타입에 대입할 수 있습니다.  따라서
+    명백한 캐스트_{explicit cast} 필요없이 =malloc()=⁠이 리턴하는 값을,
+    아무 포인터 변수에나 대입할 수 있는 것입니다.
+
+    C++에서는, =void=⁠를 가리키는 포인터를, 명백한 캐스트_{explicit cast}⁠없이,
+    다른 포인터 타입에 대입할 수 없습니다.  이런 대입은 
+    타입 안정_{type safety}⁠에 위배되기 때문에 명백한 
+    캐스트_{explicit cast}⁠가 필요합니다.  따라서
+    아래 코드는 올바른 C 코드이지만, 틀린 C++ 코드입니다:
+   
+#+BEGIN_SRC c
+  extern void *  malloc(size_t n);
+      
+  struct object * allocate(void)
+  {
+    struct object *  p;
+      
+    p = malloc(sizeof(struct object));
+                      // 캐스트 없이 직접 대입
+                      // C에서 ok, C++에서 에러
+    return p;
+  } 
+#+END_SRC
+
+    (두 언어 모두, 명백한 캐스트_{explicit cast}⁠없이 어떤 타입의 포인터
+    값이나 =void=⁠를 가리키는 포인터에 대입할 수 있습니다.
+   
+#+BEGIN_SRC c
+  void *  vp;
+  Type *  tp;
+      
+  vp = tp;    // 캐스트 필요없음.
+              // C, C++ 모두 ok
+#+END_SRC
+
+    이러한 쓰임새는 타입 안전_{type safe}⁠한 것으로 간주됩니다.)
+
+    (C++에서 아무런 포인터가 함축적으로_{implicitly} =void=⁠를 가리키는
+    포인터로 변환될 때도 있습니다.  예를 들면, =void=⁠를 가리키는
+    포인터를 가리키는 포인터를 다른 타입을 가리키는 포인터와 비교할
+    때가 그렇습니다.  하지만 이 과정에서 어떠한 포인터 오브젝트도
+    변경되지 않기 때문에 타입 안전_{type safe}⁠한 것으로 간주됩니다.)
+   
+    [C99: §6.2.5, 6.3.2.3, 6.5.15, 6.5.16, 6.5.16.1]
+    [C++98: §3.8, 3.9.2, 4.10, 5.4, 5.9, 5.10, 5.16, 5.17, 13.3.3.2]
+
+*** Wide character type
+
+    C 언어는 와이드 문자_{wide character} 타입인 =wchar_t=⁠를
+    제공합니다.  이 타입은 확장 문자 세트_{extended character set}⁠에
+    속한 와이드 문자_{wide character} 하나를 나타낼 수 있습니다.
+    이 타입은 표준 헤더 =<stddef.h>=, =<stdlib.h>=, =<wchar.h>=⁠에
+    정의되어 있습니다.
+
+    C++도 =wchar_t= 타입을 제공하지만, C++에서는 =int=⁠처럼
+    예약된_{reserved} 키워드입니다.  따라서 =wchar_t= 타입을 쓰기 위해
+    어떤 헤더 파일을 포함할 필요는 없습니다.
+   
+    따라서, 표준 헤더 파일을 포함하지 않은 C 코드의 경우, =wchar_t=⁠를
+    다른 이름_{identifier}⁠이나 매크로 이름으로 쓸 수 있습니다.  대신
+    이런 코드는 C++에서 컴파일되지 않습니다.
+
+#+BEGIN_SRC c
+  // <stddef.h>, <stddef.h>이나 <wchar.h>를 포함하지 않음
+      
+  typedef unsigned short  wchar_t;
+      
+  wchar_t readwc(void)
+  {
+    ...
+  } 
+#+END_SRC
+
+    따라서, =wchar_t=⁠를 다른 목적으로 쓰는 것은 권장되지 않습니다.  또
+    이 타입을 쓰기 전에 =<stddef.h>=, =<stdlib.h>=, 또는 =<wchar.h>=⁠를
+    포함하는 것이 좋습니다.
+
+    (대부분 C++ 컴파일러_{implementation}⁠는 =<wchar.h>=⁠를, 확장 기능
+    형태로 제공합니다.  어떤 컴파일러는 비어있는 =<cwchar>= 헤더를
+    제공하기도 합니다.)
+   
+    [C99: §3.7.3, 6.4.4.4, 6.4.5, 7.1.2, 7.17, 7.19.1, 7.20, 7.24]
+    [C++98: §2.11, 2.13.2, 2.13.4, 3.9.1, 4.5, 7.1.5.2]
+
+* 참고 문헌
+*** C89
+    *Programming Languages - C* 
+    *ANSI/ISO 9899:1989*, 1989, 
+    Available at http://www.ansi.org/.
+
+*** C90
+    *Programming Languages - C*
+    (with ISO amendments) 
+    *ISO/IEC 9899:1990*, 1990, ISO/IEC JTC1/SC22/WG14. 
+    Available at http://www.ansi.org/.
+
+*** C99
+    *Programming Languages - C *
+    *ISO/IEC 9899:1999*, 1999, ISO/IEC JTC1/SC22/WG14. 
+    Available at http://www.ansi.org/.
+
+*** C++98
+    *Programming Languages - C++*
+    *ISO/IEC 14882:1998(E)*, 1998-09-01, 1st ed., ISO/IEC JTC1/SC22. 
+    Available at http://www.ansi.org/.
+
+*** STR
+    *The C++ Programming Language, Appendix B - Compatibility*
+    Bjarne Stroustrup. 
+    Third ed., 1997, AT&T. 
+    Available in PDF format at http://www.research.att.com/~bs/3rd_compat.pdf.
+
+* 감사의 글
+
+  이 문서의 초안에 많은 도움을 준 분들에게 감사드립니다.  특히 다음과
+  같이 저[David R. Tribble]에게 제안/정정 사항을 이메일로 보내주신
+  분들과 =comp.std.c=⁠와 =comp.std.c++= 뉴스 그룹에서 답글을 주신
+  분들에게 감사드립니다.
+
+  - [[mailto:beebe@math.utah.edu][Nelson H. F. Beebe]]
+  - [[mailto:greg@brewer.net][Greg Brewer]]
+  - [[mailto:capshaw@metrowerks.com][David Capshaw]]
+  - [[mailto:clamage@eng.sun.com][Steve Clamage]]
+  - [[mailto:Yaakov@Digisoft.com][Yaakov Eisenberg]]
+  - [[mailto:clive@demon.net][Clive D. W. Feather]]
+  - [[mailto:francisG@robinton.demon.co.uk][Francis Glassborow]]
+  - Doug Gwyn, [[mailto:gwyn@arl.mil][gwyn@arl.mil]] 또는 [[mailto:dagwyn@home.com][dagwyn@home.com]].
+  - [[mailto:James.Kanze@dresdner-bank.com][James Kanze]]
+  - [[mailto:mseitz@snapserver.com][Matt Seitz]]
+  - [[mailto:vkarvone@cc.helsinki.fi][Vesa A J Karvonen]]
+  - [[mailto:nmm1@cam.ac.uk][Nick Maclaren]]
+  - [[mailto:reply_to@yahoo.com][Joe Maun]]
+  - [[mailto:gabriel.netterdag@quidsoft.se][Gabriel Netterdag]]
+  - [[mailto:Cesar.Quiroz@CoWare.com][Cesar Quiroz]]
+  - Bjarne Stroustrup, [[mailto:bs@research.att.com][bs@research.att.com]] 그리고 [[http://www.research.att.com/~bs][www.research.att.com/~bs]].
+  - [[mailto:kst@cts.com][Keith Thompson]]
+  - [[mailto:loewis@informatik.hu-berlin.de][Martin van Loewis]]
+  - [[mailto:danielv@crt.umontreal.ca][Daniel Villeneuve]]
+  - [[mailto:bill.wade@stoner.com][Bill Wade]]
+
+* Revision History
+
+#+BEGIN_EXAMPLE
+1.0, 2001-08-05
+    Completed revision.
+   
+0.12, 2000-11-13
+    Minor corrections made.
+    Better HTML anchor names.
+   
+0.11, 2000-09-20
+    Sixth public review revision.
+    Added ISO section reference numbers to most of the sections.
+   
+0.10, 2000-07-30
+    Sixth public review revision.
+   
+0.09, 2000-02-17
+    Fifth public review revision, still incomplete.
+   
+0.08, 1999-10-31
+    Fourth public review revision, still incomplete.
+    Minor corrections made.
+    Changed "C9X" to "C99" after the ratification of ISO C-1999.
+   
+0.07, 1999-10-13
+    Third public review revision, still incomplete.
+   
+0.06, 1999-10-05
+    Second public review revision, still incomplete.
+   
+0.05, 1999-09-14
+    First public review revision, still incomplete.
+   
+0.00, 1999-08-24
+    First attempt, incomplete.
+#+END_EXAMPLE
+
+
+* Copyrights
+
+원문에 대한 저작권은 David R. Tribble씨에게 있습니다.
+
+Copyright © 1999-2001 by David R. Tribble, all rights reserved.
+
+이 문서를 언급하거나 이 문서로 링크를 만드는 것은 저자의 허락 없이
+가능합니다.  저자의 이름을 언급한다는 전제로, 저자의 허락없이 이 문서의
+일부를 사용하거나 인용할 수 있습니다.  저자와 저작권 안내문이 변경되지
+않고 출력된다는 전제로, 이 문서를 출력하고 배포하는 일은, 저자의
+허락없이 가능합니다.
+
+글쓴이의 이메일 주소는 [[mailto:david@tribble.com][david@tribble.com]]이며 홈페이지는
+[[http://david.tribble.com][david.tribble.com]]입니다.
+
+
+
+
+
+
+* Authentic Contents from 
+
+  - [[http://infocenter.arm.com/help/topic/com.arm.doc.dui0205j/CACEBJGG.html][RealView Compilation Tools Compiler User Guide Version 4.0]]
+  - [[http://david.tribble.com/text/cdiffs.htm][Incompatibilities Between ISO C and ISO C++]]
+
+* language features
+*** comments
+    like C++, =//= can be used as a one-line comment.
+
+    [C99: §6.8.5] 
+    [C++98: §3.3.2, 6.4, 6.5]
+
+*** compound literals
+
+    C99 allows literals having types other than primitive types (e.g.,
+    user-defined structure or array types) to be specified in constant
+    expressions; these are called /compound literals/. For example:
+
+#+BEGIN_SRC c
+struct info
+{
+    char    name[8+1];
+    int     type;
+};
+
+extern void  add(struct info s);
+extern void  move(float coord[2]);
+
+void predef(void)
+{
+    add((struct info){ "e", 0 });      // A struct literal
+    move((float[2]){ +0.5, -2.7 });    // An array literal
+} 
+#+END_SRC
+
+    C++ does not support this feature.
+
+    C++ does provides a similar capability through the use of
+    non-default class constructors, but which is not quite as flexible
+    as the C feature:
+
+#+BEGIN_SRC c++
+void predef2()
+{
+    add(info("e", 0));      // Call constructor info::info()
+} 
+#+END_SRC
+
+    (This C feature might be provided as an extension by some C++
+    compilers, but would probably be valid only for POD structure
+    types and arrays of POD types.)
+
+    [C99: §6.5.2, 6.5.2.5] 
+    [C++98: §5.2.3, 8.5, 12.1, 12.2]
+
+*** designated initializers
+
+#+BEGIN_SRC c
+typedef struct
+{
+    char *name;
+    int rank;
+} data;
+data vars[10] = { [0].name = "foo", [0].rank = 1,
+                  [1].name = "bar", [1].rank = 2,
+                  [2].name = "baz", 
+                  [3].name = "gazonk" };
+#+END_SRC
+
+    C99 introduces the feature of /designated initializers/, which
+    allows specific members of structures, unions, or arrays to be
+    initialized explicitly by name or subscript. For example:
+
+#+BEGIN_SRC c
+struct info
+{
+    char    name[8+1];
+    int     sz;
+    int     typ;
+};
+
+struct info  arr[] =
+{
+    [0] = { .sz = 20, .name = "abc" },
+    [9] = { .sz = -1, .name = "" }
+}; 
+#+END_SRC
+
+    Unspecified members are default-initialized.
+
+    C++ does not support this feature.
+
+    (This feature might be provided as an extension by some C++
+    compilers, but would probably be valid only for POD structure
+    types and arrays of POD types. However, C++ already provides a
+    similar capability through the use of non-default class
+    constructors.)
+
+    [C99: §6.7.8] 
+    [C++98: §8.5.1, 12.1]
+
+*** Hexadecimal floating-point literals
+
+    C99 recognizes hexadecimal floating-point literals, having a "=0x="
+    prefix and a "=p=" exponent specifier. For example:
+
+#+BEGIN_SRC c
+float  pi = 0x3.243F6A88p+03; 
+#+END_SRC
+
+    C99 also provides additional format specifiers for the =printf()=
+    and =scanf()= family of standard library functions:
+
+#+BEGIN_SRC c
+printf("%9.3a", f);
+printf("%12.6lA", d);
+#+END_SRC
+
+    (These features are likely to be provided as extensions by many
+    C++ compilers.)
+
+    [C99: §6.4.4.2, 6.4.8] 
+    [C++98: §2.9, 2.13.3]
+
+*** Flexible array members (FAMs)
+
+    In a =struct= with more than one member, the last member of the
+    =struct= can have incomplete array type. Such a member is called a
+    /flexible array member/ of the =struct=.
+
+    When a =struct= has a flexible array member, the entire =struct=
+    itself has incomplete type.
+
+#+BEGIN_SRC c
+extern const int n;
+typedef struct
+{
+  int len;
+  char p[];
+} str;
+
+void foo(void)
+{
+  size_t str_size = sizeof(str); // equivalent to offsetoff(str, p)
+  str *s = malloc(str_size + (sizeof(char) * n));
+}
+#+END_SRC
+
+
+    This is also known as the /struct hack/. This specifies a conforming
+    way to declare a structure containing a set of fixed-sized members
+    followed by a flexible array member that can hold an unspecified
+    number of elements. Such a structure is typically allocated by
+    calling =malloc()=, passing it the number of bytes beyond the fixed
+    portion of the structure to add to the allocation size. For
+    example:
+
+#+BEGIN_SRC c
+struct Hack
+{
+    int     count;    // Fixed member(s)
+    int     fam[];    // Flexible array member
+};
+
+struct Hack * vmake(int sz)
+{
+    struct Hack *  p;
+
+    p = malloc(sizeof(struct Hack) + sz*sizeof(int));
+                        // Allocate a variable-sized structure
+
+    p->count = sz;
+    for (int i = 0; i < sz; i++)
+        p->fam[i] = i;
+
+    return p;
+} 
+#+END_SRC
+
+    C++ does not support flexible array members.
+
+    (This feature might be provided as an extension by some C++
+    compilers, but would probably be valid only for POD structure
+    types.)
+    
+    [C99: §6.7.2.1] 
+    [C++98: §8.3.4]
+
+    
+*** __func__ predefined identifier
+
+    C99 provides a predefined identifier, =__func__=, which acts like
+    a string literal containing the name of the enclosing
+    function. For example:
+
+#+BEGIN_SRC c
+int incr(int a)
+{
+    fprintf(dbgf, "%s(%d)\n", __func__, a);
+    return ++a;
+} 
+#+END_SRC
+
+    (While this feature is likely to be provided as an extension by
+    many C++ compilers, it is unclear what its value would be,
+    especially for member functions within nested template classes
+    declared within nested namespaces.)
+
+    [C99: §6.4.2.2, 7.2.1.1, J.2] 
+
+*** inline functions
+
+    The C99 keyword =inline= hints to the compiler that invocations of a
+    function qualified with =inline= are to be expanded inline. For
+    example:
+
+#+BEGIN_SRC c
+inline int max(int a, int b)
+{
+  return (a > b) ? a : b;    
+}    
+#+END_SRC
+
+    The semantics of =inline= in C99 are different to the semantics of
+    =inline= in Standard C++.
+
+*** long long data type
+    C99 provides =signed long long= and =unsigned long long= integer types
+    to its repertoire of primitive types, which are binary integer
+    types at least 64 bits wide.
+
+    C99 also has enhanced lexical rules to allow for integer constants
+    of these types. For example:
+
+#+BEGIN_SRC c
+long long int           i = -9000000000000000000LL;
+unsigned long long int  u = 18000000000000000000LLU; 
+#+END_SRC
+
+    C99 also provides several new macros in =<limits.h>=, new format
+    specifiers for the =printf()= and =scanf()= family of standard library
+    functions, and additional standard library functions that support
+    these types. For example:
+
+#+BEGIN_SRC c
+void pr(long long i)
+{
+    printf("%lld", i);
+} 
+#+END_SRC
+
+    C++ does not recognize these integer types.
+
+    (These features are likely to be provided as extensions by many
+    C++ compilers, especially those that provide the same runtime
+    library for both C and C++ environments.)
+
+    [C99: §5.2.4.2.1, 6.2.5, 6.3.1.1, 6.4.4.1, 6.7.2, 7.12.9, 7.18.4, 7.19.6.1, 7.19.6.2, 7.20.1, 7.20.6, 7.24.2.1, 7.24.2.2, 7.24.4, A.1.5, B.11, B.19, B.23, F.3, H.2] 
+    [C++98: §2.13.1, 3.9.1, 21.4, 22.2.2.2.2, 27.8.2, C.2]
+
+*** Macros with a variable number of arguments
+
+#+BEGIN_SRC c
+#define debug(format, ...) fprintf (stderr, format, __VA_ARGS__)
+
+void Variadic_Macros_0()
+{
+  debug("a test string is printed out along with %x %x %x\n", 12, 14, 20);
+}
+#+END_SRC
+
+    ----
+
+    C99 supports preprocessor function macros that may take a variable
+    number of arguments. Such macros are defined with a trailing '=...='
+    token in their parameter lists, and may use the =__VA_ARGS__=
+    reserved identifier in their replacement text.
+
+    For example:
+
+#+BEGIN_SRC c
+#define DEBUGF(f,...) \
+    (fprintf(dbgf, "%s(): ", f), fprintf(dbgf, __VA_ARGS__))
+
+#define DEBUGL(...) \
+    fprintf(dbgf, __VA_ARGS__)
+
+int incr(int *a)
+{
+    DEBUGF("incr", "before: a=%d\n", *a);
+    (*a)++;
+    DEBUGL("after: a=%d\n", *a);
+    return (*a);
+} 
+#+END_SRC
+
+    C++ does not provide this feature.
+
+    (This feature is likely to be provided as an extension by many C++
+    compilers.)
+
+    [C99: §6.10.3, 6.10.3.1, 6.10.3.4, 6.10.3.5] 
+    [C++98: §16.3, 16.3.1]
+
+*** Mixed declarations and code
+
+    C99 enables you to mix declarations and code within compound
+    statements, like in C++. For example:
+
+#+BEGIN_SRC c
+void foo(float i)
+{
+  i = (i > 0) ? -i : i;
+  float j = sqrt(i);    // illegal in C90
+}
+#+END_SRC
+
+    [C99: §6.8.2] 
+    [C++98: §6, 6.3, 6.7]
+
+*** New block scopes for selection and iteration statements
+
+    In a =for= loop, the first expression can be a declaration, like in
+    C++. The scope of the declaration extends to the body of the loop
+    only. For example:
+
+#+BEGIN_SRC c
+extern int max;
+for (int n = max - 1; n >= 0; n--)
+{
+    // body of loop
+}
+#+END_SRC
+
+    Unlike in C++, you cannot introduce new declarations in a
+    =for=-test, =if=-test or =switch=-expression.
+
+*** _Pragma preprocessing operator
+
+    C90 does not permit a =#pragma= directive to be produced as the
+    result of a macro expansion. The C99 =_Pragma= operator enables you
+    to embed a preprocessor macro in a pragma directive. For example:
+
+#+BEGIN_SRC c
+# define RWDATA(X) PRAGMA(arm section rwdata=#X)
+# define PRAGMA(X) _Pragma(#X)
+RWDATA(foo)  // same as #pragma arm section rwdata="foo"
+int y = 1;   // y is placed in section "foo"
+Restricted pointers
+#+END_SRC
+
+    ----
+
+    C99 provides the =_Pragma= keyword, which operates in a similar
+    fashion to the =#pragma= preprocessor directive. For example, these
+    two constructs are equivalent:
+
+#+BEGIN_SRC c
+#pragma FLT_ROUND_INF   // Preprocessor pragma
+
+_Pragma(FLT_ROUND_INF)  // Pragma statement
+#+END_SRC
+
+    C++ does not support the =_Pragma= keyword.
+
+    (This feature is likely to be provided as an extension by many C++
+    compilers.)
+
+    [C99: §5.1.1.2, 6.10.6, 6.10.9] 
+    [C++98: §16.6]
+    
+*** Restricted pointers
+
+    The C99 keyword =restrict= enables you to ensure that different
+    object pointer types and function parameter arrays do not point to
+    overlapping regions of memory. This enables the compiler to
+    perform optimizations that might otherwise be prevented because of
+    possible aliasing.
+
+    In the following example, pointer =a= does not, and cannot, point to
+    the same region of memory as pointer =b=:
+
+#+BEGIN_SRC c
+void copy_array(int n, int *restrict a, int *restrict b)
+{
+    while (n-- > 0)
+        *a++ = *b++;
+}
+
+void test(void)
+{
+    extern int array[100];
+    copy_array(50, array + 50, array);    // valid
+    copy_array(50, array + 1, array);     // undefined behavior
+}
+#+END_SRC
+
+    Pointers qualified with restrict can however point to different
+    arrays, or to different regions within an array.
+
+    ----
+
+    C99 supports the restrict keyword, which allows for certain
+    optimizations involving pointers. For example:
+
+#+BEGIN_SRC c
+void copy(int *restrict d, const int *restrict s, int n)
+{
+    while (n-- > 0)
+        *d++ = *s++;
+} 
+#+END_SRC
+
+    C++ does not recognize this keyword.
+
+    A simple work-around for code that is meant to be compiled as
+    either C or C++ is to use a macro for the =restrict= keyword:
+
+#+BEGIN_SRC c
+#ifdef __cplusplus
+ #define restrict    /* nothing */
+#endif 
+#+END_SRC
+
+    (This feature is likely to be provided as an extension by many C++
+    compilers. If it is, it is also likely to be allowed as a
+    reference modifier as well as a pointer modifier.)
+
+    [C99: §6.2.5, 6.4.1, 6.7.3, 6.7.3.1, 7, A.1.2, J.2] 
+    [C++98: §2.11]
+
+
+* library features
+
+  The C99 standard introduces several new library features of interest
+  to programmers, including:
+
+  - Some features similar to extensions to the C90 standard libraries
+    offered in UNIX standard libraries, for example, the =snprintf=
+    family of functions.
+  - Some entirely new library features, for example, the standardized
+    floating-point environment offered in =<fenv.h>=.
+
+  A selection of new library features of C99 that might be of
+  particular interest are described in the following sections.
+  
+*** Additional math library functions in =<math.h>=
+
+    C99 supports additional macros, types, and functions in the
+    standard header =<math.h>= that are not found in the corresponding
+    C90 standard header.
+
+    New macros found in C99 that are not found in C90 include:
+
+#+BEGIN_SRC c
+INFINITY // positive infinity
+NAN      // IEEE not-a-number
+#+END_SRC
+
+    New generic function macros found in C99 that are not found in C90
+    include:
+
+#+BEGIN_SRC c
+#define isinf(x) // non-zero only if x is positive or negative infinity
+#define isnan(x) // non-zero only if x is NaN
+#define isless(x, y) // 1 only if x < y and x and y are not NaN, and 0 otherwise
+#define isunordered(x, y) // 1 only if either x or y is NaN, and 0 otherwise
+#+END_SRC
+
+    New mathematical functions found in C99 that are not found in C90
+    include:
+
+#+BEGIN_SRC c
+double acosh(double x); // hyperbolic arccosine of x
+double asinh(double x); // hyperbolic arcsine of x
+double atanh(double x); // hyperbolic arctangent of x
+double erf(double x); // returns the error function of x
+double round(double x); // returns x rounded to the nearest integer
+double tgamma(double x); // returns the gamma function of x
+#+END_SRC
+
+    C99 supports the new mathematical functions for all real
+    floating-point types.
+
+    Single precision versions of all existing <math.h> functions are
+    also supported.
+
+*** Complex numbers
+
+    In C99 mode, the compiler supports complex and imaginary
+    numbers. In GNU mode, the compiler supports complex numbers only.
+
+    For example:
+
+#+BEGIN_SRC c
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    complex float z = 64.0 + 64.0*I;
+    printf(“z = %f + %fI\n”, creal(z), cimag(z));
+    return 0;
+}
+#+END_SRC
+
+    The complex types are:
+    - =float complex=
+    - =double complex=
+    - =long double complex=.
+
+
+    Internally,
+
+    C99 provides built-in complex and imaginary floating point types,
+    which are declared using the =_Complex= and =_Imaginary= keywords.
+
+    There are exactly three complex types and three imaginary types in C99:
+
+#+BEGIN_SRC c
+_Complex float
+_Complex double
+_Complex long double
+
+_Imaginary long double
+_Imaginary double
+_Imaginary long double
+#+END_SRC
+
+    C99 also provides a standard =<complex.h>= header that contains
+    definitions of complex floating point types, macros, and
+    constants. In particular, this header defines the following
+    macros:
+
+    | =complex=   | Same as =_Complex=          |
+    | =imaginary= | Same as =_Imaginary=        |
+    | I           | /i  (the complex identity)/ |
+
+    C code that does not include this header is free to use these
+    words as identifiers and macro names. This was an intentional part
+    of the design of the =_Complex= and =_Imaginary= keywords, since
+    this allows existing code that employs the new words to continue
+    working as it did before under C89.
+
+    Implicit widening conversions between the complex and imaginary
+    types are provided, which parallel the implicit widening
+    conversions between the non-complex floating point types.
+
+#+BEGIN_SRC c
+// C99 code
+
+#include <complex.h>
+
+complex double square_d(complex double a)
+{
+    return (a * a);
+}
+
+complex float square_f(complex float a)
+{
+    complex double  d = a;      // Implicit conversion
+
+    return square_d(a);         // Implicit conversion
+} 
+#+END_SRC
+
+    C++ provides a template class named =complex=, declared in the
+    =<complex>= standard header file. This type is incompatible with the
+    C99 complex types.
+
+    C++ supports more complex types than C99, in theory, since complex
+    is a template class.
+
+#+BEGIN_SRC c++
+// C++ code
+
+#include <complex>
+
+complex<float> square(complex<float> a)
+{
+    return (a * a);
+}
+
+complex<int> square(complex<int> a)
+{
+    return (a * a);
+} 
+#+END_SRC
+
+    It is possible to define typedefs that will work in both C99 and
+    C++, albeit with some limitations:
+
+#+BEGIN_SRC c++
+#ifdef __cplusplus
+
+ #include <complex>
+
+ typedef complex<float>           complex_float;
+ typedef complex<double>          complex_double;
+ typedef complex<long double>     complex_long_double;
+
+#else
+
+ #include <complex.h>
+
+ typedef complex float            complex_float;
+ typedef complex double           complex_double;
+ typedef complex long double      complex_long_double;
+
+ typedef imaginary float          imaginary_float;
+ typedef imaginary double         imaginary_double;
+ typedef imaginary long double    imaginary_long_double;
+
+#endif 
+#+END_SRC
+
+    Including these definitions allows for portable code that will
+    compile as both C and C++ code, such as:
+
+#+BEGIN_SRC c
+complex_double square_cd(complex_double a)
+{
+    return (a * a);
+} 
+#+END_SRC
+
+    [C99: §6.2.5, 6.3.1.6, 6.3.1.7, 6.3.1.8] 
+    [C++98: §26.2]
+      
+
+*** Boolean type and =<stdbool.h>=
+
+    C99 introduces the native type =_Bool=. The associated standard
+    header =<stdbool.h>= introduces the macros =bool=, =true= and =false= for
+    Boolean tests. For example:
+
+#+BEGIN_SRC c
+#include <stdbool.h>
+bool foo(FILE *str)
+{
+    bool err = false;
+    ...
+    if (!fflush(str))
+    {
+        err = true;
+    }
+    ...
+    return err;
+}
+#+END_SRC
+
+    The C99 semantics for bool are intended to match those of C++.
+
+    C++ provides =bool=, =false=, and =true= as reserved keywords and
+    implements =bool= as a true built-in boolean type.
+
+    C programs that do not include the =<stdbool.h>= header are free to
+    use these keywords as identifiers and macro names, which may cause
+    compatibility problems when such code is compiled as C++. For
+    example:
+
+#+BEGIN_SRC c
+typedef short   bool;       // Different
+
+#define false   ('\0')      // Different
+#define true    (!false)    // Different
+
+bool  flag =    false; 
+#+END_SRC
+
+    The recommended practice is therefore to use these identifiers in
+    C only for these special meanings, and only after including
+    =<stdbool.h>=.
+
+    (It is likely that an empty =<stdbool.h>= header will be provided by
+    most C++ implementations as an extension.)
+
+    [C99: §6.2.5, 6.3.1.1, 6.3.1.2, 7.16, 7.26.7] 
+    [C++98: §2.11, 2.13.5, 3.9.1]
+
+*** Extended integer types and functions in =<inttypes.h>= and =<stdint.h>=
+
+    In C90, the =long= data type can serve both as the largest
+    integral type, and as a 32-bit container. C99 removes this
+    ambiguity through the new standard library header files
+    =<inttypes.h>= and =<stdint.h>=.
+
+    The header file =<stdint.h>= introduces the new types:
+
+    - =intmax_t= and =uintmax_t=, that are maximum width signed and
+      unsigned integer types
+    - =intptr_t= and =unintptr_t=, that are integer types capable of
+      holding signed and unsigned object pointers.
+
+    The header file =<inttypes.h>= provides library functions for
+    manipulating values of type =intmax_t=, including:
+
+#+BEGIN_SRC c
+intmax_t imaxabs(intmax_t x); // absolute value of x
+imaxdiv_t imaxdiv(intmax_t x, intmax_t y) // returns the quotient and remainder
+                                          // of x / y
+#+END_SRC
+
+    ----
+
+#+BEGIN_SRC c
+#include <stdint.h>
+
+int  height(int_least32_t x);
+int  width(uint16_t x); 
+#+END_SRC
+
+    C++ does not provide these types or header files.
+
+    (This feature is likely to be provided as an extension by many C++
+    compilers. Some C++ compilers might also provide a =<cstdint>=
+    header file as an extension.)
+
+    [C99: §7.1.2, 7.18] 
+    [C++98: §17.4.1.2, D.5]
+
+*** Floating-point environment access in =<fenv.h>=
+
+    The C99 standard header file =<fenv.h>= provides access to an IEEE
+    754-compliant floating-point environment for numerical
+    programming. The library introduces two types and numerous macros
+    and functions for managing and controlling floating-point state.
+
+    The new types supported are:
+
+    - =fenv_t=, representing the entire floating-point environment
+    - =fexcept_t=, representing the floating-point state.
+
+    New macros supported include:
+
+    - =FE_DIVBYZERO=, =FE_INEXACT=, =FE_INVALID=, =FE_OVERFLOW= and
+      =FE_UNDERFLOW= for managing floating-point exceptions
+    - =FE_DOWNWARD=, =FE_TONEAREST=, =FE_TOWARDZERO=, =FE_UPWARD= for
+      managing rounding in the represented rounding direction
+    - =FE_DFL_ENV=, representing the default floating-point
+      environment.
+
+    New functions include:
+
+#+BEGIN_SRC c
+int feclearexcept(int ex); // clear floating-point exceptions selected by ex
+int feraiseexcept(int ex); // raise floating point exceptions selected by ex
+int fetestexcept(int ex); // test floating point exceptions selected by x
+int fegetround(void); // return the current rounding mode
+int fesetround(int mode); // set the current rounding mode given by mode
+int fegetenv(fenv_t *penv); return the floating-point environment in penv
+int fesetenv(const fenv_t *penv); // set the floating-point environment to penv
+#+END_SRC
+
+*** =snprintf= family of functions in =<stdio.h>=
+
+    Using the =sprintf= family of functions found in the C90 standard
+    header =<stdio.h>= can be dangerous. In the statement:
+
+#+BEGIN_SRC c
+sprintf(buffer, size, "Error %d: Cannot open file '%s'", errno, filename);
+#+END_SRC
+
+    the variable size specifies the minimum number of characters to be
+    inserted into buffer. Consequently, more characters can be output
+    than might fit in the memory allocated to the string.
+
+    The =snprintf= functions found in the C99 version of =<stdio.h>= are
+    safe versions of the sprintf functions that prevent buffer
+    overrun. In the statement:
+
+#+BEGIN_SRC c
+snprintf(buffer, size, "Error %d: Cannot open file '%s'", errno, filename);
+#+END_SRC
+
+    the variable size specifies the maximum number of characters that
+    can be inserted into buffer. The buffer can never be overrun,
+    provided its size is always greater than the size specified by
+    size.
+
+*** Type-generic math macros in =<tgmath.h>=
+
+    The new standard header =<tgmath.h>= defines several families of
+    mathematical functions that are type generic in the sense that
+    they are overloaded on floating-point types. For example, the
+    trigonometric function =cos= works as if it has the overloaded
+    declaration:
+
+#+BEGIN_SRC c
+extern float cos(float x);
+extern double cos(double x);
+extern long double cos(long double x);
+...
+#+END_SRC
+
+    A statement such as:
+
+#+BEGIN_SRC c
+p = cos(0.78539f); // p = cos(pi / 4)
+#+END_SRC
+
+    calls the single-precision version of the =cos= function, as
+    determined by the type of the literal =0.78539f=.
+
+    Type-generic families of mathematical functions can be defined in
+    C++ using the operator overloading mechanism. The semantics of
+    type-generic families of functions defined using operator
+    overloading in C++ are different from the semantics of the
+    corresponding families of type-generic functions defined in
+    =<tgmath.h>=.
+
+    ----
+
+    C99 supports type-generic mathematical functions. These are
+    functions that are essentially overloaded on the three
+    floating-point types (=float=, =double=, and =long double=) and
+    the three complex floating-point types (=complex float=, =complex
+    double=, and =complex long double=). To use them, the header file
+    =<tgmath.h>= must be included; the functions are defined as
+    macros, presumably replaced by implementation-defined names.
+
+    For example, the following is one possible implementation of the
+    type-generic functions:
+
+#+BEGIN_SRC c
+/* Equivalent <tgmath.h> contents:
+ * extern float                sin(float x);
+ * extern double               sin(double x);
+ * extern long double          sin(long double x);
+ * extern float complex        sin(float complex x);
+ * extern double complex       sin(double complex x);
+ * extern long double complex  sin(long double complex x);
+ * etc...
+*/
+
+// Macro definitions
+#define sin  __tg_sin       // Built-in compiler symbol
+#define cos  __tg_cos       // Built-in compiler symbol
+#define tan  __tg_tan       // Built-in compiler symbol
+etc... 
+#+END_SRC
+
+    C++ can also provide type-generic functions, since it is quite
+    capable of providing multiple overloaded function definitions.
+
+    (Support for type-generic mathematical functions might be provided
+    by many C++ implementations as an extension, although the exact
+    nature of such generic/overloaded functions would most likely
+    differ substantially from the corresponding C99 implementation. In
+    particular, pointers to type-generic functions would probably
+    behave differently.)
+
+    [C99: §7.22] 
+    [C++98: §13, 13.1, 13.3.1, 13.3.2, 13.3.3]
+
+*** Wide character I/O functions in =<wchar.h>=
+
+    Wide character I/O functions have been introduced in C99. These
+    enable you to read and write wide characters from a file in much
+    the same way as normal characters.
+
+    ----
+
+    C provides a wide character type, =wchar_t=, that is capable of
+    holding a single wide character from an extended character
+    set. This type is defined in the standard header files =<stddef.h>=,
+    =<stdlib.h>=, and =<wchar.h>=.
+
+    C++ also provides a =wchar_t= type, but it is a reserved keyword
+    just like =int=. No header file is required to enable its
+    definition.
+
+    This means that C code that does not include any of the standard
+    header files listed above is free to use =wchar_t= as an identifier
+    or macro name; such code will not compile as C++ code.
+
+#+BEGIN_SRC c
+// Does not #include <stddef.h>, <stddef.h>, or <wchar.h>
+
+typedef unsigned short  wchar_t;
+
+wchar_t readwc(void)
+{
+    ...
+} 
+#+END_SRC
+
+    The recommended practice is therefore to use the =wchar_t= type only
+    for its special meaning, and only after including =<stddef.h>=,
+    =<stdlib.h>=, or =<wchar.h>=.
+
+    (It is likely that a =<wchar.h>= header will be provided by most C++
+    implementations as an extension. Some C++ compilers might also
+    provide an empty =<cwchar>= header as an extension.)
+
+    [C99: §3.7.3, 6.4.4.4, 6.4.5, 7.1.2, 7.17, 7.19.1, 7.20, 7.24] 
+    [C++98: §2.11, 2.13.2, 2.13.4, 3.9.1, 4.5, 7.1.5.2]
+
+* Difference between C99 and C++
+
+*** Aggregate Initializer
+
+    C90 requires automatic and register variables of aggregate type
+    (=struct=, array, or =union=) to have initializers containing only
+    constant expressions. (Many compilers do not adhere to this
+    restriction, however.)
+
+    C99 removes that restriction, allowing non-constant expressions to
+    be used in such initializers.
+
+    C++ allows non-constant expressions to be used in initializers for
+    automatic and register variables. (It also allows arbitrary
+    non-constant expressions to be used to initialize static and
+    external variables.)
+
+    For example:
+
+#+BEGIN_SRC c
+// C and C++ code
+void foo(int i)
+{
+    float   x = (float)i;           // Valid C90, C99, and C++
+    int     m[3] = { 1, 2, 3 };     // Valid C90, C99, and C++
+    int     g[2] = { 0, i };        // Invalid C90
+} 
+#+END_SRC
+
+    [C99: §6.7.8] 
+    [C++98: §3.7.2, 8.5, 8.5.1]
+
+
+*** difference in inline functions
+
+    C++ requires all of the definitions for a given inline function to
+    be composed of exactly the same token sequence.
+
+    C99, however, allows multiple definitions of a given inline
+    function to be different, and does not require the compiler to
+    detect such differences or issue a diagnostic.
+
+    Thus the following two example source files, which define two
+    slightly different versions of the same inline function,
+    constitute acceptable C99 code but invalid C++ code:
+
+#+BEGIN_SRC c
+//========================================
+// one.c
+
+inline int twice(int i)         // One definition
+{
+    return i * i;
+}
+
+int foo(int j)
+{
+    return twice(j);
+}
+
+//========================================
+// two.c
+
+typedef int  integer;
+
+inline integer twice(integer a) // Another definition
+{
+    return (a * a);
+}
+
+int bar(int b)
+{
+    return twice(b);
+}
+#+END_SRC
+
+    This should not be a problem in practice, provided that multiple
+    inline function definitions occur only in shared header files
+    (which ensures that the multiple function definitions are composed
+    of the same token sequences).
+
+    [C99: §6.7.4]
+    [C++98: §7.1.2]
+
+*** Digraph punctuation tokens
+
+    C++ recognizes two-character punctuation tokens, called
+    /digraphs/, which are not recognized by C90. The digraphs and
+    their equivalent tokens are:
+
+#+BEGIN_SRC c
+<:	[
+:>	]
+<%	{
+%>	}
+%:	#
+%:%:	##
+#+END_SRC
+
+    C99 recognizes the same set of digraphs.
+
+    The following program is valid in both C99 and C++:
+
+#+BEGIN_SRC c
+%:include <stdio.h>
+
+%:ifndef BUFSIZE
+ %:define BUFSIZE  512
+%:endif
+
+void copy(char d<::>, const char s<::>, int len)
+<%
+    while (len-- >= 0)
+    <%
+        d<:len:> = s<:len:>;
+    %>
+%>
+#+END_SRC
+
+    [C99: §6.4.6] 
+    [C++98: §2.5, 2.12]
+
+*** Implicit function declaration
+
+    C90 allows a function to be /implicitly declared/ at the point of
+    its first use (call), assigning it a return type of =int= by
+    default. For example:
+
+#+BEGIN_SRC c
+/* No previous declaration of bar() is in scope */
+
+void foo(void)
+{
+    bar();  /* Implicit declaration: extern int bar() */
+}
+#+END_SRC
+
+    C++ does not allow implicit function declarations. It is invalid
+    to call a function that does not have a previous declaration in
+    scope.
+
+    C99 no longer allows functions to be implicitly declared. The code
+    above is invalid in both C99 and C++.
+
+    [C99: §6.5.2.2] 
+    [C++98: §5.2.2]
+
+*** Implicit variable declarations
+
+    C90 allows the declaration of a variable, function argument, or
+    structure member to omit the type specifier, implicitly defaulting
+    its type to =int=.
+
+    C99 does not allow this omission, and neither does C++.
+
+    The following code is valid in C90, but invalid in C99 and C++:
+
+#+BEGIN_SRC c
+static  sizes = 0;         /* Implicit int, error */
+
+struct info
+{
+    const char *  name;
+    const         sz;      /* Implicit int, error */
+};
+
+static foo(register i)     /* Implicit ints, error */
+{
+    auto  j = 3;           /* Implicit int, error */
+
+    return (i + j);
+} 
+#+END_SRC
+
+    [C99: §6.7, 6.7.2] 
+    [C++98: §7, 7.1.5]
+
+*** alternate punctuation token spellings
+
+    C++ provides the following keywords as synonyms for punctuation tokens:
+
+#+BEGIN_SRC c
+and	&&
+and_eq	&=
+bitand	&
+bitor	|
+compl	~
+not	!
+not_eq	!=
+or	||
+or_eq	|=
+xor	^
+xor_eq	^=
+#+END_SRC
+
+    These keywords are also recognized by the C++ preprocessor.
+
+    C90 does not have these built-in keywords, but it does provide a
+    standard =<iso646.h>= header file that contains definitions for the
+    same words as macros, behaving almost like built-in keywords.
+
+    C++ requires implementations to provide an empty =<iso646.h>=
+    header. Including it in a C++ program has no effect on the
+    program. However, C code that does not include the =<iso646.h>=
+    header is free to use these words as identifiers and macro names,
+    which may cause incompatibilities when such code is compiled as
+    C++.
+
+#+BEGIN_SRC c
+enum oper { nop, and, or, eq, ne };
+
+extern int  instr(enum oper op, struct compl *c); 
+#+END_SRC
+
+    The recommended practice for code intended to be compiled as both
+    C and C++ is to use these identifiers only for these special
+    meanings, and only after including =<iso646.h>=.
+
+#+BEGIN_SRC c
+// Proper header inclusion allows for the use of 'and' et al
+
+#ifndef __cplusplus
+ #include <iso646.h>
+#endif
+
+int foo(float a, float b, float c)
+{
+    return (a > b  and  b <= c);
+} 
+#+END_SRC
+
+    [C99: §7.9] 
+    [C++98: §2.5, 2.11]
+
+*** Array parameter qualifiers
+
+    C99 provides new declaration syntax for function parameters of
+    array types, allowing type qualifiers (the cv-qualifiers =const= and
+    =volatile=, and =restrict=) to be included within the first set of
+    brackets of an array declarator. The qualifier modifies the type
+    of the array parameter itself. For example, the following
+    declarations are semantically identical:
+
+#+BEGIN_SRC c
+extern void  foo(int str[const]);
+extern void  foo(int *const str); 
+#+END_SRC
+
+    In both declarations, parameter str is a const pointer to an =int= object.
+
+    C99 also allows the static specifier to be placed within the
+    brackets of an array declaration immediately preceding the
+    expression specifying the size of the array. The presence of such
+    a specifer indicates that the array is composed of at least the
+    number of contiguous elements indicated by the size
+    expression. (Presumably this is a hint to the compiler for
+    optimizing access to elements of the array.) For example:
+
+#+BEGIN_SRC c
+void baz(char s[static 10])
+{
+    // s[0] thru s[9] exist and are contiguous
+    ...
+} 
+#+END_SRC
+
+    None of these new syntactic features are recognized by C++.
+
+    (These features might be provided as an extension by some C++ compilers.)
+
+    [C99: §6.7.5, 6.7.5.2, 6.7.5.3] 
+    [C++98: §7.1.1, 7.1.5.1, 8.3.4, 8.3.5, 8.4]
+
+*** Character literals
+
+    In C, character literals such as ='a'= have type =int=, and thus
+    =sizeof('a')= is equal to =sizeof(int)=.
+
+    In C++, character literals have type =char=, and thus =sizeof('a')= is
+    equal to =sizeof(char)=.
+
+    This difference can lead to inconsistent behavior in some code
+    that is compiled as both C and C++.
+
+#+BEGIN_SRC c
+memset(&i, 'a', sizeof('a'));   // Questionable code 
+#+END_SRC
+
+    In practice, this is probably not much of a problem, since
+    character constants are implicitly converted to type int when they
+    appear within expressions in both C and C++.
+
+    [C99: §6.4.4.4] 
+    [C++98: §2.13.2]
+
+*** =clog= identifier
+
+    C99 declares =clog()= in =<math.h>= as the complex natural
+    logarithm function.
+
+    C++ declares =std::clog= in =<iostream>= as the name of the
+    standard error logging output stream (analogous to the =stderr=
+    stream). This name is placed into the global namespace if the
+    =<math.h>= header is included, and refers to the logarithm
+    function. If =<math.h>= defines clog as a preprocessor macro name,
+    it can cause problems with other C++ code.
+
+#+BEGIN_SRC c++
+// C++ code
+
+#include <iostream>
+using std::clog;
+
+#include <math.h>               // Possible conflict
+
+void foo(void)
+{
+    clog << clog(2.718281828) << endl;
+                                // Possible conflict
+} 
+#+END_SRC
+
+    Including both the =<iostream>= and the =<cmath>= headers in C++
+    code places both =clog= names into the =std::= namespace, one
+    being a variable and the other being a function, which should not
+    cause any conflicts.
+
+#+BEGIN_SRC c++
+// C++ code
+
+#include <iostream>
+#include <cmath>
+
+void foo(void)
+{
+    std::clog << std::clog(2.718281828) << endl;
+                                // No conflict; different types
+}
+
+void bar(void)
+{
+    complex double  (* fp)(complex double);
+
+    fp = &std::clog;            // Unambiguous
+} 
+#+END_SRC
+
+    It would appear that the safest approach to this potential
+    conflict would be to avoid using both forms of =clog= within the
+    same source file.
+
+    [C99: §7.3.7.2] 
+    [C++98: §27.3.1]
+
+*** comma operator results
+
+    The comma operator in C always results in an r-value even if its
+    right operand is an l-value, while in C++ the comma operator will
+    result in an l-value if its right operand is an l-value. This
+    means that certain expressions are valid in C++ but not in C:
+
+#+BEGIN_SRC c
+int     i;
+int     j;
+
+(i, j) = 1;     // Valid C++, invalid C 
+#+END_SRC
+
+    [C99: §6.5.3.4, 6.5.17] 
+    [C++98: §5.3.3, 5.18]
+
+    
+*** =const= linkage
+
+    C specifies that a variable declared with a =const= qualifier is not
+    a modifiable object. In all other regards, though, it is treated
+    the same as any other variable. Specifically, if a =const= object
+    with file scope is not explicitly declared =static=, its name has
+    /external linkage/ and is visible to other source modules.
+
+#+BEGIN_SRC c
+const int           i = 1;  // External linkage
+
+extern const int    j = 2;  // 'extern' optional
+static const int    k = 3;  // 'static' required 
+#+END_SRC
+
+    C++ specifies that a =const= object with file scope has /internal
+    linkage/ by default, meaning that the object's name is not visible
+    outside the source file in which it is declared. A =const= object
+    must be declared with an explicit =extern= specifier in order to be
+    visible to other source modules.
+
+#+BEGIN_SRC c++
+const int           i = 1;  // Internal linkage
+
+extern const int    j = 2;  // 'extern' required
+static const int    k = 3;  // 'static' optional 
+#+END_SRC
+
+    The recommended practice is therefore to define constants with an
+    explicit =static= or =extern= specifier.
+
+    [C99: §6.2.2, 6.7.3] 
+    [C++98: §7.1.5.1]
+
+*** Duplicated typedefs
+
+    C does not allow a given =typedef= to appear more than once in the
+    same scope.
+
+    C++ handles =typedef=⁠s and type names differently than C, and
+    allows redundant occurrences of a given =typedef= within the same
+    scope.
+
+    Thus the following code is valid in C++ but invalid in C:
+
+#+BEGIN_SRC c
+typedef int  MyInt;
+typedef int  MyInt;     // Valid C++, invalid C 
+#+END_SRC
+
+    This means that =typedef=⁠s that might be included more than once in
+    a program (e.g., common typedefs that occur in multiple header
+    files) should be guarded by preprocessing directives if such
+    source code is meant to be compiled as both C and C++. For
+    example:
+
+#+BEGIN_SRC c
+//========================================
+// one.h
+
+#ifndef MYINT_T
+ #define MYINT_T
+ typedef int  MyInt;
+#endif
+...
+
+//========================================
+// two.h
+
+#ifndef MYINT_T
+ #define MYINT_T
+ typedef int  MyInt;
+#endif
+... 
+#+END_SRC
+
+    Thus code can include multiple header files without causing an
+    error in C:
+
+#+BEGIN_SRC c
+// Include multiple headers that define typedef MyInt
+#include "one.h"
+#include "two.h"
+
+MyInt   my_counter = 0; 
+#+END_SRC
+
+    [C99: §6.7, 6.7.7] 
+    [C++98: §7.1.3]
+
+*** Variable-length arrays (VLAs)
+
+    C99 supports variable-length arrays, which are arrays of automatic
+    storage whose size is determined dynamically at program execution
+    time. For example:
+
+#+BEGIN_SRC c
+size_t sum(int sz)
+{
+    float   arr[sz];      // VLA, dynamically allocated
+
+    while (sz-- > 0)
+        arr[sz] = sz;
+    return sizeof(arr);   // Evaluated at runtime
+} 
+#+END_SRC
+
+    C99 also provides new declaration syntax for function parameters
+    of VLA types, allowing a variable identifier or a '=*=' to occur
+    within the brackets of an array function parameter declaration in
+    place of a constant integer size expression. The following example
+    illustrates the syntax involved in passing VLAs to a function:
+
+#+BEGIN_SRC c
+extern float  sum_square(int n, float a[*]);
+
+float sum_cube(int n, float a[m])
+{
+    ...
+}
+
+void add_seq(int n)
+{
+    float   x[n];       // VLA
+    float   s;
+
+    ...
+    s = sum_square(n, x) + sum_cube(n, x);
+    ...
+} 
+#+END_SRC
+
+    VLA function parameter declarations using a '=*=' can only appear in
+    function declarations (with prototypes) and not in function
+    definitions. Note that this capability also affects the way =sizeof=
+    expressions are evaluated.
+
+    C++ does not support VLAs.
+
+    [C99: §6.7.5, 6.7.5.2, 6.7.5.3, 6.7.6] 
+    [C++98: §8.3.4, 8.3.5, 8.4]
+
+*** Dynamic =sizeof= evaluation
+
+    Because C99 supports variable-length arrays (VLAs), the =sizeof=
+    operator does not necessarily evaluate to a constant
+    (compile-time) value. Any expression that involves applying the
+    sizeof operator to a VLA operand must be evaluated at runtime (any
+    other use of =sizeof= can be evaluated at compile time). For
+    example:
+
+#+BEGIN_SRC c
+size_t dsize(int sz)
+{
+    float   arr[sz];          // VLA, dynamically allocated
+
+    if (sz <= 0)
+        return sizeof(sz);    // Evaluated at compile time
+    else
+        return sizeof(arr);   // Evaluated at runtime
+} 
+#+END_SRC
+
+    C++ does not support VLAs, so C code that applies the =sizeof=
+    operator to VLA operands will cause problems when compiled as C++.
+
+    [C99: §6.5.3.4, 6.7.5, 6.7.5.2] 
+    [C++98: §5.3, 5.3.3]
+
+*** Empty parameter lists
+
+    C distinguishes between a function declared with an empty
+    parameter list and a function declared with a parameter list
+    consisting of only =void=. The former is an unprototyped function
+    taking an unspecified number of arguments, while the latter is a
+    prototyped function taking no arguments.
+
+#+BEGIN_SRC c
+// C code
+
+extern int  foo();          // Unspecified parameters
+extern int  bar(void);      // No parameters
+
+void baz()
+{
+    foo(0);         // Valid C, invalid C++
+    foo(1, 2);      // Valid C, invalid C++
+
+    bar();          // Okay in both C and C++
+    bar(1);         // Error in both C and C++
+} 
+#+END_SRC
+
+    C++, on the other hand, makes no distinction between the two
+    declarations and considers them both to mean a function taking no
+    arguments.
+
+#+BEGIN_SRC c++
+// C++ code
+
+extern int  xyz();
+
+extern int  xyz(void);  // Same as 'xyz()' in C++,
+                        // Different and invalid in C 
+#+END_SRC
+
+    For code that is intended to be compiled as either C or C++, the
+    best solution to this problem is to always declare functions
+    taking no parameters with an explicit =void= prototype. For example:
+
+#+BEGIN_SRC c
+// Compiles as both C and C++
+int bosho(void)
+{
+    ...
+} 
+#+END_SRC
+
+    Empty function prototypes are a deprecated feature in C99 (as they
+    were in C89).
+
+    [C99: §6.7.5.3] 
+    [C++98: §8.3.5, C.1.6.8.3.5]
+
+*** Empty preprocessor function macro arguments
+
+    C99 allows preprocessor function macros to be specified with empty
+    (missing) arguments.
+
+#+BEGIN_SRC c
+#define ADD3(a,b,c)  (+ a + b + c + 0)
+
+ADD3(1, 2, 3)   => (+ 1 + 2 + 3 + 0)
+ADD3(1, 2, )    => (+ 1 + 2 + + 0)
+ADD3(1, , 3)    => (+ 1 + + 3 + 0)
+ADD3(1,,)       => (+ 1 + + + 0)
+ADD3(,,)        => (+ + + + 0) 
+#+END_SRC
+
+    C++ does not support empty preprocessor function macros arguments.
+
+    (This feature is likely to be provided as an extension by many C++
+    compilers.)
+
+    [C99: §6.10.3, 6.10.3.1] 
+    [C++98: §16.3., 16.3.1]
+
+*** Enumeration constants
+
+    Enumeration constants in C are essentially just named constants of
+    type =signed int=. As such, they are constrained to having an
+    initialization value that falls within the range [ =INT_MIN=,
+    =INT_MAX= ]. This also means that for any given enumeration
+    constant =RED=, the values of =sizeof(RED)= and =sizeof(int)= are
+    always the same.
+
+    C++ enumeration constants have the same type as their enumeration
+    type, which means that they have the same size and alignment as
+    their underlying integer type. This means that the values of
+    =sizeof(RED)= and =sizeof(int)= are not necessarily the same for
+    any given enumeration constant =RED=. Enumeration constants also
+    have a wider range of possible underlying types in C++ than in C:
+    =signed int=, =unsigned int=, =signed long=, and =unsigned
+    long=. As such, they also have a wider range of valid
+    initialization values.
+
+    This may cause incompatibilities for C code compiled as C++, if
+    the C++ compiler chooses to implement an enumeration type as a
+    different size than it would be in C, or if the program relies on
+    the results of expressions such as =sizeof(RED)=.
+
+#+BEGIN_SRC c
+enum ControlBits
+{
+    CB_LOAD =   0x0001,
+    CB_STORE =  0x0002,
+    ...
+    CB_TRACE =  LONG_MAX+1,       // (Undefined behavior)
+    CB_ALL =    ULONG_MAX
+}; 
+#+END_SRC
+
+    [C99: §6.4.4.3, 6.7.2.2] 
+    [C++98: §4.5, 7.2]
+
+*** Enumeration types
+
+    C specifies that each enumerated type is a unique type, distinct
+    from all other enumerated types within the same program. The
+    implementation is free to use a different underlying primitive
+    integer type for each enumerated type. This means that
+    =sizeof(enum A)= and =sizeof(enum B)= are not necessarily the
+    same. This also means, given that =RED= is an enumeration constant
+    of type =enum Color=, that =sizeof(RED)= and =sizeof(enum Color)=
+    are not necessarily the same (since all enumeration constants are
+    of type =signed int=).
+
+    All enumeration constants, though, convert to values of type
+    =signed int= when they appear in expressions. Since enumeration
+    constants cannot portably be wider than =int=, it might appear that
+    int is the widest enumeration type; however, implementations are
+    free to support wider enumeration integer types. Such extended
+    types may be different than the types used by a C++ compiler,
+    however.
+
+    In C, objects of enumeration types may be assigned integer values
+    without the need for a explicit cast. For example:
+
+#+BEGIN_SRC c
+// C code
+
+enum Color { RED, BLUE, GREEN };
+
+int         c = RED;    // Cast not needed
+enum Color  col = 1;    // Cast not needed 
+#+END_SRC
+
+    C++ also specifies that all enumerated types are unique and
+    distinct types, but it goes further than C to enforce this. In
+    particular, a function name can be overloaded to take an argument
+    of different enumerated types. While objects of enumerated types
+    implicitly convert to integer values, integer values require an
+    explicit cast to be converted into enumerated types. Implicitly
+    converted enumeration values are converted to their underlying
+    integer type, which is not necessarily =signed int=. For example:
+
+#+BEGIN_SRC c++
+// C++ code
+
+enum Color { ... };
+
+enum Color setColor(int h)
+{
+    enum Color  c;
+
+    c = h;             // Error, no implicit conversion
+    return c;
+}
+
+int hue(enum Color c)
+{
+    return (c + 128);  // Implicit conversion,
+                       // but might not be signed int
+} 
+#+END_SRC
+
+    Since a C++ enumeration constant has the same type and size as its
+    enumeration type, this means, given that =RED= is an enumeration
+    constant of type =enum Color=, that the values of =sizeof(RED)= and
+    =sizeof(enum Color)= are exactly the same, which differs from the
+    rules in C.
+
+    There is no guarantee that a given enumeration type is implemented
+    as the same underlying type in both C and C++, or even in
+    different C implementations. This affects the calling interface
+    between C and C++ functions. This may also cause incompatibilities
+    for C code compiled as C++, if the C++ compiler chooses to
+    implement an enumeration type as a different size that it would be
+    in C, or if the program relies on the results of expressions such
+    as sizeof(RED).
+
+#+BEGIN_SRC c++
+// C++ code
+
+enum Color { ... };
+
+extern "C" void  foo(Color c);
+                    // Parameter types might not match
+
+void bar(Color c)
+{
+    foo(c);         // Enum types might be different sizes
+} 
+#+END_SRC
+
+    [C99: §6.4.4.3, 6.7.2.2] 
+    [C++98: §4.5, 7.2]
+
+
+    
+*** Function name mangling
+
+    In order to implement overloaded functions and member functions,
+    C++ compilers must have a means of mapping the source names of
+    functions into unique symbols in the object code resulting from
+    the compile. For example, the functions =::foo(int)=, =::foo(float)=,
+    and =Mine::foo()= all have identical names (=foo=) but different
+    /calling signatures/. In order for the linker to distinguish between
+    the functions during program link time, they must be /mangled/ into
+    different symbolic names.
+
+    This differs from the way functions names are mapped into symbolic
+    object names in C, which allows for certain cases of type punning
+    (between signed and unsigned integer types) and non-prototyped
+    extern functions. Therefore C programs compiled as C++ will
+    produce different symbolic names, unless the functions are
+    explicitly declared as having =​extern "C"​= linkage. For example:
+
+#+BEGIN_SRC c
+int  foo(int i);   // Different symbolic names in C and C++
+
+#ifdef __cplusplus
+extern "C"
+#endif
+int  bar(int i);   // Same symbolic name in both C and C++ 
+#+END_SRC
+
+    C++ functions are implicitly declared with =​extern "C++"​= linkage.
+
+    Another consequence of C++ function name mangling is that
+    identifiers in C++ are not allowed to contain two or more
+    consecutive underscores (e.g., the name =foo__bar= is invalid). Such
+    names are reserved for the implementation, ostensibly so that it
+    may have a guaranteed means of mangling source function names into
+    unique object symbolic names. (For example, an implementation
+    might choose to mangle the member function =Mine::foo(int)= into
+    something like =foo__4Mine_Fi=, which is a symbolic name containing
+    consecutive underscores.)
+
+    C does not reserve such names, so a C program is free to use such
+    names in any manner. For example:
+
+#+BEGIN_SRC c
+void foo__bar(int i)  // Improper C++ name
+{ ... } 
+#+END_SRC
+
+    [C99: §5.2.4.1, 6.2.2, 6.4.2.1] 
+    [C++98: §2.10, 3.5, 17.4.2.2, 17.4.3.1.2, 17.4.3.1.3]
+
+*** Function pointers
+
+    C++ functions have =​extern "C++"​= linkage by default. In order to
+    call C functions from C++, the functions must be declared with
+    =​extern "C"​= linkage. This is typically accomplished by placing C
+    function declarations within an =​extern "C"​= block:
+
+#+BEGIN_SRC c++
+extern "C"
+{
+    extern int  api_read(int f, char *b);
+    extern int  api_write(int f, const char *b);
+} 
+extern "C"
+{
+    #include "api.h"
+} 
+#+END_SRC
+
+    But simply declaring functions with =​extern "C"​= linkage is not
+    enough to ensure that C++ functions can call C functions
+    properly. Specifically, pointers to =​extern "C"​= functions and
+    pointers to =​extern "C++"​= functions are not compatible. When
+    compiled as C++ code, function pointer declarations are implicitly
+    defined as having =​extern "C++"​= linkage, so they cannot be assigned
+    addresses of =​extern "C"​= functions. (Function pointers can thus be
+    a source of problems when dealing with C API libraries and C
+    callback functions.)
+
+#+BEGIN_SRC c++
+extern int      mish(int i);    // extern "C++" function
+
+extern "C" int  mash(int i);
+
+void foo(int a)
+{
+    int  (*pf)(int i);          // C++ function pointer
+
+    pf = &mish;                 // Okay, C++ function address
+    (*pf)(a);
+
+    pf = &mash;                 // Error, C function address
+    (*pf)(a);
+} 
+#+END_SRC
+
+    To make the combination of function pointers and =​extern "C"​=
+    functions work correctly in C++, function pointers that are
+    assigned addresses of C functions must be changed to have =extern=
+    "=C=" linkage.
+
+    One solution is to use a =typedef= with the proper linkage:
+
+#+BEGIN_SRC c++
+extern "C"
+{
+    typedef int  (*Pcf)(int);   // C function pointer
+}
+
+void bar(int a)
+{
+    int  (*pf)(int i);          // C++ function pointer
+
+    pf = &mish;                 // Okay, C++ function address
+    (*pf)(a);
+
+    Pcf  pc;                    // C function pointer
+
+    pc = &mash;                 // Okay, C function address
+    (*pc)(a);
+} 
+#+END_SRC
+
+    [C99: §6.2.5, 6.3.2.3, 6.5.2.2] 
+    [C++98: §5.2.2, 17.4.2.2, 17.4.3.1.3]
+
+    
+
+*** IEC 60559 arithmetic support
+
+    C99 allows an implementation to pre-define the =__STD_IEC_559=
+    preprocessor macro, indicating that it conforms to certain
+    required behavior of the IEC 60559 (a.k.a. IEEE 599) specification
+    regarding floating-point arithmetic and library
+    functions. Implementations that do not pre-define this macro are
+    not require to provide conforming floating-point behavior.
+
+    C++ does not make any special provisions for implementations that
+    explicitly support the IEC 60559 floating-point specification.
+
+    Conformance to IEC 60559 floating-point arithmetic, and the
+    pre-definition of the =__STD_IEC_559= macro, is likely to be
+    provided as an extension by many C++ compilers.
+
+    C99 also allows an implementation to pre-define the
+    =__STD_IEC_559_COMPLEX= preprocessor macro to indicate that it
+    conforms to the behavior specified by IEC 60559 for complex
+    floating-point arithmetic and library functions. This affects the
+    way the =_Complex= and =_Imaginary= types are implemented.
+
+    C++ provides library functions for complex floating-point
+    arithmetic by providing the =complex<>= template class, declared in
+    the standard =<complex>= header file. This type is incompatible with
+    the C99 =complex= types.
+
+    Conformance to the complex arithmetic specification, and the
+    pre-definition of the =__STD_IEC_559= macro, might also be provided
+    by many C++ compilers, and this would indicate how the =complex<>=
+    template class is implemented.
+
+    [C99: §6.10.8, F, G] 
+    [C++98: §16.8]
+
+
+*** Library function prototypes
+
+    The C++ standard library header files amend some of the standard C
+    library function declarations so as to be more type-safe when used
+    in C++. For example, the standard C library function declaration:
+
+#+BEGIN_SRC c++
+// <string.h>
+extern char *   strchr(const char *s, int c); 
+#+END_SRC
+
+    is replaced with these near-equivalent declarations in the C++ library:
+
+#+BEGIN_SRC c++
+// <cstring>
+extern const char * strchr(const char *s, int c);
+extern char *       strchr(char *s, int c); 
+#+END_SRC
+    
+    These slightly different declarations can cause problems when C
+    code is compiled as C++ code, such as:
+
+#+BEGIN_SRC c++
+// C code
+const char * s = ...;
+char *       p;
+
+p = strchr(s, 'a');             // Valid C, invalid C++ 
+#+END_SRC
+
+    This kind of code results in an attempt to assign a =const= pointer
+    returned from a function to a non-⁠=const= variable. A simple cast
+    corrects the code, making it valid as both C++ and C code, as in:
+
+#+BEGIN_SRC c++
+    // Corrected for C++
+    p = (char *) strchr(s, 'a');    // Valid C and C++ 
+#+END_SRC
+
+    [C99: §7.21.5, 7.24.4.5] 
+    [C++98: §17.4.1.2, 21.4]
+
+*** Library header files
+
+    C++ provides the standard C89 library as part of its library.
+
+    C99 adds a few header files that are not included as part of the
+    standard C++ library, though:
+
+#+BEGIN_SRC c
+<complex.h>
+<fenv.h>
+<inttypes.h>
+<stdbool.h>
+<stdint.h>
+<tgmath.h>
+#+END_SRC
+
+    Even though C++ provides the C89 standard C library headers as
+    part of its library, it deems their use as deprecated. Instead, it
+    encourages programmers to prefer the equivalent set of C++ header
+    files which provide the same functionality as the C header files:
+
+    | =<math.h>=   | /replaced by/ | =<cmath>=   |
+    | =<stddef.h>= | /replaced by/ | =<cstddef>= |
+    | =<stdio.h>=  | /replaced by/ | =<cstdio>=  |
+    | =<stdlib.h>= | /replaced by/ | =<cstdlib>= |
+    | etc.         |               | etc.        |
+
+    Deprecating the use of the C header files thus makes the following
+    valid C++98 program possibly invalid under a future revision of
+    standard C++:
+
+#+BEGIN_SRC c++
+#include <stdio.h>     // Deprecated in C++
+
+int main(void)
+{
+    printf("Hello, world\n");
+    return 0;
+} 
+#+END_SRC
+
+    The program can be modified by removing the use of deprecated
+    features in order to make it portable to future implementations of
+    standard C++:
+
+#+BEGIN_SRC c++
+#ifdef __cplusplus
+ #include <cstdio>     // C++ only
+ using std::printf;
+#else
+ #include <stdio.h>    // C only
+#endif
+
+int main(void)
+{
+    printf("Hello, world\n");
+    return 0;
+} 
+#+END_SRC
+
+    [C99: §7.1.2] 
+    [C++98: §17.4.1.2, D.5]
+
+*** Nested structure tags
+
+    Nested structure types may be declared within other
+    structures. The scope of the inner structure tag extends outside
+    the scope of the outer structure in C, but does not do so in
+    C++. Structure declarations possess their own scope in C++, but do
+    not in C. This applies to any =struct=, =union=, and enumerated types
+    declared within a structure declaration. For example:
+
+#+BEGIN_SRC c
+struct Outer
+{
+    struct Inner        // Nested structure declaration
+    {
+        int         a;
+        float       f;
+    }           in;
+
+    enum E              // Nested enum type declaration
+    {
+        UKNOWN, OFF, ON
+    }           state;
+};
+
+struct Inner    si;     // Nested type is visible in C,
+                        // Not visible in C++
+
+enum E          et;     // Nested type is visible in C,
+                        // Not visible in C++ 
+#+END_SRC
+
+    In order to be visible in C++, the inner declarations must be
+    explicitly named using its outer class prefix, or they must be
+    declared outside the outer structure so that they have file
+    scope. The former case, for example:
+
+#+BEGIN_SRC c++
+// C++ code
+
+Outer::Inner     si;    // Explicit type name
+Outer::E         et;    // Explicit type name 
+#+END_SRC
+
+    And the latter case:
+
+#+BEGIN_SRC c++
+    // C and C++ code
+
+    struct Inner            // Declaration is no longer nested
+    {
+        int         a;
+        float       f;
+    };
+
+    enum E                  // Declaration is no longer nested
+    {
+        UKNOWN, OFF, ON
+    };
+
+    struct Outer
+    {
+        struct Inner    in;
+        enum E          state;
+    }; 
+#+END_SRC
+    [C99: §6.2.1, 6.2.3, 6.7.2.1, 6.7.2.3] 
+    [C++98: §9.9, C.1.2.3.3]
+
+*** Non-prototype function declarations
+
+    C supports non-prototype (a.k.a. /K&R-style/) function
+    definitions. (Like C90, C99 deems this as deprecated practice.)
+    For example:
+
+#+BEGIN_SRC c
+int foo(a, b)     // Deprecated syntax
+int  a;
+int  b;
+{
+return (a + b);
+} 
+#+END_SRC
+
+    C++ allows only prototyped function definitions. So in order to
+    compile the example above as C++ code, it must be rewritten in
+    function prototype form:
+
+#+BEGIN_SRC c++
+int foo(int a, int b)
+{
+    return (a + b);
+} 
+#+END_SRC
+
+    [C99: §6.2.7, 6.5.2.2, 6.7.5.3, 6.9.1, 6.11.6, 6.11.7] 
+    [C++98: §5.2.2, 8.3.5, 8.4, C.1.6]
+
+*** Old-style casts
+
+    C++ provides four typecast operators:
+
+#+BEGIN_SRC c++
+const_cast
+dynamic_cast
+reinterpret_cast
+static_cast
+#+END_SRC
+
+    While the following C code is also valid C++98 code, it may not be
+    considered valid code in a future revision of the C++ standard:
+
+#+BEGIN_SRC c
+char *        p;
+const char *  s = (const char *) p; 
+#+END_SRC
+
+    One possible work-around is to use macros in C that simulate the
+    C++ typecast operators:
+
+#+BEGIN_SRC c
+#ifdef __cplusplus
+ #define const_cast(t,e)        const_cast<t>(e)
+ #define dynamic_cast(t,e)      dynamic_cast<t>(e)
+ #define reinterpret_cast(t,e)  reinterpret_cast<t>(e)
+ #define static_cast(t,e)       static_cast<t>(e)
+#else
+ #define const_cast(t,e)        ((t)(e))
+ #define dynamic_cast(t,e)      ((t)(e))
+ #define reinterpret_cast(t,e)  ((t)(e))
+ #define static_cast(t,e)       ((t)(e))
+#endif
+
+const char *  s = const_cast(const char *, p); 
+#+END_SRC
+
+    All four casts are included above even though =dynamic_cast= is not
+    really useful in C code. Perhaps a better definition for
+    =dynamic_cast= in C would be:
+
+#+BEGIN_SRC c
+#define dynamic_cast(t,e)      _Do_not_use_dynamic_cast
+                               // Produces a compile-time error 
+#+END_SRC
+
+    C++ also provides functional typecasts, which are not recognized
+    in C:
+
+#+BEGIN_SRC c++
+f = float(i);   // C++ cast to float; invalid C 
+#+END_SRC
+
+    These kinds of typecasts cannot be used in code that is compiled
+    as both C and C++.
+
+    [C99: §6.3, 6.54] 
+    [C++98: §5.2, 5.2.3, 5.2.7, 5.2.9, 5.2.10, 5.2.11, 5.4, 14.6.2.2, 14.6.2.3]
+
+    
+
+*** One definition rule
+
+    C allows tentative definitions for variables, e.g.:
+
+#+BEGIN_SRC c
+int  i;        // Tentative definition
+int  i = 1;    // Explicit definition 
+#+END_SRC
+
+    C++ does not allow this. Only one definition of any given variable
+    is allowed within a program.
+
+    C also allows, or at least does not require a diagnostic for,
+    different source files containing conflicting definitions. For
+    example:
+
+#+BEGIN_SRC c
+//========================================
+// one.c
+
+struct Capri                // A declaration
+{
+    int     a;
+    int     b;
+};
+
+//========================================
+// two.c
+
+struct Capri                // Conflicting declaration
+{
+    float   x;
+}; 
+#+END_SRC
+
+    C++ deems this invalid, requiring both definitions to consist of
+    the same sequence of tokens.
+
+    C allows definitions of the same function or object in different
+    source files to be composed of different token sequences, provided
+    that they are semantically identical.
+
+    The C++ rules are more strict, requiring the multiple definitions
+    to be composed of identical token sequences. Thus the following
+    code, which contains multiple definitions that are semantically
+    equivalent but syntactically (token-wise) different, is valid in C
+    but invalid in C++:
+
+#+BEGIN_SRC c
+//========================================
+// file1.c
+
+struct Waffle               // A declaration
+{
+    int     a;
+};
+
+int syrup(int amt)          // A definition
+{
+    return amt*2;
+}
+
+//========================================
+// file2.c - Valid C, but invalid C++
+
+typedef int     IType;
+
+struct Waffle               // Equivalent declaration,
+{                           // but a different token sequence
+    IType   a;
+};
+
+IType syrup(IType quant)    // Equivalent definition,
+{                           // but a different token sequence
+    return (quant*2);
+} 
+#+END_SRC
+
+    [C99: §6.9.2, J.2] 
+    [C++98: §3.2, C.1.2.3.1]
+
+*** Reserved keywords in C99
+
+    C99 has a few reserved keywords that are not recognized by C++:
+
+    | =restrict=   |
+    | =_Bool=      |
+    | =_Complex=   |
+    | =_Imaginary= |
+    | =_Pragma=    |
+
+
+    This will cause problems when C code containing these tokens is
+    compiled as C++. For example:
+
+#+BEGIN_SRC c
+extern int   set_name(char *restrict n); 
+#+END_SRC
+
+    [C99: §6.4.1, 6.7.2, 6.7.3, 6.7.3.1, 6.10.9, 7.3.1, 7.16, A.1.2] 
+    [C++98: §2.11]
+
+*** Reserved keywords in C++
+
+    C++ has a few keywords that are not recognized by C99:
+
+    | =bool=         | =mutable=          | =this=     |
+    | =catch=        | =namespace=        | =throw=    |
+    | =class=        | =new=              | =true=     |
+    | =const_cast=   | =operator=         | =try=      |
+    | =delete=       | =private=          | =typeid=   |
+    | =dynamic_cast= | =protected=        | =typename= |
+    | =explicit=     | =public=           | =using=    |
+    | =export=       | =reinterpret_cast= | =virtual=  |
+    | =false=        | =static_cast=      | =wchar_t=  |
+    | =friend=       | =template=         |            |
+
+    C++ also specifically reserves the =asm= keyword, which may or may
+    not be reserved in C implementations.
+
+    C code is free to use these keywords as identifiers and macro
+    names. This will cause problems when C code containing these
+    tokens is compiled as C++. For example:
+
+#+BEGIN_SRC c++
+extern int   try(int attempt);
+extern void  frob(struct template *t, bool delete); 
+#+END_SRC
+
+    [C99: §6.4.1] 
+    [C++98: §2.11]
+
+*** Returning =void=
+    
+    C++ allows functions of return type =void= to explicitly return
+    expressions of type =void=. C does not allow void functions to
+    return any kind of expression.
+
+    For example:
+
+#+BEGIN_SRC c++
+void foo(someType expr)
+{
+    ...
+    return (void)expr;      // Valid C++, invalid C
+} 
+#+END_SRC
+
+    This is allowed in C++ primarily to allow template functions to
+    accept any function return type, including =void=, as a template
+    parameter. For example:
+
+#+BEGIN_SRC c++
+// C++ code
+template <typename T>
+T bar(someType expr)
+{
+    ...
+    return (T)expr;         // Valid even if T is void
+} 
+#+END_SRC
+
+    [C99: §6.8.6.4] 
+    [C++98: §3.9.1, 6.6.3]
+
+*** =static= linkage
+
+    Both C and C++ allow objects and functions to have /static file
+    linkage/, also known as /internal linkage/. C++, however, deems
+    this as deprecated practice, preferring the use of /unnamed
+    namespaces/ instead. (C++ objects and functions declared within
+    unnamed namespaces have /external linkage/ unless they are
+    explicitly declared =static=. C++ deems the use of =static= specifiers
+    on objects or function declarations within namespace scope as
+    deprecated.)
+
+    While it is not a problem for C code compiled under C++98 rules,
+    it may become a problem in a future revision of the C++
+    language. For example, the following fragment uses the deprecated
+    =static= feature:
+
+#+BEGIN_SRC c
+// C and C++ code
+
+static int  bufsize = 1024;
+static int  counter = 0;
+
+static long square(long x)
+{
+    return (x * x);
+} 
+#+END_SRC
+
+    The preferred way of doing this in C++ is:
+
+#+BEGIN_SRC c++
+// C++ code
+
+namespace /*unnamed*/
+{
+    static int  bufsize = 1024;
+    static int  counter = 0;
+
+    static long square(long x)
+    {
+        return (x * x);
+    } 
+}
+#+END_SRC
+
+    (Note that the use of the =static= specifiers is unnecessary.)
+
+    A possible work-around is to use preprocessor macros and wrappers:
+
+#+BEGIN_SRC c
+// C and C++ code
+
+#ifdef __cplusplus
+ #define STATIC  static
+#endif
+
+#ifdef __cplusplus
+namespace /*unnamed*/
+{
+#endif
+
+STATIC int  bufsize = 1024;
+STATIC int  counter = 0;
+
+STATIC long square(long x)
+{
+    return (x * x);
+}
+
+#ifdef __cplusplus
+}
+#endif 
+#+END_SRC
+
+    [C99: §6.2.2, 6.2.4, 6.7.1, 6.9, 6.9.1, 6.9.2, 6.11.2] 
+    [C++98: §3.3.5, 3.5, 7.3.1, 7.3.1.1, D.2]
+
+*** String initializers
+
+    C allows character arrays to be initialized with string
+    constants. It also allows a string constant initializer to contain
+    exactly one more character than the array it initializes, i.e.,
+    the implicit terminating null character of the string may be
+    ignored. For example:
+
+#+BEGIN_SRC c
+char  name1[] =  "Harry";   // Array of 6 char
+
+char  name2[6] = "Harry";   // Array of 6 char
+
+char  name3[] =  { 'H', 'a', 'r', 'r', 'y', '\0' };
+                            // Same as 'name1' initialization
+
+char  name4[5] = "Harry";   // Array of 5 char, no null char 
+#+END_SRC
+
+    C++ also allows character arrays to be initialized with string
+    constants, but always includes the terminating null character in
+    the initialization. Thus the last initializer (=name4=) in the
+    example above is invalid in C++.
+
+    [C99: §6.7.8] 
+    [C++98: §8.5, 8.5.2]
+
+*** String literals are =const=
+
+    In C, string literals have type =char[n]=, but are not modifiable
+    (i.e., attempting to modify the contents of a string literal is
+    undefined behavior).
+
+    In C++, string literals have type =const char[n]= and are also not
+    modifiable.
+
+    When a string literal is used in an expression (or passed to a
+    function), both C and C++ implicit convert it into a pointer of
+    type =char *=. (The C++ conversion is considered to be two
+    conversions, the first being an array-to-pointer conversion from
+    type const =char[n]= to type =const char *=, and the second being a
+    qualification conversion to type =char *=.)
+
+    The following code is valid in both C and C++.
+
+#+BEGIN_SRC c
+extern void  frob(char *s);
+                    // Argument is not const char *
+
+void foo(void)
+{
+    frob("abc");    // Valid in both C and C++,
+                    // since literal converts to char *
+} 
+#+END_SRC
+
+    This language feature does not present an incompatibility between
+    C99 and C++98. However, the implicit conversion has been
+    deprecated in C++ (presumably to be replaced by a single implicit
+    conversion to type =const char *=), which means that a future
+    revision of C++ may no longer accept the code above as valid code.
+
+    [C99: §6.3.2.1, 6.4.5, 6.5.1, 6.7.8] 
+    [C++98: §2.13.4, 4.2, D.4]
+
+*** Structures declared in function prototypes
+
+    C allows =struct=, =union=, and =enum= types to be declared within
+    function prototype scope, e.g.:
+
+#+BEGIN_SRC c
+extern void  foo(const struct info { int typ; int sz; } *s);
+
+int bar(struct point { int x, y; } pt)
+{ ... } 
+#+END_SRC
+
+    C also allows structure types to be declared as function return
+    types, as in:
+
+#+BEGIN_SRC c
+extern struct pt { int x; }  pos(void); 
+#+END_SRC
+
+    C++ does not allow either of these, since the scope of the
+    structure declared in this fashion does not extend outside the
+    function declaration or definition, making it impossible to define
+    objects of that structure type which could be passed as arguments
+    to the function or to assign function return values into objects
+    of that type.
+
+    Both C and C++ allow declarations of incomplete structure types
+    within function prototypes and as function return types, though:
+
+#+BEGIN_SRC c
+void  frob(struct sym *s);  // Okay, pointer to incomplete type
+struct typ *  fraz(void);   // Ditto 
+#+END_SRC
+
+    [C99: §6.2.1, 6.7.2.3, 6.7.5.3, I] 
+    [C++98: §3.3.1, 3.3.3, 8.3.5, C.1.6.8.3.5]
+
+*** Typedefs versus type tags
+
+    C requires type tags to be preceded by the =struct=, =union=, or
+    =enum= keyword.
+
+    C++ treats type tags as implicit =typedef= names.
+    
+    Thus the following code is valid C but invalid C++:
+
+#+BEGIN_SRC c
+// Valid C, invalid C++
+
+typedef int  type;
+
+struct type
+{
+    type            memb;   // int
+    struct type *   next;   // struct pointer
+};
+
+void foo(type t, int i)
+{
+    int          type;
+    struct type  s;
+
+    type = i + t + sizeof(type);
+    s.memb = type;
+} 
+#+END_SRC
+
+    This difference in the treatment of typedefs can also lead to code
+    that is valid as both C and C++, but which has different semantic
+    behavior. For example:
+
+#+BEGIN_SRC c
+int  sz = 80;
+
+int size(void)
+{
+    struct sz
+    { ... };
+
+    return sizeof(sz);      // sizeof(int) in C,
+                            // sizeof(struct sz) in C++
+} 
+#+END_SRC
+
+    [C99: §6.2.1, 6.2.3, 6.7, 6.7.2.1, 6.7.2.2, 6.7.2.3] 
+    [C++98: §3.1, 3.3.1, 3.3.7, 3.4, 3.4.4, 3.9, 7.1.3, 7.1.5, 7.1.5.2, 9.1]
+
+*** Variable argument function declarators
+
+    C90 syntax allows a trailing ellipsis in the parameter list of a
+    function declarator, which specifies that the function can take
+    zero or more additional arguments after the last named parameter.
+
+    C++ also allows variable function argument lists, but provides two
+    syntactical forms for this feature.
+
+#+BEGIN_SRC c
+/* Variable-argument function declarations */
+int  foo(int a, int b, ...);      // Valid C++ and C
+int  bar(int a, int b ...);       // Valid C++, invalid C 
+#+END_SRC
+
+    [C99: §6.7.5] 
+    [C++98: §8.3.5]
+
+*** Void pointer assignments
+
+    C allows a pointer to void (=void *=) value to be assigned to an
+    object of any other pointer type without requiring a cast. This
+    allows such things as assigning the return value of =malloc()= to a
+    pointer variable without the need for an explicit cast.
+
+    C++ does not allow assigning a pointer to =void= directly to an
+    object of any other pointer type without an explicit cast. This is
+    considered a breach of type safety, so an explicit cast is
+    required. Thus the following code is valid C but invalid C++:
+
+#+BEGIN_SRC c
+extern void *  malloc(size_t n);
+
+struct object * allocate(void)
+{
+    struct object *  p;
+
+    p = malloc(sizeof(struct object));
+                        // Direct assignment without a cast,
+                        // valid C, invalid C++
+    return p;
+} 
+#+END_SRC
+
+    (Both languages allow values of any pointer type to be assigned to
+    objects of type pointer to void without requiring an explicit
+    cast.
+
+#+BEGIN_SRC c++
+void *  vp;
+Type *  tp;
+
+vp = tp;    // No explicit cast needed,
+            // valid C and C++ 
+#+END_SRC
+
+    Such usage is considered type safe.)
+
+    (Note that there are situations in C++ where pointers are
+    implicitly converted to type pointer to =void=, such as when
+    comparing a pointer of type pointer to =void= to another pointer of
+    a different type, but such situations are considered type safe
+    since no pointer objects are modified in the process.)
+
+    [C99: §6.2.5, 6.3.2.3, 6.5.15, 6.5.16, 6.5.16.1] 
+    [C++98: §3.8, 3.9.2, 4.10, 5.4, 5.9, 5.10, 5.16, 5.17, 13.3.3.2]
+
+*** References
+
+***** C89
+      *Programming Languages - C* 
+      *ANSI/ISO 9899:1989*, 1989, 
+      Available at http://www.ansi.org/.
+
+***** C90
+      *Programming Languages - C*
+      (with ISO amendments) 
+      *ISO/IEC 9899:1990*, 1990, ISO/IEC JTC1/SC22/WG14. 
+      Available at http://www.ansi.org/.
+
+***** C99
+      *Programming Languages - C *
+      *ISO/IEC 9899:1999*, 1999, ISO/IEC JTC1/SC22/WG14. 
+      Available at http://www.ansi.org/.
+
+***** C++98
+      *Programming Languages - C++*
+      *ISO/IEC 14882:1998(E)*, 1998-09-01, 1st ed., ISO/IEC JTC1/SC22. 
+      Available at http://www.ansi.org/.
+
+***** STR
+      *The C++ Programming Language, Appendix B - Compatibility*
+      Bjarne Stroustrup. 
+      Third ed., 1997, AT&T. 
+      Available in PDF format at http://www.research.att.com/~bs/3rd_compat.pdf.
