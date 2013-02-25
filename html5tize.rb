@@ -12,9 +12,10 @@ ARGV.each { |arg|
 
   need_close_section = false;
 
-  body.gsub!(/<\/div>\n+<div +id *= *"outline-container-([0-9])" +class *= *"outline-2" *>\n+<h2 +id *= *"(sec-[0-9])">(.*?)<\/h2> *\n/) { |m|
+  body.gsub!(/<\/div>\n+<div +id *= *"outline-container-([0-9]+)" +class *= *"outline-2" *>\n+<h2 +id *= *"(sec-[0-9]+)">(.*?)<\/h2> *\n/) { |m|
     repl = ""
 
+    puts "Processing section #{$1}: #{$3}"
     if $1 != "1"
       repl += "</section>\n"
     else
