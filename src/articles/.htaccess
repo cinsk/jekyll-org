@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^/$  http://www.cinsk.org/articles.html [R=301,L]
+RewriteRule ^$  http://www.cinsk.org/articles.html [R=301,L]
+RewriteRule ^index\..*$  http://www.cinsk.org/articles.html [R=301,L]
