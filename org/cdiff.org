@@ -337,7 +337,7 @@ lang: ko
 <tbody>
 <tr><td class="left"><code>and</code></td><td class="left"><code>&amp;&amp;</code></td></tr>
 <tr><td class="left"><code>and_eq</code></td><td class="left"><code>&amp;=</code></td></tr>
-<tr><td class="left"><code>bidand</code></td><td class="left"><code>&amp;</code></td></tr>
+<tr><td class="left"><code>bitand</code></td><td class="left"><code>&amp;</code></td></tr>
 <tr><td class="left"><code>bitor</code></td><td class="left"><code>|</code></td></tr>
 <tr><td class="left"><code>compl</code></td><td class="left"><code>~</code></td></tr>
 <tr><td class="left"><code>not</code></td><td class="left"><code>!</code></td></tr>
@@ -352,9 +352,9 @@ lang: ko
 
     위 키워드들은 C++ 전처리기_{preprocessor}⁠에서도 인식합니다.
 
-    C90에서는 위 키워드들을 제공하지 않습니다.  대신 위 이름들을
-    =<iso646.h>= 헤더 파일에서 매크로로 제공하기 때문에, 키워드처럼 쓸
-    수 있긴 합니다.
+    C90에서는 (역자 주: 사실상 C89/C90/C99 모두) 위 키워드들을 제공하지
+    않습니다.  대신 위 이름들을 =<iso646.h>= 헤더 파일에서 (C90부터)
+    매크로로 제공하기 때문에, 키워드처럼 쓸 수 있긴 합니다.
 
     C++ 언어는 비어있는 =<iso646.h>= 헤더를 제공하기 때문에,
     C++ 프로그램에서 이 헤더를 포함해도 아무런 문제가 없습니다.  
