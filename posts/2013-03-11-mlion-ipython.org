@@ -1,0 +1,47 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Mountain Lion: Emacs python-mode and ipython"
+tags: [ "emacs", "macosx", "mac", "ipython", "python-mode", "completion" ]
+blurb: >
+  Recently, I found that ipython in my mac (mountain lion) does not work
+  correctly in Emacs python-mode.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+There are two possible causes: first, In mountain lion, the
+shipped python (version 2.7.2) contains readline support, which is
+broken (according to ipython 0.13.1 warning message).  You need to
+install fresh readline using (Note that =pip= does not help in this
+case):
+
+#+BEGIN_SRC sh
+$ sudo python easy_install readline
+#+END_SRC
+
+Second, Emacs python-mode (6.0.10) and ipython prompt does not along well each other.
+With the new readline installation, and with few experiments,
+classic python prompt (=>>>=) works well.  
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default py-shell-name "ipython")
+  (setq-default python-python-command-args '("-i" "--classic"))
+#+END_SRC
+
+If you're like me, you want =C-a= will adhere the python
+prompt. (Specifically, you want =C-a= will move the point right after
+the prompt string, not the real beginning of the line).  To do that,
+add following:
+
+#+BEGIN_SRC emacs-lisp
+  (when (and (boundp 'py-shell-map)
+             (null (lookup-key py-shell-map [(control ?a)])))
+    ;; `move-beginning-of-line' (C-a) ignore the prompt, which is
+    ;; inconvinient.
+    (define-key py-shell-map [(control ?a)]
+      'comint-bol-or-process-mark))))
+#+END_SRC
