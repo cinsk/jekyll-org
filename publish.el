@@ -83,7 +83,8 @@
          :link-home "../index.html"
          :link-up "../articles.html"
          :recursive t
-         :publishing-function org-publish-org-to-html
+         :publishing-function org-html-publish-to-html
+         ;;:publishing-function org-publish-org-to-html
          ;;:htmlized-source t
          ;;:headline-levels 3
          :table-of-contents t
@@ -114,7 +115,8 @@
          :link-home "../index.html"
          :link-up "../posts.html"
          :recursive t
-         :publishing-function org-publish-org-to-html
+         :publishing-function org-html-publish-to-html
+         ;;:publishing-function org-publish-org-to-html
          ;;:htmlized-source t
          ;;:headline-levels 3
          :table-of-contents nil
