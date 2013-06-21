@@ -25,6 +25,8 @@ www: articles
 	jekyll
 
 articles: $(ARTICLES)
+	rm -rf $$HOME/.org-timestamps/org-posts*.cache
+	rm -rf $$HOME/.org-timestamps/org-www*.cache
 	$(EMACS) --batch --script publish.el 
 	./html5tize.rb $(wildcard src/articles/*.html)
 
@@ -34,8 +36,6 @@ clean:
 	cd src/cfaqs.src && $(MAKE) clean
 	rm -f $(ARTICLES_OBJ)
 	rm -rf www
-	rm -rf $$HOME/.org-timestamps/org-posts*.cache
-	rm -rf $$HOME/.org-timestamps/org-www*.cache
 
 dist-clean:
 	find . -name '*~' -delete
