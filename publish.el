@@ -22,7 +22,11 @@
 ;;(setq org-hide-block-startup nil)
 ;;(setq org-startup-folded 'showeverything)
 
+;; `org-export-htmlize-output-type' was used before org version 8.0.3
 (setq org-export-htmlize-output-type 'css)
+;; org 8.0.3 uses different variable name
+(setq org-org-htmlized-css-url t
+      org-html-htmlize-output-type 'css)
 
 (unless (locate-library "org")
   (message "error: cannot load org mode.")
