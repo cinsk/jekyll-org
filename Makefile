@@ -4,10 +4,14 @@
 ARTICLES := $(wildcard org/*.org)
 ARTICLES_OBJ := $(patsubst %.org, src/%.html, $(ARTICLES))
 
-# In MacOSX, if you want to use your own installed version of Emacs,
-# modify the path below this line.
-EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
-#EMACS=$(shell which emacs)
+EMACS=$(shell which emacs)
+
+uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+ifeq ($(uname_S),Darwin)
+  # In MacOSX, if you want to use your own installed version of Emacs,
+  # modify the path below this line.
+  EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
+endif
 
 
 PREFIX=/var/www/localhost/htdocs
