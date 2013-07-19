@@ -1,0 +1,187 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "How we handle TCP CLOSE_WAIT during server-side development"
+tags: [ "tcp", "network", "CLOSE_WAIT", "daemon" ]
+blurb: >
+  During our server-side application development, we encontered a lot of
+  connections are in CLOSE_WAIT state, so that our server process is out
+  of file descriptors.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+We are in the middle of development of a client application that runs 
+in the mobile androids, and the server-side application that runs in
+a cloud infrastrure.
+
+I'm in the server-side team, and our team is focusing on the
+development of server-side.  Our server-side have multiple front-end
+server that expose the interface for the clients.  Front-end servers
+are like load-balancers, they dispatch the client requests to the one
+of the several back-end workers.  Since we're in the middle of the
+development, our front-end servers and back-end servers have a couple
+of bugs in them.  They sometimes made the server crash, even hang
+unpredictively.
+
+Unfortunately, while we were tring to stablize our server
+applications, the client team needed a prototype server cluster, so
+that they can develop their client application and test the
+interaction between client and the front-end.
+Personally, I don't want to provide our prototype servers to the client
+team until the server-side is stablized, but the client team also
+need to hurry, to meet the dead-line, so we have no choice but to
+provide them still-unstable-servers.
+
+The biggest problem was, the server application leaves /CLOSE_WAIT/
+state TCP connections on unexpected network situation.  So, after a
+couple of hours, the server process ran out of file descriptors,
+denying client requests.  Since we use sophiscated third-party network
+library, it would take some times to fix the problem.
+
+So, I need some kind of watchdog, which periodically check whether the
+server process leaves /CLOSE_WAIT/ connections, and kill them, leave
+some logs, and so on.  Our server application is managed by init(1)
+like launcher, so when the server processes are terminated, the
+launcher automatically raise them.
+
+* Implementation
+
+  I was in hurry to implement this wachdog program, so I decided to
+  write small /bash/ script, but later changed to Ruby script.
+  Fortunately, all of our servers already have Ruby 1.8 installed.
+
+  At some time slice, the output of the =netstat(1)= would like this:
+
+#+BEGIN_SRC sh
+  $ netstat -ntp
+  ...
+  tcp  0  0  10.149.8.221:46271  54.235.151.255:6379  ESTABLISHED 16125/fe-server
+  tcp  0  0  10.149.8.221:46283  54.235.151.255:6379  ESTABLISHED 16118/fe-server          
+  tcp  0  0  10.149.8.221:46267  54.235.151.255:6379  ESTABLISHED 16120/fe-server          
+  tcp  0  0  10.149.8.221:35250  10.158.95.68:58964   CLOSE_WAIT  16063/fe-server   
+  tcp  0  0  10.149.8.221:43557  10.147.191.96:52421  ESTABLISHED 16063/fe-server
+  tcp  0  0  10.149.8.221:8010   107.22.161.62:37126  CLOSE_WAIT  -
+  ...
+  $ _
+#+END_SRC
+
+  The =netstat(1)= from net-tools, accept /-n/ option, indicates to use
+  numerical addresses and ports, /-t/ options indicates to show only TCP
+  connections, and /-p/ options to show the related PID and program names.
+
+  It looks trival to catch the PID of the process that has one or more
+  CLOSE_WAIT connections.  One thing to keep in mind is, =netstat(1)=
+  sometimes displays "-" in the PID/PROGRAM field.  I don't have
+  enough time when =netstat(1)= shows "-", but fortunately, =fuser(1)=
+  can identify the owner PID of the connection.
+
+#+BEGIN_SRC sh
+  $ fuser -n tcp 8010
+  35250/tcp:           16063
+  $ fuser -n tcp 8010 2>/dev/null
+   16063$_
+#+END_SRC
+
+  My first implementation was, just simply count the number of
+  CLOSE_WAIT connections per process, and =kill(1) $PID= if the
+  process has more than N CLOSE_WAIT connections.
+
+  The limitation of the first implementation is, it may kill the
+  process with CLOSE_WAIT connection that the process just about to
+  =close(2)= it.
+
+  So the second implementation work like this:
+
+  1. save the connection information (source address:port, destination
+     address:port) per process as a /set/-like container
+  2. Wait for certain amount of the time
+  3. save the connection information again, in another /set/-like
+     container.
+  4. Get the intersection of the two /set/.
+  5. If the number of elements in the intersection exceeds N, kill the
+     process.
+
+  After few hours, another problem arised.  Some server processes,
+  goes coma, and does not adhere to =SIGTERM=.  We can only kill them with
+  =SIGKILL=, so I modified the killing line like this:
+
+#+BEGIN_SRC sh
+  kill $pid; sleep 2; kill -0 $pid && kill -9 $pid
+#+END_SRC
+
+  This line, first send =SIGTERM= to the $pid, then sleep for 2
+  seconds, and if it still can send a signal to the process (in other
+  words, if the process is still alive), send =SIGKILL= to the $pid.
+
+  I named the script, =resreap=.  The reason was, we call our server processes
+  as resources, so it stands for 'RESource REAPer'.
+
+  With some extra features, my script, called =resreap=, can accept
+  following options:
+
+#+BEGIN_SRC sh
+  $ ./resreap --help
+  Kill processes that have enough CLOSE_WAIT socket(s)
+  Usage: resreap [OPTION...]
+  
+      -f PAT        Kill only processes whose command matches PAT
+      -F HOST:PORT  Ignore if foreign endpoint matches to HOST:PORT
+                    HOST should be in IPv4 numerical notation.
+      
+      -l N          If a process has more than or equal to N CLOSE_WAIT
+                    socket(s), it will be killed with a signal
+                    (default: 2)
+  
+      -i N          Set sleep interval between checks in seconds
+                    (default: 2)
+  
+      -c CMD        Before sending a signal, execute CMD in the shell,
+                    If this CMD returns non-zero returns, the process
+                    will not receive any signal.
+   
+      -s SIG        Set the signal name (e.g. TERM) that will be send
+                    to a process (default: TERM)
+      -w SEC        Set the waiting time in seconds between the signal and
+                    SIGKILL (default: 2)
+  
+      -d            dry run, no kill
+      -D            debug mode
+  
+      -h            show this poor help messages and exit
+      -v            show version information and exit
+  
+  Note that if a process receives the signal, and the process is alive
+  for 2 second(s), the process will receive SIGKILL.
+  
+  If you are going to use "-f" option, I recommend to try "-d -D" option
+  first.  If you get the pid of the culprit process, try to get the
+  command name by "ps -p PID -o command=" where PID is the pid of that
+  process.
+  
+  You could send two signal(s) before sending SIGKILL using '-S' option.
+  This can be useful since some JVM print stacktrace on SIGQUIT.
+    
+  $ _
+#+END_SRC
+
+  For example, if you want to kill a process if it has more than 2
+  CLOSE_WAIT connections, and you only care for java program, then you
+  can do:
+
+#+BEGIN_SRC sh
+  $ ./resreap -l 2 -f ^java
+#+END_SRC  
+
+  Plus, if you want to ignore CLOSE_WAIT connection on 127.0.0.1:2049,
+  you could do:
+
+#+BEGIN_SRC sh
+  $ ./resreap -F 127.0.0.1:2049
+#+END_SRC  
+
+  I really hope that we don't need to use this awful script for our
+  servers. :)

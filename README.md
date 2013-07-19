@@ -24,3 +24,4 @@ Commit `c9e8fc0` was the last working version against jekyll 0.12.0 with org-mod
 just below version of org-mode version 8.0.3 in my system.  (I forgot the actual version of
 org-mode at that time)
 
+Commit `f191c5c` was the first version against jekyll 1.0.3 and org-mode 8.0.5
