@@ -57,6 +57,7 @@ module Jekyll
             tag = ::Jekyll.tagmap[id]
           else
             tag = PageTag.new()
+            puts "Inserting id(#{id}) in to TAGMAP"
             ::Jekyll.tagmap[id] = tag
           end
 
@@ -133,6 +134,7 @@ module Jekyll
 
   def self.site_url(id, locale, context, exact = false)
     ret = site_url_with_page(id, locale, context, exact)
+    puts "site_url(#{id}, #{locale}, context, #{exact}) => #{ret}"
     if ret != nil && ret.size > 1
       ret[1]
     else
@@ -178,11 +180,13 @@ module Jekyll
         id == nil
 
       context['site']['linguas'].each { |h|
-        url = ::Jekyll.site_url(id, h[:tag], context, true);
+        #txt += "<-- context[site][linguas]: #{context['site']['linguas']} -->"
+        url = ::Jekyll.site_url(id, h[":tag"], context, true);
+        #txt += "<-- url[#{h[":tag"]}]: #{url} -->"
 
         if url
-          @linguas << { :id => id, :label => h[:label],
-            :url => url, :locale => h[:tag] }
+          @linguas << { :id => id, :label => h[":label"],
+            :url => url, :locale => h[":tag"] }
         end
       }
 
@@ -191,6 +195,9 @@ module Jekyll
 
       @linguas.each { |v|
         context.stack {
+          #txt += "<-- v_label: #{@v_label} -->"
+          #txt += "<-- v[:label]: #{v[:label]} -->"
+          #txt += "<-- context: #{context.to_s} -->"
           context[@v_label] = v[:label] if @v_label != nil
           context[@v_url] = v[:url] if @v_url != nil
 

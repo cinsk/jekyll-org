@@ -34,6 +34,7 @@
 
 ;; older version of org-mode may require 'org-install
 ;;(require 'org)
+;;(require 'org-compat)
 ;;(require 'org-exp)
 ;;(require 'ob)
 ;;(require 'ob-tangle)

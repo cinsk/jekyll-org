@@ -1,5 +1,5 @@
 # -*-org-*-
-#+OPTIONS: toc:3
+#+OPTIONS: toc:nil
 #+STARTUP: odd
 #+LINK: google http://www.google.com/search?q=%s
 #+LINK: rfc http://www.rfc-editor.org/rfc/rfc%s.txt

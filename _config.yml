@@ -1,6 +1,6 @@
 safe: false
-auto: false
-server: false
+# auto: false
+# server: false
 
 title: "cinsk's yard"
 paginate: 5

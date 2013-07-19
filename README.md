@@ -15,3 +15,12 @@ Usage
 -----
 
 Read the article, [Jekyll with org-mode and twitter bootstrap](http://cinsk.github.com/jekyll-org/articles/jekyll-org.html), which is also generated using this package.
+
+
+Note
+----
+
+Commit `c9e8fc0` was the last working version against jekyll 0.12.0 with org-mode version 
+just below version of org-mode version 8.0.3 in my system.  (I forgot the actual version of
+org-mode at that time)
+

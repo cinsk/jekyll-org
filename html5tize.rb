@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
-# coding: UTF-8
+# encoding: UTF-8
 
 ARGV.each { |arg|
   infile = arg
 
   body = ""
 
-  File.open(infile, "r") { |f|
+  File.open(infile, "r:UTF-8") { |f|
     body = f.read
   }
 
