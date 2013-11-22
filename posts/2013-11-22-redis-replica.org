@@ -1,0 +1,56 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "Easy way to experiment Redis replication"
+tags: [ "redis", "replication", "sentinel" ]
+blurb: >
+  Easy way to setup the local redis replication using GNU screen(1)
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+One of my reponsibility is to write easy client library for Redis in C
+and Java.  There are already well-known client C library, [[https://github.com/redis/hiredis][hiredis]] and
+Java library, [[https://github.com/xetorthio/jedis][jedis]].  At the time of development, none of these
+support our Redis replication cluster.  I'll write later about the
+client libraries that support replication.
+
+Anyway, during the development, I need to launch simple redis cluster,
+which consists of 1 master and 2 slaves.  It is tiresome job to setup
+the configuration of master and slaves, and it is very likely to
+commit a mistake.
+
+Thus, I wrote a small shell script (called =redis-replica.sh=) to
+launch redis cluster locally.  Internally, it uses [[https://www.gnu.org/software/screen/][GNU screen]] to
+create multiple shell to launch required processes:
+
+| shell no. | description                            |
+|-----------+----------------------------------------|
+|         0 | /redis-sentinel/, listening 26379      |
+|         1 | redis monitor to the sentinel          |
+|         2 | /redis-cli/ to the sentinel            |
+|         3 | /redis-server/ master, listening 6379  |
+|         4 | redis monitor to the master            |
+|         5 | /redis-cli/ to the master              |
+|         6 | /redis-server/ slave#1, listening 6380 |
+|         7 | redis monitor to the slave#1           |
+|         8 | /redis-cli/ to the slave#1             |
+|         9 | /redis-server/ slave#2, listening 6381 |
+|        10 | redis monitor to the slave#2           |
+|        11 | /redis-cli/ to the slave#2             |
+
+Since the master and slaves are managed by the /sentinel/ process, if
+you shutdown the master, one of the slaves will be promoted to new
+master.
+
+This way, you can easily experiment and test your client software or
+libraries.
+
+Here is the source code of =redis-replica.sh=:
+
+#+BEGIN_HTML
+<script src="http://gist-it.appspot.com/github/cinsk/snippets/blob/master/redis-replica.sh"></script>
+#+END_HTML
