@@ -10,7 +10,7 @@ blurb: >
   I was looking for a simple C++ implementation of a std::map like structure
   with expiration of each element.  So far, I couldn't find it, so I implemented
   my own.
-published: true
+published: false
 ---
 {% include page_header.html %}
 #+END_HTML
