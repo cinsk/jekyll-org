@@ -1,0 +1,81 @@
+# -*-org-*-
+#+STARTUP: odd
+#+BEGIN_HTML
+---
+layout: post
+title: "A dirty macro that convert the scala type to string type in binary representation"
+tags: [ "binary", "print", "bin", "representation", "string" ]
+blurb: >
+  During our server-side application development, we encontered a lot of
+  connections are in CLOSE_WAIT state, so that our server process is out
+  of file descriptors.
+published: true
+---
+{% include page_header.html %}
+#+END_HTML
+
+This is a not-portable GCC macro to produce binary-represented string
+in C or C++.
+
+Sometimes, it is useful to have a way to print a scala value in a binary
+representation.  Unfortunately, there is no such format specifier for
+=printf(3)=.  Luckily, /glibc/ has a customization feature for =printf(3)=-like
+functions.  If you're interested in, read the code [[https://github.com/cinsk/snippets/blob/master/printfb.c][here]].  For example,
+you could write:
+
+#+BEGIN_SRC c
+  int i = 0xdeadbeef;
+  printf("%b\n", i);      /* print 11011110101011011011111011101111 */
+#+END_SRC
+
+If you're not using /glibc/, you could create some utility functions to
+do this.  Here're some candidate function prototypes:
+
+#+BEGIN_SRC c
+  /* return the binary represented string of VALUE.  The width
+   * of the string is CHAR_BIT * size.  The return value should
+   * be free(3)ed after use. */
+  char *binstr(unsigned long long value, size_t size);
+  
+  /* store the binary representation of VALUE in string pointed by BUF
+   * with the size SIZE.  */
+  char *binstr(unsigned long long value, char *buf, size_t size);
+#+END_SRC
+
+I'm not satisfied with these.  The first one, which returns a value
+that is dynamically allocated, looks heavy.  Plus, the caller should
+supply the number of binary digit, since it always accept the value as
+=unsigned long long=.  The second one, which works only when the user
+provided the buffer as in the second and the third parameters.  It
+does not look heavy, but probably someone may be not happy with it,
+since the user always need to prepare the buffer.
+
+I couldn't come up with a /everybody-satisified/ solution with this.
+
+Since most of my works are done in Linux and MacOS; both provides GCC,
+so I decided to drop the portability. :)  
+
+#+BEGIN_SRC c
+  #define binstr(x)       ({ char *p = alloca(sizeof(x) * CHAR_BIT + 1);  \
+        char *q = p + sizeof(x) * CHAR_BIT;                               \
+        ,*q-- = '\0';                                                      \
+        int i;                                                            \
+        typeof(x) tmp = (x);                                              \
+        for (i = 0; i < sizeof(x) * CHAR_BIT; i++) {                      \
+          ,*q-- = (tmp & 1) ? '1' : '0';                                   \
+          tmp >>= 1;                                                      \
+        }                                                                 \
+        q + 1;                                                            \
+      })
+#+END_SRC
+
+- I'm using =alloca(3)=, instead of =malloc(3)=, so that the memory
+  buffer should be freed automatically.  The caller no longer need to
+  call =free(3)=.
+- To decide the right number of digits of the value type, binstr is a
+  macro function.
+- I used /statement expression/, ({...}) (GCC extension), which allows
+  me to declare local variables.
+- I used /typeof/ operator (GCC extension), which allows to declare a
+  local variable, that has the same type as the parameter.
+
