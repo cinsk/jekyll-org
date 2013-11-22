@@ -134,7 +134,7 @@ module Jekyll
 
   def self.site_url(id, locale, context, exact = false)
     ret = site_url_with_page(id, locale, context, exact)
-    puts "site_url(#{id}, #{locale}, context, #{exact}) => #{ret}"
+    #puts "site_url(#{id}, #{locale}, context, #{exact}) => #{ret}"
     if ret != nil && ret.size > 1
       ret[1]
     else

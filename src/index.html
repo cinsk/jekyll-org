@@ -10,6 +10,7 @@ lead: living in my brand new life
 {% for post in paginator.posts %}
 <article>
   <div class='row'>
+    <div class='span1'></div>
     <aside class='span3 article-meta'>
       <ul class='unstyled'>
         <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
@@ -19,7 +20,7 @@ lead: living in my brand new life
       </ul>
     </aside>
 
-    <div class='span9'>
+    <div class='span7'>
       <header>
         {% if paginator.previous_page %}
         <h2 class='article-title'><a href="..{{ post.url }}">{{ post.title }}</a></h2>
@@ -33,6 +34,7 @@ lead: living in my brand new life
         <a href=".{{ post.url }}#continue">Read More...</a>
       </p>
     </div>
+    <div class='span1'></div>
   </div>
 </article>
 {% endfor %}

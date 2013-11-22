@@ -4,16 +4,42 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: "How I handle TCP CLOSE_WAIT during server-side development"
-tags: [ "tcp", "network", "CLOSE_WAIT", "daemon" ]
+title: "Associative Array with expiration in C++"
+tags: [ "C++", "associative", "map", "expiration", "duration" ]
 blurb: >
-  During our server-side application development, we encontered a lot of
-  connections are in CLOSE_WAIT state, so that our server process is out
-  of file descriptors.
+  I was looking for a simple C++ implementation of a std::map like structure
+  with expiration of each element.  So far, I couldn't find it, so I implemented
+  my own.
 published: true
 ---
 {% include page_header.html %}
 #+END_HTML
+
+To create a concurrent, associative types with expiration, we need a mutex.
+Since I want avoid /boost/ as possibe as I can, I created my own, which is
+much simpler and much naive:
+
+
+
+From my experience, it is very dangerous to store mutex-like structure
+in C++ standard containers.  There are something you should keep in mind are
+
+- The /map/-like standard containers
+  requires that the element type is =CopyConstructible= and
+  =Assignible=. (23.1 clause 3)
+- The C++ implementation is allowed to omit the copy construction of
+  a class object, even if the copy constructor or destructor for that
+  object have side effects. (c0x 12.8 clause 34)
+- no copy constructor or assignment operator of a returned iterator
+  throws an exception. (23.1 clause 10)
+
+Since I have failed to implement mutex-like structure so far, you're
+welcome to introduce such implementation.
+
+
+— no copy constructor or assignment operator of a returned iterator
+  throws an exception
+
 
 We are in the middle of development of a client application that runs 
 in the mobile androids, and the server-side application that runs in

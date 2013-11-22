@@ -332,8 +332,13 @@ lead:
         application can generate custom log / metrics and send to our monitoring
         system for visualization.</li>
       </ul>
-
       <!-- BST 40, HQ 10 -- >
+      <!--
+           I designed API and back-end daemon, async-job-processing library for
+           the web application, very similar to pinterest, very high performance.
+           We used redis/cloudant as the storage.
+
+        -->
     </p>
 
     <p>
@@ -345,10 +350,34 @@ lead:
 
       frontend (+ sessionmanager, logger, daemonize)
       nlu (+ timing module, logger, daemonize)
-      
+
       testing framework
 
       interface design: libsvoice(for client), NLU engine
+
+      --
+
+      Here's what I did:
+
+      1. redis-based resource allocator (replace ICEgrid for better performance)
+         for C and python (co-developed)
+      2. redis-based async job framework (based on rescue)
+         - add H/A
+      3. java log protocol bridge server,
+         - nonblocking, TCP socket to Kafka cluster.
+      4. RPC session manager library
+      5. Design the SVoice Service API for clients.
+      6. H/A related
+         - launch again if dead, leaving backtrace / logs, etc.
+         - unrespond process killer, resreap
+      7. hiredis wrappper for replicated redis server.
+         - smart select master mode,
+         - seamless interface to manage the connection,
+         - encapsulate pipeline, transactions.
+
+      8. voice recognition service frontend server
+         RPC-based, (co-development)
+      9, C++ based session management utility
     </p>
     -->
   </section>

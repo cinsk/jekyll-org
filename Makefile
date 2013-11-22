@@ -26,12 +26,12 @@ cfaqs:
 	cp -a src/cfaqs.src/html src/cfaqs/
 
 www: articles
-	rm -rf src/_posts/*~
 	jekyll build
 
 articles: $(ARTICLES)
 	rm -rf $$HOME/.org-timestamps/org-posts*.cache
 	rm -rf $$HOME/.org-timestamps/org-www*.cache
+	rm -rf src/_posts/*~
 	$(EMACS) --batch --script publish.el 
 	./html5tize.rb $(wildcard src/articles/*.html)
 	./html5tize.rb $(wildcard src/_posts/*.html)
