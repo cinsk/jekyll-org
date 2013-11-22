@@ -6,9 +6,7 @@ layout: post
 title: "A dirty macro that convert the scala type to string type in binary representation"
 tags: [ "binary", "print", "bin", "representation", "string" ]
 blurb: >
-  During our server-side application development, we encontered a lot of
-  connections are in CLOSE_WAIT state, so that our server process is out
-  of file descriptors.
+  Handy function that convert the scala type to string type in C.
 published: true
 ---
 {% include page_header.html %}
